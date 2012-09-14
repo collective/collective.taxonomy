@@ -10,11 +10,11 @@ def read(*pathnames):
     return open(os.path.join(os.path.dirname(__file__), *pathnames)).read().\
            decode('utf-8')
 
-version = '0.1'
+version = '1.0-dev'
 
 setup(name='collective.taxonomy',
       version=version,
-      description="Add-on for Plone to handle taxonomies for z3cform content.",
+      description="Create, edit and use hierarchical taxonomies in Plone!",
       long_description='\n'.join([
           read('README.rst'),
           read('CHANGES.rst'),
@@ -25,7 +25,7 @@ setup(name='collective.taxonomy',
         "Programming Language :: Python",
         ],
       keywords='plone taxonomy dexterity',
-      author='Bo Simonsen',
+      author='Bo Simonsen and Malthe Borch',
       author_email='bo@headnet.dk',
       license="GPLv2+",
       packages=find_packages('src'),
@@ -33,9 +33,6 @@ setup(name='collective.taxonomy',
       namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
-
-      # If the dependency to z3c.form gives you trouble within a Zope
-      # 2 environment, try the `fakezope2eggs` recipe
       install_requires=[
           'setuptools',
           'plone.app.registry',
