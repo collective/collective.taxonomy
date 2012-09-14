@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<componentregistry>
+  <adapters />
+  <utilities>
+    <utility
+        interface="collective.taxonomy.interfaces.ITaxonomyTool"
+        object="portal_taxonomies"
+        />
+  </utilities>
+</componentregistry>

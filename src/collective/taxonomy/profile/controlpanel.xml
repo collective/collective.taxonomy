@@ -6,8 +6,8 @@
     purge="False">
 
     <configlet
-        title="Taxonomy"
-        action_id="taxonomy"
+        title="Taxonomies"
+        action_id="taxonomies"
         appId="collective.taxonomy"
         category="Products"
         condition_expr=""

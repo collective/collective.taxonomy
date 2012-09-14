@@ -35,8 +35,15 @@ setup(name='collective.taxonomy',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.supermodel',
           'plone.app.registry',
       ],
+      extras_require = {
+          'test': [
+              'plone.testing',
+              'plone.app.testing',
+              ]
+          },
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

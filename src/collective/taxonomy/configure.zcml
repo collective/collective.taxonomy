@@ -6,6 +6,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="collective.taxonomy">
 
   <include package="plone.app.registry" />
@@ -18,11 +19,46 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:importStep
+      name="collective.taxonomy"
+      title="Manage the taxonomy tool"
+      description="Import taxonomies from VDEX-format."
+      handler=".exportimport.importTaxonomy">
+    <depends name="componentregistry" />
+    <depends name="toolset" />
+  </genericsetup:importStep>
+
+  <genericsetup:exportStep
+      name="collective.taxonomy"
+      title="Export the taxonomies into VDEX-format."
+      description="Exports records and settings"
+      handler=".exportimport.exportTaxonomy"
+      />
+
   <adapter
       factory=".traversal.TaxonomyTraverser"
       name="taxonomy"
       />
 
+  <class class=".widget.TaxonomyWidget">
+    <require
+        permission="zope.Public"
+        interface=".widget.ITaxonomyWidget"
+        />
+  </class>
 
+  <z3c:widgetTemplate
+      mode="input"
+      widget=".widget.ITaxonomyWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="widget_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="display"
+      widget=".widget.ITaxonomyWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="widget_display.pt"
+      />
 
 </configure>
