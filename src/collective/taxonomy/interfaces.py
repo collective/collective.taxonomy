@@ -16,9 +16,9 @@ class IBrowserLayer(Interface):
 class ITaxonomy(ITranslationDomain, IBaseVocabulary):
     """Persistent local utility."""
 
-    def add(identifier, langstrings):
+    def add(language, identifier, path, parent_identifier):
         """
-           >>> taxonomny.add(<identifier>, en='What a lovely day!')
+           >>> taxonomny.add('en', <identifier>, 'What a lovely day!')
 
         """
 

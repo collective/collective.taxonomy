@@ -7,17 +7,28 @@
   <term>
     <termIdentifier>1</termIdentifier>
     <caption>
+      <langstring language="da">Informationsvidenskab</langstring>
+      <langstring language="de">Informatik</langstring>
       <langstring language="en">Information Science</langstring>
+      <langstring language="ru">Информатику</langstring>
     </caption>
     <term>
       <termIdentifier>2</termIdentifier>
       <caption>
+        <langstring language="da">Bogsamling</langstring>
         <langstring language="en">Book Collecting</langstring>
       </caption>
+      <term>
+        <termIdentifier>4</termIdentifier>
+        <caption>
+          <langstring language="da">Hest</langstring>
+        </caption>
+      </term>
     </term>
     <term>
       <termIdentifier>3</termIdentifier>
       <caption>
+        <langstring language="da">Kronologi</langstring>
         <langstring language="en">Chronology</langstring>
       </caption>
     </term>

@@ -1,23 +1,44 @@
 # -*- coding: utf-8 -*-
 
-from BTrees.OIBTree import OIBTree
+from zope.interface import implements
+from BTrees.OOBTree import OOBTree
+from persistent.dict import PersistentDict
 
-class Taxonomy(OIBTree):
+from zope.schema.interfaces import IVocabulary
+
+from .interfaces import ITaxonomy
+
+class Taxonomy(PersistentDict):
+    implements(ITaxonomy)
+
     def __init__(self, title):
         super(Taxonomy, self).__init__(self)
         self.title = title
 
-    def add(self, identifier, path):
-        self[path] = identifier
+    def add(self, language, identifier, path, parent_identifier):
+        if not self.has_key(language):
+            self[language] = OOBTree()
+
+        self[language][path] = (identifier, parent_identifier)
 
     def translate(msgid, mapping=None, context=None, target_language=None, default=None):
         import pdb; pdb.set_trace()
 
     def __call__(self, context):
-        language = context.get_the_default_plone_language()
+        context = aq_inner(self.context)
+        portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+        current_language = portal_state.language()
+        data = self[current_language]
+        return Vocabulary(data)
 
-        #return self.get_a_simple_vocabulary_with_this_æangu_as_the_titles_but_its_translatable_through_the_msgid ... amybe.
-        return []
+class Vocabulary(object):
+    implements(IVocabulary)
+
+    def __init__(self, data):
+        self.data = data
+
+    def getTerms(self):
+        return self.data.items()
 
 
 

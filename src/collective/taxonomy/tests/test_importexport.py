@@ -32,5 +32,5 @@ class TestImportExport(unittest.TestCase):
     def test_import_export_example(self):
         un = self.adapter.importDocument(self.vdex_file_contents)
         body = self.adapter.exportDocument(un)
-        self.assertTrue(body == self.vdex_file_contents, body)
+        self.assertTrue(body == self.vdex_file_contents, self.vdex_file_contents)
 
