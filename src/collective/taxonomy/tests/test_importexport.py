@@ -61,3 +61,7 @@ class TestImportExport(unittest.TestCase):
                          '/Information Science/Book Collecting',
                          '/Information Science/Chronology'])
 
+    def test_translate(self):
+        utility_name = self.adapter.importDocument(self.vdex_file_contents)
+        utility = queryUtility(ITaxonomy, name=utility_name)
+        self.assertTrue(utility.translate(1) == '/Information Science')
