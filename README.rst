@@ -7,14 +7,90 @@ from one or more taxonomies.
     characteristics and giving names to those groups. Each group is
     given a rank and groups of a given rank can be aggregated to form
     a super group of higher rank and thus create a hierarchical
-    classification". The `IMS Vocabulary Definition Exchange
+    classification".
+
+Here's an example of the "taxonomic kingdoms of life"::
+
+    Living Organisms
+    Living Organisms -> Eukaryotic
+    Living Organisms -> Eukaryotic -> Simple multicells or unicells
+    Living Organisms -> Eukaryotic -> Multicellular
+    Living Organisms -> Eukaryotic -> Multicellular -> Autotrophic
+    Living Organisms -> Eukaryotic -> Multicellular -> ...
+    Living Organisms -> Prokaryotic
+    Living Organisms -> Prokaryotic -> Archaebacteria
+    Living Organisms -> Prokaryotic -> Eubacteria
+    Living Organisms -> Prokaryotic -> Eubacteria -> ...
+
+Taxonomies can be quite large, sometimes in the tens of thousands
+(10,000+). And in sites with multiple languages, each title – or
+*caption* – must appear in translation.
+
+The package includes an ajax-based form widget (for the `z3c.form
+<http://packages.python.org/z3c.form/README.html>`_ library) that
+allows the selection of multiple terms at various levels.
+
+Note that the selection of a term in the hierarchy implies the
+selection of all its parents. In the example above this means that if
+"Eubacteria" is selected, then also "Prokaryotic" and "Living
+Organisms" will be.
+
+
+Overview
+========
+
+The implementation tries to meet the following requirements:
+
+#. Support many (10,000+) terms.
+
+#. Terms can be organized in a hierarchical classification.
+
+#. Easily import and export in a common format (VDEX).
+
+#. Taxonomies provide the ``IVocabularyFactory`` interface.
+
+#. Taxonomies provide the ``ITranslationDomain`` interface.
+
+In the description below, we touch on each of these requirements.
+
+
+Data structure
+--------------
+
+In order to limit both the memory and computation requirements, the
+term data is contained in exactly one persistent index per language, a
+mapping from the *materialized term path* to its *term identifier*.
+
+The term::
+
+    Living Organisms -> Eukaryotic -> Simple multicells or unicells
+
+will be indexed under this path::
+
+    "Living Organisms/Eukaryotic/Simple multicells or unicells"
+
+The index allows us to provide an iterator over the sorted vocabulary
+terms, virtually without cost (as well as containment queries).
+
+At the same time, while the hierarchy is encoded, we can quickly look
+up terms in a subtree.
+
+
+Data exchange
+-------------
+
+While ``collective.taxonomy`` (this package) does make it possible to
+create, manage and edit taxonomies from a browser-based interface, the
+primary focus is to support the exchange of terms in the VDEX format:
+
+    The `IMS Vocabulary Definition Exchange
     <http://www.imsglobal.org/vdex/>`_ (VDEX) specification defines a
     grammar for the exchange of value lists of various classes:
     collections often denoted "vocabulary".
 
-Taxonomies can be created and are edited through a
-user interface in Plone's control panel, and can be imported or
-exported in VDEX-format.
+This exchange is integrated with `GenericSetup
+<http://packages.python.org/Products.GenericSetup/>`_ which manages
+imports and exports using setup profiles.
 
 The package comes with integration for the `Dexterity
 <http://plone.org/products/dexterity/>`_ content type framework: for
@@ -24,23 +100,29 @@ configurable in terms of field name, title and whether it allows the
 selection of one or more multiple terms.
 
 
-Overview
-========
+Components
+----------
 
-This add-on tries to meet the following requirements:
+The standard `zope.schema <http://pypi.python.org/pypi/zope.schema>`_
+and `zope.i18n <http://pypi.python.org/pypi/zope.i18n>`_ components
+are supported::
 
-#. Many (10,000+) terms.
+  class MySchema(Interface):
+      classification = zope.schema.Choice(
+          title=_(u"Classification"),
+          vocabulary=u"my-classification"
+          )
 
-#. Terms can be organized in a hierarchical classification.
+This definition requires a named vocabulary utility
+``"my-classification"`` to be registered. Expressed in VDEX, this corresponds to the following XML fragment::
 
-#. Easily import and export in a common format.
+    <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0">
+        <vocabIdentifier>my-classification</vocabIdentifier>
+    </vdex>
 
-#. Expose vocabularies as persistent ``IVocabularyFactory``
-   components.
-
-#. Expose translations as persistent ``ITranslationDomain``
-   components.
-
+The vocabulary terms returned by the utility are translation
+messages. The term identifier is encoded into the message id while the
+default text is the term caption in the default language.
 
 Existing work
 =============
