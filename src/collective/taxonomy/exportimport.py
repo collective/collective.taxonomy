@@ -147,6 +147,16 @@ class TaxonomyImportExportAdapter(object):
 
     LOGGER_ID = 'collective.taxonomy'
     IMSVDEX_NS = 'http://www.imsglobal.org/xsd/imsvdex_v1p0'
+    IMSVDEX_ATTRIBS = {'xmlns':"http://www.imsglobal.org/xsd/imsvdex_v1p0",
+                       'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+                       'xsi:schemaLocation' : "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
+                       "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
+                       "imsmd_rootv1p2p1.xsd",
+                       'orderSignificant' : "false",
+                       'profileType' : "hierarchicalTokenTerms",
+                       'language' : "en"
+                       }
+    IMSVDEX_ENCODING = 'utf-8'
 
     def __init__(self, context, environ):
         self.context = context
@@ -179,7 +189,7 @@ class TaxonomyImportExportAdapter(object):
     def exportDocument(self, name):
         taxonomy = queryUtility(ITaxonomy, name=name)
 
-        root = ElementTree.Element('vdex')
+        root = ElementTree.Element('vdex', attrib=self.IMSVDEX_ATTRIBS)
 
         vocabName = ElementTree.Element('vocabName')
         root.append(vocabName)
@@ -201,14 +211,9 @@ class TaxonomyImportExportAdapter(object):
             root.append(termnode)
 
         indent(root)
-        treestring = ElementTree.tostring(root, 'utf-8')
-        treestring = treestring.replace("<vdex>", """<?xml version="1.0" encoding="UTF-8"?>""" + '\n' + 
-                                     """<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" """
-                                     """xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" """
-                                     """xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 """
-                                     """imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 """
-                                     """imsmd_rootv1p2p1.xsd" orderSignificant="false" """
-                                     """profileType="hierarchicalTokenTerms" language="en">""")
+        treestring = ElementTree.tostring(root, self.IMSVDEX_ENCODING)
+        header = """<?xml version="1.0" encoding="%s"?>""" % self.IMSVDEX_ENCODING.upper() + '\n'
+        treestring = header + treestring
         return treestring
 
 
