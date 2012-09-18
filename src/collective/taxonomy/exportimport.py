@@ -176,7 +176,7 @@ class TaxonomyImportExportAdapter(object):
         taxonomy = queryUtility(ITaxonomy, name=name.text)
 
         if not taxonomy:
-            taxonomy = Taxonomy(title.text)
+            taxonomy = Taxonomy(utility_name, title.text)
             sm = self.context.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
 
