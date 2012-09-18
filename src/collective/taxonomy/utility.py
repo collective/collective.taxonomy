@@ -1,14 +1,24 @@
 # -*- coding: utf-8 -*-
 
-from BTrees.OOBTree import OOBTree
-from persistent.dict import PersistentDict
+import generated
 
-from zope.i18nmessageid import MessageFactory
-from zope.interface import implements
+from BTrees.OOBTree import OOBTree
+
+from zope import schema
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
+from zope.interface import implements
+from zope.interface.interface import InterfaceClass, Interface
+from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabulary
 from zope.schema.vocabulary import SimpleTerm
-from zope.component.hooks import getSite
+
+from plone.behavior.interfaces import IBehavior
+from plone.behavior.registration import BehaviorRegistration
+from plone.supermodel.model import SchemaClass
+
+from persistent.dict import PersistentDict
+from persistent import Persistent
 
 from .interfaces import ITaxonomy
 
@@ -25,10 +35,24 @@ class Taxonomy(PersistentDict):
         current_language = portal_state.language()
         return current_language
 
+    def registerBehaviour(self):
+        schema = SchemaClass("Schema", (Interface,),
+                             __module__="collective.taxonomy.generated",
+                             attrs = {})
+
+        registration = BehaviorRegistration(title='Sample dynamic behavior',
+                                        description='',
+                                        interface=schema,
+                                        marker=None,
+                                        factory=None)
+
+        import pdb; pdb.set_trace()
+
     def __init__(self, name, title):
         super(Taxonomy, self).__init__(self)
         self.name = name
         self.title = title
+        self.registerBehaviour()
 
     def add(self, language, identifier, path):
         if not language in self:
@@ -51,7 +75,7 @@ class Taxonomy(PersistentDict):
         if len(result) < 0:
             raise Exception("Translation not found")
 
-        ((identifier, path),) = result
+        ((identifier, path), ) = result
         return path
 
     def __call__(self, context):
