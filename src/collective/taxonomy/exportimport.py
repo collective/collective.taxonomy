@@ -1,22 +1,14 @@
 from elementtree import ElementTree
 
-from zope.interface import Interface, implements, implementedBy
 from zope.component import queryUtility
-from zope import schema
-
-from zope.schema.interfaces import IField
-from zope.schema.interfaces import IVocabularyTokenized
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-
-from plone.supermodel.utils import indent, elementToValue, valueToElement, ns
 
 from .interfaces import ITaxonomy
 from .utility import Taxonomy
 
-from collections import OrderedDict
+from plone.supermodel.utils import indent
+
 
 def importTaxonomy(context):
-    logger = context.getLogger('collective.taxonomy')
     body = context.readDataFile('taxonomies.xml')
     if body is not None:
         importer = TaxonomyImportExportAdapter(context)
@@ -24,13 +16,13 @@ def importTaxonomy(context):
 
 
 def exportTaxonomy(context):
-    logger = context.getLogger('collective.taxonomy')
     exporter = TaxonomyImportExportAdapter(context)
     body = exporter.exportDocument()
     if body is not None:
         context.writeDataFile('taxonomies.xml', body, 'text/xml')
 
-class importVdex(object):
+
+class ImportVdex(object):
     def __init__(self, tree, ns):
         self.tree = tree
         self.ns = ns
@@ -40,37 +32,46 @@ class importVdex(object):
         results = self.recurse(self.tree, languages)
         final_results = {}
         for language in languages:
-            final_results[language] = self.process_language(results, language)
+            final_results[language] = self.processLanguage(results, language)
 
         return final_results
 
-    def process_language(self, results, language, path=('',)):
+    def processLanguage(self, results, language, path=('',)):
         result = {}
         for element in results.keys():
             (lang, identifier, children, parent_identifier) = results[element]
             if lang == language:
-                result['/'.join(path) + '/' + element] = (identifier, parent_identifier)
-                result.update(self.process_language(children, language, path + (element,)))
+                extended_path = '/'.join(path) + '/' + element
+                result[extended_path] = (identifier, parent_identifier)
+                result.update(self.processLanguage(children, language,
+                                                   path + (element,)))
         return result
 
-    def recurse(self, tree, available_languages=set(), parent_language=None, parent_identifier=-1):
+    def recurse(self, tree, available_languages=set(),
+                parent_language=None, parent_identifier=-1):
         result = {}
 
         for node in tree.findall('./{%s}term' % self.ns):
             identifier = node.find('./{%s}termIdentifier' % self.ns)
-            langstrings = node.findall('./{%s}caption/{%s}langstring' % (self.ns, self.ns))
+            langstrings = node.findall('./{%s}caption/{%s}langstring' %
+                                       (self.ns, self.ns))
             for i in langstrings:
-                if not parent_language or parent_language == i.attrib['language']:
-                    result[i.text] = (i.attrib['language'],
-                                      int(identifier.text),
-                                      self.recurse(node, available_languages, i.attrib['language'], int(identifier.text)),
-                                      parent_identifier)
+                if not parent_language or \
+                        parent_language == i.attrib['language']:
+                    result[i.text] = (
+                        i.attrib['language'],
+                        int(identifier.text),
+                        self.recurse(node, available_languages,
+                                     i.attrib['language'],
+                                     int(identifier.text)),
+                        parent_identifier)
 
                 available_languages.add(i.attrib['language'])
 
         return result
 
-class exportVdex(object):
+
+class ExportVdex(object):
     def __init__(self, taxonomy):
         self.taxonomy = taxonomy
 
@@ -79,7 +80,7 @@ class exportVdex(object):
 
         for i in node:
             # leaf
-            if not tree.has_key(i):
+            if not i in tree:
                 results[i] = {}
             else:
                 results[i] = self.buildFinalPathIndex(tree[i], tree)
@@ -88,15 +89,14 @@ class exportVdex(object):
 
     def buildPathIndex(self):
         pathIndex = {}
-        finalPathIndex = {}
 
         for (language, children) in self.taxonomy.items():
             for (path, (identifier, parent_identifier)) in children.items():
-                if not pathIndex.has_key(parent_identifier):
+                if not parent_identifier in pathIndex:
                     pathIndex[parent_identifier] = set()
                 pathIndex[parent_identifier].add(identifier)
 
-        if not pathIndex.has_key(-1):
+        if -1 not in pathIndex:
             raise Exception("No root node!")
 
         return self.buildFinalPathIndex(pathIndex[-1], pathIndex)
@@ -106,10 +106,11 @@ class exportVdex(object):
 
         for (language, children) in self.taxonomy.items():
             for (path, (identifier, parent_identifier)) in children.items():
-                if not translationTable.has_key(identifier):
+                if not identifier in translationTable:
                     translationTable[identifier] = {}
 
-                translationTable[identifier][language] = path[path.rfind('/')+1:]
+                translationTable[identifier][language] = \
+                    path[path.rfind('/') + 1:]
 
         return translationTable
 
@@ -122,7 +123,7 @@ class exportVdex(object):
             captionnode = ElementTree.Element('caption')
 
             translations = table[identifier].items()
-            translations.sort(key=lambda (language, langstring) : language)
+            translations.sort(key=lambda (language, langstring): language)
 
             for (language, langstring) in translations:
                 langstringnode = ElementTree.Element('langstring')
@@ -141,21 +142,23 @@ class exportVdex(object):
 
         return termnodes
 
+
 class TaxonomyImportExportAdapter(object):
     """Helper classt to import a registry file
     """
 
     LOGGER_ID = 'collective.taxonomy'
     IMSVDEX_NS = 'http://www.imsglobal.org/xsd/imsvdex_v1p0'
-    IMSVDEX_ATTRIBS = {'xmlns':"http://www.imsglobal.org/xsd/imsvdex_v1p0",
-                       'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-                       'xsi:schemaLocation' : "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
-                       "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
-                       "imsmd_rootv1p2p1.xsd",
-                       'orderSignificant' : "false",
-                       'profileType' : "hierarchicalTokenTerms",
-                       'language' : "en"
-                       }
+    IMSVDEX_ATTRIBS = {
+        'xmlns': "http://www.imsglobal.org/xsd/imsvdex_v1p0",
+        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xsi:schemaLocation': "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
+        "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
+        "imsmd_rootv1p2p1.xsd",
+        'orderSignificant': "false",
+        'profileType': "hierarchicalTokenTerms",
+        'language': "en"
+    }
     IMSVDEX_ENCODING = 'utf-8'
 
     def __init__(self, context, environ):
@@ -164,7 +167,8 @@ class TaxonomyImportExportAdapter(object):
 
     def importDocument(self, document):
         tree = ElementTree.fromstring(document)
-        title = tree.find('./{%s}vocabName/{%s}langstring' % (self.IMSVDEX_NS, self.IMSVDEX_NS))
+        title = tree.find('./{%s}vocabName/{%s}langstring'
+                          % (self.IMSVDEX_NS, self.IMSVDEX_NS))
         name = tree.find('./{%s}vocabIdentifier' % self.IMSVDEX_NS)
 
         utility_name = 'collective.taxonomy.' + name.text
@@ -178,11 +182,12 @@ class TaxonomyImportExportAdapter(object):
         if taxonomy and self.environ.shouldPurge():
             taxonomy.clear()
 
-        results = importVdex(tree, self.IMSVDEX_NS)()
+        results = ImportVdex(tree, self.IMSVDEX_NS)()
 
         for (language, elements) in results.items():
             for (path, (identifier, parent_identifier)) in elements.items():
-                taxonomy.add(language, int(identifier), path, parent_identifier)
+                taxonomy.add(language, int(identifier),
+                             path, parent_identifier)
 
         return utility_name
 
@@ -194,7 +199,8 @@ class TaxonomyImportExportAdapter(object):
         vocabName = ElementTree.Element('vocabName')
         root.append(vocabName)
 
-        langstring = ElementTree.Element('langstring', attrib={'language' : 'en'})
+        langstring = ElementTree.Element('langstring',
+                                         attrib={'language': 'en'})
         langstring.text = taxonomy.title
 
         vocabName.append(langstring)
@@ -204,7 +210,7 @@ class TaxonomyImportExportAdapter(object):
 
         root.append(vocabIdentifier)
 
-        helper = exportVdex(taxonomy)
+        helper = ExportVdex(taxonomy)
         index = helper.buildPathIndex()
         table = helper.makeTranslationTable()
         for termnode in helper.makeSubtree(index, table):
@@ -212,9 +218,7 @@ class TaxonomyImportExportAdapter(object):
 
         indent(root)
         treestring = ElementTree.tostring(root, self.IMSVDEX_ENCODING)
-        header = """<?xml version="1.0" encoding="%s"?>""" % self.IMSVDEX_ENCODING.upper() + '\n'
+        header = """<?xml version="1.0" encoding="%s"?>""" % \
+                 self.IMSVDEX_ENCODING.upper() + '\n'
         treestring = header + treestring
         return treestring
-
-
-

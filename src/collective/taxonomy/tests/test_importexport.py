@@ -35,6 +35,7 @@ class TestImportExport(unittest.TestCase):
         return TaxonomyImportExportAdapter(portal, self.test_environ)
 
     def test_import_example(self):
+        """ Tests, that we can import and get an adequate result """
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         utility = queryUtility(ITaxonomy, name=utility_name)
         self.assertTrue(utility)
@@ -45,7 +46,18 @@ class TestImportExport(unittest.TestCase):
                          '/Information Science/Chronology'])
 
     def test_import_export_example(self):
+        """ Tests, that we can import and export getting the same result """
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         body = self.adapter.exportDocument(utility_name)
         self.assertTrue(body == self.vdex_file_contents, body)
+
+    def test_vocabulary(self):
+        """ Testing that the vocabulary contains the correct contents """
+        utility_name = self.adapter.importDocument(self.vdex_file_contents)
+        utility = queryUtility(ITaxonomy, name=utility_name)
+        vocab = utility(self.layer['portal'])
+        self.assertTrue([term.value for term in vocab.getTerms()] ==
+                        ['/Information Science',
+                         '/Information Science/Book Collecting',
+                         '/Information Science/Chronology'])
 
