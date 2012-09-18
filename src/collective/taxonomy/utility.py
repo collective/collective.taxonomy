@@ -19,11 +19,11 @@ class Taxonomy(PersistentDict):
         super(Taxonomy, self).__init__(self)
         self.title = title
 
-    def add(self, language, identifier, path, parent_identifier):
+    def add(self, language, identifier, path):
         if not language in self:
             self[language] = OOBTree()
 
-        self[language][path] = (identifier, parent_identifier)
+        self[language][path] = identifier
 
     def translate(msgid, mapping=None, context=None,
                   target_language=None, default=None):
@@ -49,7 +49,7 @@ class Vocabulary(object):
     def getTerms(self):
         results = []
 
-        for (path, (identifier, parent)) in \
+        for (path, identifier) in \
                 self.data.items():
             results.append(SimpleTerm(value=path, title=path))
 

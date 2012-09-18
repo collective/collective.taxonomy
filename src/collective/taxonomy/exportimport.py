@@ -39,16 +39,16 @@ class ImportVdex(object):
     def processLanguage(self, results, language, path=('',)):
         result = {}
         for element in results.keys():
-            (lang, identifier, children, parent_identifier) = results[element]
+            (lang, identifier, children) = results[element]
             if lang == language:
                 extended_path = '/'.join(path) + '/' + element
-                result[extended_path] = (identifier, parent_identifier)
+                result[extended_path] = identifier
                 result.update(self.processLanguage(children, language,
                                                    path + (element,)))
         return result
 
     def recurse(self, tree, available_languages=set(),
-                parent_language=None, parent_identifier=-1):
+                parent_language=None):
         result = {}
 
         for node in tree.findall('./{%s}term' % self.ns):
@@ -62,9 +62,8 @@ class ImportVdex(object):
                         i.attrib['language'],
                         int(identifier.text),
                         self.recurse(node, available_languages,
-                                     i.attrib['language'],
-                                     int(identifier.text)),
-                        parent_identifier)
+                                     i.attrib['language'])
+                    )
 
                 available_languages.add(i.attrib['language'])
 
@@ -91,21 +90,23 @@ class ExportVdex(object):
         pathIndex = {}
 
         for (language, children) in self.taxonomy.items():
-            for (path, (identifier, parent_identifier)) in children.items():
+            for (path, identifier) in children.items():
+                parent_path = path.split('/')[:-1]
+                parent_identifier = children.get('/'.join(parent_path))
                 if not parent_identifier in pathIndex:
                     pathIndex[parent_identifier] = set()
                 pathIndex[parent_identifier].add(identifier)
 
-        if -1 not in pathIndex:
+        if None not in pathIndex:
             raise Exception("No root node!")
 
-        return self.buildFinalPathIndex(pathIndex[-1], pathIndex)
+        return self.buildFinalPathIndex(pathIndex[None], pathIndex)
 
     def makeTranslationTable(self):
         translationTable = {}
 
         for (language, children) in self.taxonomy.items():
-            for (path, (identifier, parent_identifier)) in children.items():
+            for (path, identifier) in children.items():
                 if not identifier in translationTable:
                     translationTable[identifier] = {}
 
@@ -185,9 +186,8 @@ class TaxonomyImportExportAdapter(object):
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
         for (language, elements) in results.items():
-            for (path, (identifier, parent_identifier)) in elements.items():
-                taxonomy.add(language, int(identifier),
-                             path, parent_identifier)
+            for (path, identifier) in elements.items():
+                taxonomy.add(language, int(identifier), path)
 
         return utility_name
 
