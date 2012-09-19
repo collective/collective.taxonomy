@@ -1,20 +1,36 @@
 import os.path
 import unittest2 as unittest
 
-from plone.app.testing import PLONE_INTEGRATION_TESTING
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
-
-from zope.component import queryUtility
+from zope import schema
+from zope.component import queryUtility, createObject
+from zope.component.interfaces import IFactory
 
 from ..testing import INTEGRATION_TESTING
 from ..interfaces import ITaxonomy
+
+from plone.behavior.interfaces import IBehavior
+from plone.directives import form
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.fti import DexterityFTI
+from plone.dexterity.factory import DexterityFactory
+from z3c.form import field
+
+from ..i18n import MessageFactory as _
+
+
+class TestContent(form.Schema):
+    test = schema.TextLine(
+        title=_(u"Hest"),
+        description=_(u""),
+        required=False,
+    )
 
 
 class TestImportExport(unittest.TestCase):
     layer = INTEGRATION_TESTING
 
-    vdex_file_contents = open(os.path.dirname(__file__) + "/examples/nihms.xml").read()
+    vdex_file_contents = open(os.path.dirname(__file__) +
+                              "/examples/nihms.xml").read()
 
     class test_environ:
         @staticmethod
@@ -29,7 +45,7 @@ class TestImportExport(unittest.TestCase):
     @property
     def adapter(self):
         from collective.taxonomy.exportimport \
-        import TaxonomyImportExportAdapter
+            import TaxonomyImportExportAdapter
 
         portal = self.layer['portal']
         return TaxonomyImportExportAdapter(portal, self.test_environ)
@@ -65,3 +81,32 @@ class TestImportExport(unittest.TestCase):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         utility = queryUtility(ITaxonomy, name=utility_name)
         self.assertTrue(utility.translate(1) == '/Information Science')
+
+    def test_behaviour_registration(self):
+        utility_name = self.adapter.importDocument(self.vdex_file_contents)
+        sm = self.layer['portal'].getSiteManager()
+        behavior = sm.queryUtility(IBehavior, name=utility_name)
+        self.assertTrue(behavior is not None, behavior)
+
+    def test_behaviour_has_choice_field(self):
+        utility_name = self.adapter.importDocument(self.vdex_file_contents)
+        sm = self.layer['portal'].getSiteManager()
+        behavior = sm.queryUtility(IBehavior, name=utility_name)
+        fields = field.Fields(behavior.interface)
+        self.assertTrue("TestField" in fields)
+        #fields = give_me_the_fields(behavior)
+        #self.assertTrue(one of them i IChoice)
+
+    # def test_create_content_type(self):
+    #     fti = DexterityFTI("TestContent")
+    #     fti.schema = "collective.taxonomy.tests.test_importexport.TestContent"
+    #     fti.klass = "plone.dexterity.content.Item"
+    #     fti.behaviors = ('collective.taxonomy.generated.testVocabulary')
+    #     fti.allow_discussion = False
+    #     fti.global_allow = True
+    #     sm = self.layer['portal'].getSiteManager()
+    #     sm.registerUtility(fti, IDexterityFTI, name='TestContent')
+    #     sm.registerUtility(DexterityFactory('TestContent'),
+    #                        IFactory, name='TestContent')
+    #     test_object = createObject('TestContent')
+    #     import pdb; pdb.set_trace()

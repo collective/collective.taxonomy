@@ -162,9 +162,9 @@ class TaxonomyImportExportAdapter(object):
     }
     IMSVDEX_ENCODING = 'utf-8'
 
-    def __init__(self, context, environ):
+    def __init__(self, context, environ=None):
         self.context = context
-        self.logger = environ.getLogger(self.LOGGER_ID)
+        #self.logger = environ.getLogger(self.LOGGER_ID)
 
     def importDocument(self, document):
         tree = ElementTree.fromstring(document)
@@ -180,8 +180,8 @@ class TaxonomyImportExportAdapter(object):
             sm = self.context.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
 
-        if taxonomy and self.environ.shouldPurge():
-            taxonomy.clear()
+        #if taxonomy and self.environ.shouldPurge():
+        #    taxonomy.clear()
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 

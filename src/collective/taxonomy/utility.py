@@ -7,20 +7,33 @@ from BTrees.OOBTree import OOBTree
 from zope import schema
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
-from zope.interface import implements
-from zope.interface.interface import InterfaceClass, Interface
+from zope.interface import implements, alsoProvides
 from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabulary
 from zope.schema.vocabulary import SimpleTerm
 
+from plone.directives import form
 from plone.behavior.interfaces import IBehavior
-from plone.behavior.registration import BehaviorRegistration
-from plone.supermodel.model import SchemaClass
+from plone.supermodel.model import SchemaClass, Schema
 
 from persistent.dict import PersistentDict
 from persistent import Persistent
 
 from .interfaces import ITaxonomy
+from .i18n import MessageFactory as _
+
+
+class TaxonomyBehavior(Persistent):
+    implements(IBehavior)
+
+    def __init__(self, title, description, interface=None,
+                 marker=None, factory=None):
+
+        self.title = _(title)
+        self.description = _(description)
+        self.interface = interface
+        self.marker = marker
+        self.factory = factory
 
 
 class Taxonomy(PersistentDict):
@@ -36,22 +49,34 @@ class Taxonomy(PersistentDict):
         return current_language
 
     def registerBehaviour(self):
-        schema = SchemaClass("Schema", (Interface,),
-                             __module__="collective.taxonomy.generated",
-                             attrs = {})
+        short_name = self.name.split('.')[-1]
 
-        registration = BehaviorRegistration(title='Sample dynamic behavior',
-                                        description='',
-                                        interface=schema,
-                                        marker=None,
-                                        factory=None)
+        schemaclass = SchemaClass(
+            self.short_name, (Schema, ),
+            __module__="collective.taxonomy.generated",
+            attrs={self.field_name: schema.TextLine(title=_(u'Wuhu'),
+                                                    description=_(u""),
+                                                    required=True) }
+        )
+        alsoProvides(schemaclass, form.IFormFieldProvider)
+        setattr(generated, short_name, schemaclass)
 
-        import pdb; pdb.set_trace()
+        context = getSite()
+        sm = context.getSiteManager()
+
+        behavior = TaxonomyBehavior(self.name, self.title,
+                                    schemaclass, schemaclass)
+
+        sm.registerUtility(behavior, IBehavior,
+                           name='collective.taxonomy.generated.' +
+                                short_name)
 
     def __init__(self, name, title):
         super(Taxonomy, self).__init__(self)
         self.name = name
+        self.short_name = name.split('.')[-1]
         self.title = title
+        self.field_name = 'TestField'
         self.registerBehaviour()
 
     def add(self, language, identifier, path):

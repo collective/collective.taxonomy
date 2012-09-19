@@ -11,6 +11,8 @@
 
   <include package="plone.app.registry" />
 
+  <grok:grok package="." />
+
   <genericsetup:registerProfile
       name="default"
       title="collective.taxonomy"
