@@ -10,6 +10,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from interfaces import ITaxonomy
 
+
 class TaxonomyTraverser(object):
     implements(ITraversable)
     adapts(IAttributeAnnotatable, IBrowserRequest)
@@ -34,8 +35,4 @@ class TaxonomyTraverser(object):
         (action, taxonomy, ) = arr
 
         if action == 'add':
-            utility_name = self.adapter.importDocument(self.vdex_file_contents)
-            utility = queryUtility(ITaxonomy, name=utility_name)
-
-
-
+            self.adapter.importDocument(self.vdex_file_contents)
