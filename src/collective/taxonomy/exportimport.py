@@ -1,6 +1,7 @@
 from elementtree import ElementTree
 
 from zope.component import queryUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 from .interfaces import ITaxonomy
 from .utility import Taxonomy
@@ -179,6 +180,7 @@ class TaxonomyImportExportAdapter(object):
             taxonomy = Taxonomy(utility_name, title.text)
             sm = self.context.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
+            sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
 
         #if taxonomy and self.environ.shouldPurge():
         #    taxonomy.clear()

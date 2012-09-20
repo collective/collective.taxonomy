@@ -5,7 +5,7 @@ from z3c.form import interfaces
 from zope import schema
 from zope.interface import Interface
 from zope.i18n.interfaces import ITranslationDomain
-from zope.schema.interfaces import IBaseVocabulary
+from zope.schema.interfaces import IVocabularyFactory
 
 from i18n import MessageFactory as _
 
@@ -13,7 +13,7 @@ class IBrowserLayer(Interface):
     """Add-on browser layer."""
 
 
-class ITaxonomy(ITranslationDomain, IBaseVocabulary):
+class ITaxonomy(ITranslationDomain, IVocabularyFactory):
     """Persistent local utility."""
 
     def add(language, identifier, path):
