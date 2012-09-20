@@ -11,15 +11,15 @@ from zope.component.hooks import getSite
 from zope.interface import implements, alsoProvides
 from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabulary
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.vocabulary import SimpleTerm
 
 from plone.directives import form
 from plone.behavior.interfaces import IBehavior
 from plone.supermodel.model import SchemaClass, Schema
 from plone.memoize import ram
 
-from persistent.dict import PersistentDict
 from persistent import Persistent
+from persistent.dict import PersistentDict
 
 from .interfaces import ITaxonomy
 from .i18n import MessageFactory as _
@@ -67,28 +67,6 @@ class TaxonomyBehavior(Persistent):
 class Taxonomy(SimpleItem):
     implements(ITaxonomy)
 
-    def getCurrentLanguage(self):
-        context = getSite()
-        portal_state = getMultiAdapter((context.aq_parent,
-                                        context.aq_parent.REQUEST),
-                                       name=u'plone_portal_state')
-        (language_major, language_minor ) = \
-            portal_state.language().split('-', 1)
-        return language_major
-
-    def getShortName(self):
-        return self.name.split('.')[-1]
-
-    def registerBehaviour(self):
-
-        context = getSite()
-        sm = context.getSiteManager()
-        behavior = TaxonomyBehavior(self.name, self.title, 'TestField')
-
-        sm.registerUtility(behavior, IBehavior,
-                           name='collective.taxonomy.generated.' +
-                                self.getShortName())
-
     def __init__(self, name, title):
         super(Taxonomy, self).__init__(self)
         self.data = PersistentDict()
@@ -107,6 +85,33 @@ class Taxonomy(SimpleItem):
                 if language not in self._v_inv_data:
                     self._v_inv_data[language] = {}
                 self._v_inv_data[language][identifier] = path
+
+    def __call__(self, context):
+        current_language = self.getCurrentLanguage()
+        data = self.data[current_language]
+        inv_data = self._v_inv_data[current_language]
+        return Vocabulary(self.name, data, inv_data)
+
+    def getShortName(self):
+        return self.name.split('.')[-1]
+
+    def getCurrentLanguage(self):
+        context = getSite()
+        portal_state = getMultiAdapter((context.aq_parent,
+                                        context.aq_parent.REQUEST),
+                                       name=u'plone_portal_state')
+        (language_major, language_minor ) = \
+            portal_state.language().split('-', 1)
+        return language_major
+
+    def registerBehaviour(self):
+        context = getSite()
+        sm = context.getSiteManager()
+        behavior = TaxonomyBehavior(self.name, self.title, 'TestField')
+
+        sm.registerUtility(behavior, IBehavior,
+                           name='collective.taxonomy.generated.' +
+                                self.getShortName())
 
     def add(self, language, identifier, path):
         if not language in self.data:
@@ -127,12 +132,6 @@ class Taxonomy(SimpleItem):
             raise Exception("Translation not found")
 
         return self._v_inv_data[target_language][int(msgid)]
-
-    def __call__(self, context):
-        current_language = self.getCurrentLanguage()
-        data = self.data[current_language]
-        inv_data = self._v_inv_data[current_language]
-        return Vocabulary(self.name, data, inv_data)
 
 
 class Vocabulary(object):
