@@ -11,7 +11,7 @@
 
   <include package="plone.app.registry" />
 
-  <grok:grok package="." />
+  <!-- <grok:grok package="." /> -->
 
   <genericsetup:registerProfile
       name="default"
@@ -21,7 +21,7 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <genericsetup:importStep
+  <!-- <genericsetup:importStep
       name="collective.taxonomy"
       title="Manage the taxonomy tool"
       description="Import taxonomies from VDEX-format."
@@ -35,32 +35,11 @@
       title="Export the taxonomies into VDEX-format."
       description="Exports records and settings"
       handler=".exportimport.exportTaxonomy"
-      />
+      /> -->
 
   <adapter
       factory=".traversal.TaxonomyTraverser"
       name="taxonomy"
-      />
-
-  <class class=".widget.TaxonomyWidget">
-    <require
-        permission="zope.Public"
-        interface=".widget.ITaxonomyWidget"
-        />
-  </class>
-
-  <z3c:widgetTemplate
-      mode="input"
-      widget=".widget.ITaxonomyWidget"
-      layer="z3c.form.interfaces.IFormLayer"
-      template="widget_input.pt"
-      />
-
-  <z3c:widgetTemplate
-      mode="display"
-      widget=".widget.ITaxonomyWidget"
-      layer="z3c.form.interfaces.IFormLayer"
-      template="widget_display.pt"
       />
 
 </configure>
