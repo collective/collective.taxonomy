@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<tool-setup>
-  <required
-      tool_id="portal_taxonomies"
-      class="collective.taxonomy.utility.TaxonomyTool"
-      />
-</tool-setup>
