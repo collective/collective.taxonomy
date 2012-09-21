@@ -11,7 +11,7 @@
         appId="collective.taxonomy"
         category="Products"
         condition_expr=""
-        url_expr="string:${portal_url}/++taxonomy++"
+        url_expr="string:${portal_url}/@@taxonomy-settings"
         icon_expr="string:$portal_url/product_icon.png"
         visible="True"
         i18n:attributes="title">

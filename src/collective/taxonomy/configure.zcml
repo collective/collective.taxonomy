@@ -26,8 +26,6 @@
       title="Manage the taxonomy tool"
       description="Import taxonomies from VDEX-format."
       handler=".exportimport.importTaxonomy">
-    <depends name="componentregistry" />
-    <depends name="toolset" />
   </genericsetup:importStep>
 
   <genericsetup:exportStep
@@ -42,4 +40,14 @@
       name="taxonomy"
       />
 
+  <browser:page
+      name="taxonomy-settings"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      template="controlpanel.pt"
+      class=".controlpanel.ControlPanelView"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  
 </configure>

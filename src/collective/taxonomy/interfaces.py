@@ -22,8 +22,10 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
 
         """
 
-
     def __setitem__(identifier, term):
-        # But in this method, we'll actually unpack ( ! ) the term !! ... into a compact, B-Tree representation ....
-        # and discard the description ....
-        pass
+        """ """
+
+class ITaxonomyForm(Interface):
+    name = schema.TextLine(title=u'Name', required=True)
+    title = schema.TextLine(title=u'Title', required=True)
+    field_name = schema.TextLine(title=u'Field name', required=True)
