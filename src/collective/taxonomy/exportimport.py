@@ -10,11 +10,17 @@ from plone.supermodel.utils import indent
 
 
 def importTaxonomy(context):
-    for filename in context.listDirectory('taxonomies/'):
+    directory = context.listDirectory('taxonomies/')
+
+    if not directory:
+        return
+
+    for filename in directory:
         body = context.readDataFile('taxonomies/' + filename)
         if body is not None:
             importer = TaxonomyImportExportAdapter(context)
             importer.importDocument(body)
+
 
 def exportTaxonomy(context):
     site = context.getSite()

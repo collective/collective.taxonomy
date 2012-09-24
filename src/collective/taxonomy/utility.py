@@ -27,8 +27,6 @@ class Taxonomy(SimpleItem):
         self.name = name
         self.title = title
 
-        self.registerBehaviour()
-
     def __setstate__(self, state):
         super(Taxonomy, self).__setstate__(state)
         self._v_inv_data = {}
@@ -56,10 +54,10 @@ class Taxonomy(SimpleItem):
             portal_state.language().split('-', 1)
         return language_major
 
-    def registerBehaviour(self):
+    def registerBehavior(self, field_name, field_title='', field_description='' , is_required = False):
         context = getSite()
         sm = context.getSiteManager()
-        behavior = TaxonomyBehavior(self.name, self.title, 'TestField')
+        behavior = TaxonomyBehavior(self.name, self.title, field_name, field_title, field_description, is_required)
 
         sm.registerUtility(behavior, IBehavior,
                            name='collective.taxonomy.generated.' +
@@ -68,9 +66,10 @@ class Taxonomy(SimpleItem):
     def unregisterBehavior(self):
         context = getSite()
         sm = context.getSiteManager()
-        utility = queryUtility(IBehavior, name='collective.taxonomy.generated.' +
-                                self.getShortName())
-        sm.unregisterUtility(utility, IBehavior)
+        behavior_name = name='collective.taxonomy.generated.' + self.getShortName()
+        utility = queryUtility(IBehavior, name=behavior_name)
+        if utility:
+            sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
     def add(self, language, identifier, path):
         if not language in self.data:

@@ -16,11 +16,14 @@ from .i18n import MessageFactory as _
 class TaxonomyBehavior(Persistent):
     implements(IBehavior)
 
-    def __init__(self, title, description, field_name):
+    def __init__(self, title, description, field_name, field_title, field_description, is_required):
         self.title = _(title)
         self.description = _(description)
         self.factory = None
         self.field_name = field_name
+        self.field_title = field_title
+        self.field_description = field_description
+        self.is_required = is_required
 
     @property
     def short_name(self):
@@ -32,10 +35,10 @@ class TaxonomyBehavior(Persistent):
         schemaclass = SchemaClass(
             self.short_name, (Schema, ),
             __module__='collective.taxonomy.generated',
-            attrs={self.field_name:
-                   schema.Choice(title=_(u'Wuhu'),
-                                 description=_(u""),
-                                 required=False,
+            attrs={str(self.field_name):
+                   schema.Choice(title=_(unicode(self.field_title)),
+                                 description=_(unicode(self.field_description)),
+                                 required=self.is_required,
                                  vocabulary='collective.taxonomy.' +
                                  self.short_name) }
         )

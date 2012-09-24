@@ -41,13 +41,29 @@
       layer=".interfaces.IBrowserLayer"
       />
 
-    <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
+  <browser:page
+      name="taxonomy-add-behavior"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".controlpanel.TaxonomyAddBehavior"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      />
 
-    <utility
-        factory=".vocabulary.TaxonomyVocabulary"
-        name="collective.taxonomy.taxonomies"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <browser:page
+      name="taxonomy-del-behavior"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".controlpanel.TaxonomyDelBehavior"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
+
+  <utility
+      factory=".vocabulary.TaxonomyVocabulary"
+      name="collective.taxonomy.taxonomies"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
 
 
 </configure>

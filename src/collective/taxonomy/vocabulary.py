@@ -6,6 +6,8 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabulary, IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
+from plone.behavior.interfaces import IBehavior
+
 
 class TaxonomyVocabulary(object):
     """ Vocabulary for generating a list of existing taxonomies """
@@ -18,8 +20,17 @@ class TaxonomyVocabulary(object):
         utilities = sm.getUtilitiesFor(ITaxonomy)
 
         for (utility_name, utility) in utilities:
-            results.append(SimpleTerm(value=utility.name,
-                                      title=utility.title))
+            short_name = utility_name.split('.')[-1]
+            behavior_name = 'collective.taxonomy.generated.' + short_name
+            has_behavior = sm.queryUtility(IBehavior,
+                                           name=behavior_name) is not None
+
+            utility_name = utility.name
+            utility_title = utility.title
+
+            results.append(SimpleTerm(value=utility_name,
+                                      title=utility_title +
+                                      (has_behavior and '*' or '')))
 
         return SimpleVocabulary(results)
 
