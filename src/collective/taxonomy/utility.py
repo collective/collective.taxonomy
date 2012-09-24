@@ -3,7 +3,7 @@
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, queryUtility
 from zope.component.hooks import getSite
 from zope.interface import implements
 
@@ -64,6 +64,13 @@ class Taxonomy(SimpleItem):
         sm.registerUtility(behavior, IBehavior,
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
+
+    def unregisterBehavior(self):
+        context = getSite()
+        sm = context.getSiteManager()
+        utility = queryUtility(IBehavior, name='collective.taxonomy.generated.' +
+                                self.getShortName())
+        sm.unregisterUtility(utility, IBehavior)
 
     def add(self, language, identifier, path):
         if not language in self.data:

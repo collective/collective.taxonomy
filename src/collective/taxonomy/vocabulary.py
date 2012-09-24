@@ -1,11 +1,32 @@
 
+from interfaces import ITaxonomy
+
 from zope.i18nmessageid import MessageFactory
 from zope.interface import implements
-from zope.schema.interfaces import IVocabulary
-from zope.schema.vocabulary import SimpleTerm
+from zope.schema.interfaces import IVocabulary, IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+
+
+class TaxonomyVocabulary(object):
+    """ Vocabulary for generating a list of existing taxonomies """
+    implements(IVocabularyFactory)
+
+    def __call__(self, adapter):
+        results = []
+        context = adapter.context
+        sm = context.getSiteManager()
+        utilities = sm.getUtilitiesFor(ITaxonomy)
+
+        for (utility_name, utility) in utilities:
+            results.append(SimpleTerm(value=utility.name,
+                                      title=utility.title))
+
+        return SimpleVocabulary(results)
 
 
 class Vocabulary(object):
+    """ Vocabulary object, when the utilitity is used as a
+    vocabulary object """
     implements(IVocabulary)
 
     def __init__(self, name, data, inv_data):
