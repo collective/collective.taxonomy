@@ -7,6 +7,9 @@ from zope.component import getMultiAdapter, queryUtility
 from zope.component.hooks import getSite
 from zope.interface import implements
 
+from Products.CMFCore.utils import getToolByName
+from Products.ZCatalog.Catalog import CatalogError
+
 from plone.behavior.interfaces import IBehavior
 
 from persistent.dict import PersistentDict
@@ -55,6 +58,7 @@ class Taxonomy(SimpleItem):
         return language_major
 
     def registerBehavior(self, field_name, field_title='', field_description='' , is_required = False):
+        """ Creating behaviour and register it as utility """
         context = getSite()
         sm = context.getSiteManager()
         behavior = TaxonomyBehavior(self.name, self.title, field_name, field_title, field_description, is_required)
@@ -62,6 +66,16 @@ class Taxonomy(SimpleItem):
         sm.registerUtility(behavior, IBehavior,
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
+
+        """ Adding catalog """
+        catalog = getToolByName(self.context, 'portal_catalog')
+        try:
+            catalog.addIndex(field_name, 'FieldIndex')
+        except CatalogError:
+            pass
+
+        """ Making the index usuable for collections """
+        
 
     def unregisterBehavior(self):
         context = getSite()
