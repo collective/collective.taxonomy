@@ -23,7 +23,7 @@ def exportTaxonomy(context):
         exporter = TaxonomyImportExportAdapter(context)
         body = exporter.exportDocument(name)
         if body is not None:
-            context.writeDataFile(short_name + '.xml', body, 'text/xml')
+            context.writeDataFile('taxonomies/' + short_name + '.xml', body, 'text/xml')
 
 
 class ImportVdex(object):
