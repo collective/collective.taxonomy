@@ -152,7 +152,6 @@ class TaxonomyImportExportAdapter(object):
     """Helper classt to import a registry file
     """
 
-    LOGGER_ID = 'collective.taxonomy'
     IMSVDEX_NS = 'http://www.imsglobal.org/xsd/imsvdex_v1p0'
     IMSVDEX_ATTRIBS = {
         'xmlns': "http://www.imsglobal.org/xsd/imsvdex_v1p0",
@@ -166,9 +165,8 @@ class TaxonomyImportExportAdapter(object):
     }
     IMSVDEX_ENCODING = 'utf-8'
 
-    def __init__(self, context, environ=None):
+    def __init__(self, context):
         self.context = context
-        #self.logger = environ.getLogger(self.LOGGER_ID)
 
     def importDocument(self, document):
         site = self.context.getSite()
@@ -185,9 +183,6 @@ class TaxonomyImportExportAdapter(object):
             sm = site.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
             sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
-
-        #if taxonomy and self.environ.shouldPurge():
-        #    taxonomy.clear()
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
