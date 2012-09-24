@@ -10,17 +10,20 @@ from plone.supermodel.utils import indent
 
 
 def importTaxonomy(context):
-    body = context.readDataFile('taxonomies.xml')
-    if body is not None:
-        importer = TaxonomyImportExportAdapter(context)
-        importer.importDocument(body)
-
+    for filename in context.listDirectory('taxonomies/'):
+        body = context.readDataFile('taxonomies/' + filename)
+        if body is not None:
+            importer = TaxonomyImportExportAdapter(context)
+            importer.importDocument(body)
 
 def exportTaxonomy(context):
-    exporter = TaxonomyImportExportAdapter(context)
-    body = exporter.exportDocument()
-    if body is not None:
-        context.writeDataFile('taxonomies.xml', body, 'text/xml')
+    site = context.getSite()
+    for (name, taxonomy) in site.getSiteManager().getUtilitiesFor(ITaxonomy):
+        short_name = name.split('.')[-1]
+        exporter = TaxonomyImportExportAdapter(context)
+        body = exporter.exportDocument(name)
+        if body is not None:
+            context.writeDataFile(short_name + '.xml', body, 'text/xml')
 
 
 class ImportVdex(object):
@@ -90,7 +93,7 @@ class ExportVdex(object):
     def buildPathIndex(self):
         pathIndex = {}
 
-        for (language, children) in self.taxonomy.items():
+        for (language, children) in self.taxonomy.data.items():
             for (path, identifier) in children.items():
                 parent_path = path.split('/')[:-1]
                 parent_identifier = children.get('/'.join(parent_path))
@@ -106,7 +109,7 @@ class ExportVdex(object):
     def makeTranslationTable(self):
         translationTable = {}
 
-        for (language, children) in self.taxonomy.items():
+        for (language, children) in self.taxonomy.data.items():
             for (path, identifier) in children.items():
                 if not identifier in translationTable:
                     translationTable[identifier] = {}
@@ -168,6 +171,7 @@ class TaxonomyImportExportAdapter(object):
         #self.logger = environ.getLogger(self.LOGGER_ID)
 
     def importDocument(self, document):
+        site = self.context.getSite()
         tree = ElementTree.fromstring(document)
         title = tree.find('./{%s}vocabName/{%s}langstring'
                           % (self.IMSVDEX_NS, self.IMSVDEX_NS))
@@ -178,7 +182,7 @@ class TaxonomyImportExportAdapter(object):
 
         if not taxonomy:
             taxonomy = Taxonomy(utility_name, title.text)
-            sm = self.context.getSiteManager()
+            sm = site.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
             sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
 

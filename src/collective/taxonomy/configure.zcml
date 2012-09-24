@@ -11,8 +11,6 @@
 
   <include package="plone.app.registry" />
 
-  <!-- <grok:grok package="." /> -->
-
   <genericsetup:registerProfile
       name="default"
       title="collective.taxonomy"
@@ -21,7 +19,7 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <!-- <genericsetup:importStep
+  <genericsetup:importStep
       name="collective.taxonomy"
       title="Manage the taxonomy tool"
       description="Import taxonomies from VDEX-format."
@@ -33,7 +31,7 @@
       title="Export the taxonomies into VDEX-format."
       description="Exports records and settings"
       handler=".exportimport.exportTaxonomy"
-      /> -->
+      />
 
   <browser:page
       name="taxonomy-settings"

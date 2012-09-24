@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex language="en" orderSignificant="false" profileType="hierarchicalTokenTerms" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+  <vocabName>
+    <langstring language="en">Test vocabulary</langstring>
+  </vocabName>
+  <vocabIdentifier>testVocabulary</vocabIdentifier>
+  <term>
+    <termIdentifier>1</termIdentifier>
+    <caption>
+      <langstring language="da">Informationsvidenskab</langstring>
+      <langstring language="de">Informatik</langstring>
+      <langstring language="en">Information Science</langstring>
+      <langstring language="ru">Информатику</langstring>
+    </caption>
+    <term>
+      <termIdentifier>2</termIdentifier>
+      <caption>
+        <langstring language="da">Bogsamling</langstring>
+        <langstring language="en">Book Collecting</langstring>
+      </caption>
+      <term>
+        <termIdentifier>4</termIdentifier>
+        <caption>
+          <langstring language="da">Hest</langstring>
+        </caption>
+      </term>
+    </term>
+    <term>
+      <termIdentifier>3</termIdentifier>
+      <caption>
+        <langstring language="da">Kronologi</langstring>
+        <langstring language="en">Chronology</langstring>
+      </caption>
+    </term>
+  </term>
+</vdex>
