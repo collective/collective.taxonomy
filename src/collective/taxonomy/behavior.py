@@ -31,7 +31,7 @@ class TaxonomyBehavior(Persistent):
 
     # TODO: Use self as cache key
     @property
-    @ram.cache(lambda method, self: True)
+    @ram.cache(lambda method, self: self)
     def interface(self):
         schemaclass = SchemaClass(
             self.short_name, (Schema, ),

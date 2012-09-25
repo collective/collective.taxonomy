@@ -3,14 +3,17 @@
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
-from zope.component import getMultiAdapter, queryUtility
+from zope.component import getMultiAdapter, queryUtility, getUtility
 from zope.component.hooks import getSite
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
+from Products.PluginIndexes.FieldIndex.FieldIndex import FieldIndex
 from Products.ZCatalog.Catalog import CatalogError
 
 from plone.behavior.interfaces import IBehavior
+from plone.registry.interfaces import IRegistry
+from plone.registry import Record, field
 
 from persistent.dict import PersistentDict
 
@@ -57,33 +60,71 @@ class Taxonomy(SimpleItem):
             portal_state.language().split('-', 1)
         return language_major
 
-    def registerBehavior(self, field_name, field_title='', field_description='' , is_required = False):
+    def registerBehavior(self, field_name, field_title='',
+                         field_description='', is_required=False):
         """ Creating behaviour and register it as utility """
         context = getSite()
         sm = context.getSiteManager()
-        behavior = TaxonomyBehavior(self.name, self.title, field_name, field_title, field_description, is_required)
+        behavior = TaxonomyBehavior(self.name, self.title,
+                                    field_name, field_title,
+                                    field_description, is_required)
 
         sm.registerUtility(behavior, IBehavior,
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
 
         """ Adding catalog """
-        catalog = getToolByName(self.context, 'portal_catalog')
+        catalog = getToolByName(context, 'portal_catalog')
+        field_idx_object = FieldIndex(str(field_name))
         try:
-            catalog.addIndex(field_name, 'FieldIndex')
+            catalog.addIndex(field_name, field_idx_object)
         except CatalogError:
             pass
 
         """ Making the index usuable for collections """
-        
+        registry = getUtility(IRegistry)
+        prefix = 'plone.app.querystring.field.' + field_name
+
+        registry.records[prefix + '.title'] = \
+            Record(field.TextLine(), unicode(field_name))
+        registry.records[prefix + '.enabled'] = \
+            Record(field.Bool(), True)
+        registry.records[prefix + '.group'] = \
+            Record(field.TextLine(), unicode('Taxonomy'))
+        registry.records[prefix + '.operations'] = \
+            Record(field.List(),
+                   ['plone.app.querystring.operation.selection.is'])
+        registry.records[prefix + '.vocabulary'] = \
+            Record(field.TextLine(), unicode(self.name))
+        registry.records[prefix + '.sortable'] = \
+            Record(field.Bool(), True)
+        registry.records[prefix + '.description'] = \
+            Record(field.Text(), unicode(''))
 
     def unregisterBehavior(self):
+        """ Unregister behavior """
         context = getSite()
         sm = context.getSiteManager()
-        behavior_name = name='collective.taxonomy.generated.' + self.getShortName()
+        behavior_name = 'collective.taxonomy.generated.' + self.getShortName()
         utility = queryUtility(IBehavior, name=behavior_name)
+        field_name = utility.field_name
         if utility:
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
+
+        """ Deleting the index """
+        catalog = getToolByName(context, 'portal_catalog')
+        try:
+            catalog.delIndex(field_name)
+        except CatalogError:
+            pass
+
+        """ Deleting the registry entries """
+        registry = getUtility(IRegistry)
+        prefix = 'plone.app.querystring.field.' + field_name
+        for suffix in ['title', 'enabled', 'group',
+                       'operations', 'vocabulary', 'sortable', 'description']:
+            if prefix + '.' + suffix in registry.records:
+                del registry.records[prefix + '.' + suffix]
 
     def add(self, language, identifier, path):
         if not language in self.data:
