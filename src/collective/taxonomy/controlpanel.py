@@ -1,7 +1,6 @@
 from plone.app.controlpanel.form import ControlPanelForm
 from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
     as BaseMultiCheckBoxWidget
-from plone.dexterity.interfaces import IDexterityFTI
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
@@ -13,6 +12,7 @@ from zope.interface import Interface
 from zope.formlib import form as formlib
 from zope.interface import implements
 from zope.component import adapts
+from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
 from z3c.form import form, field
@@ -66,45 +66,40 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
     @formlib.action(_(u'label_add_behavior', default=u'Add behavior'),
                     name=u'add-behavior')
     def handle_add_behavior_action(self, action, data):
-        taxonomy = data['taxonomies'][0]
-        self.context.REQUEST.RESPONSE.redirect(
-            self.context.portal_url() + '/@@taxonomy-add-behavior' +
-            '?taxonomy=' + taxonomy
-        )
+        if len(data.get('taxonomies', [])) > 0:
+            taxonomy = data['taxonomies'][0]
+            self.context.REQUEST.RESPONSE.redirect(
+                self.context.portal_url() + '/@@taxonomy-add-behavior' +
+                '?taxonomy=' + taxonomy
+            )
 
     @formlib.action(_(u'label_del_behavior', default=u'Delete behavior'),
                     name=u'del-behavior')
     def handle_del_behavior_action(self, action, data):
-        taxonomy = data['taxonomies'][0]
-        self.context.REQUEST.RESPONSE.redirect(
-            self.context.portal_url() + '/@@taxonomy-del-behavior' +
-            '?taxonomy=' + taxonomy
-        )
+        if len(data.get('taxonomies', [])) > 0:
+            taxonomy = data['taxonomies'][0]
+            self.context.REQUEST.RESPONSE.redirect(
+                self.context.portal_url() + '/@@taxonomy-del-behavior' +
+                '?taxonomy=' + taxonomy
+            )
 
     @formlib.action(_(u'label_delete', default=u'Delete'),
                     name=u'delete')
     def handle_delete_action(self, action, data):
-        sm = self.context.getSiteManager()
+        if len(data.get('taxonomies', [])) > 0:
+            sm = self.context.getSiteManager()
 
-        for item in data['taxonomies']:
-            utility = sm.queryUtility(ITaxonomy, name=item)
-            utility.unregisterBehavior()
+            for item in data['taxonomies']:
+                utility = sm.queryUtility(ITaxonomy, name=item)
+                utility.unregisterBehavior()
 
-            sm.unregisterUtility(utility, ITaxonomy, name=item)
-            sm.unregisterUtility(utility, IVocabularyFactory, name=item)
-
-            behavior_name = 'collective.taxonomy.generated.' + \
-                            item.split('.')[-1]
-
-            for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
-                if behavior_name in fti.behaviors:
-                    fti.behaviors = [behavior for behavior in
-                                     fti.behaviors
-                                     if behavior != behavior_name]
+                sm.unregisterUtility(utility, ITaxonomy, name=item)
+                sm.unregisterUtility(utility, IVocabularyFactory, name=item)
+                sm.unregisterUtility(utility, ITranslationDomain, name=item)
 
 
 class ITaxonomyAddBehavior(Interface):
-    """ Regular fields """
+    # Regular fields
     field_name = schema.TextLine(title=_(u"Field name"),
                                  required=True)
 
@@ -117,7 +112,7 @@ class ITaxonomyAddBehavior(Interface):
     is_required = schema.Bool(title=_(u"Is required?"),
                               required=True)
 
-    """ Hidden fields """
+    # Hidden fields
     taxonomy = schema.TextLine(title=_(u"Taxonomy name"))
 
 

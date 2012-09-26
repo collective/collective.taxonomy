@@ -12,6 +12,7 @@ from Products.PluginIndexes.FieldIndex.FieldIndex import FieldIndex
 from Products.ZCatalog.Catalog import CatalogError
 
 from plone.behavior.interfaces import IBehavior
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
@@ -104,6 +105,10 @@ class Taxonomy(SimpleItem):
         sm = context.getSiteManager()
         behavior_name = 'collective.taxonomy.generated.' + self.getShortName()
         utility = queryUtility(IBehavior, name=behavior_name)
+        if utility is None:
+            logging.info("It looks like the behavior was already removed.")
+            return
+
         field_name = utility.field_name
         if utility:
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
@@ -121,6 +126,12 @@ class Taxonomy(SimpleItem):
                        'operations', 'vocabulary', 'sortable', 'description'):
             if prefix + '.' + suffix in registry.records:
                 del registry.records[prefix + '.' + suffix]
+
+        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+            if behavior_name in fti.behaviors:
+                fti.behaviors = [behavior for behavior in
+                                 fti.behaviors
+                                 if behavior != behavior_name]
 
     def add(self, language, identifier, path):
         if not language in self.data:
