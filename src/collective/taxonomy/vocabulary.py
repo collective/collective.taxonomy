@@ -10,7 +10,8 @@ from plone.behavior.interfaces import IBehavior
 
 
 class TaxonomyVocabulary(object):
-    """ Vocabulary for generating a list of existing taxonomies """
+    # Vocabulary for generating a list of existing taxonomies
+
     implements(IVocabularyFactory)
 
     def __call__(self, adapter):
@@ -36,8 +37,9 @@ class TaxonomyVocabulary(object):
 
 
 class Vocabulary(object):
-    """ Vocabulary object, when the utilitity is used as a
-    vocabulary object """
+    # Vocabulary object, when the utilitity is used as a
+    # vocabulary object
+
     implements(IVocabulary)
 
     def __init__(self, name, data, inv_data):
