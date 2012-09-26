@@ -61,9 +61,7 @@ class Taxonomy(SimpleItem):
         portal_state = getMultiAdapter((context.aq_parent,
                                         context.aq_parent.REQUEST),
                                        name=u'plone_portal_state')
-        (language_major, language_minor ) = \
-            portal_state.language().split('-', 1)
-        return language_major
+        return portal_state.language().split('-', 1)[0]
 
     def registerBehavior(self, field_name, field_title='',
                          field_description='', is_required=False,
