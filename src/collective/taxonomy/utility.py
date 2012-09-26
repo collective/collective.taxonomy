@@ -44,7 +44,7 @@ class Taxonomy(SimpleItem):
         return Vocabulary(self.name, data, inverted_data)
 
     @property
-    @ram.cache(lambda method, self: self._p_mtime)
+    @ram.cache(lambda method, self: self.data._p_mtime)
     def inverted_data(self):
         inv_data = {}
         for (language, elements) in self.data.items():
@@ -66,12 +66,14 @@ class Taxonomy(SimpleItem):
         return language_major
 
     def registerBehavior(self, field_name, field_title='',
-                         field_description='', is_required=False):
+                         field_description='', is_required=False,
+                         multi_select=False):
         context = getSite()
         sm = context.getSiteManager()
         behavior = TaxonomyBehavior(self.name, self.title,
                                     field_name, field_title,
-                                    field_description, is_required)
+                                    field_description, is_required,
+                                    multi_select)
 
         sm.registerUtility(behavior, IBehavior,
                            name='collective.taxonomy.generated.' +
@@ -124,8 +126,9 @@ class Taxonomy(SimpleItem):
         prefix = 'plone.app.querystring.field.' + field_name
         for suffix in ('title', 'enabled', 'group',
                        'operations', 'vocabulary', 'sortable', 'description'):
-            if prefix + '.' + suffix in registry.records:
-                del registry.records[prefix + '.' + suffix]
+            record_name = prefix + '.' + suffix
+            if record_name in registry.records:
+                del registry.records[record_name]
 
         for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
@@ -141,6 +144,7 @@ class Taxonomy(SimpleItem):
 
     def translate(self, msgid, mapping=None, context=None,
                   target_language=None, default=None):
+
         if target_language is None:
             target_language = self.getCurrentLanguage
         if target_language not in self.inverted_data:
@@ -148,4 +152,7 @@ class Taxonomy(SimpleItem):
         if int(msgid) not in self.inverted_data[target_language]:
             raise Exception("Translation not found")
 
-        return self.inverted_data[target_language][int(msgid)]
+        path = self.inverted_data[target_language][int(msgid)]
+        pretty_path = path[1:].replace('/', u' » ')
+
+        return pretty_path

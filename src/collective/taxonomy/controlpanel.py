@@ -112,6 +112,9 @@ class ITaxonomyAddBehavior(Interface):
     is_required = schema.Bool(title=_(u"Is required?"),
                               required=True)
 
+    multi_select = schema.Bool(title=_(u"Multi-select field"),
+                               required=True)
+
     # Hidden fields
     taxonomy = schema.TextLine(title=_(u"Taxonomy name"))
 
@@ -136,10 +139,8 @@ class TaxonomyAddBehavior(form.AddForm):
         sm = self.context.getSiteManager()
         utility = sm.queryUtility(ITaxonomy,
                                   name=data['taxonomy'])
-        utility.registerBehavior(data['field_name'],
-                                 data['field_title'],
-                                 data['field_description'],
-                                 data['is_required'])
+        del data['taxonomy']
+        utility.registerBehavior(**data)
 
     def nextURL(self):
         return self.context.portal_url() + '/@@taxonomy-settings'

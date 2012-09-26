@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from interfaces import ITaxonomy
 
@@ -23,15 +24,24 @@ class TaxonomyVocabulary(object):
         for (utility_name, utility) in utilities:
             short_name = utility_name.split('.')[-1]
             behavior_name = 'collective.taxonomy.generated.' + short_name
-            has_behavior = sm.queryUtility(IBehavior,
-                                           name=behavior_name) is not None
+            behavior = sm.queryUtility(IBehavior,
+                                       name=behavior_name)
 
             utility_name = utility.name
             utility_title = utility.title
 
+            if behavior:
+                field_name = behavior.field_name
+
             results.append(SimpleTerm(value=utility_name,
                                       title=utility_title +
-                                      (has_behavior and '*' or '')))
+                                      (behavior is not None
+                                       and ' (has behavior, field name: ' +
+                                           field_name +
+                                           ')'
+                                       or '')
+                                      )
+                           )
 
         return SimpleVocabulary(results)
 
