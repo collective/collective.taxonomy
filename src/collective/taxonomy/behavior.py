@@ -29,7 +29,6 @@ class TaxonomyBehavior(Persistent):
     def short_name(self):
         return str(self.title.split('.')[-1])
 
-    # TODO: Use self as cache key
     @property
     @ram.cache(lambda method, self: self)
     def interface(self):

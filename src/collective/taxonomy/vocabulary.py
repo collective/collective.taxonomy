@@ -69,7 +69,7 @@ class Vocabulary(object):
 
         for (path, identifier) in self.data.items():
             term = SimpleTerm(value=identifier,
-                              title=self.message(identifier, path))
+                              title=self.message(path))
             results.append(term)
 
         return results

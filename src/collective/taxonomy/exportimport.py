@@ -1,6 +1,7 @@
 from elementtree import ElementTree
 
 from zope.component import queryUtility
+from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
 from .interfaces import ITaxonomy
@@ -189,6 +190,7 @@ class TaxonomyImportExportAdapter(object):
             sm = site.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
             sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
+            sm.registerUtility(taxonomy, ITranslationDomain, name=utility_name)
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
