@@ -10,16 +10,19 @@ from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
 from Products.PluginIndexes.FieldIndex.FieldIndex import FieldIndex
 from Products.ZCatalog.Catalog import CatalogError
+from Products.ZCatalog.interfaces import IZCatalog
 
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
+from plone.indexer.interfaces import IIndexer
 
 from persistent.dict import PersistentDict
 
 from .behavior import TaxonomyBehavior
+from .indexer import TaxonomyIndexer
 from .interfaces import ITaxonomy
 from .vocabulary import Vocabulary
 
@@ -77,7 +80,10 @@ class Taxonomy(SimpleItem):
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
 
+        sm.registerAdapter(TaxonomyIndexer, name=field_name)
+
         catalog = getToolByName(context, 'portal_catalog')
+
         field_idx_object = FieldIndex(str(field_name))
         try:
             catalog.addIndex(field_name, field_idx_object)
