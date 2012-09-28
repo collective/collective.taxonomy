@@ -8,7 +8,7 @@ from zope.component.hooks import getSite
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
-from Products.PluginIndexes.FieldIndex.FieldIndex import FieldIndex
+from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
 from Products.ZCatalog.Catalog import CatalogError
 from Products.ZCatalog.interfaces import IZCatalog
 
@@ -27,7 +27,6 @@ from .interfaces import ITaxonomy
 from .vocabulary import Vocabulary
 
 import logging
-
 logger = logging.getLogger("collective.taxonomy")
 
 
@@ -80,14 +79,16 @@ class Taxonomy(SimpleItem):
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
 
-        sm.registerAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
-                           IIndexer, name=field_name)
+        sm.registerAdapter(
+            TaxonomyIndexer(field_name, self.name),
+            (IDexterityContent, IZCatalog),
+            IIndexer, name=field_name)
 
         catalog = getToolByName(context, 'portal_catalog')
 
-        field_idx_object = FieldIndex(str(field_name))
+        idx_object = KeywordIndex(str(field_name))
         try:
-            catalog.addIndex(field_name, field_idx_object)
+            catalog.addIndex(field_name, idx_object)
         except CatalogError:
             logging.info("Index " + field_name +
                          " already exists, we hope it is proper configured")
@@ -119,8 +120,6 @@ class Taxonomy(SimpleItem):
         field_name = utility.field_name
         if utility:
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
-
-        #sm.queryAdapter
 
         sm.unregisterAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
                              IIndexer, name=field_name)
