@@ -13,7 +13,7 @@ from Products.ZCatalog.Catalog import CatalogError
 from Products.ZCatalog.interfaces import IZCatalog
 
 from plone.behavior.interfaces import IBehavior
-from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.interfaces import IDexterityFTI, IDexterityContent
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
@@ -80,7 +80,8 @@ class Taxonomy(SimpleItem):
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
 
-        sm.registerAdapter(TaxonomyIndexer, name=field_name)
+        sm.registerAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
+                           IIndexer, name=field_name)
 
         catalog = getToolByName(context, 'portal_catalog')
 
@@ -118,6 +119,11 @@ class Taxonomy(SimpleItem):
         field_name = utility.field_name
         if utility:
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
+
+        #sm.queryAdapter
+
+        sm.unregisterAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
+                             IIndexer, name=field_name)
 
         catalog = getToolByName(context, 'portal_catalog')
         try:
