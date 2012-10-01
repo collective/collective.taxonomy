@@ -71,7 +71,7 @@ class ImportVdex(object):
                         parent_language == i.attrib['language']:
                     result[i.text] = (
                         i.attrib['language'],
-                        int(identifier.text),
+                        identifier.text,
                         self.recurse(node, available_languages,
                                      i.attrib['language'])
                     )
@@ -200,7 +200,7 @@ class TaxonomyImportExportAdapter(object):
 
         for (language, elements) in results.items():
             for (path, identifier) in elements.items():
-                taxonomy.add(language, int(identifier), path)
+                taxonomy.add(language, identifier, path)
 
         return utility_name
 

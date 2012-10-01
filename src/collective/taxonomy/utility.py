@@ -158,10 +158,10 @@ class Taxonomy(SimpleItem):
             target_language = self.getCurrentLanguage
         if target_language not in self.inverted_data:
             raise ValueError("Target language is not defined")
-        if int(msgid) not in self.inverted_data[target_language]:
+        if msgid not in self.inverted_data[target_language]:
             raise ValueError("Translation not found")
 
-        path = self.inverted_data[target_language][int(msgid)]
+        path = self.inverted_data[target_language][msgid]
         pretty_path = path[1:].replace('/', u' » ')
 
         return pretty_path

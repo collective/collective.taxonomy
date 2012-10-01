@@ -68,10 +68,10 @@ class Vocabulary(object):
         return self.getTerm(identifier) is not None
 
     def getTermByToken(self, input_identifier):
-        return SimpleTerm(value=int(input_identifier),
-                          title=self.message(int(input_identifier),
+        return SimpleTerm(value=input_identifier,
+                          title=self.message(input_identifier,
                                              self.inv_data[
-                                                 int(input_identifier)]))
+                                                 input_identifier]))
 
     def getTerm(self, input_identifier):
         return self.getTermByToken(input_identifier)

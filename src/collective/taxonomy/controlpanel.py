@@ -184,5 +184,3 @@ class TaxonomyAddBehavior(form.AddForm):
 
     def nextURL(self):
         return self.context.portal_url() + '/@@taxonomy-settings'
-
-
