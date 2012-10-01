@@ -129,6 +129,7 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
                     name=u'export')
     def handle_export_action(self, action, data):
         taxonomies = data.get('taxonomies', [])
+
         if len(taxonomies) > 0:
             adapter = TaxonomyImportExportAdapter(self.context)
             self.context.REQUEST.RESPONSE.setHeader('Content-type', 'text/xml')
@@ -173,7 +174,7 @@ class TaxonomyAddBehavior(form.AddForm):
 
     def add(self, data):
         if 'taxonomy' not in data:
-            raise Exception("Taxonomy name is not in form")
+            raise ValueError("Taxonomy name is not in form")
 
         sm = self.context.getSiteManager()
         utility = sm.queryUtility(ITaxonomy,
