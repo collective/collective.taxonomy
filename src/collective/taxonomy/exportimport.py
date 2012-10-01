@@ -47,6 +47,7 @@ class TaxonomyImportExportAdapter(object):
             site = self.context
 
         tree = ElementTree.fromstring(document)
+        default_language = tree.attrib['language']
 
         title = tree.find('./{%s}vocabName/{%s}langstring'
                           % (self.IMSVDEX_NS, self.IMSVDEX_NS))
@@ -54,7 +55,7 @@ class TaxonomyImportExportAdapter(object):
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
 
         if not taxonomy:
-            taxonomy = Taxonomy(utility_name, title.text)
+            taxonomy = Taxonomy(utility_name, title.text, default_language)
             sm = site.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
             sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
