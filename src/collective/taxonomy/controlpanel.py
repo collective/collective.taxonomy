@@ -114,9 +114,16 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
     @formlib.action(_(u'label_import', default=u'Import'),
                     name=u'import')
     def handle_import_action(self, action, data):
-        data = data['import_file'].read()
+        body = data['import_file'].read()
+        filename = data['import_file'].filename.lower()
+
+        if not filename.endswith('.xml'):
+            raise ValueError('Uploaded file does not have extension xml')
+
+        utility_name = 'collective.taxonomy.' + filename.replace('.xml', '')
+
         adapter = TaxonomyImportExportAdapter(self.context)
-        adapter.importDocument(data)
+        adapter.importDocument(utility_name, body)
 
         IStatusMessage(self.context.REQUEST).addStatusMessage(
             _(u"Taxonomy imported."), type="info")
