@@ -49,14 +49,6 @@
       layer=".interfaces.IBrowserLayer"
       />
 
-  <browser:page
-      name="taxonomy-del-behavior"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".controlpanel.TaxonomyDelBehavior"
-      permission="zope2.View"
-      layer=".interfaces.IBrowserLayer"
-      />
-
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
 
   <utility

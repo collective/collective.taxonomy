@@ -109,7 +109,7 @@ class ExportVdex(object):
                 pathIndex[parent_identifier].add(identifier)
 
         if None not in pathIndex:
-            raise Exception("No root node!")
+            raise ValueError("No root node!")
 
         return self.buildFinalPathIndex(pathIndex[None], pathIndex)
 
@@ -176,7 +176,11 @@ class TaxonomyImportExportAdapter(object):
         self.context = context
 
     def importDocument(self, document):
-        site = self.context.getSite()
+        if hasattr(self.context, 'getSite'):
+            site = self.context.getSite()
+        else:
+            site = self.context
+
         tree = ElementTree.fromstring(document)
         title = tree.find('./{%s}vocabName/{%s}langstring'
                           % (self.IMSVDEX_NS, self.IMSVDEX_NS))

@@ -5,7 +5,10 @@ from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
+from Products.CMFDefault.formlib.schema import FileUpload
+from Products.CMFDefault.formlib.widgets import FileUploadWidget
 from Products.Five import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
 
 from zope import schema
 from zope.interface import Interface
@@ -20,6 +23,7 @@ from z3c.form.interfaces import HIDDEN_MODE
 
 from i18n import MessageFactory as _
 from interfaces import ITaxonomy
+from exportimport import TaxonomyImportExportAdapter
 
 
 class ITaxonomySettings(Interface):
@@ -35,6 +39,10 @@ class ITaxonomySettings(Interface):
                              ),
                              default=[],)
 
+    import_file = FileUpload(title=_(u"Upload VDEX xml file"),
+                             description=_(u" "),
+                             required=False)
+
 
 class TaxonomySettingsControlPanelAdapter(SchemaAdapterBase):
     adapts(IPloneSiteRoot)
@@ -44,6 +52,7 @@ class TaxonomySettingsControlPanelAdapter(SchemaAdapterBase):
         super(TaxonomySettingsControlPanelAdapter, self).__init__(context)
 
     taxonomies = ProxyFieldProperty(ITaxonomySettings['taxonomies'])
+    import_file = ProxyFieldProperty(ITaxonomySettings['import_file'])
 
 
 class MultiCheckBoxWidget(BaseMultiCheckBoxWidget):
@@ -58,6 +67,7 @@ class MultiCheckBoxWidget(BaseMultiCheckBoxWidget):
 class TaxonomySettingsControlPanel(ControlPanelForm):
     form_fields = formlib.FormFields(ITaxonomySettings)
     form_fields['taxonomies'].custom_widget = MultiCheckBoxWidget
+    form_fields['import_file'].custom_widget = FileUploadWidget
 
     label = _("Taxonomy settings")
     description = _("Taxonomy settings")
@@ -77,10 +87,14 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
                     name=u'del-behavior')
     def handle_del_behavior_action(self, action, data):
         if len(data.get('taxonomies', [])) > 0:
-            taxonomy = data['taxonomies'][0]
-            self.context.REQUEST.RESPONSE.redirect(
-                self.context.portal_url() + '/@@taxonomy-del-behavior' +
-                '?taxonomy=' + taxonomy
+            taxonomy = data.get('taxonomies')[0]
+
+            sm = self.context.getSiteManager()
+            utility = sm.queryUtility(ITaxonomy, name=taxonomy)
+            utility.unregisterBehavior()
+
+            return self.context.REQUEST.RESPONSE.redirect(
+                self.context.portal_url() + '/@@taxonomy-settings'
             )
 
     @formlib.action(_(u'label_delete', default=u'Delete'),
@@ -96,6 +110,31 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
                 sm.unregisterUtility(utility, ITaxonomy, name=item)
                 sm.unregisterUtility(utility, IVocabularyFactory, name=item)
                 sm.unregisterUtility(utility, ITranslationDomain, name=item)
+
+    @formlib.action(_(u'label_import', default=u'Import'),
+                    name=u'import')
+    def handle_import_action(self, action, data):
+        data = data['import_file'].read()
+        adapter = TaxonomyImportExportAdapter(self.context)
+        adapter.importDocument(data)
+
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
+            _(u"Taxonomy imported."), type="info")
+
+        return self.context.REQUEST.RESPONSE.redirect(
+            self.context.portal_url() + '/@@taxonomy-settings'
+        )
+
+    @formlib.action(_(u'label_export', default=u"Export"),
+                    name=u'export')
+    def handle_export_action(self, action, data):
+        taxonomies = data.get('taxonomies', [])
+        if len(taxonomies) > 0:
+            adapter = TaxonomyImportExportAdapter(self.context)
+            self.context.REQUEST.RESPONSE.setHeader('Content-type', 'text/xml')
+            return adapter.exportDocument(taxonomies[0])
+
+        return None
 
 
 class ITaxonomyAddBehavior(Interface):
@@ -146,17 +185,3 @@ class TaxonomyAddBehavior(form.AddForm):
         return self.context.portal_url() + '/@@taxonomy-settings'
 
 
-class TaxonomyDelBehavior(BrowserView):
-    def __call__(self):
-        if 'taxonomy' not in self.context.REQUEST:
-            raise Exception("Taxonomy name is not provided")
-
-        taxonomy = self.context.REQUEST.get('taxonomy', '')
-
-        sm = self.context.getSiteManager()
-        utility = sm.queryUtility(ITaxonomy, name=taxonomy)
-        utility.unregisterBehavior()
-
-        return self.context.REQUEST.RESPONSE.redirect(
-            self.context.portal_url() + '/@@taxonomy-settings'
-        )
