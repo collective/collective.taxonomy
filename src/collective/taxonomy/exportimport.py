@@ -1,6 +1,8 @@
 from elementtree import ElementTree
 
-from zope.component import queryUtility
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+
+from zope.component import queryUtility, getUtility
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -18,10 +20,8 @@ def importTaxonomy(context):
     for filename in directory:
         body = context.readDataFile('taxonomies/' + filename)
         if body is not None:
-            utility_name = filename.lower().replace('.xml', '')
             importer = TaxonomyImportExportAdapter(context)
-            importer.importDocument('collective.taxonomy.' + utility_name,
-                                    body)
+            importer.importDocument(body)
 
 
 def exportTaxonomy(context):
@@ -41,19 +41,23 @@ class TaxonomyImportExportAdapter(object):
     def __init__(self, context):
         self.context = context
 
-    def importDocument(self, utility_name, document):
+    def importDocument(self, document):
         # XXX: we should change this
         if hasattr(self.context, 'getSite'):
             site = self.context.getSite()
         else:
             site = self.context
 
+        normalizer = getUtility(IIDNormalizer)
         tree = ElementTree.fromstring(document)
         default_language = tree.attrib['language']
 
+        name = tree.find('./{%s}vocabIdentifier'
+                         % (self.IMSVDEX_NS))
         title = tree.find('./{%s}vocabName/{%s}langstring'
                           % (self.IMSVDEX_NS, self.IMSVDEX_NS))
 
+        utility_name = 'collective.taxonomy.' + normalizer.normalize(name.text)
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
 
         if not taxonomy:

@@ -12,7 +12,6 @@ class ImportVdex(object):
         languages = set()
         results = self.recurse(self.tree, languages)
         final_results = {}
-        import pdb; pdb.set_trace()
         for language in languages:
             final_results[language] = self.processLanguage(results, language)
 
