@@ -7,17 +7,10 @@ from zope.component import getMultiAdapter, queryUtility, getUtility
 from zope.component.hooks import getSite
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
-from Products.ZCatalog.Catalog import CatalogError
-from Products.ZCatalog.interfaces import IZCatalog
 
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI, IDexterityContent
 from plone.memoize import ram
-from plone.registry.interfaces import IRegistry
-from plone.registry import Record, field
-from plone.indexer.interfaces import IIndexer
 
 from persistent.dict import PersistentDict
 
@@ -74,48 +67,19 @@ class Taxonomy(SimpleItem):
 
         return current_language
 
-    def registerBehavior(self, field_name, field_title='',
-                         field_description='', is_required=False,
-                         multi_select=False):
+    def registerBehavior(self, **kwargs):
         context = getSite()
         sm = context.getSiteManager()
-        behavior = TaxonomyBehavior(self.name, self.title,
-                                    field_name, field_title,
-                                    field_description, is_required,
-                                    multi_select)
-
+        behavior = TaxonomyBehavior(self.name,
+                                    self.title,
+                                    u'Adds the named taxonomy to the field'
+                                    'list', **kwargs)
         sm.registerUtility(behavior, IBehavior,
                            name='collective.taxonomy.generated.' +
                                 self.getShortName())
 
-        sm.registerAdapter(
-            TaxonomyIndexer(field_name, self.name),
-            (IDexterityContent, IZCatalog),
-            IIndexer, name=field_name)
-
-        catalog = getToolByName(context, 'portal_catalog')
-
-        idx_object = KeywordIndex(str(field_name))
-        try:
-            catalog.addIndex(field_name, idx_object)
-        except CatalogError:
-            logging.info("Index " + field_name +
-                         " already exists, we hope it is proper configured")
-
-        registry = getUtility(IRegistry)
-        prefix = 'plone.app.querystring.field.' + field_name
-
-        def add(name, value):
-            registry.records[prefix + '.' + name] = value
-
-        add('title', Record(field.TextLine(), unicode(field_name)))
-        add('enabled', Record(field.Bool(), True))
-        add('group', Record(field.TextLine(), unicode('Taxonomy')))
-        add('operations', Record(field.List(),
-            ['plone.app.querystring.operation.selection.is']))
-        add('vocabulary', Record(field.TextLine(), unicode(self.name)))
-        add('sortable', Record(field.Bool(), True))
-        add('description', Record(field.Text(), unicode('')))
+        behavior.addIndex()
+        behavior.activateSearchable()
 
     def unregisterBehavior(self):
         context = getSite()
@@ -123,31 +87,16 @@ class Taxonomy(SimpleItem):
         behavior_name = 'collective.taxonomy.generated.' + self.getShortName()
         utility = queryUtility(IBehavior, name=behavior_name)
         if utility is None:
-            logging.info("It looks like the behavior was already removed.")
+            logging.info("It looks like the behavior was already removed,"
+                         "indexes and stuff may still be there.")
             return
 
-        field_name = utility.field_name
         if utility:
+            utility.removeIndex()
+            utility.deactivateSearchable()
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
-        sm.unregisterAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
-                             IIndexer, name=field_name)
-
-        catalog = getToolByName(context, 'portal_catalog')
-        try:
-            catalog.delIndex(field_name)
-        except CatalogError:
-            logging.info("Could not delete index " + field_name +
-                         " something is not right..")
-
-        registry = getUtility(IRegistry)
-        prefix = 'plone.app.querystring.field.' + field_name
-        for suffix in ('title', 'enabled', 'group',
-                       'operations', 'vocabulary', 'sortable', 'description'):
-            record_name = prefix + '.' + suffix
-            if record_name in registry.records:
-                del registry.records[record_name]
-
+        """Cleanup the FTIs"""
         for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 fti.behaviors = [behavior for behavior in
