@@ -8,8 +8,6 @@ from .interfaces import ITaxonomy
 from .utility import Taxonomy
 from .vdex import ImportVdex, ExportVdex
 
-from plone.supermodel.utils import indent
-
 
 def importTaxonomy(context):
     directory = context.listDirectory('taxonomies/')
@@ -22,7 +20,9 @@ def importTaxonomy(context):
         if body is not None:
             utility_name = filename.lower().replace('.xml', '')
             importer = TaxonomyImportExportAdapter(context)
-            importer.importDocument('collective.taxonomy.' + utility_name, body)
+            importer.importDocument('collective.taxonomy.' + utility_name,
+                                    body)
+
 
 def exportTaxonomy(context):
     site = context.getSite()
@@ -31,7 +31,9 @@ def exportTaxonomy(context):
         exporter = TaxonomyImportExportAdapter(context)
         body = exporter.exportDocument(name)
         if body is not None:
-            context.writeDataFile('taxonomies/' + short_name + '.xml', body, 'text/xml')
+            context.writeDataFile('taxonomies/' + short_name + '.xml',
+                                  body, 'text/xml')
+
 
 class TaxonomyImportExportAdapter(object):
     IMSVDEX_NS = 'http://www.imsglobal.org/xsd/imsvdex_v1p0'

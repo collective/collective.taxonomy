@@ -1,5 +1,5 @@
 from elementtree import ElementTree
-
+from plone.supermodel.utils import indent
 
 class ImportVdex(object):
     """Helper class for import"""
@@ -12,6 +12,7 @@ class ImportVdex(object):
         languages = set()
         results = self.recurse(self.tree, languages)
         final_results = {}
+        import pdb; pdb.set_trace()
         for language in languages:
             final_results[language] = self.processLanguage(results, language)
 
@@ -20,7 +21,8 @@ class ImportVdex(object):
     def processLanguage(self, results, language, path=('',)):
         result = {}
         for element in results.keys():
-            (lang, identifier, children) = results[element]
+            (identifier, children) = results[element]
+            (lang, element) = element.split('/', 1)
             if lang == language:
                 extended_path = '/'.join(path) + '/' + element
                 result[extended_path] = identifier
@@ -39,8 +41,7 @@ class ImportVdex(object):
             for i in langstrings:
                 if not parent_language or \
                         parent_language == i.attrib['language']:
-                    result[i.text] = (
-                        i.attrib['language'],
+                    result[i.attrib['language'] + '/' + i.text] = (
                         identifier.text,
                         self.recurse(node, available_languages,
                                      i.attrib['language'])
@@ -71,20 +72,19 @@ class ExportVdex(object):
         self.taxonomy = taxonomy
 
     def __call__(self, as_string=False):
-        root = ElementTree.Element('vdex', attrib=self.IMSVDEX_ATTRIBS)
+        taxonomy = self.taxonomy
 
+        root = ElementTree.Element('vdex', attrib=self.IMSVDEX_ATTRIBS)
         vocabName = ElementTree.Element('vocabName')
         root.append(vocabName)
 
         langstring = ElementTree.Element('langstring',
                                          attrib={'language': 'en'})
         langstring.text = taxonomy.title
-
         vocabName.append(langstring)
 
         vocabIdentifier = ElementTree.Element('vocabIdentifier')
-        vocabIdentifier.text = name.replace('collective.taxonomy.', '')
-
+        vocabIdentifier.text = self.taxonomy.name.replace('collective.taxonomy.', '')
         root.append(vocabIdentifier)
 
         index = self.buildPathIndex()
