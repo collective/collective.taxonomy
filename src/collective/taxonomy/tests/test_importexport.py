@@ -32,23 +32,13 @@ class TestImportExport(unittest.TestCase):
     vdex_file_contents = open(os.path.dirname(__file__) +
                               "/examples/nihms.xml").read()
 
-    class test_environ:
-        @staticmethod
-        def shouldPurge():
-            return True
-
-        @staticmethod
-        def getLogger(name):
-            import logging
-            return logging.getLogger(name)
-
     @property
     def adapter(self):
         from collective.taxonomy.exportimport \
             import TaxonomyImportExportAdapter
 
         portal = self.layer['portal']
-        return TaxonomyImportExportAdapter(portal, self.test_environ)
+        return TaxonomyImportExportAdapter(portal)
 
     def test_import_example(self):
         """ Tests, that we can import and get an adequate result """
