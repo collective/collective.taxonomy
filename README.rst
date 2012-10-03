@@ -26,10 +26,6 @@ Taxonomies can be quite large, sometimes in the tens of thousands
 (10,000+). And in sites with multiple languages, each title – or
 *caption* – must appear in translation.
 
-The package includes an ajax-based form widget (for the `z3c.form
-<http://packages.python.org/z3c.form/README.html>`_ library) that
-allows the selection of multiple terms at various levels.
-
 Note that the selection of a term in the hierarchy implies the
 selection of all its parents. In the example above this means that if
 "Eubacteria" is selected, then also "Prokaryotic" and "Living
@@ -47,9 +43,11 @@ The implementation tries to meet the following requirements:
 
 #. Easily import and export in a common format (VDEX).
 
-#. Taxonomies provide the ``IVocabularyFactory`` interface.
+#. Taxonomies will provide vocabularies that are translateable.
 
-#. Taxonomies provide the ``ITranslationDomain`` interface.
+#. Only support Dexterity, since each taxonomy will provide a behavior.
+
+#. Everything is addable using through-the-Web.
 
 In the description below, we touch on each of these requirements.
 
@@ -90,7 +88,8 @@ primary focus is to support the exchange of terms in the VDEX format:
 
 This exchange is integrated with `GenericSetup
 <http://packages.python.org/Products.GenericSetup/>`_ which manages
-imports and exports using setup profiles.
+imports and exports using setup profiles. Is is also possible to
+use the controlpanel for importing and exporting VDEX files.
 
 The package comes with integration for the `Dexterity
 <http://plone.org/products/dexterity/>`_ content type framework: for
@@ -100,29 +99,47 @@ configurable in terms of field name, title and whether it allows the
 selection of one or more multiple terms.
 
 
-Components
+How does it work?
 ----------
 
-The standard `zope.schema <http://pypi.python.org/pypi/zope.schema>`_
-and `zope.i18n <http://pypi.python.org/pypi/zope.i18n>`_ components
-are supported::
+The main objective during this project has been to get a high rate
+of through-the-Web administration. Therefore the use of the product
+will not require any Python programming nor configure.zcml directives.
 
-  class MySchema(Interface):
-      classification = zope.schema.Choice(
-          title=_(u"Classification"),
-          vocabulary=u"my-classification"
-          )
+In the controlpanel (``/@@taxonomy-settings``), the user can:
 
-This definition requires a named vocabulary utility
-``"my-classification"`` to be registered. Expressed in VDEX, this corresponds to the following XML fragment::
+#. Import taxonomies from VDEX files.
 
-    <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0">
-        <vocabIdentifier>my-classification</vocabIdentifier>
-    </vdex>
+#. Export taxonomies existing to VDEX files.
 
-The vocabulary terms returned by the utility are translation
-messages. The term identifier is encoded into the message id while the
-default text is the term caption in the default language.
+#. Delete taxonomies
+
+#. Add and delete behaviours for taxonomies
+
+When a new behavior is created for a taxonomy, it can easily be added
+to the desired content types using the content type control panel, provided
+by Dexterity. After this is done, the taxonomy is available on add- and edit
+forms, and it is also available for collections, if ``plone.app.collection``
+is used on the site. An index is also created, so the taxonomies can easily
+been used for catalog queries.
+
+
+Frequently Asked Questions
+=============
+
+How can I import an existing ``ATVocabularyManager`` vocabulary?
+
+  Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
+  remember to edit the vocabIdentifier and vocabName.
+
+
+TODO
+=============
+
+- Add a custom widget
+
+- Make each taxonomy editable through the control panel.
+
 
 Existing work
 =============
