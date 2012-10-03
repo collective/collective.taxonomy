@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import os.path
 import unittest2 as unittest
 
 from zope import schema
 from zope.component import queryUtility, createObject
 from zope.component.interfaces import IFactory
+from zope.i18n import translate
 
 from ..testing import INTEGRATION_TESTING
 from ..interfaces import ITaxonomy
@@ -45,8 +48,8 @@ class TestImportExport(unittest.TestCase):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         utility = queryUtility(ITaxonomy, name=utility_name)
         self.assertTrue(utility)
-        self.assertTrue(utility.keys() == ['ru', 'de', 'en', 'da'])
-        self.assertTrue([key for key in utility['en'].keys()] ==
+        self.assertTrue(utility.data.keys() == ['ru', 'de', 'en', 'da'])
+        self.assertTrue([key for key in utility.data['en'].keys()] ==
                         ['/Information Science',
                          '/Information Science/Book Collecting',
                          '/Information Science/Chronology'])
@@ -62,28 +65,33 @@ class TestImportExport(unittest.TestCase):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         utility = queryUtility(ITaxonomy, name=utility_name)
         vocab = utility(self.layer['portal'])
-        self.assertTrue([term.value for term in vocab.getTerms()] ==
-                        ['/Information Science',
-                         '/Information Science/Book Collecting',
-                         '/Information Science/Chronology'])
+        self.assertTrue([translate(term.title, context=self.layer['portal']) for term in vocab.getTerms()] ==
+                        [u'Information Science',
+                         u'Information Science \xbb Book Collecting',
+                         u'Information Science \xbb Chronology'],
+                        [translate(term.title, context=self.layer['portal']) for term in vocab.getTerms()])
 
     def test_translate(self):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         utility = queryUtility(ITaxonomy, name=utility_name)
-        self.assertTrue(utility.translate(1) == '/Information Science')
+        self.assertTrue(utility.translate('1', context=self.layer['portal']) == 'Information Science',
+                        utility.translate('1', context=self.layer['portal']))
 
     def test_behaviour_registration(self):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         sm = self.layer['portal'].getSiteManager()
-        behavior = sm.queryUtility(IBehavior, name=utility_name)
+        utility = sm.queryUtility(ITaxonomy, name=utility_name)
+        utility.registerBehavior(field_name='TestField', field_title='Test', field_description='Test description')
+        behavior = sm.queryUtility(IBehavior, name='collective.taxonomy.generated.' + utility.getShortName())
         self.assertTrue(behavior is not None, behavior)
 
     def test_behaviour_has_choice_field(self):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         sm = self.layer['portal'].getSiteManager()
         utility = sm.queryUtility(ITaxonomy, name=utility_name)
-        utility.registerBehavior()
-        behavior = sm.queryUtility(IBehavior, name=utility_name)
+        utility.registerBehavior(field_name='TestField', field_title='Test', field_description='Test description')
+        behavior = sm.queryUtility(IBehavior, name='collective.taxonomy.generated.' + utility.getShortName())
+        self.assertTrue(behavior is not None)
         fields = field.Fields(behavior.interface)
         self.assertTrue("TestField" in fields)
         #fields = give_me_the_fields(behavior)

@@ -57,7 +57,7 @@ class Taxonomy(SimpleItem):
     def getCurrentLanguage(self, request):
         portal_state = getMultiAdapter(
             (self, request), name=u'plone_portal_state'
-            )
+        )
 
         language = portal_state.language().split('-', 1)[0]
         if language in self.data:
@@ -115,7 +115,7 @@ class Taxonomy(SimpleItem):
 
         if target_language is None or \
                 target_language not in self.inverted_data:
-            target_language = self.getCurrentLanguage(context)
+            target_language = self.getCurrentLanguage(getattr(context, 'REQUEST'))
 
         if msgid not in self.inverted_data[target_language]:
             return ''

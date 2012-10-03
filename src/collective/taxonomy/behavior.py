@@ -32,8 +32,8 @@ class TaxonomyBehavior(Persistent):
     implements(IBehavior)
 
     def __init__(self, name, title, description, field_name,
-                 field_title, field_description, is_required,
-                 multi_select):
+                 field_title, field_description, is_required=False,
+                 multi_select=False):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -98,7 +98,6 @@ class TaxonomyBehavior(Persistent):
             logging.info("Index " + self.field_name +
                          " already exists, we hope it is proper configured")
 
-    
     @property
     def short_name(self):
         return str(self.name.split('.')[-1])

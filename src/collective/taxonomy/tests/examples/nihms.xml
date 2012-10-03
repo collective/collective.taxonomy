@@ -3,7 +3,7 @@
   <vocabName>
     <langstring language="en">Test vocabulary</langstring>
   </vocabName>
-  <vocabIdentifier>testVocabulary</vocabIdentifier>
+  <vocabIdentifier>testvocabulary</vocabIdentifier>
   <term>
     <termIdentifier>1</termIdentifier>
     <caption>
@@ -12,6 +12,13 @@
       <langstring language="en">Information Science</langstring>
       <langstring language="ru">Информатику</langstring>
     </caption>
+    <term>
+      <termIdentifier>3</termIdentifier>
+      <caption>
+        <langstring language="da">Kronologi</langstring>
+        <langstring language="en">Chronology</langstring>
+      </caption>
+    </term>
     <term>
       <termIdentifier>2</termIdentifier>
       <caption>
@@ -24,13 +31,6 @@
           <langstring language="da">Hest</langstring>
         </caption>
       </term>
-    </term>
-    <term>
-      <termIdentifier>3</termIdentifier>
-      <caption>
-        <langstring language="da">Kronologi</langstring>
-        <langstring language="en">Chronology</langstring>
-      </caption>
     </term>
   </term>
 </vdex>
