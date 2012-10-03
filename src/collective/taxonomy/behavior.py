@@ -4,7 +4,7 @@ from persistent import Persistent
 
 from plone.directives import form
 from plone.behavior.interfaces import IBehavior
-from plone.memoize import ram
+from plone.memoize.volatile import cache
 from plone.supermodel.model import SchemaClass, Schema
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
@@ -104,7 +104,7 @@ class TaxonomyBehavior(Persistent):
         return str(self.name.split('.')[-1])
 
     @property
-    @ram.cache(lambda method, self: str(self.__dict__))
+    @cache(lambda method, self: str(self.__dict__))
     def interface(self):
 
         single_select_field = schema.Choice(
