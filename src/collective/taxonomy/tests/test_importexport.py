@@ -81,6 +81,8 @@ class TestImportExport(unittest.TestCase):
     def test_behaviour_has_choice_field(self):
         utility_name = self.adapter.importDocument(self.vdex_file_contents)
         sm = self.layer['portal'].getSiteManager()
+        utility = sm.queryUtility(ITaxonomy, name=utility_name)
+        utility.registerBehavior()
         behavior = sm.queryUtility(IBehavior, name=utility_name)
         fields = field.Fields(behavior.interface)
         self.assertTrue("TestField" in fields)
