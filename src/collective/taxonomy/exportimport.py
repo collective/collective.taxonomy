@@ -60,7 +60,7 @@ class TaxonomyImportExportAdapter(object):
         utility_name = 'collective.taxonomy.' + normalizer.normalize(name.text)
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
 
-        if not taxonomy:
+        if taxonomy is None:
             taxonomy = Taxonomy(utility_name, title.text, default_language)
             sm = site.getSiteManager()
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
