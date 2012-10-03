@@ -45,9 +45,9 @@ The implementation tries to meet the following requirements:
 
 #. Taxonomies will provide vocabularies that are translateable.
 
-#. Only support Dexterity, since each taxonomy will provide a behavior.
+#. Use behaviors to provide a choice field for each taxonomy.
 
-#. Everything is addable using through-the-Web.
+#. Manage taxonomies and assign to content types "through-the-web".
 
 In the description below, we touch on each of these requirements.
 
@@ -125,7 +125,7 @@ been used for catalog queries.
 
 
 Frequently Asked Questions
-=============
+==========================
 
 How can I import an existing ``ATVocabularyManager`` vocabulary?
 
@@ -133,14 +133,15 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
   remember to edit the vocabIdentifier and vocabName.
 
 
-TODO
-=============
+To-Do
+=====
 
 - Add a custom widget
 
 - Make each taxonomy editable through the control panel.
 
 - Make it possible to add multiple behaviors for each taxonomy.
+
 
 Existing work
 =============
