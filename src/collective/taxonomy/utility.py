@@ -34,7 +34,8 @@ class Taxonomy(SimpleItem):
         self.default_language = default_language
 
     def __call__(self, context):
-        current_language = self.getCurrentLanguage()
+        request = getattr(context, "REQUEST", None)
+        current_language = self.getCurrentLanguage(request)
         data = self.data[current_language]
         inverted_data = self.inverted_data[current_language]
 
@@ -53,19 +54,16 @@ class Taxonomy(SimpleItem):
     def getShortName(self):
         return self.name.split('.')[-1]
 
-    def getCurrentLanguage(self):
-        context = getSite()
-        portal_state = getMultiAdapter((context.aq_parent,
-                                        context.aq_parent.REQUEST),
-                                       name=u'plone_portal_state')
+    def getCurrentLanguage(self, request):
+        portal_state = getMultiAdapter(
+            (self, request), name=u'plone_portal_state'
+            )
+
         language = portal_state.language().split('-', 1)[0]
-
         if language in self.data:
-            current_language = language
-        else:
-            current_language = self.default_language
+            return language
 
-        return current_language
+        return self.default_language
 
     def cleanupFTI(self):
         """Cleanup the FTIs"""
@@ -117,7 +115,7 @@ class Taxonomy(SimpleItem):
 
         if target_language is None or \
                 target_language not in self.inverted_data:
-            target_language = self.getCurrentLanguage()
+            target_language = self.getCurrentLanguage(context)
 
         if msgid not in self.inverted_data[target_language]:
             return ''
