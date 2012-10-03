@@ -140,6 +140,7 @@ TODO
 
 - Make each taxonomy editable through the control panel.
 
+- Make it possible to add multiple behaviors for each taxonomy.
 
 Existing work
 =============
