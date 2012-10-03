@@ -66,6 +66,9 @@ class TaxonomyImportExportAdapter(object):
             sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
             sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
             sm.registerUtility(taxonomy, ITranslationDomain, name=utility_name)
+        else:
+            taxonomy.title = title.text
+            taxonomy.default_language = default_language
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 

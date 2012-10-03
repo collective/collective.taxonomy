@@ -73,12 +73,16 @@ class ExportVdex(object):
     def __call__(self, as_string=False):
         taxonomy = self.taxonomy
 
-        root = ElementTree.Element('vdex', attrib=self.IMSVDEX_ATTRIBS)
+        attrib=self.IMSVDEX_ATTRIBS
+        attrib['language'] = taxonomy.default_language
+
+        root = ElementTree.Element('vdex', attrib=attrib)
+
         vocabName = ElementTree.Element('vocabName')
         root.append(vocabName)
 
         langstring = ElementTree.Element('langstring',
-                                         attrib={'language': 'en'})
+                                         attrib={'language': taxonomy.default_language })
         langstring.text = taxonomy.title
         vocabName.append(langstring)
 

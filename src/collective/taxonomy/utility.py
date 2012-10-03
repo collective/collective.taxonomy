@@ -33,6 +33,7 @@ class Taxonomy(SimpleItem):
 
     def __call__(self, context):
         request = getattr(context, "REQUEST", None)
+
         current_language = self.getCurrentLanguage(request)
         data = self.data[current_language]
         inverted_data = self.inverted_data[current_language]
@@ -58,10 +59,14 @@ class Taxonomy(SimpleItem):
         )
 
         language = portal_state.language().split('-', 1)[0]
+
         if language in self.data:
             return language
-
-        return self.default_language
+        elif self.default_language in self.data:
+            return self.default_language
+        else:
+            # our best guess!
+            return self.data.keys()[0]
 
     def registerBehavior(self, **kwargs):
         context = getSite()
@@ -93,7 +98,6 @@ class Taxonomy(SimpleItem):
             utility.cleanupFTI()
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
-
     def add(self, language, identifier, path):
         if not language in self.data:
             self.data[language] = OOBTree()
@@ -105,7 +109,9 @@ class Taxonomy(SimpleItem):
 
         if target_language is None or \
                 target_language not in self.inverted_data:
-            target_language = self.getCurrentLanguage(getattr(context, 'REQUEST'))
+            target_language = self.getCurrentLanguage(
+                getattr(context, 'REQUEST')
+            )
 
         if msgid not in self.inverted_data[target_language]:
             return ''
