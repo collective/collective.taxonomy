@@ -67,6 +67,14 @@ class Taxonomy(SimpleItem):
 
         return current_language
 
+    def cleanupFTI(self):
+        """Cleanup the FTIs"""
+        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+            if behavior_name in fti.behaviors:
+                fti.behaviors = [behavior for behavior in
+                                 fti.behaviors
+                                 if behavior != behavior_name]
+
     def registerBehavior(self, **kwargs):
         context = getSite()
         sm = context.getSiteManager()
@@ -94,14 +102,9 @@ class Taxonomy(SimpleItem):
         if utility:
             utility.removeIndex()
             utility.deactivateSearchable()
+            utility.cleanupFTI()
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
-        """Cleanup the FTIs"""
-        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
-            if behavior_name in fti.behaviors:
-                fti.behaviors = [behavior for behavior in
-                                 fti.behaviors
-                                 if behavior != behavior_name]
 
     def add(self, language, identifier, path):
         if not language in self.data:
