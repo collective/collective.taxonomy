@@ -1,12 +1,10 @@
-import generated
-
 from persistent import Persistent
 
 from plone.directives import form
 from plone.behavior.interfaces import IBehavior
-from plone.memoize.volatile import cache
+from plone.memoize import ram
 from plone.supermodel.model import SchemaClass, Schema
-from plone.dexterity.interfaces import IDexterityContent
+from plone.dexterity.interfaces import IDexterityContent, IDexterityFTI
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
@@ -98,12 +96,22 @@ class TaxonomyBehavior(Persistent):
             logging.info("Index " + self.field_name +
                          " already exists, we hope it is proper configured")
 
+    def cleanupFTI(self):
+        """Cleanup the FTIs"""
+        context = getSite()
+        sm = context.getSiteManager()
+        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+            if self.name in fti.behaviors:
+                fti.behaviors = [behavior for behavior in
+                                 fti.behaviors
+                                 if behavior != self.name]
+
     @property
     def short_name(self):
         return str(self.name.split('.')[-1])
 
     @property
-    @cache(lambda method, self: str(self.__dict__))
+    @ram.cache(lambda method, self: str(self.__dict__))
     def interface(self):
 
         single_select_field = schema.Choice(

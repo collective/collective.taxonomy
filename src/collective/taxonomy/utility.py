@@ -3,19 +3,17 @@
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
-from zope.component import getMultiAdapter, queryUtility, getUtility
+from zope.component import getMultiAdapter, queryUtility
 from zope.component.hooks import getSite
 from zope.interface import implements
 
 
 from plone.behavior.interfaces import IBehavior
-from plone.dexterity.interfaces import IDexterityFTI, IDexterityContent
 from plone.memoize import ram
 
 from persistent.dict import PersistentDict
 
 from .behavior import TaxonomyBehavior
-from .indexer import TaxonomyIndexer
 from .interfaces import ITaxonomy
 from .vocabulary import Vocabulary
 
@@ -64,14 +62,6 @@ class Taxonomy(SimpleItem):
             return language
 
         return self.default_language
-
-    def cleanupFTI(self):
-        """Cleanup the FTIs"""
-        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
-            if behavior_name in fti.behaviors:
-                fti.behaviors = [behavior for behavior in
-                                 fti.behaviors
-                                 if behavior != behavior_name]
 
     def registerBehavior(self, **kwargs):
         context = getSite()
