@@ -132,6 +132,11 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
   Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
   remember to edit the vocabIdentifier and vocabName.
 
+Will this product work with vanilla Plone?
+
+  No. The released version of Dexterity does not support dynamic interfaces for
+  behaviors, which we need to use this product. Therefore this product require
+  at least plone.dexterity from github master.
 
 To-Do
 =====
