@@ -100,7 +100,7 @@ selection of one or more multiple terms.
 
 
 How does it work?
-----------
+-----------------
 
 The main objective during this project has been to get a high rate
 of through-the-Web administration. Therefore the use of the product
