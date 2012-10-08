@@ -5,8 +5,8 @@ from OFS.SimpleItem import SimpleItem
 
 from zope.component import getMultiAdapter, queryUtility
 from zope.component.hooks import getSite
+from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
-
 
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import ram
@@ -54,11 +54,14 @@ class Taxonomy(SimpleItem):
         return self.name.split('.')[-1]
 
     def getCurrentLanguage(self, request):
-        portal_state = getMultiAdapter(
-            (self, request), name=u'plone_portal_state'
-        )
+        try:
+            portal_state = getMultiAdapter(
+                (self, request), name=u'plone_portal_state'
+            )
 
-        language = portal_state.language().split('-', 1)[0]
+            language = portal_state.language().split('-', 1)[0]
+        except ComponentLookupError:
+            language = ''  # Force to return default language.
 
         if language in self.data:
             return language
