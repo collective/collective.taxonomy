@@ -54,23 +54,6 @@
       layer=".interfaces.IBrowserLayer"
       />
 
-  <browser:page
-      name="taxonomy-edit"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".controlpanel.TaxonomyEdit"
-      permission="zope2.View"
-      layer=".interfaces.IBrowserLayer"
-      template="edit-taxonomy.pt"
-      />
-
-  <browser:page
-      name="taxonomy-ajax-tree"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".controlpanel.TaxonomyAjaxTree"
-      permission="zope2.View"
-      layer=".interfaces.IBrowserLayer"
-      />
-
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
 
   <utility
