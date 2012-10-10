@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-10-10T15:19:54.172719\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: Bo Simonsen <bo@headnet.dk>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: da\n"
+"Language-Name: \n"
+"Preferred-Encodings: utf-8\n"
+"Domain: collective.taxonomy\n"
+
+msgid "Field description"
+msgstr "Felt beskrivelse"
+
+msgid "Field name"
+msgstr "Felt navn"
+
+msgid "Field title"
+msgstr "Felt titel"
+
+msgid "Is required?"
+msgstr "Er krævet?"
+
+msgid "Multi-select field"
+msgstr "Multi-select felt"
+
+msgid "Taxonomies"
+msgstr "Taxonomier"
+
+msgid "Taxonomy settings"
+msgstr "Taxonomi indstillinger"
+
+msgid "Upload VDEX xml file"
+msgstr "Upload VDEX xml fil"
+
+msgid "Taxonomy imported."
+msgstr "Taxonomi importeret."
+
+msgid "Taxonomy deleted."
+msgstr "Taxonomi er nu slettet."
+
+msgid "Behavior added."
+msgstr "Opførsel tilføjet."
+
+msgid "Behavior deleted."
+msgstr "Opførsel er nu slettet."
+
+#. Default: "Add behavior"
+msgid "label_add_behavior"
+msgstr "Tilføj opførsel"
+
+#. Default: "Delete behavior"
+msgid "label_del_behavior"
+msgstr "Fjern opførsel"
+
+#. Default: "Delete"
+msgid "label_delete"
+msgstr "Slet"
+
+#. Default: "Export"
+msgid "label_export"
+msgstr "Eksportér"
+
+#. Default: "Import"
+msgid "label_import"
+msgstr "Importer"

@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-10-10T15:19:54.171947\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: \n"
+"Preferred-Encodings: utf-8\n"
+"Domain: collective.taxonomy\n"
+
+msgid "Field description"
+msgstr ""
+
+msgid "Field name"
+msgstr ""
+
+msgid "Field title"
+msgstr ""
+
+msgid "Is required?"
+msgstr ""
+
+msgid "Multi-select field"
+msgstr ""
+
+msgid "Taxonomies"
+msgstr ""
+
+msgid "Taxonomy settings"
+msgstr ""
+
+msgid "Upload VDEX xml file"
+msgstr ""
+
+msgid "Taxonomy imported."
+msgstr ""
+
+msgid "Taxonomy deleted."
+msgstr ""
+
+msgid "Behavior added."
+msgstr ""
+
+msgid "Behavior deleted."
+msgstr ""
+
+#. Default: "Add behavior"
+msgid "label_add_behavior"
+msgstr ""
+
+#. Default: "Delete behavior"
+msgid "label_del_behavior"
+msgstr ""
+
+#. Default: "Delete"
+msgid "label_delete"
+msgstr ""
+
+#. Default: "Export"
+msgid "label_export"
+msgstr ""
+
+#. Default: "Import"
+msgid "label_import"
+msgstr ""
+

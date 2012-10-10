@@ -7,7 +7,6 @@ from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from Products.CMFDefault.formlib.schema import FileUpload
 from Products.CMFDefault.formlib.widgets import FileUploadWidget
-from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope import schema
@@ -21,9 +20,9 @@ from zope.schema.interfaces import IVocabularyFactory
 from z3c.form import form, field
 from z3c.form.interfaces import HIDDEN_MODE
 
-from i18n import MessageFactory as _
-from interfaces import ITaxonomy
-from exportimport import TaxonomyImportExportAdapter
+from .i18n import MessageFactory as _
+from .interfaces import ITaxonomy
+from .exportimport import TaxonomyImportExportAdapter
 
 
 class ITaxonomySettings(Interface):
@@ -78,6 +77,7 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
     def handle_add_behavior_action(self, action, data):
         if len(data.get('taxonomies', [])) > 0:
             taxonomy = data['taxonomies'][0]
+
             self.context.REQUEST.RESPONSE.redirect(
                 self.context.portal_url() + '/@@taxonomy-add-behavior' +
                 '?taxonomy=' + taxonomy
@@ -92,6 +92,9 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
             sm = self.context.getSiteManager()
             utility = sm.queryUtility(ITaxonomy, name=taxonomy)
             utility.unregisterBehavior()
+
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _(u"Behavior deleted."), type="info")
 
             return self.context.REQUEST.RESPONSE.redirect(
                 self.context.portal_url() + '/@@taxonomy-settings'
@@ -110,6 +113,13 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
                 sm.unregisterUtility(utility, ITaxonomy, name=item)
                 sm.unregisterUtility(utility, IVocabularyFactory, name=item)
                 sm.unregisterUtility(utility, ITranslationDomain, name=item)
+
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
+            _(u"Taxonomy deleted."), type="info")
+
+        return self.context.REQUEST.RESPONSE.redirect(
+            self.context.portal_url() + '/@@taxonomy-settings'
+        )
 
     @formlib.action(_(u'label_import', default=u'Import'),
                     name=u'import')
@@ -182,6 +192,9 @@ class TaxonomyAddBehavior(form.AddForm):
                                   name=data['taxonomy'])
         del data['taxonomy']
         utility.registerBehavior(**data)
+
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
+            _(u"Behavior added."), type="info")
 
     def nextURL(self):
         return self.context.portal_url() + '/@@taxonomy-settings'

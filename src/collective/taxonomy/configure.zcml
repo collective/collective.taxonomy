@@ -9,6 +9,11 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="collective.taxonomy">
 
+  <includeDependencies package="." />
+
+  <i18n:registerTranslations directory="locales" />
+
+
   <include package="plone.app.registry" />
 
   <genericsetup:registerProfile
@@ -45,6 +50,23 @@
       name="taxonomy-add-behavior"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomyAddBehavior"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:page
+      name="taxonomy-edit"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".controlpanel.TaxonomyEdit"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      template="edit-taxonomy.pt"
+      />
+
+  <browser:page
+      name="taxonomy-ajax-tree"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".controlpanel.TaxonomyAjaxTree"
       permission="zope2.View"
       layer=".interfaces.IBrowserLayer"
       />
