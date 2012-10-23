@@ -2,7 +2,6 @@ from persistent import Persistent
 
 from plone.directives import form
 from plone.behavior.interfaces import IBehavior
-from plone.memoize import ram
 from plone.supermodel.model import SchemaClass, Schema
 from plone.dexterity.interfaces import IDexterityContent, IDexterityFTI
 from plone.indexer.interfaces import IIndexer
@@ -18,6 +17,7 @@ from zope import schema
 from zope.component.hooks import getSite
 from zope.interface import implements, alsoProvides
 from zope.component import getUtility
+from zope.lifecycleevent import modified
 
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
@@ -105,42 +105,44 @@ class TaxonomyBehavior(Persistent):
                 fti.behaviors = [behavior for behavior in
                                  fti.behaviors
                                  if behavior != self.name]
+            modified(fti, "behaviors")
 
     @property
     def short_name(self):
         return str(self.name.split('.')[-1])
 
     @property
-    @ram.cache(lambda method, self: str(self.__dict__))
     def interface(self):
-
-        single_select_field = schema.Choice(
-            title=_(unicode(self.field_title)),
-            description=_(unicode(self.field_description)),
-            required=self.is_required,
-            vocabulary='collective.taxonomy.' +
-            self.short_name)
-
-        multi_select_field = schema.List(
-            title=_(unicode(self.field_title)),
-            description=_(unicode(self.field_description)),
-            value_type=schema.Choice(
+        if not hasattr(self, '_v_interface'):
+            single_select_field = schema.Choice(
+                title=_(unicode(self.field_title)),
+                description=_(unicode(self.field_description)),
                 required=self.is_required,
                 vocabulary='collective.taxonomy.' +
-                self.short_name))
+                self.short_name)
 
-        schemaclass = SchemaClass(
-            self.short_name, (Schema, ),
-            __module__='collective.taxonomy.generated',
-            attrs={str(self.field_name):
-                   self.multi_select
-                   and multi_select_field
-                   or single_select_field }
-        )
+            multi_select_field = schema.List(
+                title=_(unicode(self.field_title)),
+                description=_(unicode(self.field_description)),
+                value_type=schema.Choice(
+                    required=self.is_required,
+                    vocabulary='collective.taxonomy.' +
+                    self.short_name))
 
-        alsoProvides(schemaclass, form.IFormFieldProvider)
+            schemaclass = SchemaClass(
+                self.short_name, (Schema, ),
+                __module__='collective.taxonomy.generated',
+                attrs={str(self.field_name):
+                       self.multi_select
+                       and multi_select_field
+                       or single_select_field }
+                )
 
-        return schemaclass
+            alsoProvides(schemaclass, form.IFormFieldProvider)
+
+            self._v_interface = schemaclass
+
+        return self._v_interface
 
     @property
     def marker(self):
