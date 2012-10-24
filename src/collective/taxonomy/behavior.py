@@ -7,6 +7,8 @@ from plone.dexterity.interfaces import IDexterityContent, IDexterityFTI
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
+from plone.supermodel.interfaces import FIELDSETS_KEY
+from plone.supermodel.model import Fieldset
 
 from Products.CMFCore.utils import getToolByName
 from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
@@ -136,7 +138,11 @@ class TaxonomyBehavior(Persistent):
                        self.multi_select
                        and multi_select_field
                        or single_select_field }
-                )
+            )
+
+            schemaclass.setTaggedValue(FIELDSETS_KEY,
+                                       [Fieldset('categorization',
+                                                 fields=[self.field_name])])
 
             alsoProvides(schemaclass, form.IFormFieldProvider)
 
