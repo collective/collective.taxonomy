@@ -99,6 +99,7 @@ class Taxonomy(SimpleItem):
             utility.removeIndex()
             utility.deactivateSearchable()
             utility.cleanupFTI()
+            utility.unregisterInterface()
             sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
     def add(self, language, identifier, path):

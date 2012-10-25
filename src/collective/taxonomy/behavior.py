@@ -1,3 +1,5 @@
+import weakref
+
 from persistent import Persistent
 
 from plone.directives import form
@@ -26,6 +28,9 @@ from .indexer import TaxonomyIndexer
 
 import logging
 logger = logging.getLogger("collective.taxonomy")
+
+
+interfaces = weakref.WeakValueDictionary()
 
 
 class TaxonomyBehavior(Persistent):
@@ -109,13 +114,17 @@ class TaxonomyBehavior(Persistent):
                                  if behavior != self.name]
             modified(fti, "behaviors")
 
+    def unregisterInterface(self):
+        interfaces.pop(self.name)
+
     @property
     def short_name(self):
         return str(self.name.split('.')[-1])
 
     @property
     def interface(self):
-        if not hasattr(self, '_v_interface'):
+        if self.name not in interfaces:
+
             single_select_field = schema.Choice(
                 title=_(unicode(self.field_title)),
                 description=_(unicode(self.field_description)),
@@ -145,10 +154,9 @@ class TaxonomyBehavior(Persistent):
                                                  fields=[self.field_name])])
 
             alsoProvides(schemaclass, form.IFormFieldProvider)
+            interfaces[self.name] = schemaclass
 
-            self._v_interface = schemaclass
-
-        return self._v_interface
+        return interfaces[self.name]
 
     @property
     def marker(self):
