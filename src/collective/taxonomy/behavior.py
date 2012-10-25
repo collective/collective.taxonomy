@@ -141,7 +141,7 @@ class TaxonomyBehavior(Persistent):
                     self.short_name))
 
             schemaclass = SchemaClass(
-                self.short_name, (Schema, ),
+                self.short_name, (form.Schema, ),
                 __module__='collective.taxonomy.generated',
                 attrs={str(self.field_name):
                        self.multi_select
