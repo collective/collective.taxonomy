@@ -155,7 +155,7 @@ class TaxonomyBehavior(Persistent):
             interfaces[self.name] = schemaclass
 
             if not hasattr(generated, self.short_name):
-                setattr(generated, schemaclass)
+                setattr(generated, self.short_name, schemaclass)
 
         return interfaces[self.name]
 
