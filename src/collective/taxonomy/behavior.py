@@ -1,4 +1,6 @@
 import weakref
+import logging
+import generated
 
 from persistent import Persistent
 
@@ -26,12 +28,8 @@ from zope.lifecycleevent import modified
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
 
-import logging
 logger = logging.getLogger("collective.taxonomy")
-
-
 interfaces = weakref.WeakValueDictionary()
-
 
 class TaxonomyBehavior(Persistent):
     implements(IBehavior)
@@ -155,6 +153,9 @@ class TaxonomyBehavior(Persistent):
 
             alsoProvides(schemaclass, form.IFormFieldProvider)
             interfaces[self.name] = schemaclass
+
+            if not hasattr(generated, self.short_name):
+                setattr(generated, schemaclass)
 
         return interfaces[self.name]
 
