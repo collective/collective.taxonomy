@@ -1,4 +1,3 @@
-import weakref
 import logging
 import generated
 
@@ -29,7 +28,6 @@ from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
 
 logger = logging.getLogger("collective.taxonomy")
-interfaces = weakref.WeakValueDictionary()
 
 class TaxonomyBehavior(Persistent):
     implements(IBehavior)
@@ -113,7 +111,8 @@ class TaxonomyBehavior(Persistent):
             modified(fti, "behaviors")
 
     def unregisterInterface(self):
-        interfaces.pop(self.name)
+        if hasattr(generated, self.short_name):
+            delattr(generated, self.short_name)
 
     @property
     def short_name(self):
@@ -121,7 +120,7 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def interface(self):
-        if self.name not in interfaces:
+        if not hasattr(generated, self.short_name):
 
             single_select_field = schema.Choice(
                 title=_(unicode(self.field_title)),
@@ -152,12 +151,13 @@ class TaxonomyBehavior(Persistent):
                                                  fields=[self.field_name])])
 
             alsoProvides(schemaclass, form.IFormFieldProvider)
-            interfaces[self.name] = schemaclass
 
             if not hasattr(generated, self.short_name):
                 setattr(generated, self.short_name, schemaclass)
 
-        return interfaces[self.name]
+            self._v_generated = schemaclass
+
+        return getattr(generated, self.short_name)
 
     @property
     def marker(self):
