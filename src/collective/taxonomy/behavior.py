@@ -138,8 +138,10 @@ class TaxonomyBehavior(Persistent):
                    or single_select_field }
         )
 
-        schemaclass.setTaggedValue(WRITE_PERMISSIONS_KEY,
-                                   {self.field_name: self.write_permission})
+        if self.write_permission:
+            schemaclass.setTaggedValue(WRITE_PERMISSIONS_KEY,
+                                       {self.field_name:
+                                        self.write_permission})
 
         schemaclass.setTaggedValue(FIELDSETS_KEY,
                                    [Fieldset('categorization',
