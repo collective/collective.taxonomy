@@ -3,13 +3,15 @@
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
-from zope.component import getMultiAdapter, queryUtility
+from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
+from zope.lifecycleevent import modified
 
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import ram
+from plone.dexterity.interfaces import IDexterityFTI
 
 from persistent.dict import PersistentDict
 
@@ -53,6 +55,9 @@ class Taxonomy(SimpleItem):
     def getShortName(self):
         return self.name.split('.')[-1]
 
+    def getGeneratedName(self):
+        return 'collective.taxonomy.generated.' + self.getShortName()
+
     def getCurrentLanguage(self, request):
         try:
             portal_state = getMultiAdapter(
@@ -79,28 +84,39 @@ class Taxonomy(SimpleItem):
                                     u'Adds the named taxonomy to the field'
                                     'list', **kwargs)
         sm.registerUtility(behavior, IBehavior,
-                           name='collective.taxonomy.generated.' +
-                                self.getShortName())
+                           name=self.getGeneratedName())
 
         behavior.addIndex()
         behavior.activateSearchable()
 
+    def cleanupFTI(self):
+        """Cleanup the FTIs"""
+        generated_name = self.getGeneratedName()
+        context = getSite()
+        sm = context.getSiteManager()
+        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+            if generated_name in fti.behaviors:
+                fti.behaviors = [behavior for behavior in
+                                 fti.behaviors
+                                 if behavior != generated_name]
+            modified(fti, "behaviors")
+
     def unregisterBehavior(self):
         context = getSite()
         sm = context.getSiteManager()
-        behavior_name = 'collective.taxonomy.generated.' + self.getShortName()
-        utility = queryUtility(IBehavior, name=behavior_name)
+        behavior_name = self.getGeneratedName()
+        utility = sm.queryUtility(IBehavior, name=behavior_name)
+
         if utility is None:
-            logging.info("It looks like the behavior was already removed,"
-                         "indexes and stuff may still be there.")
             return
 
-        if utility:
-            utility.removeIndex()
-            utility.deactivateSearchable()
-            utility.cleanupFTI()
-            utility.unregisterInterface()
-            sm.unregisterUtility(utility, IBehavior, name=behavior_name)
+        self.cleanupFTI()
+
+        utility.removeIndex()
+        utility.deactivateSearchable()
+        utility.unregisterInterface()
+
+        sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
     def add(self, language, identifier, path):
         if not language in self.data:

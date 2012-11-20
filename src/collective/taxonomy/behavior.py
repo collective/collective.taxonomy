@@ -5,8 +5,8 @@ from persistent import Persistent
 
 from plone.directives import form
 from plone.behavior.interfaces import IBehavior
-from plone.supermodel.model import SchemaClass, Schema
-from plone.dexterity.interfaces import IDexterityContent, IDexterityFTI
+from plone.supermodel.model import SchemaClass
+from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
@@ -22,12 +22,12 @@ from zope import schema
 from zope.component.hooks import getSite
 from zope.interface import implements, alsoProvides
 from zope.component import getUtility
-from zope.lifecycleevent import modified
 
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
 
 logger = logging.getLogger("collective.taxonomy")
+
 
 class TaxonomyBehavior(Persistent):
     implements(IBehavior)
@@ -98,17 +98,6 @@ class TaxonomyBehavior(Persistent):
         except CatalogError:
             logging.info("Index " + self.field_name +
                          " already exists, we hope it is proper configured")
-
-    def cleanupFTI(self):
-        """Cleanup the FTIs"""
-        context = getSite()
-        sm = context.getSiteManager()
-        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
-            if self.name in fti.behaviors:
-                fti.behaviors = [behavior for behavior in
-                                 fti.behaviors
-                                 if behavior != self.name]
-            modified(fti, "behaviors")
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):
