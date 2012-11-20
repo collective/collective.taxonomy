@@ -6,9 +6,11 @@ from zope.i18nmessageid import MessageFactory
 from zope.interface import implements
 from zope.schema.interfaces import IVocabulary, IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.security.interfaces import IPermission
 
 from plone.behavior.interfaces import IBehavior
 
+_pmf = MessageFactory('plone')
 
 class TaxonomyVocabulary(object):
     # Vocabulary for generating a list of existing taxonomies
@@ -84,3 +86,18 @@ class Vocabulary(object):
             results.append(term)
 
         return results
+
+class PermissionsVocabulary(object):
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        result = []
+        sm = context.getSiteManager()
+
+        for (permission, permission_object) in sm.getUtilitiesFor(IPermission):
+            result.append(SimpleTerm(value=permission_object.id,
+                                     title=_pmf(permission_object.title)))
+
+        result.sort(key=lambda permission: permission.title)
+        return SimpleVocabulary(result)
+

@@ -166,6 +166,10 @@ class ITaxonomyAddBehavior(Interface):
     multi_select = schema.Bool(title=_(u"Multi-select field"),
                                required=True)
 
+    write_permission = schema.Choice(title=_(u"Write permission"),
+                                     required=False,
+                                     vocabulary='collective.taxonomy.permissions')
+
     # Hidden fields
     taxonomy = schema.TextLine(title=_(u"Taxonomy name"))
 

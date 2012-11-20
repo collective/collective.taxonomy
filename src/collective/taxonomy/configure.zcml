@@ -62,5 +62,10 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      factory=".vocabulary.PermissionsVocabulary"
+      name="collective.taxonomy.permissions"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
 
 </configure>

@@ -3,15 +3,16 @@ import generated
 
 from persistent import Persistent
 
-from plone.directives import form
+from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
-from plone.supermodel.model import SchemaClass
+from plone.directives import form
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
+from plone.supermodel.model import SchemaClass
 
 from Products.CMFCore.utils import getToolByName
 from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
@@ -34,7 +35,7 @@ class TaxonomyBehavior(Persistent):
 
     def __init__(self, name, title, description, field_name,
                  field_title, field_description, is_required=False,
-                 multi_select=False):
+                 multi_select=False, write_permission=''):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -44,6 +45,7 @@ class TaxonomyBehavior(Persistent):
         self.field_description = field_description
         self.is_required = is_required
         self.multi_select = multi_select
+        self.write_permission = write_permission
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)
@@ -109,42 +111,44 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def interface(self):
-        if not hasattr(generated, self.short_name):
+        if hasattr(generated, self.short_name):
+            return getattr(generated, self.short_name)
 
-            single_select_field = schema.Choice(
-                title=_(unicode(self.field_title)),
-                description=_(unicode(self.field_description)),
+        single_select_field = schema.Choice(
+            title=_(unicode(self.field_title)),
+            description=_(unicode(self.field_description)),
+            required=self.is_required,
+            vocabulary='collective.taxonomy.' +
+            self.short_name)
+
+        multi_select_field = schema.List(
+            title=_(unicode(self.field_title)),
+            description=_(unicode(self.field_description)),
+            value_type=schema.Choice(
                 required=self.is_required,
                 vocabulary='collective.taxonomy.' +
-                self.short_name)
+                self.short_name))
 
-            multi_select_field = schema.List(
-                title=_(unicode(self.field_title)),
-                description=_(unicode(self.field_description)),
-                value_type=schema.Choice(
-                    required=self.is_required,
-                    vocabulary='collective.taxonomy.' +
-                    self.short_name))
+        schemaclass = SchemaClass(
+            self.short_name, (form.Schema, ),
+            __module__='collective.taxonomy.generated',
+            attrs={str(self.field_name):
+                   self.multi_select
+                   and multi_select_field
+                   or single_select_field }
+        )
 
-            schemaclass = SchemaClass(
-                self.short_name, (form.Schema, ),
-                __module__='collective.taxonomy.generated',
-                attrs={str(self.field_name):
-                       self.multi_select
-                       and multi_select_field
-                       or single_select_field }
-            )
+        schemaclass.setTaggedValue(WRITE_PERMISSIONS_KEY,
+                                   {self.field_name: self.write_permission})
 
-            schemaclass.setTaggedValue(FIELDSETS_KEY,
-                                       [Fieldset('categorization',
-                                                 fields=[self.field_name])])
+        schemaclass.setTaggedValue(FIELDSETS_KEY,
+                                   [Fieldset('categorization',
+                                             fields=[self.field_name])])
 
-            alsoProvides(schemaclass, form.IFormFieldProvider)
+        alsoProvides(schemaclass, form.IFormFieldProvider)
 
-            if not hasattr(generated, self.short_name):
-                setattr(generated, self.short_name, schemaclass)
-
-            self._v_generated = schemaclass
+        if not hasattr(generated, self.short_name):
+            setattr(generated, self.short_name, schemaclass)
 
         return getattr(generated, self.short_name)
 
