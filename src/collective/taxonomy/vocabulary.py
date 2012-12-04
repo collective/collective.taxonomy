@@ -7,7 +7,7 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabulary, IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope.security.interfaces import IPermission
-
+from zope.component.hooks import getSite
 from plone.behavior.interfaces import IBehavior
 
 _pmf = MessageFactory('plone')
@@ -20,7 +20,7 @@ class TaxonomyVocabulary(object):
     def __call__(self, adapter):
         results = []
         context = adapter.context
-        sm = context.getSiteManager()
+        sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
 
         for (utility_name, utility) in utilities:
@@ -36,13 +36,7 @@ class TaxonomyVocabulary(object):
                 field_name = behavior.field_name
 
             results.append(SimpleTerm(value=utility_name,
-                                      title=utility_title +
-                                      (behavior is not None
-                                       and ' (has behavior, field name: ' +
-                                           field_name +
-                                           ')'
-                                       or '')
-                                      )
+                                      title=utility_title)
                            )
 
         return SimpleVocabulary(results)
@@ -92,7 +86,7 @@ class PermissionsVocabulary(object):
 
     def __call__(self, context):
         result = []
-        sm = context.getSiteManager()
+        sm = getSite().getSiteManager()
 
         for (permission, permission_object) in sm.getUtilitiesFor(IPermission):
             result.append(SimpleTerm(value=permission_object.id,
