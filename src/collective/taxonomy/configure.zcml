@@ -47,14 +47,23 @@
       />
 
   <browser:page
-      name="taxonomy-add-behavior"
+      name="taxonomy-add"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".controlpanel.TaxonomyAddBehavior"
+      class=".controlpanel.TaxonomyAddForm"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:page
+      name="taxonomy-edit"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".controlpanel.TaxonomyEditForm"
       permission="zope2.View"
       layer=".interfaces.IBrowserLayer"
       />
 
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
+  <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
 
   <utility
       factory=".vocabulary.TaxonomyVocabulary"
