@@ -36,13 +36,7 @@ class TaxonomyVocabulary(object):
                 field_name = behavior.field_name
 
             results.append(SimpleTerm(value=utility_name,
-                                      title=utility_title +
-                                      (behavior is not None
-                                       and ' (has behavior, field name: ' +
-                                           field_name +
-                                           ')'
-                                       or '')
-                                      )
+                                      title=utility_title)
                            )
 
         return SimpleVocabulary(results)

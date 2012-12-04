@@ -18,7 +18,7 @@ from zope.component import adapts, getUtility
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
-from z3c.form import form, field
+from z3c.form import form, field, button
 from z3c.form.interfaces import HIDDEN_MODE
 
 from .i18n import MessageFactory as _
@@ -74,6 +74,19 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
             self.context.portal_url() + '/@@taxonomy-add'
         )
 
+    @formlib.action(_(u'label_edit_taxonomy', default=u'Edit taxonomy'),
+                    name=u'edit-taxonomy')
+    def handle_edit_taxonomy_action(self, action, data):
+        if len(data.get('taxonomies', [])) > 0:
+            self.context.REQUEST.RESPONSE.redirect(
+                self.context.portal_url() +
+                '/@@taxonomy-edit?form.widgets.taxonomy=' +
+                data.get('taxonomies')[0]
+            )
+        else:
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _(u"Please select one taxonomy."), type="info")
+
     @formlib.action(_(u'label_delete_taxonomy', default=u'Delete taxonomy'),
                     name=u'delete_taxonomy')
     def handle_delete_taxonomy_action(self, action, data):
@@ -88,8 +101,11 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
                 sm.unregisterUtility(utility, IVocabularyFactory, name=item)
                 sm.unregisterUtility(utility, ITranslationDomain, name=item)
 
-        IStatusMessage(self.context.REQUEST).addStatusMessage(
-            _(u"Taxonomy deleted."), type="info")
+                IStatusMessage(self.context.REQUEST).addStatusMessage(
+                    _(u"Taxonomy deleted."), type="info")
+        else:
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _(u"Please select at least one taxonomy."), type="info")
 
         return self.context.REQUEST.RESPONSE.redirect(
             self.context.portal_url() + '/@@taxonomy-settings'
@@ -111,29 +127,43 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
 class ITaxonomyForm(Interface):
     # Regular fields
 
-    field_title = schema.TextLine(title=_(u"Field title"),
-                                  required=True)
+    field_title = schema.TextLine(
+        title=_(u"Field title"),
+        required=True
+    )
 
-    field_description = schema.TextLine(title=_(u"Field description"),
-                                        required=False)
+    field_description = schema.TextLine(
+        title=_(u"Field description"),
+        required=False
+    )
 
-    import_file = NamedBlobFile(title=_(u"Upload VDEX xml file"),
-                                description=_(u" "),
-                                required=False)
+    import_file = NamedBlobFile(
+        title=_(u"Upload VDEX xml file"),
+        description=_(u" "),
+        required=False
+    )
 
-    is_required = schema.Bool(title=_(u"Is required?"),
-                              required=True)
+    is_required = schema.Bool(
+        title=_(u"Is required?"),
+        required=True
+    )
 
-    multi_select = schema.Bool(title=_(u"Multi-select field"),
-                               required=True)
+    multi_select = schema.Bool(
+        title=_(u"Multi-select field"),
+        required=True
+    )
 
-    write_permission = schema.Choice(title=_(u"Write permission"),
-                                     required=False,
-                                     vocabulary='collective.taxonomy.permissions')
+    write_permission = schema.Choice(
+        title=_(u"Write permission"),
+        required=False,
+        vocabulary='collective.taxonomy.permissions'
+    )
 
     # Taxonomy hidden field
-    taxonomy = schema.TextLine(title=_(u"Taxonomy"),
-                                  required=True)
+    taxonomy = schema.TextLine(
+        title=_(u"Taxonomy"),
+        required=False
+    )
 
 
 class TaxonomyAddForm(form.AddForm):
@@ -164,6 +194,9 @@ class TaxonomyAddForm(form.AddForm):
         import_file = data['import_file'].data
         del data['import_file']
 
+        # This field is unused in add form.
+        del data['taxonomy']
+
         # Import
         adapter = TaxonomyImportExportAdapter(self.context)
         taxonomy_name = adapter.importDocument(import_file)
@@ -185,6 +218,24 @@ class TaxonomyAddForm(form.AddForm):
     def nextURL(self):
         return self.context.portal_url() + '/@@taxonomy-settings'
 
+    @button.buttonAndHandler(_('Add'), name='add')
+    def handleAdd(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        obj = self.createAndAdd(data)
+        if obj is not None:
+            # mark only as finished if we get the new object
+            self._finishedAdd = True
+
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Add cancelled"),
+                                                      "info")
+        self.request.response.redirect(self.context.absolute_url() +
+                                       '/@@taxonomy-settings')
+
 
 class TaxonomyEditForm(form.EditForm):
     fields = field.Fields(ITaxonomyForm)
@@ -195,6 +246,28 @@ class TaxonomyEditForm(form.EditForm):
 
     def getContent(self):
         return TaxonomyEditFormAdapter(self.context)
+
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
+                                                      "info")
+        self.request.response.redirect(self.context.absolute_url() +
+                                       '/@@taxonomy-settings')
+
+    @button.buttonAndHandler(_(u'Save'), name='save')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        self.applyChanges(data)
+
+        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
+                                                      "info")
+        self.request.response.redirect(self.context.absolute_url() +
+                                       '/@@taxonomy-settings')
 
 
 class TaxonomyEditFormAdapter(object):
@@ -213,6 +286,7 @@ class TaxonomyEditFormAdapter(object):
 
         generated_name = utility.getGeneratedName()
 
+        self.__dict__['context'] = context
         self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
         self.__dict__['behavior'] = sm.queryUtility(IBehavior,
                                                     name=generated_name)
@@ -227,7 +301,12 @@ class TaxonomyEditFormAdapter(object):
         return getattr(self.__dict__['behavior'], attr)
 
     def __setattr__(self, attr, value):
-        if 'taxonomy' is attr:
+        if attr in ['taxonomy', 'field_title']:
             return
 
-        setattr(self.__dict__['behavior'], attr, value)
+        if 'import_file' is attr:
+            import_file = value.data
+            adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
+            adapter.importDocument(import_file)
+        else:
+            setattr(self.__dict__['behavior'], attr, value)
