@@ -1,7 +1,6 @@
 from plone.app.controlpanel.form import ControlPanelForm
 from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
     as BaseMultiCheckBoxWidget
-from plone.namedfile.field import NamedBlobFile
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.behavior.interfaces import IBehavior
 
@@ -10,8 +9,6 @@ from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from Products.statusmessages.interfaces import IStatusMessage
 
-from zope import schema
-from zope.interface import Interface
 from zope.formlib import form as formlib
 from zope.interface import implements
 from zope.component import adapts, getUtility
@@ -22,22 +19,8 @@ from z3c.form import form, field, button
 from z3c.form.interfaces import HIDDEN_MODE
 
 from .i18n import MessageFactory as _
-from .interfaces import ITaxonomy
+from .interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
 from .exportimport import TaxonomyImportExportAdapter
-
-
-class ITaxonomySettings(Interface):
-    """ Schema for controlpanel settings """
-
-    taxonomies = schema.List(title=_(u"Taxonomies"),
-                             value_type=schema.Choice(
-                                 description=_(u"help_taxonomies",
-                                               default=u"Select the taxnomies"
-                                               "you desire to modify"),
-                                 required=False,
-                                 vocabulary='collective.taxonomy.taxonomies',
-                             ),
-                             default=[],)
 
 
 class TaxonomySettingsControlPanelAdapter(SchemaAdapterBase):
@@ -124,48 +107,6 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
         return None
 
 
-class ITaxonomyForm(Interface):
-    # Regular fields
-
-    field_title = schema.TextLine(
-        title=_(u"Field title"),
-        required=True
-    )
-
-    field_description = schema.TextLine(
-        title=_(u"Field description"),
-        required=False
-    )
-
-    import_file = NamedBlobFile(
-        title=_(u"Upload VDEX xml file"),
-        description=_(u" "),
-        required=False
-    )
-
-    is_required = schema.Bool(
-        title=_(u"Is required?"),
-        required=True
-    )
-
-    multi_select = schema.Bool(
-        title=_(u"Multi-select field"),
-        required=True
-    )
-
-    write_permission = schema.Choice(
-        title=_(u"Write permission"),
-        required=False,
-        vocabulary='collective.taxonomy.permissions'
-    )
-
-    # Taxonomy hidden field
-    taxonomy = schema.TextLine(
-        title=_(u"Taxonomy"),
-        required=False
-    )
-
-
 class TaxonomyAddForm(form.AddForm):
     fields = field.Fields(ITaxonomyForm)
 
@@ -218,6 +159,13 @@ class TaxonomyAddForm(form.AddForm):
     def nextURL(self):
         return self.context.portal_url() + '/@@taxonomy-settings'
 
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Add cancelled"),
+                                                      "info")
+        self.request.response.redirect(self.context.absolute_url() +
+                                       '/@@taxonomy-settings')
+
     @button.buttonAndHandler(_('Add'), name='add')
     def handleAdd(self, action):
         data, errors = self.extractData()
@@ -228,13 +176,6 @@ class TaxonomyAddForm(form.AddForm):
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
-
-    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
-    def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Add cancelled"),
-                                                      "info")
-        self.request.response.redirect(self.context.absolute_url() +
-                                       '/@@taxonomy-settings')
 
 
 class TaxonomyEditForm(form.EditForm):
@@ -301,10 +242,10 @@ class TaxonomyEditFormAdapter(object):
         return getattr(self.__dict__['behavior'], attr)
 
     def __setattr__(self, attr, value):
-        if attr in ['taxonomy', 'field_title']:
+        if attr in ['taxonomy']:
             return
 
-        if 'import_file' is attr:
+        if 'import_file' is attr and value is not None:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
             adapter.importDocument(import_file)
