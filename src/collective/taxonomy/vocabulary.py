@@ -8,9 +8,9 @@ from zope.schema.interfaces import IVocabulary, IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope.security.interfaces import IPermission
 from zope.component.hooks import getSite
-from plone.behavior.interfaces import IBehavior
 
 _pmf = MessageFactory('plone')
+
 
 class TaxonomyVocabulary(object):
     # Vocabulary for generating a list of existing taxonomies
@@ -19,21 +19,12 @@ class TaxonomyVocabulary(object):
 
     def __call__(self, adapter):
         results = []
-        context = adapter.context
         sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
 
         for (utility_name, utility) in utilities:
-            short_name = utility_name.split('.')[-1]
-            behavior_name = 'collective.taxonomy.generated.' + short_name
-            behavior = sm.queryUtility(IBehavior,
-                                       name=behavior_name)
-
             utility_name = utility.name
             utility_title = utility.title
-
-            if behavior:
-                field_name = behavior.field_name
 
             results.append(SimpleTerm(value=utility_name,
                                       title=utility_title)
@@ -81,6 +72,7 @@ class Vocabulary(object):
 
         return results
 
+
 class PermissionsVocabulary(object):
     implements(IVocabularyFactory)
 
@@ -94,4 +86,3 @@ class PermissionsVocabulary(object):
 
         result.sort(key=lambda permission: permission.title)
         return SimpleVocabulary(result)
-
