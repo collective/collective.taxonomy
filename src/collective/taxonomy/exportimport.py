@@ -49,6 +49,7 @@ class TaxonomyImportExportAdapter(object):
             site = self.context
 
         normalizer = getUtility(IIDNormalizer)
+
         tree = ElementTree.fromstring(document)
         default_language = tree.attrib['language']
 
@@ -57,7 +58,8 @@ class TaxonomyImportExportAdapter(object):
         title = tree.find('./{%s}vocabName/{%s}langstring'
                           % (self.IMSVDEX_NS, self.IMSVDEX_NS))
 
-        utility_name = 'collective.taxonomy.' + normalizer.normalize(name.text)
+        normalized_name = normalizer.normalize(name.text).replace('-', '')
+        utility_name = 'collective.taxonomy.' + normalized_name
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
 
         if taxonomy is None:

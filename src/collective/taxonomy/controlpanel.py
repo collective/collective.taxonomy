@@ -1,7 +1,6 @@
 from plone.app.controlpanel.form import ControlPanelForm
 from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
     as BaseMultiCheckBoxWidget
-from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.behavior.interfaces import IBehavior
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot
@@ -11,7 +10,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.formlib import form as formlib
 from zope.interface import implements
-from zope.component import adapts, getUtility
+from zope.component import adapts
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -118,18 +117,8 @@ class TaxonomyAddForm(form.AddForm):
         return data
 
     def add(self, data):
-        # XXX: Not totally sure that we only need to remove the dash (-) ?
-        remove_chars = ['-']
-
         if 'import_file' not in data:
             raise ValueError("Import file is not in form")
-
-        # Normalize
-        normalizer = getUtility(IIDNormalizer)
-        data['field_name'] = normalizer.normalize(data['field_title'])
-
-        for char in remove_chars:
-            data['field_name'] = data['field_name'].replace(char, '')
 
         # Read import file
         import_file = data['import_file'].data
@@ -142,7 +131,6 @@ class TaxonomyAddForm(form.AddForm):
         adapter = TaxonomyImportExportAdapter(self.context)
         taxonomy_name = adapter.importDocument(import_file)
 
-        # Register behavior
         sm = self.context.getSiteManager()
         utility = sm.queryUtility(ITaxonomy,
                                   name=taxonomy_name)
@@ -159,13 +147,6 @@ class TaxonomyAddForm(form.AddForm):
     def nextURL(self):
         return self.context.portal_url() + '/@@taxonomy-settings'
 
-    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
-    def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Add cancelled"),
-                                                      "info")
-        self.request.response.redirect(self.context.absolute_url() +
-                                       '/@@taxonomy-settings')
-
     @button.buttonAndHandler(_('Add'), name='add')
     def handleAdd(self, action):
         data, errors = self.extractData()
@@ -176,6 +157,13 @@ class TaxonomyAddForm(form.AddForm):
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
+
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Add cancelled"),
+                                                      "info")
+        self.request.response.redirect(self.context.absolute_url() +
+                                       '/@@taxonomy-settings')
 
 
 class TaxonomyEditForm(form.EditForm):
@@ -188,13 +176,6 @@ class TaxonomyEditForm(form.EditForm):
     def getContent(self):
         return TaxonomyEditFormAdapter(self.context)
 
-    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
-    def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
-                                                      "info")
-        self.request.response.redirect(self.context.absolute_url() +
-                                       '/@@taxonomy-settings')
-
     @button.buttonAndHandler(_(u'Save'), name='save')
     def handleApply(self, action):
         data, errors = self.extractData()
@@ -206,6 +187,13 @@ class TaxonomyEditForm(form.EditForm):
         self.applyChanges(data)
 
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
+                                                      "info")
+        self.request.response.redirect(self.context.absolute_url() +
+                                       '/@@taxonomy-settings')
+
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
                                                       "info")
         self.request.response.redirect(self.context.absolute_url() +
                                        '/@@taxonomy-settings')

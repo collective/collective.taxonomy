@@ -33,14 +33,13 @@ logger = logging.getLogger("collective.taxonomy")
 class TaxonomyBehavior(Persistent):
     implements(IBehavior)
 
-    def __init__(self, name, title, description, field_name,
-                 field_title, field_description, is_required=False,
+    def __init__(self, name, title, description, field_title,
+                 field_description, is_required=False,
                  multi_select=False, write_permission=''):
         self.name = name
         self.title = _(title)
         self.description = _(description)
         self.factory = None
-        self.field_name = field_name
         self.field_title = field_title
         self.field_description = field_description
         self.is_required = is_required
@@ -110,6 +109,14 @@ class TaxonomyBehavior(Persistent):
         return str(self.name.split('.')[-1])
 
     @property
+    def field_name(self):
+        return 'taxonomy_' + self.short_name
+
+    @property
+    def vocabulary_name(self):
+        return 'collective.taxonomy.' + self.short_name
+
+    @property
     def interface(self):
         if hasattr(generated, self.short_name):
             return getattr(generated, self.short_name)
@@ -118,16 +125,14 @@ class TaxonomyBehavior(Persistent):
             title=_(unicode(self.field_title)),
             description=_(unicode(self.field_description)),
             required=self.is_required,
-            vocabulary='collective.taxonomy.' +
-            self.short_name)
+            vocabulary=self.vocabulary_name)
 
         multi_select_field = schema.List(
             title=_(unicode(self.field_title)),
             description=_(unicode(self.field_description)),
             value_type=schema.Choice(
                 required=self.is_required,
-                vocabulary='collective.taxonomy.' +
-                self.short_name))
+                vocabulary=self.vocabulary_name))
 
         schemaclass = SchemaClass(
             self.short_name, (form.Schema, ),
