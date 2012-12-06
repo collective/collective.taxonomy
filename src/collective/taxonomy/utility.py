@@ -58,6 +58,9 @@ class Taxonomy(SimpleItem):
     def getGeneratedName(self):
         return 'collective.taxonomy.generated.' + self.getShortName()
 
+    def getVocabularyName(self):
+        return 'collective.taxonomy.' + self.getShortName()
+
     def getCurrentLanguage(self, request):
         try:
             portal_state = getMultiAdapter(
