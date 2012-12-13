@@ -35,9 +35,13 @@ class TaxonomyIndexerWrapper(object):
 
         found = []
 
+        stored_element = getattr(self.context, self.field_name)
+        if type(stored_element) != type([]):
+            stored_element = [stored_element]
+
         for (language, data) in utility.data.items():
             for (identifier, path) in utility.inverted_data[language].items():
-                if identifier == getattr(self.context, self.field_name):
+                if identifier in stored_element:
                     found.append((identifier, language, path,))
 
         result = []
