@@ -21,8 +21,10 @@ from Products.ZCatalog.interfaces import IZCatalog
 
 from zope import schema
 from zope.component.hooks import getSite
-from zope.interface import implements, alsoProvides
-from zope.component import getUtility
+from zope.interface import implements, alsoProvides, Invalid
+from zope.component import getUtility, provideAdapter
+
+from z3c.form import validator
 
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
@@ -125,14 +127,30 @@ class TaxonomyBehavior(Persistent):
             title=_(unicode(self.field_title)),
             description=_(unicode(self.field_description)),
             required=self.is_required,
-            vocabulary=self.vocabulary_name)
+            vocabulary=self.vocabulary_name
+        )
 
-        multi_select_field = schema.List(
-            title=_(unicode(self.field_title)),
-            description=_(unicode(self.field_description)),
-            value_type=schema.Choice(
-                required=self.is_required,
-                vocabulary=self.vocabulary_name))
+        if self.is_required:
+            multi_select_field = schema.List(
+                title=_(unicode(self.field_title)),
+                description=_(unicode(self.field_description)),
+                required=True,
+                constraint=lambda value: bool(value),
+                value_type=schema.Choice(
+                    vocabulary=self.vocabulary_name,
+                    required=True
+                )
+            )
+        else:
+            multi_select_field = schema.List(
+                title=_(unicode(self.field_title)),
+                description=_(unicode(self.field_description)),
+                required=False,
+                value_type=schema.Choice(
+                    vocabulary=self.vocabulary_name,
+                    required=False
+                )
+            )
 
         schemaclass = SchemaClass(
             self.short_name, (form.Schema, ),
@@ -154,9 +172,7 @@ class TaxonomyBehavior(Persistent):
 
         alsoProvides(schemaclass, form.IFormFieldProvider)
 
-        if not hasattr(generated, self.short_name):
-            setattr(generated, self.short_name, schemaclass)
-
+        setattr(generated, self.short_name, schemaclass)
         return getattr(generated, self.short_name)
 
     @property

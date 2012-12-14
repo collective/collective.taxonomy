@@ -13,8 +13,10 @@
 
   <i18n:registerTranslations directory="locales" />
 
-
   <include package="plone.app.registry" />
+  <include package="five.grok" />
+
+  <grok:grok package="." />
 
   <genericsetup:registerProfile
       name="default"
