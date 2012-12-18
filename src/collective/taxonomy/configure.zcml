@@ -44,7 +44,7 @@
       name="taxonomy-settings"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomySettingsControlPanel"
-      permission="zope2.View"
+      permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -52,7 +52,7 @@
       name="taxonomy-add"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomyAddForm"
-      permission="zope2.View"
+      permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -60,7 +60,7 @@
       name="taxonomy-edit"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomyEditForm"
-      permission="zope2.View"
+      permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
