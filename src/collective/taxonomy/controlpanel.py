@@ -187,6 +187,14 @@ class TaxonomyEditForm(form.EditForm):
 
         self.applyChanges(data)
 
+        sm = self.context.getSiteManager()
+        utility = sm.queryUtility(ITaxonomy,
+                                  name=data['taxonomy'])
+        if utility is not None:
+            del data['import_file']
+            del data['taxonomy']
+            utility.updateBehavior(**data)
+
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
         self.request.response.redirect(self.context.absolute_url() +

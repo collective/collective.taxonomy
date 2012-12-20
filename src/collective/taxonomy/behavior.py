@@ -123,6 +123,8 @@ class TaxonomyBehavior(Persistent):
         if hasattr(generated, self.short_name):
             return getattr(generated, self.short_name)
 
+        logger.debug('generating interface for %s' % self.short_name)
+        
         single_select_field = schema.Choice(
             title=_(unicode(self.field_title)),
             description=_(unicode(self.field_description)),

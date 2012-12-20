@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import generated
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
@@ -12,13 +12,14 @@ from zope.lifecycleevent import modified
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import ram
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.schema import SCHEMA_CACHE
 
 from persistent.dict import PersistentDict
 
 from .behavior import TaxonomyBehavior
 from .interfaces import ITaxonomy
 from .vocabulary import Vocabulary
-
+from plone.dexterity.fti import DexterityFTIModificationDescription
 import logging
 logger = logging.getLogger("collective.taxonomy")
 
@@ -102,7 +103,21 @@ class Taxonomy(SimpleItem):
                 fti.behaviors = [behavior for behavior in
                                  fti.behaviors
                                  if behavior != generated_name]
-            modified(fti, "behaviors")
+            modified(fti, DexterityFTIModificationDescription("behaviors", ''))
+
+    def updateBehavior(self, **kwargs):
+        behavior_name = self.getGeneratedName()
+        short_name = self.getShortName()
+
+        # regenerate interface if it exists
+        if not hasattr(generated, short_name):
+            return 
+        delattr(generated, short_name)
+
+        sm = getSite().getSiteManager()
+        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+            if behavior_name in fti.behaviors:
+                modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def unregisterBehavior(self):
         context = getSite()
