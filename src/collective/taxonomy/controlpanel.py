@@ -172,6 +172,7 @@ class TaxonomyEditForm(form.EditForm):
     def updateWidgets(self):
         form.EditForm.updateWidgets(self)
         self.widgets['taxonomy'].mode = HIDDEN_MODE
+        self.widgets['multi_select'].mode = HIDDEN_MODE
 
     def getContent(self):
         return TaxonomyEditFormAdapter(self.context)
