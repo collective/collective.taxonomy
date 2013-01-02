@@ -54,6 +54,8 @@ class TaxonomyIndexerWrapper(object):
 
 
 class TaxonomyIndexer(object):
+    __name__ = 'TaxonomyIndexer'
+
     classImplements(IIndexer)
     adapts(IDexterityContent, IZCatalog)
 
