@@ -106,18 +106,26 @@ class Taxonomy(SimpleItem):
             modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def updateBehavior(self, **kwargs):
+        sm = getSite().getSiteManager()
+
         behavior_name = self.getGeneratedName()
         short_name = self.getShortName()
 
+        utility = sm.queryUtility(IBehavior, name=behavior_name)
+        if utility:
+            utility.deactivateSearchable()
+            utility.activateSearchable()
+
         # regenerate interface if it exists
         if not hasattr(generated, short_name):
-            return 
+            return
+
         delattr(generated, short_name)
 
-        sm = getSite().getSiteManager()
         for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ''))
+
 
     def unregisterBehavior(self):
         context = getSite()
