@@ -77,7 +77,7 @@ class TaxonomyBehavior(Persistent):
         def add(name, value):
             registry.records[prefix + '.' + name] = value
 
-        add('title', Record(field.TextLine(), unicode(self.field_name)))
+        add('title', Record(field.TextLine(), unicode(self.field_title)))
         add('enabled', Record(field.Bool(), True))
         add('group', Record(field.TextLine(), unicode('Taxonomy')))
         add('operations', Record(field.List(),
