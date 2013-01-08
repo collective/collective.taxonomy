@@ -70,11 +70,6 @@ class ITaxonomyForm(Interface):
         required=True
     )
 
-    multi_select = schema.Bool(
-        title=_(u"Multi-select field"),
-        required=True
-    )
-
     write_permission = schema.Choice(
         title=_(u"Write permission"),
         required=False,

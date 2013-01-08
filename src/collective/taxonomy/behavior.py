@@ -37,7 +37,7 @@ class TaxonomyBehavior(Persistent):
 
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
-                 multi_select=False, write_permission=''):
+                 write_permission=''):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -45,7 +45,6 @@ class TaxonomyBehavior(Persistent):
         self.field_title = field_title
         self.field_description = field_description
         self.is_required = is_required
-        self.multi_select = multi_select
         self.write_permission = write_permission
 
     def deactivateSearchable(self):
@@ -83,7 +82,7 @@ class TaxonomyBehavior(Persistent):
         add('operations', Record(field.List(),
             ['plone.app.querystring.operation.selection.is']))
         add('vocabulary', Record(field.TextLine(), unicode(self.name)))
-        add('sortable', Record(field.Bool(), True))
+        add('sortable', Record(field.Bool(), False))
         add('description', Record(field.Text(), unicode('')))
 
     def addIndex(self):
@@ -124,13 +123,6 @@ class TaxonomyBehavior(Persistent):
             return getattr(generated, self.short_name)
 
         logger.debug('generating interface for %s' % self.short_name)
-        
-        single_select_field = schema.Choice(
-            title=_(unicode(self.field_title)),
-            description=_(unicode(self.field_description)),
-            required=self.is_required,
-            vocabulary=self.vocabulary_name
-        )
 
         if self.is_required:
             multi_select_field = schema.List(
@@ -157,10 +149,8 @@ class TaxonomyBehavior(Persistent):
         schemaclass = SchemaClass(
             self.short_name, (form.Schema, ),
             __module__='collective.taxonomy.generated',
-            attrs={str(self.field_name):
-                   self.multi_select
-                   and multi_select_field
-                   or single_select_field }
+            attrs={ str(self.field_name):
+                    multi_select_field }
         )
 
         if self.write_permission:
