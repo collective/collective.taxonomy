@@ -149,20 +149,28 @@ class TaxonomyBehavior(Persistent):
         schemaclass = SchemaClass(
             self.short_name, (form.Schema, ),
             __module__='collective.taxonomy.generated',
-            attrs={ str(self.field_name):
-                    select_field }
+            attrs={str(self.field_name):
+                   select_field }
         )
 
         if self.write_permission:
-            schemaclass.setTaggedValue(WRITE_PERMISSIONS_KEY,
-                                       {self.field_name:
-                                        self.write_permission})
+            schemaclass.setTaggedValue(
+                WRITE_PERMISSIONS_KEY,
+                {self.field_name:
+                 self.write_permission}
+            )
 
-        schemaclass.setTaggedValue(FIELDSETS_KEY,
-                                   [Fieldset('categorization',
-                                             fields=[self.field_name])])
-        schemaclass.setTaggedValue(WIDGETS_KEY,
-                                   {self.field_name : 'collective.taxonomy.widget.TaxonomySelectFieldWidget'})
+        schemaclass.setTaggedValue(
+            FIELDSETS_KEY,
+            [Fieldset('categorization',
+                      fields=[self.field_name])]
+        )
+
+        schemaclass.setTaggedValue(
+            WIDGETS_KEY,
+            {self.field_name:
+             'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
+        )
 
         alsoProvides(schemaclass, form.IFormFieldProvider)
 
