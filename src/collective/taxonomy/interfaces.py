@@ -9,6 +9,8 @@ from zope.schema.interfaces import IVocabularyFactory
 
 from .i18n import MessageFactory as _
 
+class ITaxonomySelectWidget(Interface):
+    """ Marker interface for the taxonomy select widget """
 
 class IBrowserLayer(Interface):
     """Add-on browser layer."""

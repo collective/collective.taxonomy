@@ -79,4 +79,6 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+    <include file="widget.zcml" />
+  
 </configure>

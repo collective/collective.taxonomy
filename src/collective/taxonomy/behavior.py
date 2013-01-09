@@ -3,7 +3,7 @@ import generated
 
 from persistent import Persistent
 
-from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
+from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.directives import form
 from plone.dexterity.interfaces import IDexterityContent
@@ -125,7 +125,7 @@ class TaxonomyBehavior(Persistent):
         logger.debug('generating interface for %s' % self.short_name)
 
         if self.is_required:
-            multi_select_field = schema.List(
+            select_field = schema.List(
                 title=_(unicode(self.field_title)),
                 description=_(unicode(self.field_description)),
                 required=True,
@@ -136,7 +136,7 @@ class TaxonomyBehavior(Persistent):
                 )
             )
         else:
-            multi_select_field = schema.List(
+            select_field = schema.List(
                 title=_(unicode(self.field_title)),
                 description=_(unicode(self.field_description)),
                 required=False,
@@ -150,7 +150,7 @@ class TaxonomyBehavior(Persistent):
             self.short_name, (form.Schema, ),
             __module__='collective.taxonomy.generated',
             attrs={ str(self.field_name):
-                    multi_select_field }
+                    select_field }
         )
 
         if self.write_permission:
@@ -161,6 +161,8 @@ class TaxonomyBehavior(Persistent):
         schemaclass.setTaggedValue(FIELDSETS_KEY,
                                    [Fieldset('categorization',
                                              fields=[self.field_name])])
+        schemaclass.setTaggedValue(WIDGETS_KEY,
+                                   {self.field_name : 'collective.taxonomy.widget.TaxonomySelectFieldWidget'})
 
         alsoProvides(schemaclass, form.IFormFieldProvider)
 
