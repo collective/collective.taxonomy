@@ -176,12 +176,11 @@ function selectionError()
     </td>
   </tr>
   <tr>
-    <td style="text-align: center">
+    <td style="text-align: center; padding-top: 5px; padding-bottom: 5px;">
       <button onclick="javascript:to2from()"
               name="to2fromButton" type="button" value="&uarr;"
               tal:attributes="onClick string:javascript:to2from('${view/id}')"
           >&uarr;</button>
-      <br/>
       <button onclick="javascript:from2to()"
               name="from2toButton" type="button" value="&darr;"
               tal:attributes="onClick string:javascript:from2to('${view/id}')"
@@ -189,7 +188,7 @@ function selectionError()
     </td>
   </tr>
   <tr>
-    <td>
+    <td style="text-align: right">
       <select id="to" name="to" class="" multiple="" size="5" style="width: 100%"
           tal:attributes="id string:${view/id}-to;
                           name string:${view/name}.to;
@@ -231,16 +230,18 @@ function selectionError()
         </script>
       </span>
 
-      <button
-          onclick="javascript:moveUp()"
-          name="upButton" type="button" value="&uarr;"
-          tal:attributes="onClick string:javascript:moveUp('${view/id}')"
-          >&uarr;</button>
-      <button
-          onclick="javascript:moveDown()"
-          name="downButton" type="button" value="&darr;"
-          tal:attributes="onClick string:javascript:moveDown('${view/id}')"
-          >&darr;</button>
+      <div style="padding-top: 5px">
+        <button
+            onclick="javascript:moveUp()"
+            name="upButton" type="button" value="&uarr;"
+            tal:attributes="onClick string:javascript:moveUp('${view/id}')"
+            >&uarr;</button>
+        <button
+            onclick="javascript:moveDown()"
+            name="downButton" type="button" value="&darr;"
+            tal:attributes="onClick string:javascript:moveDown('${view/id}')"
+            >&darr;</button>
+      </div>
     </td>
   </tr>
 </table>
