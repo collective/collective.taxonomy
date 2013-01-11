@@ -3,7 +3,7 @@ import generated
 
 from persistent import Persistent
 
-from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
+from plone.autoform.interfaces import WIDGETS_KEY, MODES_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.directives import form
 from plone.dexterity.interfaces import IDexterityContent
@@ -21,23 +21,36 @@ from Products.ZCatalog.interfaces import IZCatalog
 
 from zope import schema
 from zope.component.hooks import getSite
-from zope.interface import implements, alsoProvides, Invalid
-from zope.component import getUtility, provideAdapter
+from zope.interface import implements, alsoProvides
+from zope.component import getUtility
 
-from z3c.form import validator
+from z3c.form.interfaces import IEditForm, IAddForm
 
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
 
+
 logger = logging.getLogger("collective.taxonomy")
 
+
+class GroupCheckerProxy(object):
+    def __init__(self, context, group):
+        self.context = context
+        self.group = group
+
+    def __str__(self):
+        membership_tool = getToolByName(self.context, 'portal_membership')
+        if self.group in membership_tool.getAuthenticatedMember().getGroups():
+            return 'display'
+
+        return 'hidden'
 
 class TaxonomyBehavior(Persistent):
     implements(IBehavior)
 
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
-                 write_permission=''):
+                 group=''):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -45,7 +58,7 @@ class TaxonomyBehavior(Persistent):
         self.field_title = field_title
         self.field_description = field_description
         self.is_required = is_required
-        self.write_permission = write_permission
+        self.group = group
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)
@@ -133,7 +146,7 @@ class TaxonomyBehavior(Persistent):
                 value_type=schema.Choice(
                     vocabulary=self.vocabulary_name,
                     required=True
-                )
+                ),
             )
         else:
             select_field = schema.List(
@@ -143,7 +156,7 @@ class TaxonomyBehavior(Persistent):
                 value_type=schema.Choice(
                     vocabulary=self.vocabulary_name,
                     required=False
-                )
+                ),
             )
 
         schemaclass = SchemaClass(
@@ -153,13 +166,6 @@ class TaxonomyBehavior(Persistent):
                    select_field }
         )
 
-        if self.write_permission:
-            schemaclass.setTaggedValue(
-                WRITE_PERMISSIONS_KEY,
-                {self.field_name:
-                 self.write_permission}
-            )
-
         schemaclass.setTaggedValue(
             FIELDSETS_KEY,
             [Fieldset('categorization',
@@ -168,8 +174,24 @@ class TaxonomyBehavior(Persistent):
 
         schemaclass.setTaggedValue(
             WIDGETS_KEY,
-            {self.field_name:
-             'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
+            {
+                self.field_name:
+                'collective.taxonomy.widget.TaxonomySelectFieldWidget'
+            }
+        )
+
+        schemaclass.setTaggedValue(
+            MODES_KEY,
+            [
+                (IEditForm,
+                 self.field_name,
+                 GroupCheckerProxy(getSite(), self.group),
+                 ),
+                (IAddForm,
+                 self.field_name,
+                 GroupCheckerProxy(getSite(), self.group),
+                 )
+            ]
         )
 
         alsoProvides(schemaclass, form.IFormFieldProvider)

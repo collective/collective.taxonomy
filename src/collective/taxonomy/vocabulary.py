@@ -2,11 +2,12 @@
 
 from interfaces import ITaxonomy
 
+from Products.CMFCore.utils import getToolByName
+
 from zope.i18nmessageid import MessageFactory
 from zope.interface import implements
 from zope.schema.interfaces import IVocabulary, IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
-from zope.security.interfaces import IPermission
 from zope.component.hooks import getSite
 
 _pmf = MessageFactory('plone')
@@ -73,16 +74,15 @@ class Vocabulary(object):
         return results
 
 
-class PermissionsVocabulary(object):
+class GroupsVocabulary(object):
     implements(IVocabularyFactory)
 
     def __call__(self, context):
         result = []
-        sm = getSite().getSiteManager()
+        acl_users = getToolByName(context, 'acl_users')
 
-        for (permission, permission_object) in sm.getUtilitiesFor(IPermission):
-            result.append(SimpleTerm(value=permission_object.id,
-                                     title=_pmf(permission_object.title)))
+        groups = acl_users.source_groups.getGroupIds()
+        for group in groups:
+            result.append(SimpleTerm(group))
 
-        result.sort(key=lambda permission: permission.title)
         return SimpleVocabulary(result)

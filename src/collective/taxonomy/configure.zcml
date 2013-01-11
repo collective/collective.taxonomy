@@ -65,7 +65,8 @@
       />
 
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
-  <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
+  <adapter factory=".controlpanel.TaxonomyEditFormAdapter"
+           provides=".interfaces.ITaxonomyForm"/>
 
   <utility
       factory=".vocabulary.TaxonomyVocabulary"
@@ -74,11 +75,11 @@
       />
 
   <utility
-      factory=".vocabulary.PermissionsVocabulary"
-      name="collective.taxonomy.permissions"
+      factory=".vocabulary.GroupsVocabulary"
+      name="collective.taxonomy.groups"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
     <include file="widget.zcml" />
-  
+
 </configure>

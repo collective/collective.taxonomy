@@ -138,14 +138,21 @@ Will this product work with vanilla Plone?
   behaviors, which we need to use this product. Therefore this product require
   at least plone.dexterity from github master.
 
+
 To-Do
 =====
 
-- Add a custom widget
-
 - Make each taxonomy editable through the control panel.
 
-- Make it possible to add multiple behaviors for each taxonomy.
+
+Authors and contributors
+========================
+
+- Bo Simonsen <bo@headnet.dk>
+
+- Malthe Borch <mborch@gmail.com>
+
+- Thomas Mogensen <thomas@headnet.dk>
 
 
 Existing work

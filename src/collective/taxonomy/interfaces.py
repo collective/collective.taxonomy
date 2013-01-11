@@ -72,10 +72,10 @@ class ITaxonomyForm(Interface):
         required=True
     )
 
-    write_permission = schema.Choice(
-        title=_(u"Write permission"),
+    group = schema.Choice(
+        title=_(u"Group"),
         required=False,
-        vocabulary='collective.taxonomy.permissions'
+        vocabulary='collective.taxonomy.groups'
     )
 
     # Taxonomy hidden field
@@ -83,3 +83,4 @@ class ITaxonomyForm(Interface):
         title=_(u"Taxonomy"),
         required=False
     )
+

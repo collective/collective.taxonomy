@@ -21,6 +21,9 @@ from .i18n import MessageFactory as _
 from .interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
 from .exportimport import TaxonomyImportExportAdapter
 
+from rwproperty import getproperty, setproperty
+from Acquisition import Implicit
+
 
 class TaxonomySettingsControlPanelAdapter(SchemaAdapterBase):
     adapts(IPloneSiteRoot)
@@ -207,11 +210,13 @@ class TaxonomyEditForm(form.EditForm):
                                        '/@@taxonomy-settings')
 
 
-class TaxonomyEditFormAdapter(object):
+class TaxonomyEditFormAdapter(Implicit):
     adapts(IPloneSiteRoot)
     implements(ITaxonomyForm)
 
     def __init__(self, context):
+        self.__parent__ = context
+
         if context.REQUEST.get('form.widgets.taxonomy') is None:
             return
 
@@ -223,27 +228,55 @@ class TaxonomyEditFormAdapter(object):
 
         generated_name = utility.getGeneratedName()
 
-        self.__dict__['context'] = context
-        self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
-        self.__dict__['behavior'] = sm.queryUtility(IBehavior,
-                                                    name=generated_name)
+        self.context = context
+        self.taxonomy = context.REQUEST.get('taxonomy')
+        self.behavior = sm.queryUtility(IBehavior,
+                                        name=generated_name)
 
-    def __getattr__(self, attr):
-        if 'behavior' not in self.__dict__:
-            return None
+    """field_title"""
+    @setproperty
+    def field_title(self, value):
+        self.behavior.field_title = value
 
-        if 'taxonomy' is attr:
-            return self.__dict__['taxonomy']
+    @getproperty
+    def field_title(self):
+        return self.behavior.field_title
 
-        return getattr(self.__dict__['behavior'], attr)
+    """field_description"""
+    @setproperty
+    def field_description(self, value):
+        self.behavior.field_description = value
 
-    def __setattr__(self, attr, value):
-        if attr in ['taxonomy']:
-            return
+    @getproperty
+    def field_description(self):
+        return self.behavior.field_description
 
-        if 'import_file' is attr and value is not None:
+    """import_file"""
+    @setproperty
+    def import_file(self, value):
+        if value:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
             adapter.importDocument(import_file)
-        else:
-            setattr(self.__dict__['behavior'], attr, value)
+
+    @getproperty
+    def import_file(self):
+        return self.behavior.import_file
+
+    """is_required"""
+    @setproperty
+    def is_required(self, value):
+        self.behavior.is_required = value
+
+    @getproperty
+    def field_description(self):
+        return self.behavior.is_required
+
+    """group"""
+    @setproperty
+    def group(self, value):
+        self.behavior.group = value
+
+    @getproperty
+    def group(self):
+        return self.behavior.group
