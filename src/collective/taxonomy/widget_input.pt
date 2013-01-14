@@ -230,18 +230,6 @@ function selectionError()
         </script>
       </span>
 
-      <div style="padding-top: 5px">
-        <button
-            onclick="javascript:moveUp()"
-            name="upButton" type="button" value="&uarr;"
-            tal:attributes="onClick string:javascript:moveUp('${view/id}')"
-            >&uarr;</button>
-        <button
-            onclick="javascript:moveDown()"
-            name="downButton" type="button" value="&darr;"
-            tal:attributes="onClick string:javascript:moveDown('${view/id}')"
-            >&darr;</button>
-      </div>
     </td>
   </tr>
 </table>
