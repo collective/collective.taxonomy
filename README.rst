@@ -141,11 +141,24 @@ Will this product work with vanilla Plone?
 To-Do
 =====
 
-- Add a custom widget
-
 - Make each taxonomy editable through the control panel.
 
-- Make it possible to add multiple behaviors for each taxonomy.
+
+Contributors
+============
+
+Author
+------
+
+- Bo Simonsen <bo@headnet.dk>
+
+
+Contributors
+------------
+
+- Malthe Borch <mborch@gmail.com>
+
+- Thomas Clement Mogensen <thomas@headnet.dk>
 
 
 Existing work
