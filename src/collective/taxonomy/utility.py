@@ -144,6 +144,9 @@ class Taxonomy(SimpleItem):
 
         sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
+    def clean(self):
+        self.data.clear()
+
     def add(self, language, identifier, path):
         if not language in self.data:
             self.data[language] = OOBTree()

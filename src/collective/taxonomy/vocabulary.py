@@ -64,8 +64,14 @@ class Vocabulary(object):
 
     def getTerms(self):
         results = []
+        identifiers = set()
 
         for (path, identifier) in self.data.items():
+            if identifier in identifiers:
+                continue
+
+            identifiers.add(identifier)
+
             term = SimpleTerm(value=identifier,
                               title=self.message(identifier, path))
             results.append(term)

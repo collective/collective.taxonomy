@@ -72,6 +72,8 @@ class TaxonomyImportExportAdapter(object):
             taxonomy.title = title.text
             taxonomy.default_language = default_language
 
+        taxonomy.clean()
+
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
         for (language, elements) in results.items():
