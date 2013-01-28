@@ -119,9 +119,13 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def interface(self):
-        if hasattr(generated, self.short_name):
-            return getattr(generated, self.short_name)
+        return getattr(generated, self.short_name)
 
+    @property
+    def marker(self):
+        return getattr(generated, self.short_name)
+
+    def generateInterface(self):
         logger.debug('generating interface for %s' % self.short_name)
 
         if self.is_required:
@@ -130,6 +134,7 @@ class TaxonomyBehavior(Persistent):
                 description=_(unicode(self.field_description)),
                 required=True,
                 constraint=lambda value: bool(value),
+
                 value_type=schema.Choice(
                     vocabulary=self.vocabulary_name,
                     required=True
@@ -173,10 +178,4 @@ class TaxonomyBehavior(Persistent):
         )
 
         alsoProvides(schemaclass, form.IFormFieldProvider)
-
-        setattr(generated, self.short_name, schemaclass)
-        return getattr(generated, self.short_name)
-
-    @property
-    def marker(self):
-        return self.interface
+        return schemaclass

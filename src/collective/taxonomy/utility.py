@@ -116,11 +116,7 @@ class Taxonomy(SimpleItem):
             utility.deactivateSearchable()
             utility.activateSearchable()
 
-        # regenerate interface if it exists
-        if not hasattr(generated.__dict__['wrapped'], short_name):
-            return
-
-        delattr(generated.__dict__['wrapped'], short_name)
+        delattr(generated, short_name)
 
         for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
