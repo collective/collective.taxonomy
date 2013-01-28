@@ -16,7 +16,6 @@ class Wrapper(object):
         self.__dict__['wrapped'] = wrapped
 
     def __delattr__(self, name):
-        print "Invalidating", name
         if hasattr(self.__dict__['wrapped'], name):
             delattr(self.__dict__['wrapped'], name)
 
@@ -28,7 +27,6 @@ class Wrapper(object):
         if name.startswith('__'):
             return getattr(self.__dict__['wrapped'], name)
 
-        print "Fetching ", name
         if not hasattr(self.__dict__['wrapped'], name):
             sm = getSite().getSiteManager()
 
@@ -38,14 +36,12 @@ class Wrapper(object):
             )
 
             if utility:
-                print "Generating"
                 setattr(
                     self.__dict__['wrapped'],
                     name,
                     utility.generateInterface()
                 )
             else:
-                print "Not found"
                 setattr(
                     self.__dict__['wrapped'],
                     name,
