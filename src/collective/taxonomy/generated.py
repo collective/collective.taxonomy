@@ -2,27 +2,35 @@
 
 import sys
 
+from threading import RLock
+
 from zope.component.hooks import getSite
 
 from plone.supermodel.model import SchemaClass
 from plone.behavior.interfaces import IBehavior
 from plone.directives import form
+from plone.synchronize import synchronized
 
 
 class Wrapper(object):
     __name__ = __name__
 
+    lock = RLock()
+
     def __init__(self, wrapped):
         self.__dict__['wrapped'] = wrapped
 
+    @synchronized(lock)
     def __delattr__(self, name):
         if hasattr(self.__dict__['wrapped'], name):
             delattr(self.__dict__['wrapped'], name)
 
+    @synchronized(lock)
     def __setattr__(self, name, value):
         raise NotImplementedError(u"Taxonomy: __setattr__ for generated should"
                                   u"not be called!")
 
+    @synchronized(lock)
     def __getattr__(self, name):
         if name.startswith('__'):
             return getattr(self.__dict__['wrapped'], name)
