@@ -123,6 +123,11 @@ forms, and it is also available for collections, if ``plone.app.collection``
 is used on the site. An index is also created, so the taxonomies can easily
 been used for catalog queries.
 
+Requirements
+============
+
+* Plone 4.3 
+* or an older version using a recent version of plone.dexterity/plone.app.dexterity
 
 Frequently Asked Questions
 ==========================
@@ -131,12 +136,6 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
 
   Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
   remember to edit the vocabIdentifier and vocabName.
-
-Will this product work with vanilla Plone?
-
-  No. The released version of Dexterity does not support dynamic interfaces for
-  behaviors, which we need to use this product. Therefore this product require
-  at least plone.dexterity from github master.
 
 To-Do
 =====
