@@ -6,6 +6,8 @@ from plone.behavior.interfaces import IBehavior
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.formlib import form as formlib
@@ -63,6 +65,21 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
             self.context.REQUEST.RESPONSE.redirect(
                 self.context.portal_url() +
                 '/@@taxonomy-edit?form.widgets.taxonomy=' +
+                data.get('taxonomies')[0]
+            )
+        else:
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _(u"Please select one taxonomy."), type="info")
+
+    @formlib.action(
+        _(u'label_edit_data_taxonomy', default=u'Edit taxonomy data'),
+        name=u'edit_data_taxonomy'
+    )
+    def handle_edit_taxonomy_data_action(self, action, data):
+        if len(data.get('taxonomies', [])) > 0:
+            self.context.REQUEST.RESPONSE.redirect(
+                self.context.portal_url() +
+                '/@@taxonomy-edit-data?form.widgets.taxonomy=' +
                 data.get('taxonomies')[0]
             )
         else:
@@ -205,6 +222,19 @@ class TaxonomyEditForm(form.EditForm):
                                                       "info")
         self.request.response.redirect(self.context.absolute_url() +
                                        '/@@taxonomy-settings')
+
+
+class TaxonomyEditDataForm(BrowserView):
+    index = ViewPageTemplateFile('taxonomy_edit.pt')
+
+    def portalUrl(self):
+        return self.context.portal_url()
+
+    def render(self):
+        return self.index()
+
+    def __call__(self):
+        return self.render()
 
 
 class TaxonomyEditFormAdapter(object):

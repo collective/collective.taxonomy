@@ -50,6 +50,22 @@
       layer=".interfaces.IBrowserLayer"
       />
 
+  <browser:page
+      name="taxonomy-edit-data"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".controlpanel.TaxonomyEditDataForm"
+      permission="cmf.ManagePortal"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:page
+      name="taxonomy-json"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".json.ExportJson"
+      permission="cmf.ManagePortal"
+      layer=".interfaces.IBrowserLayer"
+      />
+
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
   <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
 

@@ -1,6 +1,7 @@
 from elementtree import ElementTree
 from plone.supermodel.utils import indent
 
+
 class ImportVdex(object):
     """Helper class for import"""
 
@@ -51,60 +52,9 @@ class ImportVdex(object):
         return result
 
 
-class ExportVdex(object):
-    """Helper class for import"""
-
-    IMSVDEX_ATTRIBS = {
-        'xmlns': "http://www.imsglobal.org/xsd/imsvdex_v1p0",
-        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xsi:schemaLocation': "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
-        "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
-        "imsmd_rootv1p2p1.xsd",
-        'orderSignificant': "false",
-        'profileType': "hierarchicalTokenTerms",
-        'language': "en"
-    }
-    IMSVDEX_ENCODING = 'utf-8'
-
-
+class TreeExport(object):
     def __init__(self, taxonomy):
         self.taxonomy = taxonomy
-
-    def __call__(self, as_string=False):
-        taxonomy = self.taxonomy
-
-        attrib=self.IMSVDEX_ATTRIBS
-        attrib['language'] = taxonomy.default_language
-
-        root = ElementTree.Element('vdex', attrib=attrib)
-
-        vocabName = ElementTree.Element('vocabName')
-        root.append(vocabName)
-
-        langstring = ElementTree.Element('langstring',
-                                         attrib={'language': taxonomy.default_language })
-        langstring.text = taxonomy.title
-        vocabName.append(langstring)
-
-        vocabIdentifier = ElementTree.Element('vocabIdentifier')
-        vocabIdentifier.text = self.taxonomy.name.replace('collective.taxonomy.', '')
-        root.append(vocabIdentifier)
-
-        index = self.buildPathIndex()
-        table = self.makeTranslationTable()
-
-        for termnode in self.makeSubtree(index, table):
-            root.append(termnode)
-
-        if as_string:
-            indent(root)
-            treestring = ElementTree.tostring(root, self.IMSVDEX_ENCODING)
-            header = """<?xml version="1.0" encoding="%s"?>""" % \
-                     self.IMSVDEX_ENCODING.upper() + '\n'
-            treestring = header + treestring
-            return treestring
-        else:
-            return root
 
     def buildFinalPathIndex(self, node, tree):
         results = {}
@@ -134,19 +84,6 @@ class ExportVdex(object):
 
         return self.buildFinalPathIndex(pathIndex[None], pathIndex)
 
-    def makeTranslationTable(self):
-        translationTable = {}
-
-        for (language, children) in self.taxonomy.data.items():
-            for (path, identifier) in children.items():
-                if not identifier in translationTable:
-                    translationTable[identifier] = {}
-
-                translationTable[identifier][language] = \
-                    path[path.rfind('/') + 1:]
-
-        return translationTable
-
     def makeSubtree(self, index, table):
         termnodes = []
         for identifier in index.keys():
@@ -174,3 +111,80 @@ class ExportVdex(object):
             termnodes.append(termnode)
 
         return termnodes
+
+    def makeTranslationTable(self):
+        translationTable = {}
+
+        for (language, children) in self.taxonomy.data.items():
+            for (path, identifier) in children.items():
+                if not identifier in translationTable:
+                    translationTable[identifier] = {}
+
+                translationTable[identifier][language] = \
+                    path[path.rfind('/') + 1:]
+
+        return translationTable
+
+    def buildTree(self, root):
+        index = self.buildPathIndex()
+        table = self.makeTranslationTable()
+
+        for termnode in self.makeSubtree(index, table):
+            root.append(termnode)
+
+        return root
+
+
+class ExportVdex(TreeExport):
+    """Helper class for import"""
+
+    IMSVDEX_ATTRIBS = {
+        'xmlns': "http://www.imsglobal.org/xsd/imsvdex_v1p0",
+        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xsi:schemaLocation': "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
+        "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
+        "imsmd_rootv1p2p1.xsd",
+        'orderSignificant': "false",
+        'profileType': "hierarchicalTokenTerms",
+        'language': "en"
+    }
+    IMSVDEX_ENCODING = 'utf-8'
+
+    def __init__(self, taxonomy):
+        self.taxonomy = taxonomy
+
+    def __call__(self, as_string=False):
+        taxonomy = self.taxonomy
+
+        attrib = self.IMSVDEX_ATTRIBS
+        attrib['language'] = taxonomy.default_language
+
+        root = ElementTree.Element('vdex', attrib=attrib)
+
+        vocabName = ElementTree.Element('vocabName')
+        root.append(vocabName)
+
+        langstring = ElementTree.Element(
+            'langstring',
+            attrib={'language': taxonomy.default_language}
+        )
+        langstring.text = taxonomy.title
+        vocabName.append(langstring)
+
+        vocabIdentifier = ElementTree.Element('vocabIdentifier')
+        vocabIdentifier.text = self.taxonomy.name.replace(
+            'collective.taxonomy.', ''
+        )
+        root.append(vocabIdentifier)
+
+        root = self.buildTree(root)
+
+        if as_string:
+            indent(root)
+            treestring = ElementTree.tostring(root, self.IMSVDEX_ENCODING)
+            header = """<?xml version="1.0" encoding="%s"?>""" % \
+                     self.IMSVDEX_ENCODING.upper() + '\n'
+            treestring = header + treestring
+            return treestring
+        else:
+            return root

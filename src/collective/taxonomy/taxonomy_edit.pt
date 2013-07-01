@@ -1,0 +1,109 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    metal:use-macro="here/main_template/macros/master">
+<head>
+  <tal:block metal:fill-slot="javascript_head_slot">
+    <script src="http://wwwendt.de/tech/dynatree/jquery/jquery.js" type="text/javascript"></script>
+    <script src="http://wwwendt.de/tech/dynatree/jquery/jquery-ui.custom.js" type="text/javascript"></script>
+    <script src="http://wwwendt.de/tech/dynatree/jquery/jquery.cookie.js" type="text/javascript"></script>
+    <link href="http://wwwendt.de/tech/dynatree/src/skin/ui.dynatree.css" rel="stylesheet" type="text/css"/>
+    <script src="http://wwwendt.de/tech/dynatree/src/jquery.dynatree.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    /**
+     * Implement inline editing for a dynatree node
+     */
+    function editNode(node){
+      var prevTitle = node.data.title,
+        tree = node.tree;
+      // Disable dynatree mouse- and key handling
+      tree.$widget.unbind();
+      // Replace node with <input>
+      $(".dynatree-title", node.span).html("<input id='editNode' value='" + prevTitle + "'>");
+      // Focus <input> and bind keyboard handler
+      $("input#editNode")
+        .focus()
+        .keydown(function(event){
+          switch( event.which ) {
+          case 27: // [esc]
+            // discard changes on [esc]
+            $("input#editNode").val(prevTitle);
+            $(this).blur();
+            break;
+          case 13: // [enter]
+            // simulate blur to accept new value
+            $(this).blur();
+            break;
+          }
+        }).blur(function(event){
+          // Accept new value, when user leaves <input>
+          var title = $("input#editNode").val();
+          node.setTitle(title);
+          // Re-enable mouse and keyboard handlling
+          tree.$widget.bind();
+          node.focus();
+        });
+
+    }
+
+    // ----------
+
+    $(function(){
+      var isMac = /Mac/.test(navigator.platform);
+      $("#tree").dynatree({
+        title: "Event samples",
+        initAjax: {
+          url: $('#jsonUrl').val()
+        },
+        onClick: function(node, event) {
+          if( event.shiftKey ){
+            editNode(node);
+            return false;
+          }
+        },
+        onDblClick: function(node, event) {
+          editNode(node);
+          return false;
+        },
+        onKeydown: function(node, event) {
+          switch( event.which ) {
+          case 113: // [F2]
+            editNode(node);
+            return false;
+          case 13: // [enter]
+            if( isMac ){
+              editNode(node);
+              return false;
+            }
+          }
+        }
+      });
+      $(document).ready(function() {
+        $("input#addNode").click(function() {
+          var activeNode = $("#tree").dynatree("getActiveNode");
+          var activeNode = activeNode.append({
+            title: "New node",
+            isFolder: true
+          });
+        });
+      });
+    });
+
+    </script>
+  </tal:block>
+</head>
+
+<body>
+  <div metal:fill-slot="content-core">
+    <div id="tree">
+    </div>
+    <br/>
+    <input type="submit" id="addNode" value="Add node"/>
+    <input type="hidden" id="jsonUrl"
+           tal:attributes="value string:${view/portalUrl}/@@taxonomy-json?taxonomy=${request/form.widgets.taxonomy}"/>
+  </div>
+</body>
+</html>
