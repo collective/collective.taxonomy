@@ -1,4 +1,4 @@
-from plone.app.controlpanel.form import ControlPanelForm
+from plone.app.controlpanel.form import ControlPanelForm, ControlPanelView
 from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
     as BaseMultiCheckBoxWidget
 from plone.behavior.interfaces import IBehavior
@@ -224,7 +224,7 @@ class TaxonomyEditForm(form.EditForm):
                                        '/@@taxonomy-settings')
 
 
-class TaxonomyEditDataForm(BrowserView):
+class TaxonomyEditDataForm(ControlPanelView):
     index = ViewPageTemplateFile('taxonomy_edit.pt')
 
     def portalUrl(self):

@@ -61,11 +61,41 @@
   <browser:page
       name="taxonomy-json"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".json.ExportJson"
+      class=".json.Json"
       permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
+  <browser:resource
+      name="dynatree.jquery.js"
+      file="dynatree.jquery.js"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:resource
+      name="dynatree.ui.css"
+      file="dynatree.ui.css"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:resource
+      name="dynatree.icons.gif"
+      file="dynatree.icons.gif"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:resource
+      name="dynatree.loading.gif"
+      file="dynatree.loading.gif"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:resource
+      name="dynatree.vline.gif"
+      file="dynatree.vline.gif"
+      layer=".interfaces.IBrowserLayer"
+      />
+  
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
   <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
 

@@ -6,12 +6,10 @@
     metal:use-macro="here/main_template/macros/master">
 <head>
   <tal:block metal:fill-slot="javascript_head_slot">
-    <script src="http://wwwendt.de/tech/dynatree/jquery/jquery.js" type="text/javascript"></script>
-    <script src="http://wwwendt.de/tech/dynatree/jquery/jquery-ui.custom.js" type="text/javascript"></script>
-    <script src="http://wwwendt.de/tech/dynatree/jquery/jquery.cookie.js" type="text/javascript"></script>
-    <link href="http://wwwendt.de/tech/dynatree/src/skin/ui.dynatree.css" rel="stylesheet" type="text/css"/>
-    <script src="http://wwwendt.de/tech/dynatree/src/jquery.dynatree.js" type="text/javascript"></script>
-
+    <link href="http://wwwendt.de/tech/dynatree/src/skin/ui.dynatree.css" rel="stylesheet" type="text/css"
+          tal:attributes="href string:${view/portalUrl}/++resource++dynatree.ui.css"/>
+    <script src="http://wwwendt.de/tech/dynatree/src/jquery.dynatree.js" type="text/javascript"
+          tal:attributes="src string:${view/portalUrl}/++resource++dynatree.jquery.js"></script>
     <script type="text/javascript">
     /**
      * Implement inline editing for a dynatree node
@@ -82,11 +80,29 @@
         }
       });
       $(document).ready(function() {
-        $("input#addNode").click(function() {
+        $("#addNode").click(function(e) {
+          e.preventDefault();
           var activeNode = $("#tree").dynatree("getActiveNode");
           var activeNode = activeNode.append({
-            title: "New node",
+            title: "..",
             isFolder: true
+          });
+        });
+        $("#removeNode").click(function(e) {
+          e.preventDefault();
+          var activeNode = $("#tree").dynatree("getActiveNode");
+          activeNode.remove();
+        });
+        $("#saveTree").click(function(e) {
+          e.preventDefault();
+          var tree = $('#tree').dynatree('getTree').toDict();
+          $.ajax({
+            'url': $('#jsonUrl').val(),
+            'type': "POST",
+            'data': {'data': JSON.stringify(tree), 'update_taxonomy': true},
+            'success': function(data) {
+               window.location.href = $('#successUrl').val()
+            }
           });
         });
       });
@@ -97,13 +113,20 @@
 </head>
 
 <body>
+  <div metal:fill-slot="content-title">
+    <h1>Edit taxonomy data</h1>
+  </div>
   <div metal:fill-slot="content-core">
     <div id="tree">
     </div>
     <br/>
-    <input type="submit" id="addNode" value="Add node"/>
+    <button class="linkButton" id="addNode">Add node</button>
+    <button class="linkButton" id="removeNode">Delete node</button>
+    <button class="linkButton" id="saveTree">Save</button>
     <input type="hidden" id="jsonUrl"
            tal:attributes="value string:${view/portalUrl}/@@taxonomy-json?taxonomy=${request/form.widgets.taxonomy}"/>
+    <input type="hidden" id="successUrl"
+           tal:attributes="value string:${view/portalUrl}/@@taxonomy-settings"/>
   </div>
 </body>
 </html>
