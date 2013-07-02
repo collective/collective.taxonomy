@@ -140,7 +140,9 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
 To-Do
 =====
 
-- Make each taxonomy editable through the control panel.
+- Implement drag'n'drop for editing taxonomies.
+
+- Better documentation.
 
 
 Contributors
