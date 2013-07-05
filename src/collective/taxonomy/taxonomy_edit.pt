@@ -101,13 +101,16 @@
             'type': "POST",
             'data': {'data': JSON.stringify(tree), 'update_taxonomy': true},
             'success': function(data) {
-               window.location.href = $('#successUrl').val()
+               window.location.href = $('#successUrl').val();
             }
           });
         });
+        $("#back").click(function(e) {
+          e.preventDefault();
+          window.location.href = $('#successUrl').val();
+        });
       });
     });
-
     </script>
   </tal:block>
 </head>
@@ -123,6 +126,7 @@
     <button class="linkButton" id="addNode">Add node</button>
     <button class="linkButton" id="removeNode">Delete node</button>
     <button class="linkButton" id="saveTree">Save</button>
+    <button class="linkButton" id="back">Back</button>
     <input type="hidden" id="jsonUrl"
            tal:attributes="value string:${view/portalUrl}/@@taxonomy-json?taxonomy=${request/form.widgets.taxonomy}"/>
     <input type="hidden" id="successUrl"

@@ -1,6 +1,7 @@
 Changes
 =======
 
-In next release ...
+1.0 (2013-05-07) 
 
-- Initial public release.
+- Initial release 
+  [bosim]
