@@ -37,13 +37,14 @@ class TaxonomyBehavior(Persistent):
 
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
-                 write_permission=''):
+                 is_single_select=False, write_permission=''):
         self.name = name
         self.title = _(title)
         self.description = _(description)
         self.factory = None
         self.field_title = field_title
         self.field_description = field_description
+        self.is_single_select = is_single_select
         self.is_required = is_required
         self.write_permission = write_permission
 
@@ -128,34 +129,31 @@ class TaxonomyBehavior(Persistent):
     def generateInterface(self):
         logger.debug('generating interface for %s' % self.short_name)
 
-        if self.is_required:
-            select_field = schema.List(
+        if hasattr(self, 'is_single_select') and self.is_single_select:
+            select_field = schema.Choice(
                 title=_(unicode(self.field_title)),
                 description=_(unicode(self.field_description)),
-                required=True,
-                constraint=lambda value: bool(value),
-
-                value_type=schema.Choice(
-                    vocabulary=self.vocabulary_name,
-                    required=True
-                )
+                required=self.is_required,
+                vocabulary=self.vocabulary_name
             )
         else:
             select_field = schema.List(
                 title=_(unicode(self.field_title)),
                 description=_(unicode(self.field_description)),
-                required=False,
+                required=self.is_required,
+                constraint=lambda value: self.is_required and bool(value) or True,
                 value_type=schema.Choice(
                     vocabulary=self.vocabulary_name,
-                    required=False
+                    required=self.is_required
                 )
             )
 
         schemaclass = SchemaClass(
             self.short_name, (form.Schema, ),
             __module__='collective.taxonomy.generated',
-            attrs={str(self.field_name):
-                   select_field }
+            attrs={
+                str(self.field_name): select_field
+            }
         )
 
         if self.write_permission:
@@ -171,11 +169,12 @@ class TaxonomyBehavior(Persistent):
                       fields=[self.field_name])]
         )
 
-        schemaclass.setTaggedValue(
-            WIDGETS_KEY,
-            {self.field_name:
-             'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
-        )
+        if hasattr(self, 'is_single_select') and not self.is_single_select:
+            schemaclass.setTaggedValue(
+                WIDGETS_KEY,
+                {self.field_name:
+                 'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
+            )
 
         alsoProvides(schemaclass, form.IFormFieldProvider)
         return schemaclass

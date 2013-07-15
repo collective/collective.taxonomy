@@ -11,6 +11,30 @@ from .utility import Taxonomy
 from .vdex import ImportVdex, ExportVdex
 
 
+def importTaxonomy(context):
+    directory = context.listDirectory('taxonomies/')
+
+    if not directory:
+        return
+
+    for filename in directory:
+        body = context.readDataFile('taxonomies/' + filename)
+        if body is not None:
+            importer = TaxonomyImportExportAdapter(context)
+            importer.importDocument(body)
+
+
+def exportTaxonomy(context):
+    site = context.getSite()
+    for (name, taxonomy) in site.getSiteManager().getUtilitiesFor(ITaxonomy):
+        short_name = name.split('.')[-1]
+        exporter = TaxonomyImportExportAdapter(context)
+        body = exporter.exportDocument(name)
+        if body is not None:
+            context.writeDataFile('taxonomies/' + short_name + '.xml',
+                                  body, 'text/xml')
+
+
 class TaxonomyImportExportAdapter(object):
     IMSVDEX_NS = 'http://www.imsglobal.org/xsd/imsvdex_v1p0'
 

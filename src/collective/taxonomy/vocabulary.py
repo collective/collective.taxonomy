@@ -54,6 +54,9 @@ class Vocabulary(object):
         return self.getTerm(identifier) is not None
 
     def getTermByToken(self, input_identifier):
+        if type(input_identifier) == list:
+            raise LookupError("Expected string, not list")
+
         return SimpleTerm(value=input_identifier,
                           title=self.message(input_identifier,
                                              self.inv_data[

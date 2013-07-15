@@ -9,8 +9,10 @@ from zope.schema.interfaces import IVocabularyFactory
 
 from .i18n import MessageFactory as _
 
+
 class ITaxonomySelectWidget(Interface):
     """ Marker interface for the taxonomy select widget """
+
 
 class IBrowserLayer(Interface):
     """Add-on browser layer."""
@@ -49,15 +51,20 @@ class ITaxonomySettings(Interface):
 
 
 class ITaxonomyForm(Interface):
-    # Regular fields
+    taxonomy = schema.TextLine(
+        title=_(u"Taxonomy"),
+        required=False
+    )
 
     field_title = schema.TextLine(
-        title=_(u"Field title"),
+        title=_(u"Title"),
+        description=_("Will be used for the field title as well"),
         required=True
     )
 
     field_description = schema.TextLine(
-        title=_(u"Field description"),
+        title=_(u"Description"),
+        description=_("Will be used for the field description as well"),
         required=False
     )
 
@@ -68,7 +75,12 @@ class ITaxonomyForm(Interface):
     )
 
     is_required = schema.Bool(
-        title=_(u"Is required?"),
+        title=_(u"Required"),
+        required=True
+    )
+
+    is_single_select = schema.Bool(
+        title=_(u"Single select"),
         required=True
     )
 
@@ -76,10 +88,4 @@ class ITaxonomyForm(Interface):
         title=_(u"Write permission"),
         required=False,
         vocabulary='collective.taxonomy.permissions'
-    )
-
-    # Taxonomy hidden field
-    taxonomy = schema.TextLine(
-        title=_(u"Taxonomy"),
-        required=False
     )
