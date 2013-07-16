@@ -33,11 +33,14 @@ logger = logging.getLogger("collective.taxonomy")
 
 
 class TaxonomyBehavior(Persistent):
+    is_single_select = False
+
     implements(IBehavior)
 
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
-                 is_single_select=False, write_permission=''):
+                 is_single_select=False, write_permission='',
+                 default_language='en'):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -47,6 +50,7 @@ class TaxonomyBehavior(Persistent):
         self.is_single_select = is_single_select
         self.is_required = is_required
         self.write_permission = write_permission
+        self.default_language = default_language
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)

@@ -20,6 +20,7 @@ from z3c.form import form, field, button
 from z3c.form.interfaces import HIDDEN_MODE
 
 from .i18n import MessageFactory as _
+from .factory import registerTaxonomy
 from .interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
 from .exportimport import TaxonomyImportExportAdapter
 
@@ -113,12 +114,14 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
     @formlib.action(_(u'label_export', default=u"Export"),
                     name=u'export')
     def handle_export_action(self, action, data):
+        sm = self.context.getSiteManager()
         taxonomies = data.get('taxonomies', [])
 
         if len(taxonomies) > 0:
             adapter = TaxonomyImportExportAdapter(self.context)
             self.context.REQUEST.RESPONSE.setHeader('Content-type', 'text/xml')
-            return adapter.exportDocument(taxonomies[0])
+            utility = sm.queryUtility(ITaxonomy, name=taxonomies[0])
+            return adapter.exportDocument(utility)
 
         return None
 
@@ -128,7 +131,6 @@ class TaxonomyAddForm(form.AddForm):
 
     def updateWidgets(self):
         form.AddForm.updateWidgets(self)
-        self.widgets['taxonomy'].mode = HIDDEN_MODE
 
     def create(self, data):
         return data
@@ -137,22 +139,25 @@ class TaxonomyAddForm(form.AddForm):
         if 'import_file' not in data:
             raise ValueError("Import file is not in form")
 
-        # Read import file
-        import_file = data['import_file'].data
-        del data['import_file']
-
-        # This field is unused in add form.
-        del data['taxonomy']
+        taxonomy = registerTaxonomy(
+            self.context,
+            name=data['taxonomy'],
+            title=data['field_title'],
+            description=data['field_description'],
+            default_language=data['default_language']
+        )
 
         # Import
         adapter = TaxonomyImportExportAdapter(self.context)
-        taxonomy_name = adapter.importDocument(import_file)
 
-        sm = self.context.getSiteManager()
-        utility = sm.queryUtility(ITaxonomy,
-                                  name=taxonomy_name)
+        if 'import_file' in data:
+            if data['import_file']:
+                import_file = data['import_file'].data
+                adapter.importDocument(taxonomy, import_file)
+            del data['import_file']
 
-        utility.registerBehavior(**data)
+        del data['taxonomy']
+        taxonomy.registerBehavior(**data)
 
         IStatusMessage(self.context.REQUEST).addStatusMessage(
             _(u"Taxonomy imported."), type="info")
@@ -254,6 +259,7 @@ class TaxonomyEditFormAdapter(object):
         generated_name = utility.getGeneratedName()
 
         self.__dict__['context'] = context
+        self.__dict__['utility'] = utility
         self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
         self.__dict__['behavior'] = sm.queryUtility(IBehavior,
                                                     name=generated_name)
@@ -276,4 +282,11 @@ class TaxonomyEditFormAdapter(object):
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
             adapter.importDocument(import_file)
         else:
+            if attr == 'field_title':
+                self.__dict__['utility'].title = value
+            if attr == 'field_description':
+                self.__dict__['utility'].description = value
+            if attr == 'default_language':
+                self.__dict__['utility'].default_language = value
+
             setattr(self.__dict__['behavior'], attr, value)

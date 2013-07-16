@@ -1,0 +1,33 @@
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+
+from zope.component import getUtility, queryUtility
+from zope.i18n.interfaces import ITranslationDomain
+from zope.schema.interfaces import IVocabularyFactory
+
+from .interfaces import ITaxonomy
+from .utility import Taxonomy
+
+
+def registerTaxonomy(context, name, title, description, default_language):
+    if hasattr(context, 'getSite'):
+        site = context.getSite()
+    else:
+        site = context
+
+    normalizer = getUtility(IIDNormalizer)
+
+    normalized_name = normalizer.normalize(name).replace('-', '')
+    utility_name = 'collective.taxonomy.' + normalized_name
+    taxonomy = queryUtility(ITaxonomy, name=utility_name)
+
+    if taxonomy is None:
+        taxonomy = Taxonomy(utility_name, title, default_language)
+        sm = site.getSiteManager()
+        sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
+        sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
+        sm.registerUtility(taxonomy, ITranslationDomain, name=utility_name)
+    else:
+        taxonomy.title = title
+        taxonomy.default_language = default_language
+
+    return taxonomy

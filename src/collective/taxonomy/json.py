@@ -42,7 +42,7 @@ class Json(TreeExport, BrowserView):
     def generateDataForTaxonomy(self, parsed_data, path='/', ignore=False):
         result = []
         if not ignore:
-            new_key = parsed_data['key'] and parsed_data['key'] or self.generateKey()
+            new_key = not parsed_data['key'].startswith('_') and parsed_data['key'] or self.generateKey()
             new_path = path + parsed_data['title']
             result.append((new_path, new_key, ))
 
@@ -84,15 +84,21 @@ class Json(TreeExport, BrowserView):
     def exportJson(self):
         self.request.RESPONSE.setHeader('Content-type', 'application/json')
         root = ElementTree.Element('vdex')
-        root = self.buildTree(root)
+        try:
+            root = self.buildTree(root)
+        except ValueError:
+            root = None
+            pass
+
         result = {
             'key': 'root',
             'title': 'Taxonomy',
             'children': [],
             'isFolder': True
         }
-        for term in root.findall('term'):
-            result['children'].append(self.generateJson(term))
+        if root:
+            for term in root.findall('term'):
+                result['children'].append(self.generateJson(term))
 
         return simplejson.dumps([result])
 

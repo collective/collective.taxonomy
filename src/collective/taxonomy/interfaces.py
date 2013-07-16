@@ -68,6 +68,12 @@ class ITaxonomyForm(Interface):
         required=False
     )
 
+    default_language = schema.TextLine(
+        title=_(u"Default language"),
+        description=_("For example en, da, de, etc."),
+        required=False
+    )
+
     import_file = NamedBlobFile(
         title=_(u"Upload VDEX xml file"),
         description=_(u" "),
