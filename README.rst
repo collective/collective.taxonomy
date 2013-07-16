@@ -142,6 +142,8 @@ To-Do
 
 - Implement drag'n'drop for editing taxonomies.
 
+- Support multiple languages when editing taxonomies.
+
 - Better documentation.
 
 
