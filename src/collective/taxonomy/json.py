@@ -37,7 +37,7 @@ class Json(TreeExport, BrowserView):
         return result
 
     def generateKey(self):
-        return uuid.uuid4()
+        return str(uuid.uuid4())
 
     def generateDataForTaxonomy(self, parsed_data, path='/', ignore=False):
         result = []
