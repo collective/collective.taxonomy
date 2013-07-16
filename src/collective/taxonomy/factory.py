@@ -8,7 +8,7 @@ from .interfaces import ITaxonomy
 from .utility import Taxonomy
 
 
-def registerTaxonomy(context, name, title, description, default_language):
+def registerTaxonomy(context, name, title, default_language, description=''):
     if hasattr(context, 'getSite'):
         site = context.getSite()
     else:

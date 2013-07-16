@@ -37,7 +37,7 @@ def importTaxonomy(context):
                 for name in ['name', 'title',
                              'description', 'default_language']:
                     try:
-                        result[name] = config.get('taxonomy', name)
+                        result[name] = unicode(config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
                         pass
 
@@ -50,10 +50,15 @@ def importTaxonomy(context):
 
                 result = {}
                 for name in ['field_title', 'field_description',
-                             'is_single_select', 'is_required',
                              'write_permission']:
                     try:
-                        result[name] = config.get('taxonomy', name)
+                        result[name] = unicode(config.get('taxonomy', name), 'utf-8')
+                    except ConfigParser.NoOptionError:
+                        pass
+
+                for name in ['is_single_select', 'is_required']:
+                    try:
+                        result[name] = config.get('taxonomy', name) == 'true' and True 
                     except ConfigParser.NoOptionError:
                         pass
 
