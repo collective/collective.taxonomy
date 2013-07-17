@@ -92,7 +92,6 @@ def exportTaxonomy(context):
                         config.set('taxonomy', name, value)
 
             for name in ['field_title', 'field_description',
-                         'is_single_select', 'is_required',
                          'write_permission']:
                 value = getattr(behavior, name, None)
                 if value:
@@ -100,6 +99,11 @@ def exportTaxonomy(context):
                         config.set('taxonomy', name, value.encode('utf-8'))
                     else:
                         config.set('taxonomy', name, value)
+
+            for name in ['is_single_select', 'is_required']:
+                value = getattr(behavior, name, None)
+                if value:
+                    config.set('taxonomy', name, str(value).lower())
 
             filehandle = BytesIO()
             config.write(filehandle)
