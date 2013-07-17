@@ -50,7 +50,7 @@ def importTaxonomy(context):
 
                 result = {}
                 for name in ['field_title', 'field_description',
-                             'write_permission']:
+                             'default_language', 'write_permission']:
                     try:
                         result[name] = unicode(config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
