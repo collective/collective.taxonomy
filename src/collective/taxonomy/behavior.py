@@ -4,7 +4,6 @@ import generated
 from persistent import Persistent
 
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
-from plone.behavior.interfaces import IBehavior
 from plone.directives import form
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
@@ -13,6 +12,8 @@ from plone.registry import Record, field
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
 from plone.supermodel.model import SchemaClass
+from plone.z3cform.fieldsets.extensible import FormExtender
+from plone.z3cform.fieldsets.interfaces import IFormExtender
 
 from Products.CMFCore.utils import getToolByName
 from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
@@ -21,21 +22,37 @@ from Products.ZCatalog.interfaces import IZCatalog
 
 from zope import schema
 from zope.component.hooks import getSite
-from zope.interface import implements, alsoProvides, Invalid
-from zope.component import getUtility, provideAdapter
+from zope.interface import implements, alsoProvides, Interface
+from zope.component import getUtility, adapts
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
-from z3c.form import validator
+from z3c.form.interfaces import IEditForm
+#, IAddForm
 
+from .interfaces import ITaxonomyBehavior
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer
 
 logger = logging.getLogger("collective.taxonomy")
 
 
+class PermissionChecker(FormExtender):
+    implements(IFormExtender)
+    adapts(Interface, IDefaultBrowserLayer, IEditForm)
+
+    def __init__(self, context, request, form):
+        self.context = context
+        self.request = request
+        self.form = form
+
+    def update(self):
+        """ Do implementation """
+
+
 class TaxonomyBehavior(Persistent):
     is_single_select = False
 
-    implements(IBehavior)
+    implements(ITaxonomyBehavior)
 
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,

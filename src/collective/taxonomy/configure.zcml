@@ -134,5 +134,10 @@
       />
 
     <include file="widget.zcml" />
-  
+
+    <adapter
+        factory=".behavior.PermissionChecker"
+        />
+        
+
 </configure>

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from plone.behavior.interfaces import IBehavior
+
 from plone.namedfile.field import NamedBlobFile
 
 from zope.interface import Interface
@@ -29,6 +31,9 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
 
     def __setitem__(identifier, term):
         """ """
+
+class ITaxonomyBehavior(IBehavior):
+    """ """
 
 # Control panel stuff
 
