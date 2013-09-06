@@ -3,7 +3,7 @@ import generated
 
 from persistent import Persistent
 
-from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
+from plone.autoform.interfaces import WIDGETS_KEY
 from plone.directives import form
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
@@ -35,6 +35,8 @@ from .indexer import TaxonomyIndexer
 
 logger = logging.getLogger("collective.taxonomy")
 
+GROUP_PERMISSION_KEY = "collective.taxonomy.security.group"
+
 
 class PermissionChecker(FormExtender):
     implements(IFormExtender)
@@ -46,7 +48,18 @@ class PermissionChecker(FormExtender):
         self.form = form
 
     def update(self):
-        """ Do implementation """
+        membership_tool = getToolByName(self.context, 'portal_membership')
+
+        for field_group in self.form.groups:
+            for (field_name, field_instance) in field_group.fields.items():
+                interface = field_instance.interface
+                group = interface.queryTaggedValue(GROUP_PERMISSION_KEY)
+                if group:
+                    current_member = membership_tool.getAuthenticatedMember()
+                    if group not in current_member.getGroups():
+                        field_group.fields = field_group.fields.omit(
+                            field_name
+                        )
 
 
 class TaxonomyBehavior(Persistent):
@@ -56,7 +69,7 @@ class TaxonomyBehavior(Persistent):
 
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
-                 is_single_select=False, write_permission='',
+                 is_single_select=False, group_permission='',
                  default_language='en'):
         self.name = name
         self.title = _(title)
@@ -66,8 +79,8 @@ class TaxonomyBehavior(Persistent):
         self.field_description = field_description
         self.is_single_select = is_single_select
         self.is_required = is_required
-        self.write_permission = write_permission
         self.default_language = default_language
+        self.group_permission = group_permission
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)
@@ -177,18 +190,17 @@ class TaxonomyBehavior(Persistent):
             }
         )
 
-        if self.write_permission:
-            schemaclass.setTaggedValue(
-                WRITE_PERMISSIONS_KEY,
-                {self.field_name:
-                 self.write_permission}
-            )
-
         schemaclass.setTaggedValue(
             FIELDSETS_KEY,
             [Fieldset('categorization',
                       fields=[self.field_name])]
         )
+
+        if hasattr(self, 'group_permission') and self.group_permission:
+            schemaclass.setTaggedValue(
+                GROUP_PERMISSION_KEY,
+                self.group_permission
+            )
 
         if hasattr(self, 'is_single_select') and not self.is_single_select:
             schemaclass.setTaggedValue(

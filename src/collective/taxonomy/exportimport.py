@@ -35,7 +35,7 @@ def importTaxonomy(context):
             if body is not None:
                 result = {}
                 for name in ['name', 'title',
-                             'description', 'default_language']:
+                             'description', 'default_language', 'group_permission']:
                     try:
                         result[name] = unicode(config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
@@ -50,7 +50,7 @@ def importTaxonomy(context):
 
                 result = {}
                 for name in ['field_title', 'field_description',
-                             'default_language', 'write_permission']:
+                             'default_language', 'group_permission']:
                     try:
                         result[name] = unicode(config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
@@ -83,7 +83,7 @@ def exportTaxonomy(context):
             name = name.replace('collective.taxonomy.', '')
             config.set('taxonomy', 'name', name)
 
-            for name in ['title', 'description', 'default_language']:
+            for name in ['title', 'description', 'default_language', 'group_permission']:
                 value = getattr(taxonomy, name, None)
                 if value:
                     if type(value) == unicode:
@@ -91,8 +91,7 @@ def exportTaxonomy(context):
                     else:
                         config.set('taxonomy', name, value)
 
-            for name in ['field_title', 'field_description',
-                         'write_permission']:
+            for name in ['field_title', 'field_description']:
                 value = getattr(behavior, name, None)
                 if value:
                     if type(value) == unicode:

@@ -32,6 +32,7 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
     def __setitem__(identifier, term):
         """ """
 
+
 class ITaxonomyBehavior(IBehavior):
     """ """
 
@@ -95,8 +96,8 @@ class ITaxonomyForm(Interface):
         required=True
     )
 
-    write_permission = schema.Choice(
-        title=_(u"Write permission"),
+    group_permission = schema.Choice(
+        title=_(u"Group permission"),
         required=False,
-        vocabulary='collective.taxonomy.permissions'
+        vocabulary='collective.taxonomy.groups'
     )

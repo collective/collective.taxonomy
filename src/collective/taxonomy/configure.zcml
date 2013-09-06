@@ -128,8 +128,8 @@
       />
 
   <utility
-      factory=".vocabulary.PermissionsVocabulary"
-      name="collective.taxonomy.permissions"
+      factory=".vocabulary.GroupsVocabulary"
+      name="collective.taxonomy.groups"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
