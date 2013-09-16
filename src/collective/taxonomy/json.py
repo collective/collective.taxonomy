@@ -61,6 +61,9 @@ class Json(TreeExport, BrowserView):
 
         # XXX: Support multiple languages
         language = self.taxonomy.default_language
+        if not language:
+            raise RuntimeError("Default language not defined")
+
         data_for_taxonomy = self.generateDataForTaxonomy(
             parsed_data, ignore=True
         )

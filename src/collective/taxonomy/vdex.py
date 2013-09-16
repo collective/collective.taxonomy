@@ -98,7 +98,7 @@ class TreeExport(object):
             for (language, langstring) in translations:
                 langstringnode = ElementTree.Element('langstring')
                 langstringnode.text = langstring
-                langstringnode.attrib['language'] = language
+                langstringnode.attrib['language'] = language and language or 'en'
                 captionnode.append(langstringnode)
 
             termnode.append(identifiernode)

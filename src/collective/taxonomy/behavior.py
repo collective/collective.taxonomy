@@ -64,7 +64,7 @@ class PermissionChecker(FormExtender):
 
 class TaxonomyBehavior(Persistent):
 
-    group = '' #BBB
+    group = ''  # BBB
     is_single_select = False
 
     implements(ITaxonomyBehavior)
