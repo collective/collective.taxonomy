@@ -72,21 +72,6 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
             IStatusMessage(self.context.REQUEST).addStatusMessage(
                 _(u"Please select one taxonomy."), type="info")
 
-    @formlib.action(
-        _(u'label_edit_data_taxonomy', default=u'Edit taxonomy data'),
-        name=u'edit_data_taxonomy'
-    )
-    def handle_edit_taxonomy_data_action(self, action, data):
-        if len(data.get('taxonomies', [])) > 0:
-            self.context.REQUEST.RESPONSE.redirect(
-                self.context.portal_url() +
-                '/@@taxonomy-edit-data?form.widgets.taxonomy=' +
-                data.get('taxonomies')[0]
-            )
-        else:
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _(u"Please select one taxonomy."), type="info")
-
     @formlib.action(_(u'label_delete_taxonomy', default=u'Delete taxonomy'),
                     name=u'delete_taxonomy')
     def handle_delete_taxonomy_action(self, action, data):
