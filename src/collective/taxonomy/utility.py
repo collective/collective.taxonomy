@@ -85,8 +85,9 @@ class Taxonomy(SimpleItem):
         sm = context.getSiteManager()
         behavior = TaxonomyBehavior(self.name,
                                     self.title,
-                                    u'Adds the named taxonomy to the field'
-                                    'list', **kwargs)
+                                    u'Adds the named taxonomy to the field',
+                                    'list', u"",
+                                    **kwargs)
         sm.registerUtility(behavior, IBehavior,
                            name=self.getGeneratedName())
 

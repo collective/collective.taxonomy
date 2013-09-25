@@ -1,6 +1,8 @@
 Changes
 =======
 
+- Fixed error in vdex import.
+
 - Avoid failure at export when no default language was selected.
 
 - Remove dependency form plone.directives
