@@ -38,6 +38,7 @@ setup(
         'setuptools',
         'plone.supermodel',
         'plone.app.registry',
+        'elementtree',
     ],
     extras_require={
         'test': [
