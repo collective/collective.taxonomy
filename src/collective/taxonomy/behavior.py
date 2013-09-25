@@ -5,7 +5,7 @@ from persistent import Persistent
 
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
 from plone.behavior.interfaces import IBehavior
-from plone.directives import form
+from plone.autoform import directives as form
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry

@@ -8,7 +8,7 @@ from zope.component.hooks import getSite
 
 from plone.supermodel.model import SchemaClass
 from plone.behavior.interfaces import IBehavior
-from plone.directives import form
+from plone.autoform import directives as form
 from plone.synchronize import synchronized
 
 
