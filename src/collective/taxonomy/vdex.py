@@ -98,7 +98,7 @@ class TreeExport(object):
             for (language, langstring) in translations:
                 langstringnode = ElementTree.Element('langstring')
                 langstringnode.text = langstring
-                langstringnode.attrib['language'] = language
+                langstringnode.attrib['language'] = language or self.taxonomy.default_language or ''
                 captionnode.append(langstringnode)
 
             termnode.append(identifiernode)
@@ -157,7 +157,7 @@ class ExportVdex(TreeExport):
         taxonomy = self.taxonomy
 
         attrib = self.IMSVDEX_ATTRIBS
-        attrib['language'] = taxonomy.default_language
+        attrib['language'] = taxonomy.default_language or ''
 
         root = ElementTree.Element('vdex', attrib=attrib)
 
@@ -166,7 +166,7 @@ class ExportVdex(TreeExport):
 
         langstring = ElementTree.Element(
             'langstring',
-            attrib={'language': taxonomy.default_language}
+            attrib={'language': taxonomy.default_language or ''}
         )
         langstring.text = taxonomy.title
         vocabName.append(langstring)

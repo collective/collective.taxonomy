@@ -1,6 +1,8 @@
 Changes
 =======
 
+- Avoid failure at export when no default language was selected.
+
 - Remove dependency form plone.directives
 
 - Added elementtree in dependencies
