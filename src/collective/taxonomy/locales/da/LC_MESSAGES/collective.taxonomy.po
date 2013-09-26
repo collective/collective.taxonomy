@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-09-25 16:59+0000\n"
+"POT-Creation-Date: 2013-09-26 09:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Bo Simonsen <bo@headnet.dk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,14 @@ msgstr ""
 msgid "Add cancelled"
 msgstr ""
 
+#: ./taxonomy_edit.pt:126
+msgid "Add node"
+msgstr ""
+
+#: ./taxonomy_edit.pt:129
+msgid "Back"
+msgstr ""
+
 #: ./controlpanel.py:183
 msgid "Cancel"
 msgstr ""
@@ -36,6 +44,10 @@ msgstr ""
 
 #: ./interfaces.py:72
 msgid "Default language"
+msgstr ""
+
+#: ./taxonomy_edit.pt:127
+msgid "Delete node"
 msgstr ""
 
 #: ./interfaces.py:66
@@ -63,6 +75,7 @@ msgid "Required"
 msgstr ""
 
 #: ./controlpanel.py:201
+#: ./taxonomy_edit.pt:128
 msgid "Save"
 msgstr ""
 
@@ -128,6 +141,7 @@ msgstr ""
 
 #. Default: "Edit taxonomy data"
 #: ./controlpanel.py:76
+#: ./taxonomy_edit.pt:120
 msgid "label_edit_data_taxonomy"
 msgstr ""
 

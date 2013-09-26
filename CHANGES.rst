@@ -4,7 +4,9 @@ Changes
 1.2 (Unreleased)
 ----------------
 
-- French translation and i18n extraction script.
+- i18n fixes,
+  messages extraction script,
+  french translation.
   [thomasdesvenain]
 
 - Fixed error in vdex import.
