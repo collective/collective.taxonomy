@@ -13,7 +13,6 @@ from zope.lifecycleevent import modified
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import ram
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.dexterity.schema import SCHEMA_CACHE
 
 from persistent.dict import PersistentDict
 
