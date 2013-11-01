@@ -4,6 +4,9 @@ Changes
 1.2 (Unreleased)
 ----------------
 
+- Add collective.js.jqueryui as dependency.  Install it automatically.
+  [maurits]
+
 - i18n fixes,
   messages extraction script,
   french translation.

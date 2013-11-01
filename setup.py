@@ -41,6 +41,7 @@ setup(
         'plone.app.dexterity[grok]',
         'elementtree',
         'simplejson',
+        'collective.js.jqueryui',
     ],
     extras_require={
         'test': [
