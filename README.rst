@@ -96,7 +96,9 @@ The package comes with integration for the `Dexterity
 each taxonomy, a *behavior* is available that adds a choice field
 which pulls its vocabulary from the taxonomy. The behavior is
 configurable in terms of field name, title and whether it allows the
-selection of one or more multiple terms.
+selection of one or more multiple terms.  You should *first* install
+dexterity and then ``collective.taxonomy``, otherwise the behaviors
+for the existing taxonomies will be missing.
 
 
 How does it work?
