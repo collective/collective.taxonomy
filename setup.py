@@ -38,7 +38,9 @@ setup(
         'setuptools',
         'plone.supermodel',
         'plone.app.registry',
+        'plone.app.dexterity[grok]',
         'elementtree',
+        'simplejson',
     ],
     extras_require={
         'test': [
