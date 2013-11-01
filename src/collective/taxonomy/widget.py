@@ -13,6 +13,7 @@ class TaxonomySelectWidget(OrderedSelectWidget):
     zope.interface.implements(ITaxonomySelectWidget,
                               interfaces.IOrderedSelectWidget)
 
+
 @zope.component.adapter(zope.schema.interfaces.ISequence,
                         interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

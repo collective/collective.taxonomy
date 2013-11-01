@@ -86,7 +86,7 @@ class Taxonomy(SimpleItem):
         args_dict = copy(kwargs)
         args_dict.setdefault('name', "list")
         args_dict.setdefault('title', self.title)
-        args_dict.setdefault('description',  u'Adds the named taxonomy to the field')
+        args_dict.setdefault('description', u'Adds the named taxonomy to the field')
         args_dict.setdefault('field_title', "list")
         args_dict.setdefault('field_description', "")
         behavior = TaxonomyBehavior(**args_dict)
@@ -124,7 +124,6 @@ class Taxonomy(SimpleItem):
         for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ''))
-
 
     def unregisterBehavior(self):
         context = getSite()
