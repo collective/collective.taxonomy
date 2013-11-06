@@ -145,7 +145,7 @@ class TaxonomyBehavior(Persistent):
                 title=_(unicode(self.field_title)),
                 description=_(unicode(self.field_description)),
                 required=self.is_required,
-                constraint=lambda value: self.is_required and bool(value) or True,
+                constraint=lambda value: bool(value) if self.is_required else True,
                 value_type=schema.Choice(
                     vocabulary=self.vocabulary_name,
                     required=self.is_required
