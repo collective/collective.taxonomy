@@ -136,14 +136,14 @@ class TaxonomyBehavior(Persistent):
         if hasattr(self, 'is_single_select') and self.is_single_select:
             select_field = schema.Choice(
                 title=_(unicode(self.field_title)),
-                description=_(unicode(self.field_description)),
+                description=_(unicode(self.field_description or "")),
                 required=self.is_required,
                 vocabulary=self.vocabulary_name
             )
         else:
             select_field = schema.List(
                 title=_(unicode(self.field_title)),
-                description=_(unicode(self.field_description)),
+                description=_(unicode(self.field_description or "")),
                 required=self.is_required,
                 constraint=lambda value: bool(value) if self.is_required else True,
                 value_type=schema.Choice(
