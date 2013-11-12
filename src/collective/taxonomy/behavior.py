@@ -5,7 +5,7 @@ from persistent import Persistent
 
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
 from plone.behavior.interfaces import IBehavior
-from plone.directives import form
+from plone.autoform import directives as form
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
@@ -21,10 +21,8 @@ from Products.ZCatalog.interfaces import IZCatalog
 
 from zope import schema
 from zope.component.hooks import getSite
-from zope.interface import implements, alsoProvides, Invalid
-from zope.component import getUtility, provideAdapter
-
-from z3c.form import validator
+from zope.interface import implements, alsoProvides
+from zope.component import getUtility
 
 from .i18n import MessageFactory as _
 from .indexer import TaxonomyIndexer

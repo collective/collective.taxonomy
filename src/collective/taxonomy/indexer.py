@@ -36,7 +36,7 @@ class TaxonomyIndexerWrapper(object):
         found = []
 
         stored_element = getattr(self.context, self.field_name)
-        if type(stored_element) != type([]):
+        if not isinstance(stored_element, list):
             stored_element = [stored_element]
 
         for (language, data) in utility.data.items():

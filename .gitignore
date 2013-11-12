@@ -1,3 +1,13 @@
 *.pyc
-*.egg-info
-*.mo
+*.pyo
+.installed.cfg
+.mr.developer.cfg
+bin
+build
+develop-eggs
+dist
+downloads
+eggs
+local.cfg
+parts
+var

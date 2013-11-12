@@ -88,7 +88,7 @@ primary focus is to support the exchange of terms in the VDEX format:
 
 This exchange is integrated with `GenericSetup
 <http://packages.python.org/Products.GenericSetup/>`_ which manages
-imports and exports using setup profiles. Is is also possible to
+imports and exports using setup profiles. It is also possible to
 use the controlpanel for importing and exporting VDEX files.
 
 The package comes with integration for the `Dexterity
@@ -96,7 +96,9 @@ The package comes with integration for the `Dexterity
 each taxonomy, a *behavior* is available that adds a choice field
 which pulls its vocabulary from the taxonomy. The behavior is
 configurable in terms of field name, title and whether it allows the
-selection of one or more multiple terms.
+selection of one or more multiple terms.  You should *first* install
+dexterity and then ``collective.taxonomy``, otherwise the behaviors
+for the existing taxonomies will be missing.
 
 
 How does it work?
@@ -118,10 +120,10 @@ In the controlpanel (``/@@taxonomy-settings``), the user can:
 
 When a new behavior is created for a taxonomy, it can easily be added
 to the desired content types using the content type control panel, provided
-by Dexterity. After this is done, the taxonomy is available on add- and edit
+by Dexterity. After this is done, the taxonomy is available on add and edit
 forms, and it is also available for collections, if ``plone.app.collection``
 is used on the site. An index is also created, so the taxonomies can easily
-been used for catalog queries.
+be used for catalog queries.
 
 Requirements
 ============
@@ -162,6 +164,10 @@ Contributors
 - Malthe Borch <mborch@gmail.com>
 
 - Thomas Clement Mogensen <thomas@headnet.dk>
+
+- Thomas Desvenain <thomas.desvenain@gmail.com>
+
+- Maurits van Rees <maurits@vanrees.org>
 
 
 Existing work

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-10-10T15:19:54.172719\n"
+"POT-Creation-Date: 2013-09-26 09:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Bo Simonsen <bo@headnet.dk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,58 +14,144 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: collective.taxonomy\n"
 
-msgid "Field description"
-msgstr "Felt beskrivelse"
+#: ./interfaces.py:79
+msgid " "
+msgstr ""
 
-msgid "Field name"
-msgstr "Felt navn"
+#: ./controlpanel.py:172
+msgid "Add"
+msgstr ""
 
-msgid "Field title"
-msgstr "Felt titel"
+#: ./controlpanel.py:185
+msgid "Add cancelled"
+msgstr ""
 
-msgid "Is required?"
-msgstr "Er krævet?"
+#: ./taxonomy_edit.pt:126
+msgid "Add node"
+msgstr ""
 
-msgid "Multi-select field"
-msgstr "Multi-select felt"
+#: ./taxonomy_edit.pt:129
+msgid "Back"
+msgstr ""
 
+#: ./controlpanel.py:183
+msgid "Cancel"
+msgstr ""
+
+#: ./controlpanel.py:219
+msgid "Changes saved"
+msgstr ""
+
+#: ./interfaces.py:72
+msgid "Default language"
+msgstr ""
+
+#: ./taxonomy_edit.pt:127
+msgid "Delete node"
+msgstr ""
+
+#: ./interfaces.py:66
+msgid "Description"
+msgstr ""
+
+#: ./controlpanel.py:226
+msgid "Edit cancelled"
+msgstr ""
+
+#: ./interfaces.py:73
+msgid "For example en, da, de, etc."
+msgstr ""
+
+#: ./controlpanel.py:108
+msgid "Please select at least one taxonomy."
+msgstr ""
+
+#: ./controlpanel.py:73
+msgid "Please select one taxonomy."
+msgstr ""
+
+#: ./interfaces.py:84
+msgid "Required"
+msgstr ""
+
+#: ./controlpanel.py:201
+#: ./taxonomy_edit.pt:128
+msgid "Save"
+msgstr ""
+
+#: ./interfaces.py:89
+msgid "Single select"
+msgstr ""
+
+#: ./interfaces.py:40
+#: ./profile/controlpanel.xml
 msgid "Taxonomies"
 msgstr "Taxonomier"
 
-msgid "Taxonomy settings"
-msgstr "Taxonomi indstillinger"
+#: ./interfaces.py:55
+msgid "Taxonomy"
+msgstr ""
 
-msgid "Upload VDEX xml file"
-msgstr "Upload VDEX xml fil"
-
-msgid "Taxonomy imported."
-msgstr "Taxonomi importeret."
-
+#: ./controlpanel.py:105
 msgid "Taxonomy deleted."
 msgstr "Taxonomi er nu slettet."
 
-msgid "Behavior added."
-msgstr "Opførsel tilføjet."
+#: ./controlpanel.py:163
+msgid "Taxonomy imported."
+msgstr "Taxonomi importeret."
 
-msgid "Behavior deleted."
-msgstr "Opførsel er nu slettet."
+#: ./controlpanel.py:51
+msgid "Taxonomy settings"
+msgstr "Taxonomi indstillinger"
 
-#. Default: "Add behavior"
-msgid "label_add_behavior"
-msgstr "Tilføj opførsel"
+#: ./interfaces.py:60
+msgid "Title"
+msgstr ""
 
-#. Default: "Delete behavior"
-msgid "label_del_behavior"
-msgstr "Fjern opførsel"
+#: ./interfaces.py:78
+msgid "Upload VDEX xml file"
+msgstr "Upload VDEX xml fil"
 
-#. Default: "Delete"
-msgid "label_delete"
-msgstr "Slet"
+#: ./interfaces.py:67
+msgid "Will be used for the field description as well"
+msgstr ""
+
+#: ./interfaces.py:61
+msgid "Will be used for the field title as well"
+msgstr ""
+
+#: ./interfaces.py:94
+msgid "Write permission"
+msgstr ""
+
+#. Default: "Select the taxnomies you desire to modify"
+#: ./interfaces.py:42
+msgid "help_taxonomies"
+msgstr ""
+
+#. Default: "Add taxonomy"
+#: ./controlpanel.py:55
+msgid "label_add_taxonomy"
+msgstr ""
+
+#. Default: "Delete taxonomy"
+#: ./controlpanel.py:90
+msgid "label_delete_taxonomy"
+msgstr ""
+
+#. Default: "Edit taxonomy data"
+#: ./controlpanel.py:76
+#: ./taxonomy_edit.pt:120
+msgid "label_edit_data_taxonomy"
+msgstr ""
+
+#. Default: "Edit taxonomy"
+#: ./controlpanel.py:62
+msgid "label_edit_taxonomy"
+msgstr ""
 
 #. Default: "Export"
+#: ./controlpanel.py:114
 msgid "label_export"
 msgstr "Eksportér"
 
-#. Default: "Import"
-msgid "label_import"
-msgstr "Importer"

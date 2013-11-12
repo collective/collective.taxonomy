@@ -115,18 +115,18 @@
   </tal:block>
 </head>
 
-<body>
+<body i18n:domain="collective.taxonomy">
   <div metal:fill-slot="content-title">
-    <h1>Edit taxonomy data</h1>
+    <h1 i18n:translate="label_edit_data_taxonomy">Edit taxonomy data</h1>
   </div>
   <div metal:fill-slot="content-core">
     <div id="tree">
     </div>
     <br/>
-    <button class="linkButton" id="addNode">Add node</button>
-    <button class="linkButton" id="removeNode">Delete node</button>
-    <button class="linkButton" id="saveTree">Save</button>
-    <button class="linkButton" id="back">Back</button>
+    <button class="linkButton" id="addNode" i18n:translate="">Add node</button>
+    <button class="linkButton" id="removeNode" i18n:translate="">Delete node</button>
+    <button class="linkButton" id="saveTree" i18n:translate="">Save</button>
+    <button class="linkButton" id="back" i18n:translate="">Back</button>
     <input type="hidden" id="jsonUrl"
            tal:attributes="value string:${view/portalUrl}/@@taxonomy-json?taxonomy=${request/form.widgets.taxonomy}"/>
     <input type="hidden" id="successUrl"

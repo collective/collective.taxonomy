@@ -2,6 +2,7 @@
 import generated
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
+from copy import copy
 
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
@@ -12,7 +13,6 @@ from zope.lifecycleevent import modified
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import ram
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.dexterity.schema import SCHEMA_CACHE
 
 from persistent.dict import PersistentDict
 
@@ -83,10 +83,13 @@ class Taxonomy(SimpleItem):
     def registerBehavior(self, **kwargs):
         context = getSite()
         sm = context.getSiteManager()
-        behavior = TaxonomyBehavior(self.name,
-                                    self.title,
-                                    u'Adds the named taxonomy to the field'
-                                    'list', **kwargs)
+        args_dict = copy(kwargs)
+        args_dict.setdefault('name', "list")
+        args_dict.setdefault('title', self.title)
+        args_dict.setdefault('description', u'Adds the named taxonomy to the field')
+        args_dict.setdefault('field_title', "list")
+        args_dict.setdefault('field_description', "")
+        behavior = TaxonomyBehavior(**args_dict)
         sm.registerUtility(behavior, IBehavior,
                            name=self.getGeneratedName())
 
@@ -121,7 +124,6 @@ class Taxonomy(SimpleItem):
         for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ''))
-
 
     def unregisterBehavior(self):
         context = getSite()

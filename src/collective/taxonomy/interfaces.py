@@ -23,7 +23,7 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
 
     def add(language, identifier, path):
         """
-           >>> taxonomny.add('en', <identifier>, 'What a lovely day!')
+        For example: self.add('en', 'identifier', 'What a lovely day!')
 
         """
 

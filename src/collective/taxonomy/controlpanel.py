@@ -6,7 +6,6 @@ from plone.behavior.interfaces import IBehavior
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
-from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -280,7 +279,7 @@ class TaxonomyEditFormAdapter(object):
         if 'import_file' is attr and value is not None:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
-            adapter.importDocument(import_file)
+            adapter.importDocument(self.utility, import_file)
         else:
             if attr == 'field_title':
                 self.__dict__['utility'].title = value

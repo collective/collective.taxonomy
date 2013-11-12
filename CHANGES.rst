@@ -1,7 +1,31 @@
 Changes
 =======
 
-1.1 (2013-16-07)
+1.2 (2013-11-12)
+----------------
+
+- Add collective.js.jqueryui as dependency.  Install it automatically.
+  [maurits]
+
+- i18n fixes,
+  messages extraction script,
+  french translation.
+  [thomasdesvenain]
+
+- Fixed error in vdex import.
+  [thomasdesvenain]
+
+- Avoid failure at export when no default language was selected.
+  [thomasdesvenain]
+
+- Remove dependency form plone.directives
+  [thomasdesvenain]
+
+- Added elementtree in dependencies
+  [thomasdesvenain]
+
+1.1 (2013-07-16)
+----------------
 
 - Taxonomies can now be added without uploading a VDEX file.
   [bosim]
@@ -12,7 +36,8 @@ Changes
 - Single select fields are now possible again.
   [bosim]
 
-1.0 (2013-05-07) 
+1.0 (2013-05-07)
+----------------
 
-- Initial release 
+- Initial release
   [bosim]

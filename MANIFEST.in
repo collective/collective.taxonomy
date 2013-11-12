@@ -2,6 +2,6 @@ include *
 recursive-include src *
 
 global-exclude *.pyc
-global-exclude #*#
+global-exclude \#*\#
 global-exclude *.mo
 
