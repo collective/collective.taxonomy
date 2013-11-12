@@ -6,9 +6,8 @@ from threading import RLock
 
 from zope.component.hooks import getSite
 
-from plone.supermodel.model import SchemaClass
+from plone.supermodel.model import SchemaClass, Schema
 from plone.behavior.interfaces import IBehavior
-from plone.autoform import directives as form
 from plone.synchronize import synchronized
 
 
@@ -55,7 +54,7 @@ class Wrapper(object):
                     name,
                     SchemaClass(
                         name,
-                        (form.Schema, ),
+                        (Schema, ),
                         __module__='collective.taxonomy.generated',
                         attrs={}
                     )
