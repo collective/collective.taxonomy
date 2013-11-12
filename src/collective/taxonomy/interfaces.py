@@ -65,13 +65,13 @@ class ITaxonomyForm(Interface):
     field_description = schema.TextLine(
         title=_(u"Description"),
         description=_("Will be used for the field description as well"),
-        required=False
+        required=True
     )
 
     default_language = schema.TextLine(
         title=_(u"Default language"),
         description=_("For example en, da, de, etc."),
-        required=False
+        required=True
     )
 
     import_file = NamedBlobFile(
