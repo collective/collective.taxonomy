@@ -3,9 +3,14 @@ import generated
 
 from persistent import Persistent
 
-from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY, WIDGETS_KEY
+from plone.autoform.interfaces import (
+    WRITE_PERMISSIONS_KEY,
+    WIDGETS_KEY,
+    IFormFieldProvider
+)
+
 from plone.behavior.interfaces import IBehavior
-from plone.autoform import directives as form
+from plone.supermodel.model import Schema
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
@@ -151,7 +156,7 @@ class TaxonomyBehavior(Persistent):
             )
 
         schemaclass = SchemaClass(
-            self.short_name, (form.Schema, ),
+            self.short_name, (Schema, ),
             __module__='collective.taxonomy.generated',
             attrs={
                 str(self.field_name): select_field
@@ -178,5 +183,5 @@ class TaxonomyBehavior(Persistent):
                  'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
             )
 
-        alsoProvides(schemaclass, form.IFormFieldProvider)
+        alsoProvides(schemaclass, IFormFieldProvider)
         return schemaclass

@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
-import generated
+
+from .behavior import TaxonomyBehavior
+from .interfaces import ITaxonomy
+from .vocabulary import Vocabulary
+
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
+
+from persistent.dict import PersistentDict
+
+from plone.behavior.interfaces import IBehavior
+from plone.dexterity.fti import DexterityFTIModificationDescription
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.memoize import ram
 
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
@@ -9,17 +20,11 @@ from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
 from zope.lifecycleevent import modified
 
-from plone.behavior.interfaces import IBehavior
-from plone.memoize import ram
-from plone.dexterity.interfaces import IDexterityFTI
-
-from persistent.dict import PersistentDict
-
-from .behavior import TaxonomyBehavior
-from .interfaces import ITaxonomy
-from .vocabulary import Vocabulary
-from plone.dexterity.fti import DexterityFTIModificationDescription
+import generated
 import logging
+
+from copy import copy
+
 logger = logging.getLogger("collective.taxonomy")
 
 
@@ -82,11 +87,13 @@ class Taxonomy(SimpleItem):
     def registerBehavior(self, **kwargs):
         context = getSite()
         sm = context.getSiteManager()
-        behavior = TaxonomyBehavior(self.name,
-                                    self.title,
-                                    u'Adds the named taxonomy to the field',
-                                    'list', u"",
-                                    **kwargs)
+        new_args = copy(kwargs)
+
+        new_args['name'] = self.name
+        new_args['title'] = self.title
+        new_args['description'] = kwargs['field_description']
+
+        behavior = TaxonomyBehavior(**new_args)
         sm.registerUtility(behavior, IBehavior,
                            name=self.getGeneratedName())
 

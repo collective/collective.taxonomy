@@ -1,6 +1,16 @@
 Changes
 =======
 
+1.2.1 (2013-11-12)
+
+Bugfix release, please upgrade
+
+- Using Schema from plone.supermodel. Fixes issue #6
+  [bosim]
+
+- Rewrote behavior creation routine. Fixes issue #5
+  [bosim]
+
 1.2 (2013-11-12)
 ----------------
 
