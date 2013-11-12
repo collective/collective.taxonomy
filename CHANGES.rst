@@ -1,7 +1,7 @@
 Changes
 =======
 
-1.2 (Unreleased)
+1.2 (2013-11-12)
 ----------------
 
 - Add collective.js.jqueryui as dependency.  Install it automatically.
@@ -24,7 +24,7 @@ Changes
 - Added elementtree in dependencies
   [thomasdesvenain]
 
-1.1 (2013-16-07)
+1.1 (2013-07-16)
 ----------------
 
 - Taxonomies can now be added without uploading a VDEX file.
