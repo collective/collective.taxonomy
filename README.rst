@@ -165,6 +165,10 @@ Contributors
 
 - Thomas Clement Mogensen <thomas@headnet.dk>
 
+- Thomas Desvenain <thomas.desvenain@gmail.com>
+
+- Maurits van Rees <maurits@vanrees.org>
+
 
 Existing work
 =============
