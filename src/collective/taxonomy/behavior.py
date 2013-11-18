@@ -87,8 +87,8 @@ class TaxonomyBehavior(Persistent):
         add('title', Record(field.TextLine(), unicode(self.field_title)))
         add('enabled', Record(field.Bool(), True))
         add('group', Record(field.TextLine(), unicode('Taxonomy')))
-        add('operations', Record(field.List(),
-            ['plone.app.querystring.operation.selection.is']))
+        add('operations', Record(field.List(value_type=field.TextLine()),
+            [u'plone.app.querystring.operation.selection.is']))
         add('vocabulary', Record(field.TextLine(), unicode(self.name)))
         add('sortable', Record(field.Bool(), False))
         add('description', Record(field.Text(), unicode('')))
