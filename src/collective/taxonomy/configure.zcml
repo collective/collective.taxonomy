@@ -133,11 +133,11 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
-    <include file="widget.zcml" />
+  <adapter
+      factory=".behavior.PermissionChecker"
+      />
 
-    <adapter
-        factory=".behavior.PermissionChecker"
-        />
-        
+  <include file="widget.zcml" />
+  <include file="upgradesteps.zcml" />
 
 </configure>
