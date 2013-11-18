@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+  
+  <genericsetup:upgradeSteps
+     profile="collective.taxonomy:default"
+     source="0.2"
+     destination="0.3">
+    <genericsetup:upgradeStep
+       handler=".upgradesteps.reactivateSearchable"
+       title="Reactivate searchable for every taxonomy"
+       description=""
+       />
+  </genericsetup:upgradeSteps>
+
+</configure>

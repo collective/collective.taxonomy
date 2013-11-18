@@ -133,6 +133,6 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
-    <include file="widget.zcml" />
-  
+  <include file="widget.zcml" />
+  <include file="upgradesteps.zcml" />
 </configure>
