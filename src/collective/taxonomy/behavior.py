@@ -26,7 +26,7 @@ from zope.interface import implements, alsoProvides, Interface
 from zope.component import getUtility, adapts
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
-from z3c.form.interfaces import IEditForm
+from z3c.form.interfaces import IForm, IAddForm, IEditForm
 #, IAddForm
 
 from .interfaces import ITaxonomyBehavior
@@ -40,7 +40,7 @@ GROUP_PERMISSION_KEY = "collective.taxonomy.security.group"
 
 class PermissionChecker(FormExtender):
     implements(IFormExtender)
-    adapts(Interface, IDefaultBrowserLayer, IEditForm)
+    adapts(Interface, IDefaultBrowserLayer, IForm)
 
     def __init__(self, context, request, form):
         self.context = context
@@ -48,6 +48,13 @@ class PermissionChecker(FormExtender):
         self.form = form
 
     def update(self):
+        is_form = IEditForm.providedBy(self.form) or \
+            IAddForm.providedBy(self.form)
+
+        # Works only for dexterity add- and edit forms.
+        if not hasattr(self.form, 'portal_type') or not is_form:
+            return
+
         membership_tool = getToolByName(self.context, 'portal_membership')
 
         for field_group in self.form.groups:
