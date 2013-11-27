@@ -39,16 +39,7 @@ class TaxonomyIndexerWrapper(object):
         if not isinstance(stored_element, list):
             stored_element = [stored_element]
 
-        for (language, data) in utility.data.items():
-            for (identifier, path) in utility.inverted_data[language].items():
-                if identifier in stored_element:
-                    found.append((identifier, language, path,))
-
-        result = []
-        for (found_identifier, found_language, found_path) in found:
-            for key in utility.data[found_language].keys(found_path):
-                if key.startswith(found_path):
-                    result.append(utility.data[found_language][key])
+        result = stored_element
 
         return result
 
