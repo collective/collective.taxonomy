@@ -9,8 +9,8 @@ log = getLogger('collective.taxonomy:upgrades')
 
 def reactivateSearchable(tool):
     """ """
-    tool = tool.aq_parent
-    sm = tool.getSiteManager()
+    portal_object = tool.portal_url.getPortalObject()
+    sm = portal_object.getSiteManager()
     utilities = sm.getUtilitiesFor(IBehavior)
     for (utility_name, utility) in utilities:
         if utility_name.startswith('collective.taxonomy.generated.'):
