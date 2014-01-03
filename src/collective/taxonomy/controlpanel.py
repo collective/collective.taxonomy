@@ -265,7 +265,7 @@ class TaxonomyEditFormAdapter(object):
         if 'import_file' is attr and value is not None:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
-            adapter.importDocument(import_file)
+            adapter.importDocument(self.__dict__['utility'], import_file)
         else:
             if attr == 'field_title':
                 self.__dict__['utility'].title = value
