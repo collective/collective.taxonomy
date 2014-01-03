@@ -1,12 +1,15 @@
 Changes
 =======
 
-Unreleased (2013-11-18)
------------------------
+1.2.2 (2014-01-03)
+------------------
+
+Bugfix release
 
 - Fixed problem with registration of search citeria in collections, the previous 
   registration broke export feature of plone.app.registry. Upgrade step has been
-  added so please upgrade. [bosim]
+  added so please upgrade. 
+  [bosim]
 
 1.2.1 (2013-11-12)
 ------------------
