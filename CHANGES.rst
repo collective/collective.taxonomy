@@ -1,7 +1,7 @@
 Changes
 =======
 
-1.2.3 (Unreleased)
+1.2.3 (2014-02-07)
 ------------------
 
 - ConfigParser supports allow_no_value on Python 2.6, so we cannot allow empty values, 
