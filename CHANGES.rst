@@ -1,6 +1,13 @@
 Changes
 =======
 
+1.2.3 (Unreleased)
+------------------
+
+- ConfigParser supports allow_no_value on Python 2.6, so we cannot allow empty values, 
+  only on 2.7 or newer. 
+  [bosim]
+
 1.2.2 (2014-01-03)
 ------------------
 
