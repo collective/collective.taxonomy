@@ -11,7 +11,16 @@ from .vdex import ImportVdex, ExportVdex
 
 
 def parseConfigFile(data):
-    config = ConfigParser.RawConfigParser(allow_no_value=True)
+    try:
+        config = ConfigParser.RawConfigParser(allow_no_value=True)
+    except TypeError:
+        # We are probably on Python < 2.7 that does not support
+        # allow_no_value, so we are just forced to do ConfigParsing
+        # without allowing empty arguments :(
+        config = ConfigParser.RawConfigParser()
+    except Exception as exception:
+        raise exception
+
     config.readfp(BytesIO(data))
     return config
 
