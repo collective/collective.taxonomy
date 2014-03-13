@@ -144,6 +144,14 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
 To-Do
 =====
 
+.. image:: https://secure.travis-ci.org/collective/collective.taxonomy.png?branch=master
+    :alt: Travis CI badge
+    :target: http://travis-ci.org/collective/collective.taxonomy
+
+.. image:: https://coveralls.io/repos/collective/collective.taxonomy/badge.png?branch=master
+    :alt: Coveralls badge
+    :target: https://coveralls.io/r/collective/collective.taxonomy
+
 - Implement drag'n'drop for editing taxonomies.
 
 - Support multiple languages when editing taxonomies.
