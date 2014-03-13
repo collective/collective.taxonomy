@@ -3,6 +3,7 @@
 *.mo
 *.pyc
 *.pyo
+.coverage
 .installed.cfg
 .mr.developer.cfg
 bin
@@ -11,6 +12,7 @@ develop-eggs
 dist
 downloads
 eggs
+htmlcov/
 local.cfg
 parts
 var
