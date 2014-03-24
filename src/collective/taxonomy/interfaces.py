@@ -95,3 +95,13 @@ class ITaxonomyForm(Interface):
         required=False,
         vocabulary='collective.taxonomy.permissions'
     )
+
+
+class ITaxonomyView(Interface):
+
+    def taxonomiesForContext(self):
+        """ """
+
+    def translate(self, msgid, domain, target_language):
+        """ """
+

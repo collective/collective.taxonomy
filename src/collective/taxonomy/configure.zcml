@@ -85,7 +85,7 @@
       for="*"
       class=".browser.TaxonomyView"
       permission="zope.Public"
-      allowed_attributes="translate"
+      allowed_interface=".interfaces.ITaxonomyView"
       />
 
   <browser:resource
