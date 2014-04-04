@@ -49,7 +49,9 @@ class TaxonomyIndexerWrapper(object):
             path_elements = found_path.split('/')
             for i in range(2, len(path_elements)+1):
                 path = "/".join(path_elements[:i])
-                result.append(utility.data[found_language][path])
+                identifier = utility.data[found_language][path]
+                if identifier not in result:
+                    result.append(identifier)
 
         return result
 
