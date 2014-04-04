@@ -1,6 +1,14 @@
 Changes
 =======
 
+1.2.4 (unreleased)
+------------------
+
+- index ascendant terms instead of descendant terms (when we search for /a/b/c 
+  we do not want to find /a or a/b, but when we search for /a/b, we want
+  to find /a/b/c)
+  [ebrehault]
+
 1.2.3 (2014-02-07)
 ------------------
 
