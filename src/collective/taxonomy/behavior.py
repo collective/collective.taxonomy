@@ -9,14 +9,15 @@ from plone.autoform.interfaces import (
     IFormFieldProvider
 )
 
+from plone.app.dexterity import PloneMessageFactory as _pmf
 from plone.behavior.interfaces import IBehavior
-from plone.supermodel.model import Schema
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
-from plone.registry.interfaces import IRegistry
 from plone.registry import Record, field
+from plone.registry.interfaces import IRegistry
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
+from plone.supermodel.model import Schema
 from plone.supermodel.model import SchemaClass
 
 from Products.CMFCore.utils import getToolByName
@@ -173,6 +174,7 @@ class TaxonomyBehavior(Persistent):
         schemaclass.setTaggedValue(
             FIELDSETS_KEY,
             [Fieldset('categorization',
+                      label=_pmf(u'label_schema_categorization', default=u'Categorization'),
                       fields=[self.field_name])]
         )
 
