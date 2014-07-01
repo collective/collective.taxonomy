@@ -39,6 +39,10 @@ class Taxonomy(SimpleItem):
         self.default_language = default_language
 
     def __call__(self, context):
+        
+        if not self.data:
+            return Vocabulary(self.name, {}, {})
+        
         request = getattr(context, "REQUEST", None)
 
         current_language = self.getCurrentLanguage(request)
