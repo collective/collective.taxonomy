@@ -1,6 +1,10 @@
 from Products.Five.browser import BrowserView
 from collective.taxonomy.interfaces import ITaxonomy
 from zope.component import getSiteManager
+from zope.publisher.interfaces import NotFound
+from zope.traversing.interfaces import ITraversable
+from zope.schema.interfaces import IVocabularyFactory
+from zope.interface import implements
 
 
 class TaxonomyView(BrowserView):
@@ -31,3 +35,35 @@ class TaxonomyView(BrowserView):
         sm = getSiteManager()
         utility = sm.queryUtility(ITaxonomy, name=domain)
         return utility.translate(msgid, context=self.context, target_language=target_language)
+
+
+class VocabularyTuplesView(BrowserView):
+
+    def __init__(self, context, request, vocabulary):
+        self.context = context
+        self.request = request
+        self.vocabulary = vocabulary
+
+    def __call__(self):
+        return ((term.token, term.title) for term in self.vocabulary)
+
+
+class TaxonomyTraverser(object):
+
+    implements(ITraversable)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def traverse(self, name, remaining):
+        sm = getSiteManager()
+        domain = 'collective.taxonomy.' + name
+        factory = sm.queryUtility(IVocabularyFactory, name=domain)
+
+        if factory is not None:
+            vocabulary = factory(self.context)
+        else:
+            raise NotFound(self.context, name, self.request)
+
+        return VocabularyTuplesView(self.context, self.request, vocabulary)

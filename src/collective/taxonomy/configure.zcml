@@ -88,6 +88,12 @@
       allowed_interface=".interfaces.ITaxonomyView"
       />
 
+  <adapter
+      name="taxonomy"
+      for="* *"
+      factory=".browser.TaxonomyTraverser"
+      />
+
   <browser:resource
       name="dynatree.jquery.js"
       file="dynatree.jquery.js"
