@@ -243,7 +243,7 @@ span.dynatree-icon /* Default icon */
 
 .dynatree-statusnode-wait span.dynatree-icon
 {
-	background-image: url("++resource.dynatree.loading.gif");
+	background-image: url("++resource++dynatree.loading.gif");
 }
 
 .dynatree-statusnode-error span.dynatree-icon
