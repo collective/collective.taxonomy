@@ -33,8 +33,11 @@ class TaxonomyIndexerWrapper(object):
             logging.info("Utility has disappeared..!")
             return []
 
-        found = []
+        if not utility.data:
+            # skip empty taxonomy
+            return []
 
+        found = []
         stored_element = getattr(self.context, self.field_name)
         if not isinstance(stored_element, list):
             stored_element = [stored_element]
@@ -53,7 +56,7 @@ class TaxonomyIndexerWrapper(object):
                         in_path = True
                     else:
                         in_path = False
-                    
+
                 if in_path:
                     if key not in result:
                         result.append(key)
