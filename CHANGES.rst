@@ -1,6 +1,14 @@
 Changes
 =======
 
+
+1.3.0 (unreleased)
+------------------
+
+- Add ++taxonomy++[shortname] -traverser to be usable with PloneFormGen
+  dynamic field vocabulary overrides
+  [datakurre]
+
 1.2.3 (2014-02-07)
 ------------------
 
