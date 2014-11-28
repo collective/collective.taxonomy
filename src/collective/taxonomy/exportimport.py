@@ -132,7 +132,7 @@ class TaxonomyImportExportAdapter(object):
         # XXX: we should change this
 
         tree = ElementTree.fromstring(document)
-        taxonomy.clean()
+        # taxonomy.clean()
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
