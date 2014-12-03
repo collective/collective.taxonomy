@@ -8,12 +8,15 @@ Changes
 - Add ++taxonomy++[shortname] -traverser to be usable with PloneFormGen
   dynamic field vocabulary overrides
   [datakurre]
+- prevent taxonomy reset on reinstall if you've defined a vdex xml file
+  in your profile
+  [petschki]
 
 1.2.3 (2014-02-07)
 ------------------
 
-- ConfigParser supports allow_no_value on Python 2.6, so we cannot allow empty values, 
-  only on 2.7 or newer. 
+- ConfigParser supports allow_no_value on Python 2.6, so we cannot allow empty values,
+  only on 2.7 or newer.
   [bosim]
 
 1.2.2 (2014-01-03)
@@ -21,9 +24,9 @@ Changes
 
 Bugfix release
 
-- Fixed problem with registration of search citeria in collections, the previous 
+- Fixed problem with registration of search citeria in collections, the previous
   registration broke export feature of plone.app.registry. Upgrade step has been
-  added so please upgrade. 
+  added so please upgrade.
   [bosim]
 
 1.2.1 (2013-11-12)
