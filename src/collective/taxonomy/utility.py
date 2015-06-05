@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-
 from .behavior import TaxonomyBehavior
 from .interfaces import ITaxonomy
 from .vocabulary import Vocabulary
 
-from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
 from persistent.dict import PersistentDict
+from zc.dict import OrderedDict
 
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.fti import DexterityFTIModificationDescription
@@ -39,10 +38,10 @@ class Taxonomy(SimpleItem):
         self.default_language = default_language
 
     def __call__(self, context):
-        
+
         if not self.data:
             return Vocabulary(self.name, {}, {})
-        
+
         request = getattr(context, "REQUEST", None)
 
         current_language = self.getCurrentLanguage(request)
@@ -56,7 +55,7 @@ class Taxonomy(SimpleItem):
     def inverted_data(self):
         inv_data = {}
         for (language, elements) in self.data.items():
-            inv_data[language] = {}
+            inv_data[language] = OrderedDict()
             for (path, identifier) in elements.items():
                 inv_data[language][identifier] = path
         return inv_data
@@ -155,7 +154,7 @@ class Taxonomy(SimpleItem):
 
     def add(self, language, identifier, path):
         if not language in self.data:
-            self.data[language] = OOBTree()
+            self.data[language] = OrderedDict()
 
         self.data[language][path] = identifier
 

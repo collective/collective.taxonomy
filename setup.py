@@ -42,6 +42,7 @@ setup(
         'elementtree',
         'simplejson',
         'collective.js.jqueryui',
+        'zc.dict',
     ],
     extras_require={
         'test': [

@@ -1,5 +1,6 @@
 from elementtree import ElementTree
 from plone.supermodel.utils import indent
+from zc.dict import OrderedDict
 
 
 class ImportVdex(object):
@@ -12,14 +13,14 @@ class ImportVdex(object):
     def __call__(self):
         languages = set()
         results = self.recurse(self.tree, languages)
-        final_results = {}
+        final_results = OrderedDict()
         for language in languages:
             final_results[language] = self.processLanguage(results, language)
 
         return final_results
 
     def processLanguage(self, results, language, path=('',)):
-        result = {}
+        result = OrderedDict()
         for element in results.keys():
             (identifier, children) = results[element]
             (lang, element) = element.split('/', 1)
@@ -32,7 +33,7 @@ class ImportVdex(object):
 
     def recurse(self, tree, available_languages=set(),
                 parent_language=None):
-        result = {}
+        result = OrderedDict()
 
         for node in tree.findall('./{%s}term' % self.ns):
             identifier = node.find('./{%s}termIdentifier' % self.ns)
@@ -57,7 +58,7 @@ class TreeExport(object):
         self.taxonomy = taxonomy
 
     def buildFinalPathIndex(self, node, tree):
-        results = {}
+        results = OrderedDict()
 
         for i in node:
             # leaf
@@ -76,8 +77,8 @@ class TreeExport(object):
                 parent_path = path.split('/')[:-1]
                 parent_identifier = children.get('/'.join(parent_path))
                 if not parent_identifier in pathIndex:
-                    pathIndex[parent_identifier] = set()
-                pathIndex[parent_identifier].add(identifier)
+                    pathIndex[parent_identifier] = []
+                pathIndex[parent_identifier].append(identifier)
 
         if None not in pathIndex:
             raise ValueError("No root node!")
