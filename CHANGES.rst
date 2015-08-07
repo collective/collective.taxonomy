@@ -5,6 +5,9 @@ Changes
 1.3.0 (unreleased)
 ------------------
 
+- Add PATH_SEPARATOR constant to be able to use '/' character in terms.
+  [cedricmessiant]
+
 - Add ++taxonomy++[shortname] -traverser to be usable with PloneFormGen
   dynamic field vocabulary overrides
   [datakurre]
