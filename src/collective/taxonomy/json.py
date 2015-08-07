@@ -71,10 +71,14 @@ class Json(TreeExport, BrowserView):
 
     def generateJson(self, root):
         item = {}
+        # XXX: Support multiple languages
+        default_language = self.taxonomy.default_language
         item['key'] = root.find('termIdentifier').text
-        item['title'] = root.find('caption').find('langstring').text
-        item['isFolder'] = True
-        item['children'] = []
+        captionnode = root.find('caption')
+        item['title'] = ''
+        for langstringnode in captionnode.getchildren():
+            if langstringnode.get('language') == default_language:
+                item['title'] = langstringnode.text
 
         for child in root.findall('term'):
             item['children'].append(self.generateJson(child))
