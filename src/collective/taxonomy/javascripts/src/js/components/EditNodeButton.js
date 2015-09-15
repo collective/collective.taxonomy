@@ -35,6 +35,7 @@ export default class EditNodeButton extends Component {
             <form id="form">
               { Object.keys(translations).map(
                 lang => <InputText name={ lang }
+                                   key={ lang }
                                    defaultValue={ translations[lang] }
                                    action={ (language, value) => editTranslation(id, language, value) }
                         />
