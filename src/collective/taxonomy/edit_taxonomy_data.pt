@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master">
+
+    <head>
+      <metal:block fill-slot="style_slot">
+        <link rel="stylesheet" type="text/css" tal:attributes="href string:$portal_url/++resource++taxonomy/css/react-treeview.css">
+      </metal:block>
+    </head>
+
+    <body>
+
+      <metal:block fill-slot="main">
+
+        <div id="content-core">
+
+          <div id="root" tal:attributes="data-taxonomy view/get_data"></div>
+
+        </div>
+
+        <script type="text/javascript" tal:attributes="src string:$portal_url/++resource++taxonomy/index.js"></script>
+
+      </metal:block>
+
+    </body>
+</html>
