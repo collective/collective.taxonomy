@@ -51,6 +51,7 @@ class ITaxonomySettings(Interface):
 
 
 class ITaxonomyForm(Interface):
+
     taxonomy = schema.TextLine(
         title=_(u"Taxonomy"),
         required=False
@@ -65,7 +66,7 @@ class ITaxonomyForm(Interface):
     field_description = schema.TextLine(
         title=_(u"Description"),
         description=_("Will be used for the field description as well"),
-        required=True
+        required=False
     )
 
     default_language = schema.TextLine(
