@@ -73,6 +73,8 @@ terms, virtually without cost (as well as containment queries).
 At the same time, while the hierarchy is encoded, we can quickly look
 up terms in a subtree.
 
+Note: As ``collective.taxonomy`` uses slash as separator, you have to monkey patch the ``PATH_SEPARATOR`` constant if you want to use '/' in your terms.
+
 
 Data exchange
 -------------
@@ -178,6 +180,8 @@ Contributors
 - Thomas Desvenain <thomas.desvenain@gmail.com>
 
 - Maurits van Rees <maurits@vanrees.org>
+
+- Cédric Messiant <cedric.messiant@gmail.com>
 
 
 Existing work

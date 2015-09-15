@@ -1,6 +1,11 @@
 from elementtree import ElementTree
 from plone.supermodel.utils import indent
 
+from collective.taxonomy import PATH_SEPARATOR
+
+
+LANG_SEPARATOR = '|'
+
 
 class ImportVdex(object):
     """Helper class for import"""
@@ -22,12 +27,13 @@ class ImportVdex(object):
         result = {}
         for element in results.keys():
             (identifier, children) = results[element]
-            (lang, element) = element.split('/', 1)
+            (lang, text) = element.split(LANG_SEPARATOR, 1)
             if lang == language:
-                extended_path = '/'.join(path) + '/' + element
+                extended_path = PATH_SEPARATOR.join(path)
+                extended_path = PATH_SEPARATOR.join((extended_path, text))
                 result[extended_path] = identifier
                 result.update(self.processLanguage(children, language,
-                                                   path + (element,)))
+                                                   path + (text,)))
         return result
 
     def recurse(self, tree, available_languages=set(),
@@ -41,7 +47,9 @@ class ImportVdex(object):
             for i in langstrings:
                 if not parent_language or \
                         parent_language == i.attrib['language']:
-                    result[i.attrib['language'] + '/' + i.text] = (
+                    text = i.text.strip('\n ')
+                    element = LANG_SEPARATOR.join([i.attrib['language'], text])
+                    result[element] = (
                         identifier.text,
                         self.recurse(node, available_languages,
                                      i.attrib['language'])
@@ -53,6 +61,7 @@ class ImportVdex(object):
 
 
 class TreeExport(object):
+
     def __init__(self, taxonomy):
         self.taxonomy = taxonomy
 
@@ -73,8 +82,9 @@ class TreeExport(object):
 
         for (language, children) in self.taxonomy.data.items():
             for (path, identifier) in children.items():
-                parent_path = path.split('/')[:-1]
-                parent_identifier = children.get('/'.join(parent_path))
+                parent_path = path.split(PATH_SEPARATOR)[:-1]
+                parent_identifier = children.get(
+                    PATH_SEPARATOR.join(parent_path))
                 if not parent_identifier in pathIndex:
                     pathIndex[parent_identifier] = set()
                 pathIndex[parent_identifier].add(identifier)
@@ -121,7 +131,7 @@ class TreeExport(object):
                     translationTable[identifier] = {}
 
                 translationTable[identifier][language] = \
-                    path[path.rfind('/') + 1:]
+                    path[path.rfind(PATH_SEPARATOR) + 1:]
 
         return translationTable
 
