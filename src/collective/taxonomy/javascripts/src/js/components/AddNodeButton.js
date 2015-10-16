@@ -13,7 +13,7 @@ export default class AddNodeButton extends Component {
       React.PropTypes.element,
       React.PropTypes.string]),
     index: PropTypes.number.isRequired,
-    index: PropTypes.string,
+    title: PropTypes.string,
     addNode: PropTypes.func.isRequired
   }
 
