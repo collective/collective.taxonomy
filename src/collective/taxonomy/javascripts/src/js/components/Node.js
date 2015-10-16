@@ -23,10 +23,8 @@ export default class Node extends Component {
     const nodeLabel = (
       <span>
         { title }&nbsp;&nbsp;&nbsp;
-        <EditNodeButton id={ id } translations={ translations } { ...other } />
-        <AddNodeButton { ...other }>
-          +
-        </AddNodeButton>
+        <EditNodeButton { ...other } id={ id } translations={ translations } />
+        <AddNodeButton { ...other } />
         <RemoveNodeButton { ...other } id={ id } />
       </span>
       )

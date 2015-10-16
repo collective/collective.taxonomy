@@ -84,6 +84,12 @@
       layer=".interfaces.IBrowserLayer"
       />
 
+  <browser:resourceDirectory
+      name="taxonomy.icons"
+      directory="icons"
+      layer=".interfaces.IBrowserLayer"
+      />
+
   <browser:page
       name="taxonomy-edit-data"
       for="Products.CMFCore.interfaces.ISiteRoot"

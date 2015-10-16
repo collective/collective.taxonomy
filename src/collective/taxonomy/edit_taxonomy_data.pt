@@ -6,6 +6,7 @@
 
     <head>
       <metal:block fill-slot="style_slot">
+        <link rel="stylesheet" type="text/css" tal:attributes="href string:$portal_url/++resource++taxonomy.icons/css/fontello.css">
         <link rel="stylesheet" type="text/css" tal:attributes="href string:$portal_url/++resource++taxonomy/css/react-treeview.css">
       </metal:block>
     </head>

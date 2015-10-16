@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import Button from './common/Button'
+
 
 export default class RemoveNodeButton extends Component {
 
@@ -12,9 +14,13 @@ export default class RemoveNodeButton extends Component {
 
   render() {
     // TODO: manage icon
-    const { parentId, id, index, removeNode } = this.props
+    const { parentId, id, index, removeNode, ...other } = this.props
     return (
-      <button onClick={ () => removeNode(parentId, id, index) }>-</button>
+      <Button handleClick={ () => removeNode(parentId, id, index) }
+              { ...other } title="Remove this node"
+      >
+        <i className="icon-minus"></i>
+      </Button>
       )
   }
 

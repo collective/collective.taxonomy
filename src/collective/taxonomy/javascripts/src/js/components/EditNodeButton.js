@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import Modal from './Modal'
 import InputText from './InputText'
+import Button from './common/Button'
 
 
 export default class EditNodeButton extends Component {
@@ -29,7 +30,11 @@ export default class EditNodeButton extends Component {
     const { id, editTranslation, translations } = this.props
     return (
       <span>
-        <a onClick={ this.show.bind(this) }><button>Edit</button></a>
+        <a onClick={ this.show.bind(this) }>
+          <Button title="Edit this node">
+            <i className="icon-pencil"></i>
+          </Button>
+        </a>
         <Modal show={ this.state.show } onClose={ this.close.bind(this) }>
           <div className="pb-ajax">
             <form id="form">

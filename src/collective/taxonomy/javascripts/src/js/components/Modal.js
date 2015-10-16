@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react'
 export default class Modal extends Component {
 
   static propTypes = {
-    show: PropTypes.bool.isRequired,
+    show: PropTypes.bool,
     children: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired,
   }

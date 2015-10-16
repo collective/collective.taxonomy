@@ -21,12 +21,15 @@ export default class Leaf extends Component {
         <div className="info">
           { title }&nbsp;&nbsp;&nbsp;
           <EditNodeButton translations={ translations } { ...other } />
-          <AddNodeButton { ...other }>
-            +
-          </AddNodeButton>
+          &nbsp;
+          <AddNodeButton { ...other } />
+          &nbsp;
           <RemoveNodeButton { ...other } />
-          <AddNodeButton { ...other } parentId={ this.props.id }>
-            Add subnode
+          &nbsp;
+          <AddNodeButton { ...other } parentId={ this.props.id }
+                         title="Add a term inside this node"
+          >
+            <i className="icon-flow-split"></i>
           </AddNodeButton>
         </div>
       </div>
