@@ -1,17 +1,15 @@
 from elementtree import ElementTree
+import simplejson
 
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
 from zope.component import queryUtility
 from zope.i18n import translate
 
-from interfaces import ITaxonomy
-from vdex import TreeExport
-
-import simplejson
-
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import MessageFactory as _
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vdex import TreeExport
 
 
 class EditTaxonomyData(TreeExport, BrowserView):
@@ -37,11 +35,11 @@ class EditTaxonomyData(TreeExport, BrowserView):
             translations[langstringnode.get('language')] = langstringnode.text
 
         item['translations'] = translations
-        item['children'] = []
+        item['subnodes'] = []
         terms = root.findall('term')
         if terms:
             for child in terms:
-                item['children'].append(self.generate_json(child))
+                item['subnodes'].append(self.generate_json(child))
 
         return item
 
@@ -57,12 +55,12 @@ class EditTaxonomyData(TreeExport, BrowserView):
             'key': '0',
             'name': self.taxonomy.name,
             'title': self.taxonomy.title,
-            'children': [],
+            'subnodes': [],
             'default_language': self.taxonomy.default_language
         }
         if root:
             for term in root.findall('term'):
-                result['children'].append(self.generate_json(term))
+                result['subnodes'].append(self.generate_json(term))
 
         return simplejson.dumps(result)
 
@@ -80,7 +78,7 @@ class ImportJson(BrowserView):
             tree = data['tree']
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree['children'], language)
+                    tree['subnodes'], language)
 
                 taxonomy.data[language] = OOBTree()
                 for key, value in data_for_taxonomy:
@@ -107,7 +105,7 @@ class ImportJson(BrowserView):
             new_key = item['key']
             new_path = path + item['translations'][language]
             result.append((new_path, new_key, ))
-            for child in item.get('children', []):
+            for child in item.get('subnodes', []):
                 title = item['translations'][language]
                 new_path = path + title + PATH_SEPARATOR
                 result.append(self.generate_data_for_taxonomy(

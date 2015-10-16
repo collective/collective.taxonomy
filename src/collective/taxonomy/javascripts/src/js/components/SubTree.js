@@ -7,14 +7,14 @@ import Node from './Node'
 export default class SubTree extends Component {
 
   static propTypes = {
-    children: PropTypes.array.isRequired
+    subnodes: PropTypes.array.isRequired
   }
 
   render() {
-    const { children, ...other } = this.props
+    const { subnodes, ...other } = this.props
     return (
-      children.length > 0 ? (
-          <Node { ...other } children={ children } />
+      subnodes.length > 0 ? (
+          <Node { ...other } subnodes={ subnodes } />
         ) : (
           <Leaf { ...other } />
         )

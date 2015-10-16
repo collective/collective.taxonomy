@@ -28,12 +28,12 @@ export default class Tree extends Component {
   render() {
     const { dirty, rootId, nodes, defaultLanguage, ...other } = this.props
     const label = nodes[rootId].title
-    const children = nodes[rootId].children
+    const subnodes = nodes[rootId].subnodes
     return (
       <div>
       <h1>Edit taxonomy data</h1>
       <TreeView key={ rootId } nodeLabel={ label }>
-        { children.map((childId, index) => (
+        { subnodes.map((childId, index) => (
           <SubTree id={ childId }
                    parentId={ rootId }
                    defaultLanguage={ defaultLanguage }

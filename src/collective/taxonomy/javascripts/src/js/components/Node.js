@@ -18,7 +18,7 @@ export default class Node extends Component {
 
   render() {
     const { id, nodes, translations, defaultLanguage, ...other } = this.props
-    const children = nodes[id].children
+    const subnodes = nodes[id].subnodes
     const title = translations[defaultLanguage]
     const nodeLabel = (
       <span>
@@ -30,7 +30,7 @@ export default class Node extends Component {
       )
     return (
       <TreeView nodeLabel={ nodeLabel }>
-        { children.map((childId, index) => (
+        { subnodes.map((childId, index) => (
           <SubTree { ...other }
                    id={ childId }
                    index={ index }

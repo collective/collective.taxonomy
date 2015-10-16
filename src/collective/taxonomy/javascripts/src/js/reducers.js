@@ -16,23 +16,23 @@ function addNode(nodes, parentId, newKey) {
       // add new item to nodes
       $merge: { [newKey]: {
         key: newKey,
-        children: [],
+        subnodes: [],
         translations: {
           'fr': 'Nouveau terme',
           'en': 'New term'
         } } },
 
-      [parentId]: { children: { $push: [newKey] } }
+      [parentId]: { subnodes: { $push: [newKey] } }
     })
 
   return newNodes
 }
 
 function removeNode(nodes, action) {
-  // remove item from parents' children
+  // remove item from parents' subnodes
   const newNodes = React.addons.update(
     nodes, {
-      [action.parentId]: { children: { $splice: [[action.index, 1]] } },
+      [action.parentId]: { subnodes: { $splice: [[action.index, 1]] } },
     })
 
   // remove from nodes

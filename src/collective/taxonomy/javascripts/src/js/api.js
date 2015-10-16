@@ -8,7 +8,7 @@ const arrayOf = normalizr.arrayOf
 const nodeSchema = new Schema('nodes', { idAttribute: 'key' })
 
 nodeSchema.define({
-  children: arrayOf(nodeSchema),
+  subnodes: arrayOf(nodeSchema),
 })
 
 export function normalizeData(taxonomyJson) {
@@ -20,17 +20,17 @@ function buildChild(nodes, id) {
   return {
     key: id,
     translations: node.translations,
-    children: node.children.map(childId => buildChild(nodes, childId))
+    subnodes: node.subnodes.map(childId => buildChild(nodes, childId))
   }
 }
 
 function buildTree(nodes, rootId) {
   const rootNode = nodes[rootId]
-  const children = rootNode.children.map(id => buildChild(nodes, id))
+  const subnodes = rootNode.subnodes.map(id => buildChild(nodes, id))
   return {
     key: rootId,
     title: rootNode.title,
-    children: children,
+    subnodes: subnodes,
     default_language: rootNode.default_language,
     languages: rootNode.languages
   }
