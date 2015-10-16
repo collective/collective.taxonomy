@@ -24,7 +24,9 @@ export default class Node extends Component {
       <span>
         { title }&nbsp;&nbsp;&nbsp;
         <EditNodeButton id={ id } translations={ translations } { ...other } />
-        <AddNodeButton { ...other } />
+        <AddNodeButton { ...other }>
+          +
+        </AddNodeButton>
         <RemoveNodeButton { ...other } id={ id } />
       </span>
       )

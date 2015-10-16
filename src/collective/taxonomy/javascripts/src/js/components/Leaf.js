@@ -9,6 +9,7 @@ export default class Leaf extends Component {
 
   static propTypes = {
     defaultLanguage: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     translations: PropTypes.object.isRequired
   }
 
@@ -20,8 +21,13 @@ export default class Leaf extends Component {
         <div className="info">
           { title }&nbsp;&nbsp;&nbsp;
           <EditNodeButton translations={ translations } { ...other } />
-          <AddNodeButton { ...other } />
+          <AddNodeButton { ...other }>
+            +
+          </AddNodeButton>
           <RemoveNodeButton { ...other } />
+          <AddNodeButton { ...other } parentId={ this.props.id }>
+            Add subnode
+          </AddNodeButton>
         </div>
       </div>
       )

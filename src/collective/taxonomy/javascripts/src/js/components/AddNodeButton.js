@@ -5,6 +5,7 @@ import uid from 'uid'
 export default class AddNodeButton extends Component {
 
   static propTypes = {
+    children: PropTypes.array.isRequired,
     parentId: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     addNode: PropTypes.func.isRequired
@@ -12,10 +13,12 @@ export default class AddNodeButton extends Component {
 
   render() {
     // TODO: manage icon
-    const { parentId, index, addNode } = this.props
+    const { children, index, parentId, addNode } = this.props
     const newKey = uid(10)
     return (
-      <button onClick={ () => addNode(parentId, index, newKey) }>+</button>
+      <button onClick={ () => addNode(parentId, index, newKey) }>
+        { children }
+      </button>
       )
   }
 
