@@ -36,14 +36,14 @@
     "isparta": "^3.0.3",
     "merge-stream": "^1.0.0",
     "mocha": "*",
-    "react-dom": "^0.1.0",
-    "react-transform-webpack-hmr": "^0.1.4",
+    "react-dom": "^0.14.0",
+    "react-transform-hmr": "^1.0.1",
     "redux-devtools": "^2.1.0",
     "run-sequence": "^1.1.2",
     "through2": "^2.0.0",
-    "webpack": "^1.12.1",
+    "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.0.0"
+    "webpack-hot-middleware": "^2.2.0"
   },
   "dependencies": {
     "minifyify": "^7.0.5",
