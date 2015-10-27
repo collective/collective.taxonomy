@@ -1,5 +1,5 @@
 /* eslint no-unused-vars:[2, {"args": "none"}] */
-import React from 'react/addons'
+import update from 'react-addons-update'
 
 import {
   ADD_NODE,
@@ -11,7 +11,7 @@ import {
 
 
 function addNode(nodes, parentId, newKey) {
-  const newNodes = React.addons.update(
+  const newNodes = update(
     nodes, {
       // add new item to nodes
       $merge: { [newKey]: {
@@ -30,7 +30,7 @@ function addNode(nodes, parentId, newKey) {
 
 function removeNode(nodes, action) {
   // remove item from parents' subnodes
-  const newNodes = React.addons.update(
+  const newNodes = update(
     nodes, {
       [action.parentId]: { subnodes: { $splice: [[action.index, 1]] } },
     })
@@ -58,7 +58,7 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
     const language = action.language
     return {
       dirty: true,
-      nodes: React.addons.update(
+      nodes: update(
         state.nodes, {
           [action.id]: { translations: { [language]: { $set: action.value } } },
         })

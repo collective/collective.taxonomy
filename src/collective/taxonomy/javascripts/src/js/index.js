@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
 import { devTools, persistState } from 'redux-devtools'
@@ -27,6 +28,7 @@ const initialState = {
 
 const reducer = combineReducers(reducers)
 
+
 if (process.env.NODE_ENV === 'production') {
   /*
    * production mode
@@ -37,9 +39,9 @@ if (process.env.NODE_ENV === 'production') {
   )(createStore)
 
   const store = createStoreWithMiddleware(reducer, initialState)
-  React.render(
+  ReactDOM.render(
     <Provider store={ store }>
-      { () => <App /> }
+      <App />
     </Provider>,
     rootElement
     )
@@ -55,10 +57,10 @@ if (process.env.NODE_ENV === 'production') {
   )(createStore)
 
   const store = finalCreateStore(reducer, initialState)
-  React.render(
+  ReactDOM.render(
     <div>
       <Provider store={ store }>
-        { () => <App /> }
+        <App />
       </Provider>
     </div>,
     rootElement

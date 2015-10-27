@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 
 
 export default class Modal extends Component {
@@ -10,7 +11,7 @@ export default class Modal extends Component {
   }
 
   setPloneOverlayStyle(component) {
-    const overlay = React.findDOMNode(component)
+    const overlay = ReactDOM.findDOMNode(component)
     if (!overlay) return
     const height = overlay.outerHeight
     const width = document.body.clientWidth * 0.6
