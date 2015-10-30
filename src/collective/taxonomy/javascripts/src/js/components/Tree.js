@@ -45,11 +45,13 @@ export default class Tree extends Component {
         ) }
       </TreeView>
       <div className="formControls">
-        <input className="submit-widget button-field context"
-               value="Submit" type="submit"
+        <input className="submit-widget button-field context allowMultiSubmit"
+               type="submit" value="Submit"
                disabled={ !dirty ? 'disabled' : null }
                onClick={ this.handleClick.bind(this) }
         />
+
+
         <input className="submit-widget button-field standalone" id="back"
                onClick={ this.handleBack } type="submit"
                value="Back to settings"
