@@ -76,6 +76,11 @@ class ImportJson(BrowserView):
             data = simplejson.loads(request.stdin.read())
             taxonomy = queryUtility(ITaxonomy, name=data['taxonomy'])
             tree = data['tree']
+            languages = data['languages']
+            for language in languages:
+                if language not in taxonomy.data:
+                    taxonomy.data[language] = OOBTree()
+
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
                     tree['subnodes'], language)
@@ -103,7 +108,7 @@ class ImportJson(BrowserView):
         result = []
         for item in parsed_data:
             new_key = item['key']
-            title = item['translations'][language]
+            title = item['translations'].get(language, '')
             new_path = '{}{}'.format(path, title)
             result.append((new_path, new_key, ))
             subnodes = item.get('subnodes', [])
