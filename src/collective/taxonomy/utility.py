@@ -25,6 +25,9 @@ import logging
 
 from copy import copy
 
+from collective.taxonomy import PATH_SEPARATOR
+
+
 logger = logging.getLogger("collective.taxonomy")
 
 
@@ -39,10 +42,10 @@ class Taxonomy(SimpleItem):
         self.default_language = default_language
 
     def __call__(self, context):
-        
+
         if not self.data:
             return Vocabulary(self.name, {}, {})
-        
+
         request = getattr(context, "REQUEST", None)
 
         current_language = self.getCurrentLanguage(request)
@@ -172,6 +175,6 @@ class Taxonomy(SimpleItem):
             return ''
 
         path = self.inverted_data[target_language][msgid]
-        pretty_path = path[1:].replace('/', u' » ')
+        pretty_path = path[1:].replace(PATH_SEPARATOR, u' » ')
 
         return pretty_path
