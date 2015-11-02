@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import TreeView from 'react-treeview'
 
+import AddNodeButton from './AddNodeButton'
 import SubTree from './SubTree'
 
 
@@ -33,6 +34,14 @@ export default class Tree extends Component {
       <div>
       <h1>Edit taxonomy data</h1>
       <TreeView key={ rootId } nodeLabel={ label }>
+        { subnodes.length === 0 ?
+          <AddNodeButton { ...other } parentId={ rootId }
+                         title="Add a term inside this node"
+          >
+            <i className="icon-flow-split"></i>
+          </AddNodeButton>
+          : null }
+
         { subnodes.map((childId, index) => (
           <SubTree id={ childId }
                    parentId={ rootId }
