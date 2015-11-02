@@ -51,6 +51,7 @@ export function asyncSaveTree(nodes, rootId) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      languages: ['fr', 'en'],
       tree: tree,
       taxonomy: taxonomyParam[1]
     })
