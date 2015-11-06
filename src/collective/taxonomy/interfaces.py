@@ -54,6 +54,7 @@ class ITaxonomyForm(Interface):
 
     taxonomy = schema.TextLine(
         title=_(u"Taxonomy"),
+        description=_("The taxonomy identifier"),
         required=True
     )
 
@@ -83,16 +84,22 @@ class ITaxonomyForm(Interface):
 
     is_required = schema.Bool(
         title=_(u"Required"),
+        description=_(
+            u"Check this box if you want the field to be required"),
         required=True
     )
 
     is_single_select = schema.Bool(
         title=_(u"Single select"),
+        description=_(
+            u"Check this box if you want the field to be mono-valued"),
         required=True
     )
 
     write_permission = schema.Choice(
         title=_(u"Write permission"),
+        description=_(
+            u"Write permission for the field"),
         required=False,
         vocabulary='collective.taxonomy.permissions'
     )
