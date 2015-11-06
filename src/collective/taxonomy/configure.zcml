@@ -122,6 +122,12 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      factory=".vocabulary.LanguagesVocabulary"
+      name="collective.taxonomy.languages"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
   <include file="widget.zcml" />
   <include file="upgradesteps.zcml" />
 

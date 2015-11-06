@@ -70,9 +70,9 @@ class ITaxonomyForm(Interface):
         required=False
     )
 
-    default_language = schema.TextLine(
+    default_language = schema.Choice(
         title=_(u"Default language"),
-        description=_("For example en, da, de, etc."),
+        vocabulary='collective.taxonomy.languages',
         required=True
     )
 
