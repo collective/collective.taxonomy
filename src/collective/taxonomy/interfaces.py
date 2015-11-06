@@ -54,7 +54,7 @@ class ITaxonomyForm(Interface):
 
     taxonomy = schema.TextLine(
         title=_(u"Taxonomy"),
-        required=False
+        required=True
     )
 
     field_title = schema.TextLine(
