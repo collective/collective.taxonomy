@@ -64,7 +64,7 @@ class ITaxonomyForm(Interface):
         required=True
     )
 
-    field_description = schema.TextLine(
+    field_description = schema.Text(
         title=_(u"Description"),
         description=_("Will be used for the field description as well"),
         required=False
