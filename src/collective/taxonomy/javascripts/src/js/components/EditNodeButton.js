@@ -9,6 +9,7 @@ export default class EditNodeButton extends Component {
 
   static propTypes = {
     id: PropTypes.string.isRequired,
+    languages: PropTypes.array.isRequired,
     translations: PropTypes.object.isRequired,
     editTranslation: PropTypes.func.isRequired
   }
@@ -27,7 +28,7 @@ export default class EditNodeButton extends Component {
   }
 
   render() {
-    const { id, editTranslation, translations } = this.props
+    const { id, editTranslation, translations, languages } = this.props
     return (
       <span>
         <a onClick={ this.show.bind(this) }>
@@ -38,7 +39,7 @@ export default class EditNodeButton extends Component {
         <Modal show={ this.state.show } onClose={ this.close.bind(this) }>
           <div className="pb-ajax">
             <form id="form">
-              { Object.keys(translations).map(
+              { languages.map(
                 lang => <InputText name={ lang }
                                    key={ lang }
                                    defaultValue={ translations[lang] }

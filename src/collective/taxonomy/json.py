@@ -6,7 +6,7 @@ from Products.Five.browser import BrowserView
 from zope.component import queryUtility
 from zope.i18n import translate
 
-from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy import LANGUAGES, PATH_SEPARATOR
 from collective.taxonomy.i18n import MessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import TreeExport
@@ -56,7 +56,8 @@ class EditTaxonomyData(TreeExport, BrowserView):
             'name': self.taxonomy.name,
             'title': self.taxonomy.title,
             'subnodes': [],
-            'default_language': self.taxonomy.default_language
+            'default_language': self.taxonomy.default_language,
+            'languages': LANGUAGES,
         }
         if root:
             for term in root.findall('term'):

@@ -14,15 +14,17 @@ export default class AddNodeButton extends Component {
       React.PropTypes.string]),
     index: PropTypes.number.isRequired,
     title: PropTypes.string,
-    addNode: PropTypes.func.isRequired
+    addNode: PropTypes.func.isRequired,
+    languages: PropTypes.array.isRequired,
   }
 
   render() {
     // TODO: manage icon
-    const { addNode, children, index, parentId, title, ...other } = this.props
+    const { addNode, children, index, languages, parentId, title,
+            ...other } = this.props
     const newKey = uid(10)
     return (
-      <Button handleClick={ () => addNode(parentId, index, newKey) }
+      <Button handleClick={ () => addNode(parentId, index, newKey, languages) }
               { ...other }
               title={ title ? title : 'Add a node at the same level' }
       >

@@ -6,7 +6,7 @@ export default class InputText extends Component {
   static propTypes = {
     action: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    defaultValue: PropTypes.string.isRequired,
+    defaultValue: PropTypes.string,
   }
 
   handleChange(e) {
@@ -15,11 +15,12 @@ export default class InputText extends Component {
   }
 
   render() {
-    const { name, defaultValue } = this.props
+    const { defaultValue, name } = this.props
+    const defaultValue_ = defaultValue === undefined ? '' : defaultValue
     return (
       <div className="field">
         <label className="horizontal">{ name }</label>
-        <input name={ name } type="text" defaultValue={ defaultValue }
+        <input name={ name } type="text" defaultValue={ defaultValue_ }
                onChange={ this.handleChange.bind(this) }
         />
       </div>

@@ -10,17 +10,17 @@ import {
   SAVE_TREE_REJECTED } from './actions'
 
 
-function addNode(nodes, parentId, newKey) {
+function addNode(nodes, parentId, newKey, nodeLanguages) {
+  let emptyTranslations = {}  // eslint-disable-line prefer-const
+  nodeLanguages.forEach(value => emptyTranslations[value] = '??????')
   const newNodes = update(
     nodes, {
       // add new item to nodes
       $merge: { [newKey]: {
         key: newKey,
         subnodes: [],
-        translations: {
-          'fr': 'Nouveau terme',
-          'en': 'New term'
-        } } },
+        translations: emptyTranslations,
+      } },
 
       [parentId]: { subnodes: { $push: [newKey] } }
     })
@@ -47,7 +47,7 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
   case ADD_NODE:
     return {
       dirty: true,
-      nodes: addNode(state.nodes, action.parentId, action.newKey)
+      nodes: addNode(state.nodes, action.parentId, action.newKey, action.languages)
     }
   case REMOVE_NODE:
     return {
@@ -78,6 +78,10 @@ export function rootId(state = 'root', action) {
 }
 
 export function defaultLanguage(state = 'en', action) {
+  return state
+}
+
+export function languages(state = ['en'], action) {
   return state
 }
 

@@ -15,8 +15,8 @@ export const SAVE_TREE_REJECTED = 'SAVE_TREE_REJECTED'
  * action creators
  */
 
-export function addNode(parentId, index, newKey) {
-  return { type: ADD_NODE, parentId, index, newKey }
+export function addNode(parentId, index, newKey, languages) {
+  return { type: ADD_NODE, parentId, index, newKey, languages }
 }
 
 export function removeNode(parentId, id, index) {

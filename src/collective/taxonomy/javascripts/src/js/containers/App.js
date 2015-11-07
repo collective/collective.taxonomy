@@ -14,13 +14,15 @@ class App extends Component {
     defaultLanguage: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     dirty: PropTypes.bool.isRequired,
+    languages: PropTypes.array.isRequired,
     nodes: PropTypes.object.isRequired,
     rootId: PropTypes.string.isRequired,
     saveTree: PropTypes.object.isRequired,
   }
 
   render() {
-    const { defaultLanguage, dispatch, dirty, nodes, rootId, saveTree } = this.props
+    const { defaultLanguage, dispatch, dirty, languages, nodes, rootId,
+            saveTree } = this.props
     const boundActionCreators = bindActionCreators(actionCreators, dispatch)
     const portalURL = $('base').attr('href')
     const { isPending, message, status } = saveTree
@@ -34,7 +36,7 @@ class App extends Component {
       { dirty ? <MessageBox status="error" message="Changes have been made but you have to click on submit button to save these changes." /> : null }
 
       <Tree dirty={ dirty } nodes={ nodes } rootId={ rootId }
-            defaultLanguage={ defaultLanguage }
+            defaultLanguage={ defaultLanguage } languages={ languages }
             { ...boundActionCreators }
       />
       </div>
@@ -47,6 +49,7 @@ function select(state) {
   return {
     defaultLanguage: state.defaultLanguage,
     dirty: state.tree.dirty,
+    languages: state.languages,
     nodes: state.tree.nodes,
     rootId: state.rootId,
     saveTree: state.saveTree

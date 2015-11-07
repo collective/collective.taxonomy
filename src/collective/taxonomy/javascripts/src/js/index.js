@@ -23,6 +23,7 @@ const initialState = {
     nodes: data.entities.nodes,
   },
   defaultLanguage: rootNode.default_language,
+  languages: rootNode.languages,
   rootId: data.result,
 }
 
