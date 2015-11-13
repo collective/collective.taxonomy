@@ -34,6 +34,7 @@
     "gulp-eslint": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "isparta": "^3.0.3",
+    "loose-envify": "^1.1.0",
     "merge-stream": "^1.0.0",
     "mocha": "*",
     "react-dom": "^0.14.0",

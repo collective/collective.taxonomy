@@ -5,6 +5,7 @@ var browserify = require('browserify')
 var through2 = require('through2')
 var runSequence = require('run-sequence')
 var eslint = require('gulp-eslint')
+var envify = require('loose-envify/custom');
 var merge = require('merge-stream')
 
 var APP = 'index'
@@ -30,6 +31,7 @@ gulp.task('browserify', function() {
           optional: optional
         }))
 
+      bundler.transform(envify({ NODE_ENV: env }))
       if (env === 'production') {
         bundler.plugin('minifyify', { map: mapFile, output: mapOutput })
       }
