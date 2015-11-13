@@ -36,8 +36,7 @@ class ImportVdex(object):
                                                    path + (text,)))
         return result
 
-    def recurse(self, tree, available_languages=set(),
-                parent_language=None):
+    def recurse(self, tree, available_languages=set(), parent_language=None):
         result = {}
 
         for node in tree.findall('./{%s}term' % self.ns):
@@ -47,7 +46,11 @@ class ImportVdex(object):
             for i in langstrings:
                 if not parent_language or \
                         parent_language == i.attrib['language']:
-                    text = i.text.strip('\n ')
+                    if i.text is None:
+                        text = ''
+                    else:
+                        text = i.text.strip('\n ')
+
                     element = LANG_SEPARATOR.join([i.attrib['language'], text])
                     result[element] = (
                         identifier.text,
