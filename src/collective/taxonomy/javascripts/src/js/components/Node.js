@@ -22,7 +22,7 @@ export default class Node extends Component {
     const title = translations[defaultLanguage]
     const nodeLabel = (
       <span>
-        { title }&nbsp;&nbsp;&nbsp;
+        { title || '??????' }&nbsp;&nbsp;&nbsp;
         <EditNodeButton { ...other } id={ id } translations={ translations } />
         <AddNodeButton { ...other } />
         <RemoveNodeButton { ...other } id={ id } />

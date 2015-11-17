@@ -12,7 +12,7 @@ import {
 
 function addNode(nodes, parentId, newKey, nodeLanguages) {
   let emptyTranslations = {}  // eslint-disable-line prefer-const
-  nodeLanguages.forEach(value => emptyTranslations[value] = '??????')
+  nodeLanguages.forEach(value => emptyTranslations[value] = '')
   const newNodes = update(
     nodes, {
       // add new item to nodes

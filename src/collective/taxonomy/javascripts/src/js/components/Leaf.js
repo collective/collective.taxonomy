@@ -19,7 +19,7 @@ export default class Leaf extends Component {
     return (
       <div>
         <div className="info">
-          { title }&nbsp;&nbsp;&nbsp;
+          { title || '??????' }&nbsp;&nbsp;&nbsp;
           <EditNodeButton translations={ translations } { ...other } />
           &nbsp;
           <AddNodeButton { ...other } />
