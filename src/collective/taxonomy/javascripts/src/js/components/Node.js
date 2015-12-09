@@ -32,11 +32,13 @@ export default class Node extends Component {
       <TreeView nodeLabel={ nodeLabel }>
         { subnodes.map((childId, index) => (
           <SubTree { ...other }
+                   key={ childId }
                    id={ childId }
                    index={ index }
                    parentId={ id }
                    nodes={ nodes }
                    defaultLanguage={ defaultLanguage }
+                   translations={ translations }
                    { ...nodes[childId] }
           />))
         }
