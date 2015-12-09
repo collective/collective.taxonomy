@@ -98,7 +98,7 @@ class Taxonomy(SimpleItem):
 
         new_args['name'] = self.name
         new_args['title'] = self.title
-        new_args['description'] = kwargs['field_description']
+        new_args['description'] = kwargs.get('field_description', u'')
 
         behavior = TaxonomyBehavior(**new_args)
         sm.registerUtility(behavior, IBehavior,
