@@ -43,6 +43,7 @@ export function asyncSaveTree(nodes, rootId) {
   const taxonomyParam = hashes.map(hash => hash.split('=')).find(
     param => param[0] === 'taxonomy')
   const tree = buildTree(nodes, rootId)
+  const rootNode = nodes[rootId]
   return fetch(viewUrl, {
     credentials: 'include',
     method: 'post',
@@ -51,7 +52,7 @@ export function asyncSaveTree(nodes, rootId) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      languages: ['fr', 'en'],
+      languages: rootNode.languages,
       tree: tree,
       taxonomy: taxonomyParam[1]
     })
