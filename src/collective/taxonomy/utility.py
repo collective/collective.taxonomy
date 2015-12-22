@@ -130,6 +130,7 @@ class Taxonomy(SimpleItem):
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
+            utility.title = kwargs['field_title']
 
         delattr(generated, short_name)
 
