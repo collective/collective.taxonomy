@@ -21,7 +21,7 @@
 
         </div>
 
-        <script type="text/javascript" tal:attributes="src string:$portal_url/++resource++taxonomy/index.js"></script>
+        <script type="text/javascript" tal:attributes="src view/get_resource_url"></script>
 
       </metal:block>
 

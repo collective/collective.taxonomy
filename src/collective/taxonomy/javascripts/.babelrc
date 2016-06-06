@@ -1,22 +1,17 @@
 {
-  "stage": 0,
+  "presets":["react", "es2015","stage-1"],
   "env": {
-    // this plugin will be included only in development mode, e.g.
-    // if NODE_ENV (or BABEL_ENV) environment variable is not set
-    // or is equal to "development"
     "development": {
-      "plugins": [
-        "react-transform"
-      ],
-      "extra": {
-        "react-transform": {
-          "transforms": [{
-            "transform": "react-transform-hmr",
-            "imports": ["react"],
-            "locals": ["module"]
-          }]
-        }
-      }
+      "presets": ["react-hmre"]
+    },
+    "production": {
+      "plugins": ["transform-react-remove-prop-types"]
     }
-  }
+  },
+  "plugins": [
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": false
+    }]
+  ]
 }

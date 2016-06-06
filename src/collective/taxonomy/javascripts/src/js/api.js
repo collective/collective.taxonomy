@@ -1,9 +1,5 @@
-import normalizr from 'normalizr'
+import { arrayOf, normalize, Schema } from 'normalizr'
 import 'whatwg-fetch'
-
-
-const Schema = normalizr.Schema
-const arrayOf = normalizr.arrayOf
 
 const nodeSchema = new Schema('nodes', { idAttribute: 'key' })
 
@@ -12,7 +8,7 @@ nodeSchema.define({
 })
 
 export function normalizeData(taxonomyJson) {
-  return normalizr.normalize(taxonomyJson, nodeSchema)
+  return normalize(taxonomyJson, nodeSchema)
 }
 
 function buildChild(nodes, id) {

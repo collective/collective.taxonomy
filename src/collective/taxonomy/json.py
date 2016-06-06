@@ -1,8 +1,10 @@
 from elementtree import ElementTree
+import os
 import simplejson
 
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
+from plone import api
 from zope.component import queryUtility
 from zope.i18n import translate
 
@@ -64,6 +66,15 @@ class EditTaxonomyData(TreeExport, BrowserView):
                 result['subnodes'].append(self.generate_json(term))
 
         return simplejson.dumps(result)
+
+    def get_resource_url(self):
+        """Return resource url."""
+        node_env = os.environ.get('NODE_ENV', 'production')
+        if node_env == 'development' and api.env.debug_mode():
+            return "http://localhost:3000/static/edittaxonomydata.js"
+        else:
+            return '{}/++resource++taxonomy/edittaxonomydata.js'.format(
+                api.portal.get().absolute_url())
 
 
 class ImportJson(BrowserView):

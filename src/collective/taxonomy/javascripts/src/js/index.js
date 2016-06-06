@@ -2,14 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
-import { devTools, persistState } from 'redux-devtools'
+import { persistState } from 'redux-devtools'
 import promiseMiddleware from 'redux-promise-middleware'
 
-// import createDevToolsWindow from './createDevToolsWindow'
 import App from './containers/App'
+import DevTools from './containers/DevTools'
 import * as reducers from './reducers'
 import { normalizeData } from './api'
-
 
 const rootElement = document.getElementById('root')
 const taxonomyJson = JSON.parse(rootElement.dataset.taxonomy)
@@ -53,19 +52,24 @@ if (process.env.NODE_ENV === 'production') {
 
   const finalCreateStore = compose(
     applyMiddleware(promiseMiddleware),
-    devTools(),
-    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+    DevTools.instrument(),
+    persistState(
+      window.location.href.match(
+        /[?&]debug_session=([^&]+)\b/
+      )
+    )
   )(createStore)
 
   const store = finalCreateStore(reducer, initialState)
   ReactDOM.render(
     <div>
       <Provider store={ store }>
-        <App />
+        <div>
+          <App />
+          { process.env.NODE_ENV === 'production' ? null : <DevTools /> }
+        </div>
       </Provider>
     </div>,
     rootElement
     )
-
-  // createDevToolsWindow(store)
 }

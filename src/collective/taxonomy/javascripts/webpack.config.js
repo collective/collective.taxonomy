@@ -4,7 +4,7 @@ var webpack = require('webpack')
 module.exports = {
   devtool: 'eval',
   entry: {
-    collectivetaxonomy: ['webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
+    edittaxonomydata: ['webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
     './src/js/index'],
   },
   output: {
@@ -19,8 +19,9 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel?optional=runtime'],
-      include: path.join(__dirname, 'src')
+      loaders: ['babel'],
+      exclude: /node_modules/,
+      include: path.join(__dirname, 'src'),
     }]
   }
 }
