@@ -19,7 +19,6 @@ export default class AddNodeButton extends Component {
   }
 
   render() {
-    // TODO: manage icon
     const { addNode, children, index, languages, parentId, title,
             ...other } = this.props
     const newKey = uid(10)

@@ -13,7 +13,6 @@ export default class RemoveNodeButton extends Component {
   }
 
   render() {
-    // TODO: manage icon
     const { parentId, id, index, removeNode, ...other } = this.props
     return (
       <Button handleClick={ () => removeNode(parentId, id, index) }
