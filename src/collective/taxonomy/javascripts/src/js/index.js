@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
    */
 
   const createStoreWithMiddleware = applyMiddleware(
-    promiseMiddleware
+    promiseMiddleware()
   )(createStore)
 
   const store = createStoreWithMiddleware(reducer, initialState)
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
    */
 
   const finalCreateStore = compose(
-    applyMiddleware(promiseMiddleware),
+    applyMiddleware(promiseMiddleware()),
     DevTools.instrument(),
     persistState(
       window.location.href.match(
