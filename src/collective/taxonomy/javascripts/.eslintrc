@@ -4,7 +4,8 @@
   "env": {
     "browser": true,
     "es6": true,
-    "jquery": true
+    "jquery": true,
+    "mocha": true
   },
   "ecmaFeatures": {
     "jsx": true,
@@ -30,5 +31,9 @@
   },
   "plugins": [
     "react"
-  ]
+  ],
+  "globals": {
+    "__DEV__" : true,
+    "expect": true,
+  }
 }
