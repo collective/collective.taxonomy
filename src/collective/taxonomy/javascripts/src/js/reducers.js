@@ -7,12 +7,13 @@ import {
   EDIT_TRANSLATION,
   SAVE_TREE_PENDING,
   SAVE_TREE_FULFILLED,
-  SAVE_TREE_REJECTED } from './actions'
+  SAVE_TREE_REJECTED } from './constants'
 
 
 function addNode(nodes, parentId, newKey, nodeLanguages) {
-  let emptyTranslations = {}  // eslint-disable-line prefer-const
-  nodeLanguages.forEach(value => emptyTranslations[value] = '')
+  const emptyTranslations = nodeLanguages.reduce(
+    (acc, item) => (Object.assign(acc, { [item]: '' })),
+    {})
   const newNodes = update(
     nodes, {
       // add new item to nodes
@@ -44,32 +45,33 @@ function removeNode(nodes, action) {
 
 export function tree(state = { nodes: {}, dirty: false }, action) {
   switch (action.type) {
-  case ADD_NODE:
-    return {
-      dirty: true,
-      nodes: addNode(state.nodes, action.parentId, action.newKey, action.languages)
+    case ADD_NODE:
+      return {
+        dirty: true,
+        nodes: addNode(state.nodes, action.parentId, action.newKey, action.languages)
+      }
+    case REMOVE_NODE:
+      return {
+        dirty: true,
+        nodes: removeNode(state.nodes, action)
+      }
+    case EDIT_TRANSLATION: {
+      const language = action.language
+      return {
+        dirty: true,
+        nodes: update(
+          state.nodes, {
+            [action.id]: { translations: { [language]: { $set: action.value } } },
+          })
+      }
     }
-  case REMOVE_NODE:
-    return {
-      dirty: true,
-      nodes: removeNode(state.nodes, action)
-    }
-  case EDIT_TRANSLATION:
-    const language = action.language
-    return {
-      dirty: true,
-      nodes: update(
-        state.nodes, {
-          [action.id]: { translations: { [language]: { $set: action.value } } },
-        })
-    }
-  case SAVE_TREE_FULFILLED:
-    return {
-      dirty: false,
-      nodes: state.nodes
-    }
-  default:
-    return state
+    case SAVE_TREE_FULFILLED:
+      return {
+        dirty: false,
+        nodes: state.nodes
+      }
+    default:
+      return state
   }
 }
 
@@ -89,21 +91,21 @@ const defaultState = { isPending: false, status: '', message: '' }
 
 export function saveTree(state = defaultState, action) {
   switch (action.type) {
-  case SAVE_TREE_PENDING:
-    return {
-      isPending: true,
-      status: '',
-      message: ''
-    }
-  case SAVE_TREE_FULFILLED:
-    return {
-      isPending: false,
-      status: action.payload.status,
-      message: action.payload.message
-    }
-  case SAVE_TREE_REJECTED:
-    return state
-  default:
-    return state
+    case SAVE_TREE_PENDING:
+      return {
+        isPending: true,
+        status: '',
+        message: ''
+      }
+    case SAVE_TREE_FULFILLED:
+      return {
+        isPending: false,
+        status: action.payload.status,
+        message: action.payload.message
+      }
+    case SAVE_TREE_REJECTED:
+      return state
+    default:
+      return state
   }
 }
