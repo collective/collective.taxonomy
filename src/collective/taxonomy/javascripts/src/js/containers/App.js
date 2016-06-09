@@ -24,6 +24,7 @@ class App extends Component {
     const { defaultLanguage, dispatch, dirty, languages, nodes, rootId,
             saveTree } = this.props
     const boundActionCreators = bindActionCreators(actionCreators, dispatch)
+    console.log(boundActionCreators);
     const portalURL = $('base').attr('href')
     const { isPending, message, status } = saveTree
     return (
@@ -37,7 +38,6 @@ class App extends Component {
 
       <Tree dirty={ dirty } nodes={ nodes } rootId={ rootId }
             defaultLanguage={ defaultLanguage } languages={ languages }
-            { ...boundActionCreators }
       />
       </div>
       )

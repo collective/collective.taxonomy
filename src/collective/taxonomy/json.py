@@ -8,7 +8,7 @@ from plone import api
 from zope.component import queryUtility
 from zope.i18n import translate
 
-from collective.taxonomy import LANGUAGES, PATH_SEPARATOR
+from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import MessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import TreeExport
@@ -47,19 +47,21 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_data(self):
         """Get json data."""
+        language_tool = api.portal.get_tool('portal_languages')
         root = ElementTree.Element('vdex')
         try:
             root = self.buildTree(root)
         except ValueError:
             root = None
 
+        languages = language_tool.supported_langs
         result = {
             'key': '0',
             'name': self.taxonomy.name,
             'title': self.taxonomy.title,
             'subnodes': [],
             'default_language': self.taxonomy.default_language,
-            'languages': LANGUAGES,
+            'languages': languages,
         }
         if root:
             for term in root.findall('term'):

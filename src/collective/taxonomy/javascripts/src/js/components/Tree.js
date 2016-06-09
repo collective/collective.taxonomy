@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import TreeView from 'react-treeview'
 
-import AddNodeButton from './AddNodeButton'
+import AddNodeButton from '../containers/AddNodeButton'
 import SubTree from './SubTree'
 
 

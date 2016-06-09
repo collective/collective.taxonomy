@@ -1,5 +1,6 @@
 /* eslint no-unused-vars:[2, {"args": "none"}] */
 import update from 'react-addons-update'
+import { combineReducers } from 'redux'
 
 import {
   ADD_NODE,
@@ -44,6 +45,7 @@ function removeNode(nodes, action) {
 }
 
 export function tree(state = { nodes: {}, dirty: false }, action) {
+  console.log('tree reducer');
   switch (action.type) {
     case ADD_NODE:
       return {
@@ -76,10 +78,12 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
 }
 
 export function rootId(state = 'root', action) {
+  console.log('rootId');
   return state
 }
 
 export function defaultLanguage(state = 'en', action) {
+  console.log('defaultLanguage');
   return state
 }
 
@@ -109,3 +113,11 @@ export function saveTree(state = defaultState, action) {
       return state
   }
 }
+
+export default combineReducers({
+  defaultLanguage,
+  languages,
+  rootId,
+  saveTree,
+  tree,
+})

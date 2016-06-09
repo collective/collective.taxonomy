@@ -3,7 +3,7 @@ import TreeView from 'react-treeview'
 
 import SubTree from './SubTree'
 import EditNodeButton from './EditNodeButton'
-import AddNodeButton from './AddNodeButton'
+import AddNodeButton from '../containers/AddNodeButton'
 import RemoveNodeButton from './RemoveNodeButton'
 
 

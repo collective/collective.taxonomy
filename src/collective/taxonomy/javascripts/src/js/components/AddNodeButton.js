@@ -21,7 +21,9 @@ export default class AddNodeButton extends Component {
   render() {
     const { addNode, children, index, languages, parentId, title,
             ...other } = this.props
+    console.log(other);
     const newKey = uid(10)
+    console.log(addNode);
     return (
       <Button handleClick={ () => addNode(parentId, index, newKey, languages) }
               { ...other }

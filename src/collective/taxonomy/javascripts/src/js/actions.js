@@ -2,6 +2,7 @@ import * as constants from './constants'
 import { asyncSaveTree } from './api'
 
 export function addNode(parentId, index, newKey, languages) {
+  console.log('add node');
   return { type: constants.ADD_NODE, parentId, index, newKey, languages }
 }
 

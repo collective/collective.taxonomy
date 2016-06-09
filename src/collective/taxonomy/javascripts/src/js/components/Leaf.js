@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 
 import EditNodeButton from './EditNodeButton'
-import AddNodeButton from './AddNodeButton'
 import RemoveNodeButton from './RemoveNodeButton'
+import AddNodeButton from '../containers/AddNodeButton'
 
 
 export default class Leaf extends Component {

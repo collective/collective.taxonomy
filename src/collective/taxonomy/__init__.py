@@ -1,2 +1,1 @@
-LANGUAGES = ['en']
 PATH_SEPARATOR = '/'
