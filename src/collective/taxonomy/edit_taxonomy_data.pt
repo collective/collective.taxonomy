@@ -8,6 +8,7 @@
       <metal:block fill-slot="style_slot">
         <link rel="stylesheet" type="text/css" tal:attributes="href string:$portal_url/++resource++taxonomy.icons/css/fontello.css">
         <link rel="stylesheet" type="text/css" tal:attributes="href string:$portal_url/++resource++taxonomy/css/react-treeview.css">
+        <link rel="stylesheet" type="text/css" tal:attributes="href string:$portal_url/++resource++collective.taxonomy.css">
       </metal:block>
     </head>
 
@@ -17,7 +18,11 @@
 
         <div id="content-core">
 
-          <div id="root" tal:attributes="data-taxonomy view/get_data"></div>
+          <div
+            id="root"
+            tal:attributes="data-taxonomy view/get_data;
+                            data-languages view/get_languages_mapping">
+          </div>
 
         </div>
 

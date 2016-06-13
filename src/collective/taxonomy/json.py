@@ -5,7 +5,7 @@ import simplejson
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
 from plone import api
-from zope.component import queryUtility
+from zope.component import queryMultiAdapter, queryUtility
 from zope.i18n import translate
 
 from collective.taxonomy import PATH_SEPARATOR
@@ -47,27 +47,36 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_data(self):
         """Get json data."""
-        language_tool = api.portal.get_tool('portal_languages')
         root = ElementTree.Element('vdex')
         try:
             root = self.buildTree(root)
         except ValueError:
             root = None
 
-        languages = language_tool.supported_langs
         result = {
             'key': '0',
             'name': self.taxonomy.name,
             'title': self.taxonomy.title,
             'subnodes': [],
             'default_language': self.taxonomy.default_language,
-            'languages': languages,
         }
         if root:
             for term in root.findall('term'):
                 result['subnodes'].append(self.generate_json(term))
 
         return simplejson.dumps(result)
+
+    def get_languages_mapping(self):
+        """Get mapping token/value for languages."""
+        portal = api.portal.get()
+        portal_state = queryMultiAdapter(
+            (portal, portal.REQUEST), name=u'plone_portal_state')
+        mapping = portal_state.locale().displayNames.languages
+        language_tool = api.portal.get_tool('portal_languages')
+        supported_langs = language_tool.supported_langs
+        languages_mapping = dict(
+            [(lang, mapping[lang].capitalize()) for lang in supported_langs])
+        return simplejson.dumps(languages_mapping)
 
     def get_resource_url(self):
         """Return resource url."""

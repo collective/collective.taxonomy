@@ -26,30 +26,30 @@ function buildTree(nodes, rootId) {
   return {
     key: rootId,
     title: rootNode.title,
-    subnodes: subnodes,
+    subnodes,
     default_language: rootNode.default_language,
     languages: rootNode.languages
   }
 }
 
-export function asyncSaveTree(nodes, rootId) {
-  const viewUrl = $('base').attr('href') + '/@@taxonomy-import'
+export function asyncSaveTree(nodes, rootId, languages) {
+  const baseUrl = $('base').attr('href')
+  const viewUrl = `${baseUrl}/@@taxonomy-import`
   const hashes = window.location.href.slice(
     window.location.href.indexOf('?') + 1).split('&')
   const taxonomyParam = hashes.map(hash => hash.split('=')).find(
     param => param[0] === 'taxonomy')
   const tree = buildTree(nodes, rootId)
-  const rootNode = nodes[rootId]
   return fetch(viewUrl, {
     credentials: 'include',
     method: 'post',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      languages: rootNode.languages,
-      tree: tree,
+      languages,
+      tree,
       taxonomy: taxonomyParam[1]
     })
   }).then(response => response.json())

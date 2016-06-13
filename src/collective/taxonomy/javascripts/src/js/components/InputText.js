@@ -1,12 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 
-
 export default class InputText extends Component {
 
   static propTypes = {
     action: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     defaultValue: PropTypes.string,
+  }
+
+  static defaultProps = {
+    defaultValue: ''
+  }
+
+  constructor() {
+    super()
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(e) {
@@ -16,12 +24,14 @@ export default class InputText extends Component {
 
   render() {
     const { defaultValue, name } = this.props
-    const defaultValue_ = defaultValue === undefined ? '' : defaultValue
     return (
       <div className="field">
         <label className="horizontal">{ name }</label>
-        <input name={ name } type="text" defaultValue={ defaultValue_ }
-               onChange={ this.handleChange.bind(this) }
+        <input
+          defaultValue={ defaultValue }
+          name={ name }
+          onChange={ this.handleChange }
+          type="text"
         />
       </div>
       )

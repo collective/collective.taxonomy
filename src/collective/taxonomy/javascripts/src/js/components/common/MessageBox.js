@@ -1,21 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 
+const MessageBox = ({ message, status }) => (
+  <dl className={ `portalMessage ${status}` }>
+    <dt>{ status }</dt>
+    <dd>{ message }</dd>
+  </dl>
+)
 
-export default class MessageBox extends Component {
-
-  static propTypes = {
-    message: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-  }
-
-  render() {
-    const { message, status } = this.props
-    return (
-      <dl className={ 'portalMessage ' + status }>
-        <dt>{ status }</dt>
-        <dd>{ message }</dd>
-      </dl>
-      )
-  }
-
+MessageBox.propTypes = {
+  message: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 }
+
+export default MessageBox

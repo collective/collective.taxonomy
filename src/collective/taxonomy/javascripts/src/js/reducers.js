@@ -8,20 +8,17 @@ import {
   EDIT_TRANSLATION,
   SAVE_TREE_PENDING,
   SAVE_TREE_FULFILLED,
-  SAVE_TREE_REJECTED } from './constants'
+  SAVE_TREE_REJECTED,
+  SELECT_LANGUAGE } from './constants'
 
-
-function addNode(nodes, parentId, newKey, nodeLanguages) {
-  const emptyTranslations = nodeLanguages.reduce(
-    (acc, item) => (Object.assign(acc, { [item]: '' })),
-    {})
+function addNode(nodes, parentId, newKey) {
   const newNodes = update(
     nodes, {
       // add new item to nodes
       $merge: { [newKey]: {
         key: newKey,
         subnodes: [],
-        translations: emptyTranslations,
+        translations: {},
       } },
 
       [parentId]: { subnodes: { $push: [newKey] } }
@@ -45,12 +42,14 @@ function removeNode(nodes, action) {
 }
 
 export function tree(state = { nodes: {}, dirty: false }, action) {
-  console.log('tree reducer');
   switch (action.type) {
     case ADD_NODE:
       return {
         dirty: true,
-        nodes: addNode(state.nodes, action.parentId, action.newKey, action.languages)
+        nodes: addNode(
+          state.nodes,
+          action.parentId,
+          action.newKey)
       }
     case REMOVE_NODE:
       return {
@@ -69,8 +68,8 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
     }
     case SAVE_TREE_FULFILLED:
       return {
+        ...state,
         dirty: false,
-        nodes: state.nodes
       }
     default:
       return state
@@ -78,16 +77,23 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
 }
 
 export function rootId(state = 'root', action) {
-  console.log('rootId');
   return state
 }
 
 export function defaultLanguage(state = 'en', action) {
-  console.log('defaultLanguage');
   return state
 }
 
-export function languages(state = ['en'], action) {
+export function selectedLanguage(state = 'en', action) {
+  switch (action.type) {
+    case SELECT_LANGUAGE:
+      return action.value
+    default:
+      return state
+  }
+}
+
+export function languages(state = { en: 'English' }, action) {
   return state
 }
 
@@ -119,5 +125,6 @@ export default combineReducers({
   languages,
   rootId,
   saveTree,
+  selectedLanguage,
   tree,
 })

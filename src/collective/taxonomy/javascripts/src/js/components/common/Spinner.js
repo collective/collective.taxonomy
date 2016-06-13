@@ -1,19 +1,13 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 
+const Spinner = (imageURL) => (
+  <div id="ajax-spinner" style={ { display: 'block' } }>
+    <img src={ imageURL } alt="" />
+  </div>
+)
 
-export default class Spinner extends Component {
-
-  static propTypes = {
-    imageURL: PropTypes.string.isRequired,
-  }
-
-  render() {
-    const imageURL = this.props.imageURL
-    return (
-        <div id="ajax-spinner" style={ { display: 'block' } }>
-          <img src={ imageURL } alt=""/>
-        </div>
-      )
-  }
-
+Spinner.propTypes = {
+  imageURL: PropTypes.string.isRequired,
 }
+
+export default Spinner

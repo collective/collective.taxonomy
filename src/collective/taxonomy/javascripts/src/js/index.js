@@ -9,6 +9,7 @@ import { normalizeData } from './api'
 
 const rootElement = document.getElementById('root')
 const taxonomyJson = JSON.parse(rootElement.dataset.taxonomy)
+const languagesMapping = JSON.parse(rootElement.dataset.languages)
 
 const data = normalizeData(taxonomyJson)
 
@@ -19,8 +20,9 @@ const initialState = {
     nodes: data.entities.nodes,
   },
   defaultLanguage: rootNode.default_language,
-  languages: rootNode.languages,
+  languages: languagesMapping,
   rootId: data.result,
+  selectedLanguage: rootNode.default_language,
 }
 
 const store = configureStore(initialState)

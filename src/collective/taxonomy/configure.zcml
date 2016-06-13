@@ -90,6 +90,12 @@
       layer=".interfaces.IBrowserLayer"
       />
 
+  <browser:resource
+      name="collective.taxonomy.css"
+      file="collective.taxonomy.css"
+      layer=".interfaces.IBrowserLayer"
+      />
+
   <browser:page
       name="taxonomy-edit-data"
       for="Products.CMFCore.interfaces.ISiteRoot"
