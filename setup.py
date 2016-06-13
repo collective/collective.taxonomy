@@ -41,7 +41,7 @@ setup(
         'plone.supermodel',
         'plone.api',
         'plone.app.registry',
-        'plone.app.dexterity[grok]',
+        'plone.app.dexterity',
         'elementtree',
         'collective.js.jqueryui',
     ],
