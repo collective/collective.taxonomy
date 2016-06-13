@@ -1,6 +1,6 @@
 from elementtree import ElementTree
 import os
-import simplejson
+import json
 
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
@@ -64,7 +64,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
             for term in root.findall('term'):
                 result['subnodes'].append(self.generate_json(term))
 
-        return simplejson.dumps(result)
+        return json.dumps(result)
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
@@ -76,11 +76,15 @@ class EditTaxonomyData(TreeExport, BrowserView):
         supported_langs = language_tool.supported_langs
         languages_mapping = dict(
             [(lang, mapping[lang].capitalize()) for lang in supported_langs])
+<<<<<<< HEAD
 
         # add taxonomy's default language if it is not in supported langs
         default_lang = self.taxonomy.default_language
         languages_mapping[default_lang] = mapping[default_lang].capitalize()
         return simplejson.dumps(languages_mapping)
+=======
+        return json.dumps(languages_mapping)
+>>>>>>> 0cd8023... remove dependency on simplejson
 
     def get_resource_url(self):
         """Return resource url."""
@@ -100,7 +104,7 @@ class ImportJson(BrowserView):
         request = self.request
         if request.method == 'POST':
             request.stdin.seek(0)
-            data = simplejson.loads(request.stdin.read())
+            data = json.loads(request.stdin.read())
             taxonomy = queryUtility(ITaxonomy, name=data['taxonomy'])
             tree = data['tree']
             languages = data['languages']
@@ -116,14 +120,14 @@ class ImportJson(BrowserView):
                 for key, value in data_for_taxonomy:
                     taxonomy.data[language][key] = value
 
-            return simplejson.dumps({
+            return json.dumps({
                 'status': 'info',
                 'message': translate(
                     _("Your taxonomy has been saved with success."),
                     context=request)
             })
 
-        return simplejson.dumps({
+        return json.dumps({
             'status': 'error',
             'message': translate(
                 _("There seems to have been an error."),

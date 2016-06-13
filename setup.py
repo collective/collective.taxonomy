@@ -22,8 +22,10 @@ setup(
     ]),
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Framework :: Zope2",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
     ],
     keywords='plone taxonomy dexterity',
     author='Bo Simonsen and Malthe Borch',
@@ -41,7 +43,6 @@ setup(
         'plone.app.registry',
         'plone.app.dexterity[grok]',
         'elementtree',
-        'simplejson',
         'collective.js.jqueryui',
     ],
     extras_require={
