@@ -1,29 +1,38 @@
 import React, { PropTypes } from 'react'
+import { defineMessages, injectIntl } from 'react-intl'
 
 import Button from './common/Button'
+
+const messages = defineMessages({
+  addNodeLabel: {
+    id: 'addNodeLabel',
+    description: 'Add node button label',
+    defaultMessage: 'Add a node at the same level',
+  }
+})
 
 const AddNodeButton = ({
   addNode,
   children,
+  intl,
   title
 }) => (
   <Button
     handleClick={ addNode }
-    title={ title || 'Add a node at the same level' }
+    title={ title || intl.formatMessage(messages.addNodeLabel) }
   >
     { children || <i className="icon-plus"></i> }
   </Button>
 )
 
 AddNodeButton.propTypes = {
-  // parentId: PropTypes.string.isRequired,
   children: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.element,
     React.PropTypes.string]),
-  // index: PropTypes.number.isRequired,
+  intl: PropTypes.object.isRequired,
   title: PropTypes.string,
   addNode: PropTypes.func.isRequired,
 }
 
-export default AddNodeButton
+export default injectIntl(AddNodeButton)

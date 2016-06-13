@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 
 import App from './containers/App'
 import DevTools from './containers/DevTools'
 import configureStore from './store/configureStore'
 import { normalizeData } from './api'
+import { locale, translatedMessages } from './i18n'
 
 const rootElement = document.getElementById('root')
 const taxonomyJson = JSON.parse(rootElement.dataset.taxonomy)
@@ -43,12 +45,14 @@ if (process.env.NODE_ENV === 'production') {
    */
   ReactDOM.render(
     <div>
-      <Provider store={ store }>
-        <div>
-          <App />
-          { process.env.NODE_ENV === 'production' ? null : <DevTools /> }
-        </div>
-      </Provider>
+      <IntlProvider locale={ locale } messages={ translatedMessages }>
+        <Provider store={ store }>
+          <div>
+            <App />
+            { process.env.NODE_ENV === 'production' ? null : <DevTools /> }
+          </div>
+        </Provider>
+      </IntlProvider>
     </div>,
     rootElement
     )

@@ -12,6 +12,10 @@
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": false
+    }],
+    ["react-intl", {
+      "messagesDir": "./build/messages/",
+      "enforceDescriptions": false
     }]
   ]
 }

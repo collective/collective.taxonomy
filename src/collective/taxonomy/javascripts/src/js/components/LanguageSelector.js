@@ -1,8 +1,15 @@
 import React, { PropTypes } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 const LanguageSelector = ({ languages, selectLanguage, selectedLanguage }) => (
   <p>
-    <label>Select the language to edit: </label>&nbsp;
+    <label>
+      <FormattedMessage
+        id="languageSelectorLabel"
+        description="Message that invites the user to select a message"
+        defaultMessage="Select the language to edit: "
+      />
+    </label>&nbsp;
     <select
       value={ selectedLanguage }
       onChange={ (e) => selectLanguage(e.target.value) }

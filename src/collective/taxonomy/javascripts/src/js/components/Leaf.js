@@ -1,10 +1,19 @@
 import React, { PropTypes } from 'react'
+import { defineMessages, injectIntl } from 'react-intl'
 
 import AddNodeButton from '../containers/AddNodeButton'
 import EditableValues from '../containers/EditableValues'
 import RemoveNodeButton from '../containers/RemoveNodeButton'
 
-const Leaf = ({ id, index, parentId, title }) => (
+const messages = defineMessages({
+  addChildNodeLabel: {
+    id: 'addChildNodeLabel',
+    description: 'Add a child node button label',
+    defaultMessage: 'Add a term inside this node',
+  }
+})
+
+const Leaf = ({ id, index, intl, parentId, title }) => (
   <div>
     <div className="info">
       <EditableValues id={ id } />
@@ -24,7 +33,7 @@ const Leaf = ({ id, index, parentId, title }) => (
       <AddNodeButton
         index={ index }
         parentId={ id }
-        title="Add a term inside this node"
+        title={ intl.formatMessage(messages.addChildNodeLabel) }
       >
         <i className="icon-flow-split"></i>
       </AddNodeButton>
@@ -35,8 +44,9 @@ const Leaf = ({ id, index, parentId, title }) => (
 Leaf.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  intl: PropTypes.object.isRequired,
   parentId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 }
 
-export default Leaf
+export default injectIntl(Leaf)
