@@ -144,6 +144,7 @@ Run the app, run ``npm start`` in the ``javascripts`` directory.
 To make Plone use the development code, you need the ``NODE_ENV`` environment variable to be set to ``development``:
 
 ::
+
     NODE_ENV=development bin/instance fg
 
 
@@ -153,6 +154,7 @@ i18n
 The app uses `react-intl <https://github.com/yahoo/react-intl>` to handle i18n. To translate the app, add a new language in the translations directory. For example, create a ``es`` file in the translations directory that contains:
 
 ::
+
     const es = {
         submitLabel: 'Enviar',
     }
@@ -162,6 +164,7 @@ The app uses `react-intl <https://github.com/yahoo/react-intl>` to handle i18n. 
 Then, edit ``translations/index.js`` to add the language to the translations object:
 
 ::
+
     import es from './es'
 
     const translations = {
