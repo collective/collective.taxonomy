@@ -151,7 +151,7 @@ To make Plone use the development code, you need the ``NODE_ENV`` environment va
 i18n
 ````
 
-The app uses `react-intl <https://github.com/yahoo/react-intl>` to handle i18n. To translate the app, add a new language in the translations directory. For example, create a ``es`` file in the translations directory that contains:
+The app uses `react-intl <https://github.com/yahoo/react-intl>`_ to handle i18n. To translate the app, add a new language in the translations directory. For example, create a ``es`` file in the translations directory that contains:
 
 ::
 
