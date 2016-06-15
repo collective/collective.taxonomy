@@ -9,7 +9,6 @@ from plone.autoform.interfaces import (
     IFormFieldProvider
 )
 
-from plone.app.dexterity import PloneMessageFactory as _pmf
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
@@ -31,7 +30,9 @@ from zope.interface import implements, alsoProvides
 from zope.component import getUtility
 
 from .i18n import MessageFactory as _
+from .i18n import _pmf
 from .indexer import TaxonomyIndexer
+
 
 logger = logging.getLogger("collective.taxonomy")
 
