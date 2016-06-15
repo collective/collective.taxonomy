@@ -13,31 +13,29 @@ const messages = defineMessages({
   }
 })
 
-const Leaf = ({ id, index, intl, parentId, title }) => (
-  <div>
-    <div className="info">
-      <EditableValues id={ id } />
-      &nbsp;&nbsp;&nbsp;
-      <AddNodeButton
-        index={ index }
-        parentId={ parentId }
-      />
-      &nbsp;
-      <RemoveNodeButton
-        id={ id }
-        index={ index }
-        parentId={ parentId }
-        title={ title }
-      />
-      &nbsp;
-      <AddNodeButton
-        index={ index }
-        parentId={ id }
-        title={ intl.formatMessage(messages.addChildNodeLabel) }
-      >
-        <i className="icon-flow-split"></i>
-      </AddNodeButton>
-    </div>
+const Leaf = ({ id, index, intl, language, parentId, title }) => (
+  <div className="info">
+    <EditableValues id={ id } selectedLanguage={ language } />
+    &nbsp;&nbsp;&nbsp;
+    <AddNodeButton
+      index={ index }
+      parentId={ parentId }
+    />
+    &nbsp;
+    <RemoveNodeButton
+      id={ id }
+      index={ index }
+      parentId={ parentId }
+      title={ title }
+    />
+    &nbsp;
+    <AddNodeButton
+      index={ index }
+      parentId={ id }
+      title={ intl.formatMessage(messages.addChildNodeLabel) }
+    >
+      <i className="icon-flow-split"></i>
+    </AddNodeButton>
   </div>
 )
 
@@ -45,6 +43,7 @@ Leaf.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   intl: PropTypes.object.isRequired,
+  language: PropTypes.string.isRequired,
   parentId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 }

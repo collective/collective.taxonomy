@@ -3,18 +3,19 @@ import { connect } from 'react-redux'
 import SubTree from '../components/SubTree'
 import { editTranslation } from '../actions'
 
-const mapStateToProps = (
+export const mapStateToProps = (
   {
-    selectedLanguage,
     tree: { nodes },
   },
-  { id }
+  {
+    id,
+    language
+  }
 ) => {
   const node = nodes[id]
   return {
-    selectedLanguage,
     subnodes: node.subnodes,
-    title: node.translations[selectedLanguage],
+    title: node.translations[language],
   }
 }
 

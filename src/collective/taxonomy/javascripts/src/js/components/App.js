@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl'
 
 import MessageBox from './common/MessageBox'
 import Spinner from './common/Spinner'
 import FormControls from './FormControls'
-import Tree from '../containers/Tree'
-import LanguageSelector from '../containers/LanguageSelector'
+import HideTreeCheckbox from './HideTreeCheckbox'
+import TaxonomyTree from './TaxonomyTree'
 
 const messages = defineMessages({
   changesMade: {
@@ -16,47 +16,83 @@ const messages = defineMessages({
   }
 })
 
-const App = ({
-  dirty,
-  intl,
-  isPending,
-  message,
-  saveTree,
-  status,
-}) => {
-  const portalURL = $('base').attr('href')
-  return (
-    <div>
-      { isPending ? <Spinner imageURL={ `${portalURL}/spinner.gif` } /> : null }
+class App extends Component {
 
-      { status ? <MessageBox status={ status } message={ message } /> : null }
+  constructor() {
+    super()
+    this.state = {
+      viewTreeShown: false
+    }
+    this.handleToggleViewTree = this.handleToggleViewTree.bind(this)
+  }
 
-      { dirty ? (
-        <MessageBox
-          status="error"
-          message={ intl.formatMessage(messages.changesMade) }
-        />) : null }
+  handleToggleViewTree() {
+    this.setState({
+      viewTreeShown: !this.state.viewTreeShown
+    })
+  }
 
+  render() {
+    const {
+      defaultLanguage,
+      dirty,
+      intl,
+      isPending,
+      message,
+      saveTree,
+      status,
+    } = this.props
+    const portalURL = $('base').attr('href')
+    return (
       <div>
-        <h1>
-          <FormattedMessage
-            id="appTitle"
-            description="App title"
-            defaultMessage="Edit taxonomy data"
+        { isPending ? <Spinner imageURL={ `${portalURL}/spinner.gif` } /> : null }
+
+        { status ? <MessageBox status={ status } message={ message } /> : null }
+
+        { dirty ? (
+          <MessageBox
+            status="error"
+            message={ intl.formatMessage(messages.changesMade) }
+          />) : null
+        }
+
+        <div>
+          <h1>
+            <FormattedMessage
+              id="appTitle"
+              description="App title"
+              defaultMessage="Edit taxonomy data"
+            />
+          </h1>
+
+          <HideTreeCheckbox
+            checked={ this.state.viewTreeShown }
+            onChange={ this.handleToggleViewTree }
           />
-        </h1>
-        <LanguageSelector />
-        <Tree />
-        <FormControls
-          dirty={ dirty }
-          saveTree={ saveTree }
-        />
+
+          <TaxonomyTree defaultLanguage={ defaultLanguage } />
+
+          { this.state.viewTreeShown ? (
+            <TaxonomyTree
+              defaultLanguage={ defaultLanguage }
+              editable={ false }
+            />) : null
+          }
+
+          <div className="visualClear" />
+
+          <FormControls
+            dirty={ dirty }
+            saveTree={ saveTree }
+          />
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 App.propTypes = {
+  defaultLanguage: PropTypes.string.isRequired,
   dirty: PropTypes.bool.isRequired,
   intl: PropTypes.object.isRequired,
   isPending: PropTypes.bool.isRequired,

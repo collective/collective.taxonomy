@@ -6,10 +6,10 @@ import EditableValues from '../containers/EditableValues'
 import AddNodeButton from '../containers/AddNodeButton'
 import RemoveNodeButton from '../containers/RemoveNodeButton'
 
-const Node = ({ id, index, parentId, subnodes }) => {
+const Node = ({ id, index, language, parentId, subnodes }) => {
   const nodeLabel = (
     <span>
-      <EditableValues id={ id } />
+      <EditableValues id={ id } selectedLanguage={ language } />
       &nbsp;&nbsp;&nbsp;
       <AddNodeButton
         id={ id }
@@ -30,6 +30,7 @@ const Node = ({ id, index, parentId, subnodes }) => {
           key={ childId }
           id={ childId }
           index={ idx }
+          language={ language }
           parentId={ id }
         />))
       }
@@ -40,6 +41,7 @@ const Node = ({ id, index, parentId, subnodes }) => {
 Node.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  language: PropTypes.string.isRequired,
   parentId: PropTypes.string.isRequired,
   subnodes: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,

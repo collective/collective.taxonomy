@@ -6,9 +6,11 @@ const fr = {
   removeNodeLabel: 'Supprimer ce nœud',
   addNodeLabel: 'Ajouter un nœud au même niveau',
   addChildNodeLabel: 'Ajouter un terme dans ce nœud',
-  languageSelectorLabel: 'Sélectionner la langue dont modifier les données : ',
+  languageSelectorLabel: 'Sélectionner la langue : ',
   appTitle: 'Modifier les données de la taxonomie',
   emptyNodePlaceholder: 'Insérer une valeur pour ce nœud',
+  untranslated: '(Non traduit)',
+  showViewTree: 'Montrer la taxonomie dans une autre langue pour comparer',
 }
 
 export default fr

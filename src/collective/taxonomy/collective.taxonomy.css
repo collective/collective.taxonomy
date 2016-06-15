@@ -1,5 +1,4 @@
 .template-taxonomy-edit-data button {
-  padding: 3px;
   border: none;
   background: none;
 }
@@ -38,7 +37,6 @@
 }
 
 .react-pencil .pencil-button {
-  padding: 3px;
   border: none;
   background: none;
 }
@@ -47,10 +45,36 @@
   cursor: pointer;
 }
 
-.react-pencil .pencil-icon {
+.react-pencil .pencil-icon:before {
+  content: '\e805';
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-repeat: no-repeat;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAABJUlEQVQ4EY2TvUoDQRSFV2N8BZtgq5AqjYiFIhaihYRUIZX4FinVh7EXQUiXzgewFAstRDsNCSH+fifMgdllsuuBL/fOz5m5MzvJsv9rqTC1VmiXNuth9IB4BY3QXgmxNKyG0U3iB/zCENagUi5zn5mncAtaQNzBOiyUy9tmxjs8wRFcgxfpkCdl8x6jb2DDI/kJDOACkrJ5h9FXkPkTpiF/Jm5AUjbHO8v8Da7inNx3sxyv4k7t7LJn5F9gcz8y5MzeeTcyF3e2WQ8qaW4yMAKfOS7bZobzZnVIehRt0APRAr4w5ZVm5sy/7z3xGG6g8szMyemMlkz6RD1QJZdg5c7sTkVfXotcZ9YFHUIXXkCS+WeeJX5kkLZAf5oHmMAYvKAqW6g/PAdKj/33MOYAAAAASUVORK5CYII=)
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .4em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.taxonomy-tree {
+  float: left;
+  border: 0.3px groove;
+  margin: 3px;
+  padding: 3px;
 }

@@ -6,11 +6,9 @@ import LanguageSelector from '../components/LanguageSelector'
 export const mapStateToProps = ({
   defaultLanguage,
   languages,
-  selectedLanguage
 }) => ({
   defaultLanguage,
   languages,
-  selectedLanguage,
 })
 
 export default connect(

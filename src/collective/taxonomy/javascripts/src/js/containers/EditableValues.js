@@ -3,9 +3,8 @@ import { connect } from 'react-redux'
 import EditableValues from '../components/EditableValues'
 
 export const mapStateToProps = (
-  { languages, selectedLanguage }
+  { languages }
 ) => ({
-  selectedLanguage,
   languages: Object.keys(languages),
 })
 

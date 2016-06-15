@@ -4,9 +4,11 @@ import { saveTree } from '../actions'
 import App from '../components/App'
 
 const mapStateToProps = ({
+  defaultLanguage,
   tree: { dirty },
   saveTree: { isPending, message, status },
 }) => ({
+  defaultLanguage,
   dirty,
   isPending,
   message,

@@ -1,40 +1,29 @@
 import React, { PropTypes } from 'react'
 import TreeView from 'react-treeview'
 
-import AddNodeButton from '../containers/AddNodeButton'
-import SubTree from '../containers/SubTree'
+import EditableTree from './EditableTree'
+import ReadOnlySubTree from '../containers/ReadOnlySubTree'
 
-const Tree = ({
-  rootId,
-  subnodes,
-  title
-}) => (
-  <TreeView nodeLabel={ title }>
-    { subnodes.length === 0 ?
-      <AddNodeButton
-        index={ 0 }
-        parentId={ rootId }
-        title="Add a term inside this node"
-      >
-        <i className="icon-flow-split"></i>
-      </AddNodeButton>
-      : null }
+const Tree = ({ editable, ...rest }) => {
+  if (editable) {
+    return <EditableTree { ...rest } />
+  }
 
-    { subnodes.map((childId, idx) => (
-      <SubTree
-        key={ childId }
-        id={ childId }
-        parentId={ rootId }
-        index={ idx }
-      />)
-    ) }
-  </TreeView>
-)
+  return (
+    <TreeView nodeLabel={ rest.title }>
+      { rest.subnodes.map((childId) => (
+        <ReadOnlySubTree
+          key={ childId }
+          id={ childId }
+          { ...rest }
+        />))
+      }
+    </TreeView>
+  )
+}
 
 Tree.propTypes = {
-  rootId: PropTypes.string.isRequired,
-  subnodes: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
+  editable: PropTypes.bool.isRequired
 }
 
 export default Tree

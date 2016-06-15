@@ -6,6 +6,7 @@ import Node from './Node'
 const SubTree = ({
   id,
   index,
+  language,
   subnodes,
   title,
   parentId,
@@ -14,6 +15,7 @@ const SubTree = ({
     <Node
       id={ id }
       index={ index }
+      language={ language }
       parentId={ parentId }
       subnodes={ subnodes }
       title={ title }
@@ -22,6 +24,7 @@ const SubTree = ({
     <Leaf
       id={ id }
       index={ index }
+      language={ language }
       parentId={ parentId }
       title={ title }
     />
@@ -31,6 +34,7 @@ const SubTree = ({
 SubTree.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  language: PropTypes.string.isRequired,
   parentId: PropTypes.string.isRequired,
   subnodes: PropTypes.array.isRequired,
   title: PropTypes.string,
