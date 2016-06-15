@@ -50,6 +50,7 @@ class FormControls extends Component {
           disabled={ !dirty ? 'disabled' : null }
           onClick={ this.handleClick }
         />
+        &nbsp;
         <input
           id="form-buttons-cancel"
           className="standalone submit-widget button-field"
