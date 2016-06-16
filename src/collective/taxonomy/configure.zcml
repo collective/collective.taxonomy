@@ -109,8 +109,6 @@
       layer=".interfaces.IBrowserLayer"
       />
 
-  <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
-  <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
 
   <utility
       factory=".vocabulary.TaxonomyVocabulary"

@@ -1,8 +1,7 @@
 *.egg
 *.egg-info
 *.mo
-*.pyc
-*.pyo
+*.py[co]
 .coverage
 .installed.cfg
 .mr.developer.cfg
@@ -21,3 +20,4 @@ npm-debug.log
 include/
 lib/
 share/
+.idea
