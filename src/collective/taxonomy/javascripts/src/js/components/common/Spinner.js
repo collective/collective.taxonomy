@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-const Spinner = (imageURL) => (
+const Spinner = ({ imageURL }) => (
   <div id="ajax-spinner" style={ { display: 'block' } }>
     <img src={ imageURL } alt="" />
   </div>
