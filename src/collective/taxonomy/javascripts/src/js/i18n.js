@@ -5,5 +5,6 @@ import translations from './translations'
 
 addLocaleData([...enLocaleData, ...frLocaleData])
 
-export const locale = navigator.language || navigator.browserLanguage
+// use Plone portal language
+export const locale = document.querySelector('html').getAttribute('lang')
 export const translatedMessages = translations[locale]
