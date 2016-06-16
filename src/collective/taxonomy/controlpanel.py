@@ -63,6 +63,20 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
             api.portal.show_message(_(u"Please select one taxonomy."),
                                     request=self.request)
 
+    @button.buttonAndHandler(_(u'label_edit_data_taxonomy', default='Edit taxonomy data'),
+                             name='edit_data_taxonomy')
+    def handle_edit_taxonomy_data_action(self, action):
+        data, errors = self.extractData()
+        if len(data.get('taxonomies', [])) > 0:
+            self.request.RESPONSE.redirect(
+                self.context.portal_url() +
+                '/@@taxonomy-edit-data?form.widgets.taxonomy=' +
+                data.get('taxonomies')[0])
+        else:
+            api.portal.show_message(_(u"Please select one taxonomy."),
+                                    request=self.request)
+
+
     @button.buttonAndHandler(_(u'label_delete_taxonomy', default='Delete taxonomy'),
                              name='delete-taxonomy')
     def handle_delete_taxonomy_action(self, action):
