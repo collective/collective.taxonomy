@@ -7,7 +7,7 @@ from zope.i18n.interfaces import ITranslationDomain
 from zope import schema
 from zope.schema.interfaces import IVocabularyFactory
 
-from .i18n import MessageFactory as _
+from .i18n import CollectiveTaxonomyMessageFactory as _
 
 
 class ITaxonomySelectWidget(Interface):

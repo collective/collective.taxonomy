@@ -29,9 +29,9 @@ from zope.component.hooks import getSite
 from zope.interface import implements, alsoProvides
 from zope.component import getUtility
 
-from .i18n import MessageFactory as _
-from .i18n import _pmf
-from .indexer import TaxonomyIndexer
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
+from collective.taxonomy.i18n import _pmf
+from collective.taxonomy.indexer import TaxonomyIndexer
 
 
 logger = logging.getLogger("collective.taxonomy")
