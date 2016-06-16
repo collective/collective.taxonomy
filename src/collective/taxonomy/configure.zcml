@@ -95,7 +95,7 @@
   <browser:page
       name="taxonomy-edit-data"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".json.EditTaxonomyData"
+      class=".jsonimpl.EditTaxonomyData"
       template="edit_taxonomy_data.pt"
       permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
@@ -104,7 +104,7 @@
   <browser:page
       name="taxonomy-import"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".json.ImportJson"
+      class=".jsonimpl.ImportJson"
       permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />

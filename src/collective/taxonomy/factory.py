@@ -4,8 +4,8 @@ from zope.component import getUtility, queryUtility
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
-from .interfaces import ITaxonomy
-from .utility import Taxonomy
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.utility import Taxonomy
 
 
 def registerTaxonomy(context, name, title, default_language, description=''):

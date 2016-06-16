@@ -15,16 +15,15 @@ from collective.taxonomy.vdex import TreeExport
 
 
 class EditTaxonomyData(TreeExport, BrowserView):
-
     """Taxonomy tree edit view."""
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        utility_name = self.context.REQUEST.get('taxonomy', '')
+        utility_name = request.get('form.widgets.taxonomy', '')
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError('Taxonomy could not be found.')
+            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)
 
         self.taxonomy = taxonomy
 
