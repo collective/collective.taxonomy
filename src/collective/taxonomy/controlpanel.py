@@ -14,7 +14,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from z3c.form import form, field, button
 from z3c.form.interfaces import HIDDEN_MODE
 
-from collective.taxonomy.i18n import MessageFactory as _
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
