@@ -1,94 +1,72 @@
-from plone.app.controlpanel.form import ControlPanelForm, ControlPanelView
-from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
-    as BaseMultiCheckBoxWidget
+from plone.app.registry.browser import controlpanel
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from plone.behavior.interfaces import IBehavior
+from plone import api
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFDefault.formlib.schema import ProxyFieldProperty
-from Products.CMFDefault.formlib.schema import SchemaAdapterBase
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 
-from zope.formlib import form as formlib
 from zope.interface import implements
 from zope.component import adapts
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
 
+
 from z3c.form import form, field, button
 from z3c.form.interfaces import HIDDEN_MODE
 
-from .i18n import MessageFactory as _
-from .factory import registerTaxonomy
-from .interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
-from .exportimport import TaxonomyImportExportAdapter
+from collective.taxonomy.i18n import MessageFactory as _
+from collective.taxonomy.factory import registerTaxonomy
+from collective.taxonomy.interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
+from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 
 
-class TaxonomySettingsControlPanelAdapter(SchemaAdapterBase):
-    adapts(IPloneSiteRoot)
-    implements(ITaxonomySettings)
+class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
+    """ A controlpanel for managing taxonomies
 
-    def __init__(self, context):
-        super(TaxonomySettingsControlPanelAdapter, self).__init__(context)
+    """
 
-    taxonomies = ProxyFieldProperty(ITaxonomySettings['taxonomies'])
-
-
-class MultiCheckBoxWidget(BaseMultiCheckBoxWidget):
-
-    def __init__(self, field, request):
-        """Initialize the widget."""
-        super(MultiCheckBoxWidget, self).__init__(field,
-                                                  field.value_type.vocabulary,
-                                                  request)
-
-
-class TaxonomySettingsControlPanel(ControlPanelForm):
-    form_fields = formlib.FormFields(ITaxonomySettings)
-    form_fields['taxonomies'].custom_widget = MultiCheckBoxWidget
-
+    id = "TaxonomySettings"
     label = _("Taxonomy settings")
+    schema = ITaxonomySettings
+    schema_prefix = 'collective'
     description = _("Taxonomy settings")
-    form_name = _("Taxonomy settings")
 
-    @formlib.action(_(u'label_add_taxonomy', default=u'Add taxonomy'),
-                    name=u'add-taxonomy')
-    def handle_add_taxonomy_action(self, action, data):
-        self.context.REQUEST.RESPONSE.redirect(
-            self.context.portal_url() + '/@@taxonomy-add'
-        )
+    def updateFields(self):
+        super(TaxonomySettingsControlPanel, self).updateFields()
+        self.fields['taxonomies'].widgetFactory = CheckBoxFieldWidget
 
-    @formlib.action(_(u'label_edit_taxonomy', default=u'Edit taxonomy'),
-                    name=u'edit-taxonomy')
-    def handle_edit_taxonomy_action(self, action, data):
+    @button.buttonAndHandler(_('Save'), name=None)
+    def handleSave(self, action):
+        pass
+
+    @button.buttonAndHandler(_('Cancel'), name='cancel')
+    def handleCancel(self, action):
+        super(TaxonomySettingsControlPanel, self).handleCancel(self, action)
+
+    @button.buttonAndHandler(_(u'label_add_taxonomy', default='Add'),
+                    name='add-taxonomy')
+    def handle_add_taxonomy_action(self, action):
+        self.request.RESPONSE.redirect(
+            self.context.portal_url() + '/@@taxonomy-add')
+
+    @button.buttonAndHandler(_(u'label_edit_taxonomy', default='Edit'),
+                    name='edit-taxonomy')
+    def handle_edit_taxonomy_action(self, action):
+        data, errors = self.extractData()
         if len(data.get('taxonomies', [])) > 0:
-            self.context.REQUEST.RESPONSE.redirect(
+            self.request.RESPONSE.redirect(
                 self.context.portal_url() +
                 '/@@taxonomy-edit?form.widgets.taxonomy=' +
                 data.get('taxonomies')[0]
             )
         else:
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _(u"Please select one taxonomy."), type="info")
+            api.portal.show_message(_(u"Please select one taxonomy."),
+                                    request=self.request)
 
-    @formlib.action(
-        _(u'label_edit_data_taxonomy', default=u'Edit taxonomy data'),
-        name=u'edit_data_taxonomy'
-    )
-    def handle_edit_taxonomy_data_action(self, action, data):
-        if len(data.get('taxonomies', [])) > 0:
-            self.context.REQUEST.RESPONSE.redirect(
-                self.context.portal_url() +
-                '/@@taxonomy-edit-data?taxonomy=' +
-                data.get('taxonomies')[0]
-            )
-        else:
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _(u"Please select one taxonomy."), type="info")
-
-    @formlib.action(_(u'label_delete_taxonomy', default=u'Delete taxonomy'),
-                    name=u'delete_taxonomy')
-    def handle_delete_taxonomy_action(self, action, data):
+    @button.buttonAndHandler(_(u'label_delete_taxonomy', default='Delete taxonomy'),
+                             name='delete-taxonomy')
+    def handle_delete_taxonomy_action(self, action):
+        data, errors = self.extractData()
         if len(data.get('taxonomies', [])) > 0:
             sm = self.context.getSiteManager()
 
@@ -100,32 +78,30 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
                 sm.unregisterUtility(utility, IVocabularyFactory, name=item)
                 sm.unregisterUtility(utility, ITranslationDomain, name=item)
 
-                IStatusMessage(self.context.REQUEST).addStatusMessage(
-                    _(u"Taxonomy deleted."), type="info")
+                api.portal.show_message(_(u"Taxonomy deleted."),
+                                        request=self.request)
         else:
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _(u"Please select at least one taxonomy."), type="info")
+            api.portal.show_message(_(u"Please select at least one taxonomy."),
+                                    request=self.request)
 
-        return self.context.REQUEST.RESPONSE.redirect(
-            self.context.portal_url() + '/@@taxonomy-settings'
-        )
+        return self.request.RESPONSE.redirect(self.context.portal_url() + '/@@taxonomy-settings')
 
-    @formlib.action(_(u'label_export', default=u"Export"),
-                    name=u'export')
-    def handle_export_action(self, action, data):
+    @button.buttonAndHandler(_(u'label_export', default='Export'),
+                             name='export')
+    def handle_export_action(self, action):
+        data, errors = self.extractData()
         sm = self.context.getSiteManager()
         taxonomies = data.get('taxonomies', [])
 
         if len(taxonomies) > 0:
             adapter = TaxonomyImportExportAdapter(self.context)
-            self.context.REQUEST.RESPONSE.setHeader('Content-type', 'text/xml')
+            self.request.RESPONSE.setHeader('Content-type', 'text/xml')
             utility = sm.queryUtility(ITaxonomy, name=taxonomies[0])
             return adapter.exportDocument(utility)
 
-        return None
-
 
 class TaxonomyAddForm(form.AddForm):
+
     fields = field.Fields(ITaxonomyForm)
 
     def updateWidgets(self):
@@ -157,11 +133,10 @@ class TaxonomyAddForm(form.AddForm):
 
         del data['taxonomy']
         taxonomy.registerBehavior(**data)
+        api.portal.show_message(_(u"Taxonomy imported."),
+                                request=self.request)
 
-        IStatusMessage(self.context.REQUEST).addStatusMessage(
-            _(u"Taxonomy imported."), type="info")
-
-        return self.context.REQUEST.RESPONSE.redirect(
+        return self.request.RESPONSE.redirect(
             self.context.portal_url() + '/@@taxonomy-settings'
         )
 
@@ -181,8 +156,8 @@ class TaxonomyAddForm(form.AddForm):
 
     @button.buttonAndHandler(_(u'Cancel'), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Add cancelled"),
-                                                      "info")
+        api.portal.show_message(_(u"Add cancelled"),
+                                request=self.request)
         self.request.response.redirect(self.context.absolute_url() +
                                        '/@@taxonomy-settings')
 
@@ -215,15 +190,13 @@ class TaxonomyEditForm(form.EditForm):
             del data['taxonomy']
             utility.updateBehavior(**data)
 
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
-                                                      "info")
+            api.portal.show_message(_(u"Changes saved"), request=self.request)
         self.request.response.redirect(self.context.absolute_url() +
                                        '/@@taxonomy-settings')
 
     @button.buttonAndHandler(_(u'Cancel'), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
-                                                      "info")
+        api.portal.show_message(_(u"Edit cancelled"), request=self.request)
         self.request.response.redirect(self.context.absolute_url() +
                                        '/@@taxonomy-settings')
 

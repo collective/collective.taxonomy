@@ -1,8 +1,7 @@
 *.egg
 *.egg-info
 *.mo
-*.pyc
-*.pyo
+*.py[co]
 .coverage
 .installed.cfg
 .mr.developer.cfg
@@ -18,3 +17,4 @@ parts
 var
 node_modules/
 npm-debug.log
+.idea
