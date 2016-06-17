@@ -137,6 +137,12 @@ React/Redux app to edit taxonomies
 
 The view ``@@taxonomy-edit-data`` that allow users to edit the taxonomy data is a React/Redux app (the source code is in the ``javascripts`` directory.
 
+Here's a preview of this view:
+
+.. image:: images/edit_taxonomy_data.gif
+    :target: images/edit_taxonomy_data.gif
+    :alt: Edit taxonomy data preview
+
 Development
 ```````````
 
