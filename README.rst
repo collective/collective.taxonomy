@@ -143,6 +143,8 @@ Here's a preview of this view:
     :target: images/edit_taxonomy_data.gif
     :alt: Edit taxonomy data preview
 
+The languages allowed for the taxonomies are the languages defined in ``portal_languages``.
+
 Development
 ```````````
 
