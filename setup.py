@@ -47,6 +47,7 @@ setup(
         'test': [
             'plone.testing',
             'plone.app.testing',
+            'unittest2',
         ]
     },
     entry_points="""
