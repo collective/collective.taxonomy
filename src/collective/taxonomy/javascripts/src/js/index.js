@@ -34,9 +34,11 @@ if (process.env.NODE_ENV === 'production') {
    * production mode
    */
   ReactDOM.render(
-    <Provider store={ store }>
-      <App />
-    </Provider>,
+    <IntlProvider locale={ locale } messages={ translatedMessages }>
+      <Provider store={ store }>
+        <App />
+      </Provider>
+    </IntlProvider>,
     rootElement
     )
 } else {
