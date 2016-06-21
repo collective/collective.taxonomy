@@ -77,4 +77,12 @@
   border: 0.3px groove;
   margin: 3px;
   padding: 3px;
+  line-height: 31px;
 }
+
+/* fix style in forms in firefox */
+.template-taxonomy-edit-data input, select {
+  font-size: 12px;
+  font: 100% Arial, FreeSans, sans-serif;
+}
+

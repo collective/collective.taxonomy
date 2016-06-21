@@ -7,7 +7,7 @@ const EditableValues = ({
   selectedLanguage,
   languages,
 }) => (
-  <span>
+  <div style={ { display: 'inline' } }>
     { languages.map(language => (
       <EditableValue
         key={ `${id}-${language}` }
@@ -15,7 +15,7 @@ const EditableValues = ({
         language={ language }
         hidden={ language !== selectedLanguage }
       />)) }
-  </span>
+  </div>
 )
 
 EditableValues.propTypes = {
