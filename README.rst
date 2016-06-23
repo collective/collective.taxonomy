@@ -129,10 +129,65 @@ be used for catalog queries.
 
 See a short guide on how to use the product `here <http://bo.geekworld.dk/introducing-collective-taxonomy/>`_.
 
+Development
+===========
+
+React/Redux app to edit taxonomies
+----------------------------------
+
+The view ``@@taxonomy-edit-data`` that allow users to edit the taxonomy data is a React/Redux app (the source code is in the ``javascripts`` directory.
+
+Here's a preview of this view:
+
+.. image:: images/edit_taxonomy_data.gif
+    :target: images/edit_taxonomy_data.gif
+    :alt: Edit taxonomy data preview
+
+The languages allowed for the taxonomies are the languages defined in ``portal_languages``.
+
+Development
+```````````
+
+Run the app, run ``npm start`` in the ``javascripts`` directory.
+To make Plone use the development code, you need the ``NODE_ENV`` environment variable to be set to ``development``:
+
+::
+
+    NODE_ENV=development bin/instance fg
+
+
+i18n
+````
+
+The app uses `react-intl <https://github.com/yahoo/react-intl>`_ to handle i18n. To translate the app, add a new language in the translations directory. For example, create a ``es`` file in the translations directory that contains:
+
+::
+
+    const es = {
+        submitLabel: 'Enviar',
+    }
+
+    export default es
+
+Then, edit ``translations/index.js`` to add the language to the translations object:
+
+::
+
+    import es from './es'
+
+    const translations = {
+        es,
+        fr
+    }
+
+You'll have to rebuild the js bundle: ``npm run build``
+
+That's it!
+
 Requirements
 ============
 
-* Plone 4.3 
+* Plone 4.3
 * or an older version using a recent version of plone.dexterity/plone.app.dexterity
 
 Frequently Asked Questions
@@ -153,10 +208,6 @@ To-Do
 .. image:: https://coveralls.io/repos/collective/collective.taxonomy/badge.png?branch=master
     :alt: Coveralls badge
     :target: https://coveralls.io/r/collective/collective.taxonomy
-
-- Implement drag'n'drop for editing taxonomies.
-
-- Support multiple languages when editing taxonomies.
 
 - Better documentation.
 

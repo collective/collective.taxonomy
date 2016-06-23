@@ -2,12 +2,16 @@
 
 from interfaces import ITaxonomy
 
+from zope.component import queryMultiAdapter
 from zope.i18nmessageid import MessageFactory
 from zope.interface import implements
 from zope.schema.interfaces import IVocabulary, IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope.security.interfaces import IPermission
 from zope.component.hooks import getSite
+
+from plone import api
+
 
 _pmf = MessageFactory('plone')
 
@@ -95,3 +99,22 @@ class PermissionsVocabulary(object):
 
         result.sort(key=lambda permission: permission.title)
         return SimpleVocabulary(result)
+
+
+class LanguagesVocabulary(object):
+
+    """Languages vocabulary."""
+
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        portal = api.portal.get()
+        terms = []
+        portal_state = queryMultiAdapter(
+            (portal, portal.REQUEST), name=u'plone_portal_state')
+        languages = portal_state.locale().displayNames.languages
+        for token, value in sorted(languages.iteritems()):
+            terms.append(SimpleVocabulary.createTerm(
+                token, token, value))
+
+        return SimpleVocabulary(terms)

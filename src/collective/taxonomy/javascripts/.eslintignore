@@ -1,0 +1,4 @@
+# /node_modules/* is ignored by default
+server.js
+webpack.config.js
+webpack.config.prod.js

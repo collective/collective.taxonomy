@@ -79,7 +79,7 @@ class TaxonomySettingsControlPanel(ControlPanelForm):
         if len(data.get('taxonomies', [])) > 0:
             self.context.REQUEST.RESPONSE.redirect(
                 self.context.portal_url() +
-                '/@@taxonomy-edit-data?form.widgets.taxonomy=' +
+                '/@@taxonomy-edit-data?taxonomy=' +
                 data.get('taxonomies')[0]
             )
         else:
@@ -226,19 +226,6 @@ class TaxonomyEditForm(form.EditForm):
                                                       "info")
         self.request.response.redirect(self.context.absolute_url() +
                                        '/@@taxonomy-settings')
-
-
-class TaxonomyEditDataForm(ControlPanelView):
-    index = ViewPageTemplateFile('taxonomy_edit.pt')
-
-    def portalUrl(self):
-        return self.context.portal_url()
-
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
 
 
 class TaxonomyEditFormAdapter(object):

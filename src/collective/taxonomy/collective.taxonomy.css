@@ -1,0 +1,88 @@
+.template-taxonomy-edit-data button {
+  border: none;
+  background: none;
+}
+
+.template-taxonomy-edit-data button:hover {
+  cursor: pointer;
+}
+
+.react-pencil {
+  display: inline-block;
+}
+
+.react-pencil input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.react-pencil input:hover {
+  cursor: pointer;
+  border-bottom: 1px solid #999;
+}
+
+.react-pencil input:focus {
+  border-bottom: 1px solid #999;
+}
+
+.react-pencil [contenteditable=true]:empty:before{
+  display: inline-block;
+  content: attr(placeholder);
+  color: #AEA9A9
+}
+
+.react-pencil input:focus + button, .react-pencil [contenteditable=true]:focus + button {
+  visibility: hidden;
+}
+
+.react-pencil .pencil-button {
+  border: none;
+  background: none;
+}
+
+.react-pencil .pencil-button:hover {
+  cursor: pointer;
+}
+
+.react-pencil .pencil-icon:before {
+  content: '\e805';
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .4em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.taxonomy-tree {
+  float: left;
+  border: 0.3px groove;
+  margin: 3px;
+  padding: 3px;
+  line-height: 31px;
+}
+
+/* fix style in forms in firefox */
+.template-taxonomy-edit-data input, select {
+  font-size: 12px;
+  font: 100% Arial, FreeSans, sans-serif;
+}
+

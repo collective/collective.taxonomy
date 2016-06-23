@@ -36,8 +36,7 @@ class ImportVdex(object):
                                                    path + (text,)))
         return result
 
-    def recurse(self, tree, available_languages=set(),
-                parent_language=None):
+    def recurse(self, tree, available_languages=set(), parent_language=None):
         result = {}
 
         for node in tree.findall('./{%s}term' % self.ns):
@@ -47,7 +46,11 @@ class ImportVdex(object):
             for i in langstrings:
                 if not parent_language or \
                         parent_language == i.attrib['language']:
-                    text = i.text.strip('\n ')
+                    if i.text is None:
+                        text = ''
+                    else:
+                        text = i.text.strip('\n ')
+
                     element = LANG_SEPARATOR.join([i.attrib['language'], text])
                     result[element] = (
                         identifier.text,
@@ -79,15 +82,15 @@ class TreeExport(object):
 
     def buildPathIndex(self):
         pathIndex = {}
-
         for (language, children) in self.taxonomy.data.items():
-            for (path, identifier) in children.items():
-                parent_path = path.split(PATH_SEPARATOR)[:-1]
-                parent_identifier = children.get(
-                    PATH_SEPARATOR.join(parent_path))
-                if not parent_identifier in pathIndex:
-                    pathIndex[parent_identifier] = set()
-                pathIndex[parent_identifier].add(identifier)
+            if language == self.taxonomy.default_language:
+                for (path, identifier) in children.items():
+                    parent_path = path.split(PATH_SEPARATOR)[:-1]
+                    parent_identifier = children.get(
+                        PATH_SEPARATOR.join(parent_path))
+                    if not parent_identifier in pathIndex:
+                        pathIndex[parent_identifier] = set()
+                    pathIndex[parent_identifier].add(identifier)
 
         if None not in pathIndex:
             raise ValueError("No root node!")
@@ -138,7 +141,6 @@ class TreeExport(object):
     def buildTree(self, root):
         index = self.buildPathIndex()
         table = self.makeTranslationTable()
-
         for termnode in self.makeSubtree(index, table):
             root.append(termnode)
 

@@ -37,6 +37,7 @@ setup(
     install_requires=[
         'setuptools',
         'plone.supermodel',
+        'plone.api',
         'plone.app.registry',
         'plone.app.dexterity[grok]',
         'elementtree',

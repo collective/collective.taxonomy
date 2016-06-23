@@ -16,3 +16,5 @@ htmlcov/
 local.cfg
 parts
 var
+node_modules/
+npm-debug.log

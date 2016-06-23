@@ -1,0 +1,21 @@
+{
+  "presets":["react", "es2015","stage-1"],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    },
+    "production": {
+      "plugins": ["transform-react-remove-prop-types"]
+    }
+  },
+  "plugins": [
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": false
+    }],
+    ["react-intl", {
+      "messagesDir": "./build/messages/",
+      "enforceDescriptions": false
+    }]
+  ]
+}

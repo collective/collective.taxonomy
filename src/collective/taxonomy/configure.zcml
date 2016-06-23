@@ -65,22 +65,6 @@
       />
 
   <browser:page
-      name="taxonomy-edit-data"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".controlpanel.TaxonomyEditDataForm"
-      permission="cmf.ManagePortal"
-      layer=".interfaces.IBrowserLayer"
-      />
-
-  <browser:page
-      name="taxonomy-json"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".json.Json"
-      permission="cmf.ManagePortal"
-      layer=".interfaces.IBrowserLayer"
-      />
-
-  <browser:page
       name="taxonomy"
       for="*"
       class=".browser.TaxonomyView"
@@ -94,36 +78,41 @@
       factory=".browser.TaxonomyTraverser"
       />
 
-  <browser:resource
-      name="dynatree.jquery.js"
-      file="dynatree.jquery.js"
+  <browser:resourceDirectory
+      name="taxonomy"
+      directory="javascripts/build"
+      layer=".interfaces.IBrowserLayer"
+      />
+
+  <browser:resourceDirectory
+      name="taxonomy.icons"
+      directory="icons"
       layer=".interfaces.IBrowserLayer"
       />
 
   <browser:resource
-      name="dynatree.ui.css"
-      file="dynatree.ui.css"
+      name="collective.taxonomy.css"
+      file="collective.taxonomy.css"
       layer=".interfaces.IBrowserLayer"
       />
 
-  <browser:resource
-      name="dynatree.icons.gif"
-      file="dynatree.icons.gif"
+  <browser:page
+      name="taxonomy-edit-data"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".json.EditTaxonomyData"
+      template="edit_taxonomy_data.pt"
+      permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
-  <browser:resource
-      name="dynatree.loading.gif"
-      file="dynatree.loading.gif"
+  <browser:page
+      name="taxonomy-import"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".json.ImportJson"
+      permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
-  <browser:resource
-      name="dynatree.vline.gif"
-      file="dynatree.vline.gif"
-      layer=".interfaces.IBrowserLayer"
-      />
-  
   <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
   <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
 
@@ -139,6 +128,13 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      factory=".vocabulary.LanguagesVocabulary"
+      name="collective.taxonomy.languages"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
   <include file="widget.zcml" />
   <include file="upgradesteps.zcml" />
+
 </configure>
