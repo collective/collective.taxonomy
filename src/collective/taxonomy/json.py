@@ -76,15 +76,11 @@ class EditTaxonomyData(TreeExport, BrowserView):
         supported_langs = language_tool.supported_langs
         languages_mapping = dict(
             [(lang, mapping[lang].capitalize()) for lang in supported_langs])
-<<<<<<< HEAD
 
         # add taxonomy's default language if it is not in supported langs
         default_lang = self.taxonomy.default_language
         languages_mapping[default_lang] = mapping[default_lang].capitalize()
-        return simplejson.dumps(languages_mapping)
-=======
         return json.dumps(languages_mapping)
->>>>>>> 0cd8023... remove dependency on simplejson
 
     def get_resource_url(self):
         """Return resource url."""
