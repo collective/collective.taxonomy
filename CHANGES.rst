@@ -11,9 +11,13 @@ Changes
 - Add ++taxonomy++[shortname] -traverser to be usable with PloneFormGen
   dynamic field vocabulary overrides
   [datakurre]
+
 - prevent taxonomy reset on reinstall if you've defined a vdex xml file
   in your profile
   [petschki]
+
+- Plone 5 compatibility
+  [tomgross]
 
 1.2.3 (2014-02-07)
 ------------------
