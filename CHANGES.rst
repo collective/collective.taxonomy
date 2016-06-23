@@ -29,6 +29,9 @@ Changes
   in your profile
   [petschki]
 
+- Plone 5 compatibility
+  [tomgross]
+
 1.2.3 (2014-02-07)
 ------------------
 

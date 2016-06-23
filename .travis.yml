@@ -3,7 +3,9 @@ sudo: false
 python: 2.7
 cache:
   pip: true
-env: PLONE_VERSION=4.3 QA=true
+env:
+  - PLONE_VERSION=4.3
+  - PLONE_VERSION=5.0
 install:
   - sed -ie "s#travis-4.x.cfg#travis-$PLONE_VERSION.x.cfg#" travis.cfg
   - mkdir -p buildout-cache/downloads
