@@ -49,7 +49,7 @@ setup(
         'test': [
             'plone.testing',
             'plone.app.testing',
-            'unittest2',
+            'plone.app.contenttypes',
         ]
     },
     entry_points="""
