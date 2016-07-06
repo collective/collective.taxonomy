@@ -5,6 +5,9 @@ Changes
 1.3.0 (unreleased)
 ------------------
 
+- Fix index when taxonomy is added as field.
+  [bsuttor]
+
 - Add PATH_SEPARATOR constant to be able to use '/' character in terms.
   [cedricmessiant]
 
