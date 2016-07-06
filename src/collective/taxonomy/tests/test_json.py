@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-import unittest2 as unittest
+# -*- coding: utf8 -*-
+import unittest
 
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
