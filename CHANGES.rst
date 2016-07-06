@@ -5,7 +5,9 @@ Changes
 1.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Plone 5 compatibility
+  [tomgross]
+
 
 
 1.3.0 (2016-07-07)
@@ -18,6 +20,9 @@ Changes
   the data in multiple languages and to compare between languages.
   [cedricmessiant]
 
+- Fix index when taxonomy is added as field.
+  [bsuttor]
+
 - Add PATH_SEPARATOR constant to be able to use '/' character in terms.
   [cedricmessiant]
 
@@ -28,9 +33,6 @@ Changes
 - prevent taxonomy reset on reinstall if you've defined a vdex xml file
   in your profile
   [petschki]
-
-- Plone 5 compatibility
-  [tomgross]
 
 1.2.3 (2014-02-07)
 ------------------
