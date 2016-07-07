@@ -1,0 +1,27 @@
+include *.py
+include *.rst
+include .coveragerc
+include buildout.cfg
+include travis.cfg
+recursive-include images *.gif
+recursive-include src *.babelrc
+recursive-include src *.cfg
+recursive-include src *.css
+recursive-include src *.eot
+recursive-include src *.eslintignore
+recursive-include src *.eslintrc
+recursive-include src *.gitkeep
+recursive-include src *.html
+recursive-include src *.js
+recursive-include src *.json
+recursive-include src *.map
+recursive-include src *.po
+recursive-include src *.pot
+recursive-include src *.pt
+recursive-include src *.sh
+recursive-include src *.svg
+recursive-include src *.ttf
+recursive-include src *.txt
+recursive-include src *.woff
+recursive-include src *.xml
+recursive-include src *.zcml
