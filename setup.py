@@ -24,6 +24,7 @@ setup(
         "Framework :: Plone",
         "Framework :: Zope2",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
     ],
     keywords='plone taxonomy dexterity',
     author='Bo Simonsen and Malthe Borch',
