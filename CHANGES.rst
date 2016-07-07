@@ -8,6 +8,10 @@ Changes
 - Fix index when taxonomy is added as field.
   [bsuttor]
 
+- Now uses a React/Redux app to edit taxonomy data. It is now possible to edit
+  the data in multiple languages and to compare between languages.
+  [cedricmessiant]
+
 - Add PATH_SEPARATOR constant to be able to use '/' character in terms.
   [cedricmessiant]
 
