@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.3.0 (unreleased)
+1.3.0 (2016-07-07)
 ------------------
 
 - Fix index when taxonomy is added as field.
