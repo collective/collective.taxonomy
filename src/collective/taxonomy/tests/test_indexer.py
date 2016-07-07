@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
@@ -30,7 +30,7 @@ class TestIndexer(unittest.TestCase):
         portal_catalog = api.portal.get_tool('portal_catalog')
         utility = queryUtility(ITaxonomy, name='collective.taxonomy.test')
         taxonomy = utility.data
-        taxonomy_test = schema.List(
+        taxonomy_test = schema.Set(
             title=u"taxonomy_test",
             description=u"taxonomy description schema",
             required=False,
@@ -48,10 +48,17 @@ class TestIndexer(unittest.TestCase):
         index = portal_catalog.Indexes['taxonomy_test']
         self.assertEqual(index.numObjects(), 0)
 
+        self.document.taxonomy_test = []
+        self.document.reindexObject()
+        query = {}
+        query['taxonomy_test'] = '1'
+        self.assertEqual(len(portal_catalog(query)), 0)
+
         simple_tax = [val for val in taxonomy['en'].values()]
         taxo_val = simple_tax[0]
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
+        self.assertEqual(len(portal_catalog(query)), 1)
         index = portal_catalog.Indexes['taxonomy_test']
         self.assertEqual(index.numObjects(), 1)
 
