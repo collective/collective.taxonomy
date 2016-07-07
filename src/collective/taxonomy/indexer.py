@@ -8,11 +8,13 @@ from zope.interface import classImplements
 
 from .interfaces import ITaxonomy
 
+import collections
 import logging
 logger = logging.getLogger("collective.taxonomy")
 
 
 class TaxonomyIndexerWrapper(object):
+
     def __init__(self, field_name, utility_name, context, catalog):
         self.context = context
         self.catalog = catalog
@@ -39,7 +41,7 @@ class TaxonomyIndexerWrapper(object):
 
         found = []
         stored_element = getattr(self.context, self.field_name)
-        if not isinstance(stored_element, list):
+        if not isinstance(stored_element, collections.Iterable):
             stored_element = [stored_element]
 
         for (language, data) in utility.data.items():
