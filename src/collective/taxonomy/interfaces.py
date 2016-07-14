@@ -112,4 +112,3 @@ class ITaxonomyView(Interface):
 
     def translate(self, msgid, domain, target_language):
         """ """
-

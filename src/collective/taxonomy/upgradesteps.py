@@ -1,8 +1,6 @@
-from zope.component import getUtilitiesFor
-
 from logging import getLogger
-
 from plone.behavior.interfaces import IBehavior
+
 
 log = getLogger('collective.taxonomy:upgrades')
 

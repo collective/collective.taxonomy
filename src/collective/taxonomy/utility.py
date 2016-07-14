@@ -159,7 +159,7 @@ class Taxonomy(SimpleItem):
         self.data.clear()
 
     def add(self, language, identifier, path):
-        if not language in self.data:
+        if language not in self.data:
             self.data[language] = OOBTree()
 
         self.data[language][path] = identifier

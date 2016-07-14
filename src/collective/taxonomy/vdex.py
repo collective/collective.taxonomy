@@ -73,7 +73,7 @@ class TreeExport(object):
 
         for i in node:
             # leaf
-            if not i in tree:
+            if i not in tree:
                 results[i] = {}
             else:
                 results[i] = self.buildFinalPathIndex(tree[i], tree)
@@ -88,7 +88,7 @@ class TreeExport(object):
                     parent_path = path.split(PATH_SEPARATOR)[:-1]
                     parent_identifier = children.get(
                         PATH_SEPARATOR.join(parent_path))
-                    if not parent_identifier in pathIndex:
+                    if parent_identifier not in pathIndex:
                         pathIndex[parent_identifier] = set()
                     pathIndex[parent_identifier].add(identifier)
 
@@ -130,7 +130,7 @@ class TreeExport(object):
 
         for (language, children) in self.taxonomy.data.items():
             for (path, identifier) in children.items():
-                if not identifier in translationTable:
+                if identifier not in translationTable:
                     translationTable[identifier] = {}
 
                 translationTable[identifier][language] = \
