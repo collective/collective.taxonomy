@@ -17,6 +17,7 @@ parts
 var
 node_modules/
 npm-debug.log
+.idea
 include/
 lib/
 share/
