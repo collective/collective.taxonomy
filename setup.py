@@ -43,7 +43,6 @@ setup(
         'plone.app.registry',
         'plone.app.dexterity',
         'elementtree',
-        'collective.js.jqueryui',
     ],
     extras_require={
         'test': [
