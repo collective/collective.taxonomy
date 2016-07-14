@@ -25,8 +25,7 @@ class TaxonomyView(BrowserView):
                     results.append(self.translate(
                         taxon,
                         domain='collective.taxonomy.' + short_name
-                    )
-                )
+                    ))
 
         return results
 

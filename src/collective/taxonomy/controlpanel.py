@@ -1,4 +1,4 @@
-from plone.app.controlpanel.form import ControlPanelForm, ControlPanelView
+from plone.app.controlpanel.form import ControlPanelForm
 from plone.app.form.widgets.multicheckboxwidget import MultiCheckBoxWidget \
     as BaseMultiCheckBoxWidget
 from plone.behavior.interfaces import IBehavior
@@ -6,7 +6,6 @@ from plone.behavior.interfaces import IBehavior
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFDefault.formlib.schema import ProxyFieldProperty
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.formlib import form as formlib

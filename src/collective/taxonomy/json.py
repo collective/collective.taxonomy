@@ -127,8 +127,7 @@ class ImportJson(BrowserView):
             'status': 'error',
             'message': translate(
                 _("There seems to have been an error."),
-                context=request)
-            })
+                context=request)})
 
     def generate_data_for_taxonomy(self, parsed_data, language,
                                    path=PATH_SEPARATOR):
