@@ -36,7 +36,7 @@ class TestControlPanel(unittest.TestCase):
 
     def test_add_vocabulary(self):
         self.browser.open(self.portal.absolute_url() + '/@@taxonomy-settings')
-        self.assertIn('id="TaxonomySettings">', self.browser.contents)
+        self.assertIn('id="TaxonomySettings"', self.browser.contents)
         self.browser.getControl('Add').click()
         self.browser.getControl(name='form.widgets.taxonomy').value = 'foobar'
         self.browser.getControl(name='form.widgets.field_title').value = 'Foo Bar Vocabulary'
@@ -46,7 +46,7 @@ class TestControlPanel(unittest.TestCase):
         
     def test_edit_vocabulary(self):
         self.browser.open(self.portal.absolute_url() + '/@@taxonomy-settings')
-        self.assertIn('id="TaxonomySettings">', self.browser.contents)
+        self.assertIn('id="TaxonomySettings"', self.browser.contents)
         taxonomies = self.browser.getControl(name="form.widgets.taxonomies:list")
         taxonomies.controls[0].selected = True
         self.browser.getForm(id='TaxonomySettings').submit(name='form.buttons.edit-taxonomy')
