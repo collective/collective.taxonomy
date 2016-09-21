@@ -5,7 +5,7 @@ Changes
 1.3.1 (unreleased)
 ------------------
 
-- Use context language if to find index.
+- Use context language to find index.
   [bsuttor]
 
 
