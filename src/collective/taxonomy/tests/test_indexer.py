@@ -24,7 +24,7 @@ class TestIndexer(unittest.TestCase):
             'simple_publication_workflow')
         applyProfile(self.portal, 'plone.app.contenttypes:plone-content')
         self.document = api.content.create(
-            container=self.portal, type='Document', title='Doc')
+            container=self.portal, type='Document', title='Doc', language='en')
 
     def test_indexer_with_field(self):
         portal_catalog = api.portal.get_tool('portal_catalog')
@@ -66,3 +66,31 @@ class TestIndexer(unittest.TestCase):
         self.document.reindexObject()
         index = portal_catalog.Indexes['taxonomy_test']
         self.assertEqual(index.numObjects(), 1)
+
+    def test_multilanguage_indexer(self):
+        portal_catalog = api.portal.get_tool('portal_catalog')
+        utility = queryUtility(ITaxonomy, name='collective.taxonomy.test')
+        taxonomy = utility.data
+        taxonomy_test = schema.Set(
+            title=u"taxonomy_test",
+            description=u"taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(
+                vocabulary=u"collective.taxonomy.taxonomies"),
+        )
+        portal_types = api.portal.get_tool('portal_types')
+        fti = portal_types.get('Document')
+        document_schema = fti.lookupSchema()
+        schemaeditor = IEditableSchema(document_schema)
+        schemaeditor.addField(taxonomy_test, name='taxonomy_test')
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
+
+        query = {}
+        query['taxonomy_test'] = '5'
+
+        simple_tax = [val for val in taxonomy['en'].values()]
+        taxo_val = simple_tax[3]
+        self.document.taxonomy_test = [taxo_val]
+        self.document.reindexObject()
+        self.assertEqual(len(portal_catalog(query)), 1)

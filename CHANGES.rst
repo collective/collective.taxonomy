@@ -5,7 +5,8 @@ Changes
 1.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use context language if to find index.
+  [bsuttor]
 
 
 1.3.0 (2016-07-07)
