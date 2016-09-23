@@ -175,7 +175,8 @@ class TaxonomyAddForm(form.AddForm):
 
 class TaxonomyEditForm(form.EditForm):
     fields = field.Fields(ITaxonomyForm)
-
+    allow_prefill_from_GET_request = True
+    
     def updateWidgets(self):
         form.EditForm.updateWidgets(self)
         self.widgets['taxonomy'].mode = HIDDEN_MODE
