@@ -44,13 +44,13 @@ setup(
         'plone.api',
         'plone.app.registry',
         'plone.app.dexterity',
-        'elementtree',
     ],
     extras_require={
         'test': [
             'plone.testing',
             'plone.app.testing',
             'plone.app.contenttypes',
+            'plone.app.robotframework[debug]',
         ]
     },
     entry_points="""

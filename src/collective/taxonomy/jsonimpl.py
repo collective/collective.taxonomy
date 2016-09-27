@@ -1,4 +1,4 @@
-from elementtree import ElementTree
+from lxml import etree
 import os
 import json
 
@@ -46,7 +46,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_data(self):
         """Get json data."""
-        root = ElementTree.Element('vdex')
+        root = etree.Element('vdex')
         try:
             root = self.buildTree(root)
         except ValueError:

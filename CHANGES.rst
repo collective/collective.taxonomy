@@ -41,6 +41,9 @@ Changes
 - Use context language to find index.
   [bsuttor]
 
+- Use lxml instead of elementtree
+  [tomgross]
+
 
 1.3.0 (2016-07-07)
 ------------------
