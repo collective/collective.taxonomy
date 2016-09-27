@@ -1,4 +1,4 @@
-from elementtree import ElementTree
+from lxml import etree
 from plone.supermodel.utils import indent
 
 from collective.taxonomy import PATH_SEPARATOR
@@ -100,16 +100,16 @@ class TreeExport(object):
     def makeSubtree(self, index, table):
         termnodes = []
         for identifier in index.keys():
-            termnode = ElementTree.Element('term')
-            identifiernode = ElementTree.Element('termIdentifier')
+            termnode = etree.Element('term')
+            identifiernode = etree.Element('termIdentifier')
             identifiernode.text = str(identifier)
-            captionnode = ElementTree.Element('caption')
+            captionnode = etree.Element('caption')
 
             translations = table[identifier].items()
             translations.sort(key=lambda (language, langstring): language)
 
             for (language, langstring) in translations:
-                langstringnode = ElementTree.Element('langstring')
+                langstringnode = etree.Element('langstring')
                 langstringnode.text = langstring
                 langstringnode.attrib['language'] = language or self.taxonomy.default_language or ''
                 captionnode.append(langstringnode)
@@ -171,19 +171,19 @@ class ExportVdex(TreeExport):
         attrib = self.IMSVDEX_ATTRIBS
         attrib['language'] = taxonomy.default_language or ''
 
-        root = ElementTree.Element('vdex', attrib=attrib)
+        root = etree.Element('vdex', attrib=attrib)
 
-        vocabName = ElementTree.Element('vocabName')
+        vocabName = etree.Element('vocabName')
         root.append(vocabName)
 
-        langstring = ElementTree.Element(
+        langstring = etree.Element(
             'langstring',
             attrib={'language': taxonomy.default_language or ''}
         )
         langstring.text = taxonomy.title
         vocabName.append(langstring)
 
-        vocabIdentifier = ElementTree.Element('vocabIdentifier')
+        vocabIdentifier = etree.Element('vocabIdentifier')
         vocabIdentifier.text = self.taxonomy.name.replace(
             'collective.taxonomy.', ''
         )
@@ -193,7 +193,7 @@ class ExportVdex(TreeExport):
 
         if as_string:
             indent(root)
-            treestring = ElementTree.tostring(root, self.IMSVDEX_ENCODING)
+            treestring = etree.tostring(root, self.IMSVDEX_ENCODING)
             header = """<?xml version="1.0" encoding="%s"?>""" % \
                      self.IMSVDEX_ENCODING.upper() + '\n'
             treestring = header + treestring

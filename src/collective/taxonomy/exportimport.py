@@ -3,7 +3,7 @@ import ConfigParser
 from plone.behavior.interfaces import IBehavior
 
 from io import BytesIO
-from elementtree import ElementTree
+from lxml.etree import fromstring
 
 from .interfaces import ITaxonomy
 from .factory import registerTaxonomy
@@ -131,7 +131,7 @@ class TaxonomyImportExportAdapter(object):
     def importDocument(self, taxonomy, document):
         # XXX: we should change this
 
-        tree = ElementTree.fromstring(document)
+        tree = fromstring(document)
         # taxonomy.clean()
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
