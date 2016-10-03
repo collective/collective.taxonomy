@@ -1,6 +1,6 @@
 from elementtree import ElementTree
 import os
-import simplejson
+import json
 
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
@@ -9,22 +9,21 @@ from zope.component import queryMultiAdapter, queryUtility
 from zope.i18n import translate
 
 from collective.taxonomy import PATH_SEPARATOR
-from collective.taxonomy.i18n import MessageFactory as _
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import TreeExport
 
 
 class EditTaxonomyData(TreeExport, BrowserView):
-
     """Taxonomy tree edit view."""
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        utility_name = self.context.REQUEST.get('taxonomy', '')
+        utility_name = request.get('form.widgets.taxonomy', '')
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError('Taxonomy could not be found.')
+            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)
 
         self.taxonomy = taxonomy
 
@@ -64,7 +63,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
             for term in root.findall('term'):
                 result['subnodes'].append(self.generate_json(term))
 
-        return simplejson.dumps(result)
+        return json.dumps(result)
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
@@ -80,7 +79,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         # add taxonomy's default language if it is not in supported langs
         default_lang = self.taxonomy.default_language
         languages_mapping[default_lang] = mapping[default_lang].capitalize()
-        return simplejson.dumps(languages_mapping)
+        return json.dumps(languages_mapping)
 
     def get_resource_url(self):
         """Return resource url."""
@@ -100,7 +99,7 @@ class ImportJson(BrowserView):
         request = self.request
         if request.method == 'POST':
             request.stdin.seek(0)
-            data = simplejson.loads(request.stdin.read())
+            data = json.loads(request.stdin.read())
             taxonomy = queryUtility(ITaxonomy, name=data['taxonomy'])
             tree = data['tree']
             languages = data['languages']
@@ -116,14 +115,14 @@ class ImportJson(BrowserView):
                 for key, value in data_for_taxonomy:
                     taxonomy.data[language][key] = value
 
-            return simplejson.dumps({
+            return json.dumps({
                 'status': 'info',
                 'message': translate(
                     _("Your taxonomy has been saved with success."),
                     context=request)
             })
 
-        return simplejson.dumps({
+        return json.dumps({
             'status': 'error',
             'message': translate(
                 _("There seems to have been an error."),

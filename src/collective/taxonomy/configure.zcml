@@ -2,7 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:grok="http://namespaces.zope.org/grok"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
@@ -14,9 +13,6 @@
   <i18n:registerTranslations directory="locales" />
 
   <include package="plone.app.registry" />
-  <include package="five.grok" />
-
-  <grok:grok package="." />
 
   <genericsetup:registerProfile
       name="default"
@@ -99,7 +95,7 @@
   <browser:page
       name="taxonomy-edit-data"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".json.EditTaxonomyData"
+      class=".jsonimpl.EditTaxonomyData"
       template="edit_taxonomy_data.pt"
       permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
@@ -108,13 +104,11 @@
   <browser:page
       name="taxonomy-import"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".json.ImportJson"
+      class=".jsonimpl.ImportJson"
       permission="cmf.ManagePortal"
       layer=".interfaces.IBrowserLayer"
       />
 
-  <adapter factory=".controlpanel.TaxonomySettingsControlPanelAdapter" />
-  <adapter factory=".controlpanel.TaxonomyEditFormAdapter"/>
 
   <utility
       factory=".vocabulary.TaxonomyVocabulary"

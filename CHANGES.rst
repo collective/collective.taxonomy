@@ -5,12 +5,22 @@ Changes
 1.3.1 (unreleased)
 ------------------
 
+- Plone 5 compatibility
+  [tomgross]
+
 - Use context language to find index.
   [bsuttor]
 
 
 1.3.0 (2016-07-07)
 ------------------
+
+- Fix index when taxonomy is added as field.
+  [bsuttor]
+
+- Now uses a React/Redux app to edit taxonomy data. It is now possible to edit
+  the data in multiple languages and to compare between languages.
+  [cedricmessiant]
 
 - Fix index when taxonomy is added as field.
   [bsuttor]
@@ -29,6 +39,9 @@ Changes
 - prevent taxonomy reset on reinstall if you've defined a vdex xml file
   in your profile
   [petschki]
+
+- Plone 5 compatibility
+  [tomgross]
 
 1.2.3 (2014-02-07)
 ------------------
