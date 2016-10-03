@@ -8,6 +8,9 @@ Changes
 - Plone 5 compatibility
   [tomgross]
 
+- Use context language to find index.
+  [bsuttor]
+
 
 1.3.0 (2016-07-07)
 ------------------

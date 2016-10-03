@@ -49,8 +49,9 @@ class TaxonomyIndexerWrapper(object):
                 if identifier in stored_element:
                     found.append((identifier, language, path,))
 
+        lang = getattr(self.context, 'language', language)
         result = []
-        for (key, value) in utility.inverted_data[language].items():
+        for (key, value) in utility.inverted_data[lang].items():
             for (found_identifier, found_language, found_path) in found:
                 in_path = False
                 for s in value.split('/'):
@@ -62,7 +63,6 @@ class TaxonomyIndexerWrapper(object):
                 if in_path:
                     if key not in result:
                         result.append(key)
-
         return result
 
 
