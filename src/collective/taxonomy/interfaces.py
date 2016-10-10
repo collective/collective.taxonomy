@@ -52,7 +52,10 @@ class ITaxonomySettings(Interface):
 
 
 def taxonomyDefaultValue():
-    return api.portal.get().REQUEST.get('form.widgets.taxonomy')
+    taxonomy = api.portal.get().REQUEST.get('form.widgets.taxonomy')
+    if not taxonomy:
+        return u''
+    return taxonomy
 
 
 class ITaxonomyForm(Interface):
