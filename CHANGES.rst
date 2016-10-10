@@ -5,6 +5,9 @@ Changes
 1.3.1 (unreleased)
 ------------------
 
+- Fix empty context.REQUEST.get('form.widgets.taxonomy'). It add it into POST form.
+  [bsuttor]
+
 - Plone 5 compatibility
   [tomgross]
 
