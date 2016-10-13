@@ -5,6 +5,9 @@ Changes
 1.3.1 (unreleased)
 ------------------
 
+- Getting language by acquisition, indeed some Dexterity content has no language or empty language.
+  [bsuttor]
+
 - Plone 5 compatibility
   [tomgross]
 

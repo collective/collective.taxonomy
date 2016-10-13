@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+from plone import api
 from plone.indexer.interfaces import IIndexer
 from plone.dexterity.interfaces import IDexterityContent
 
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.ZCatalog.interfaces import IZCatalog
-
 from zope.component import adapts
 from zope.interface import classImplements
 
@@ -49,7 +51,7 @@ class TaxonomyIndexerWrapper(object):
                 if identifier in stored_element:
                     found.append((identifier, language, path,))
 
-        lang = getattr(self.context, 'language', language)
+        lang = get_language(self.context)
         result = []
         for (key, value) in utility.inverted_data[lang].items():
             for (found_identifier, found_language, found_path) in found:
@@ -79,3 +81,14 @@ class TaxonomyIndexer(object):
     def __call__(self, context, catalog):
         return TaxonomyIndexerWrapper(self.field_name, self.utility_name,
                                       context, catalog)
+
+def get_language(obj):
+    lang = getattr(obj, 'language', None)
+    if lang:
+        return lang
+    elif not IPloneSiteRoot.providedBy(obj):
+        lang = get_language(obj.aq_parent)
+    else:
+        portal_languages = api.portal.get_tool('portal_languages')
+        lang = portal_languages.getDefaultLanguage()
+    return lang
