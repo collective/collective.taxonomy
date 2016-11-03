@@ -5,6 +5,9 @@ Changes
 1.4.1 (unreleased)
 ------------------
 
+- Remove Save and Cancel buttons in controlpanel introduced 1.4.0.
+  [vincentfretin]
+
 - Add missing upgrade step to create records in registry.
   [vincentfretin]
 

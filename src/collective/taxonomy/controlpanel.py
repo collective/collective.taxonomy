@@ -35,13 +35,13 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
         super(TaxonomySettingsControlPanel, self).updateFields()
         self.fields['taxonomies'].widgetFactory = CheckBoxFieldWidget
 
-    @button.buttonAndHandler(_('Save'), name=None)
-    def handleSave(self, action):
-        pass
-
-    @button.buttonAndHandler(_('Cancel'), name='cancel')
-    def handleCancel(self, action):
-        super(TaxonomySettingsControlPanel, self).handleCancel(self, action)
+    def updateActions(self):
+        super(controlpanel.RegistryEditForm, self).updateActions()
+        self.actions['add-taxonomy'].addClass("context")
+        self.actions['edit-taxonomy'].addClass("context")
+        self.actions['edit_data_taxonomy'].addClass("context")
+        self.actions['delete-taxonomy'].addClass("context")
+        self.actions['export'].addClass("context")
 
     @button.buttonAndHandler(_(u'label_add_taxonomy', default='Add'),
                     name='add-taxonomy')
