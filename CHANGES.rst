@@ -5,7 +5,8 @@ Changes
 1.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add missing upgrade step to create records in registry.
+  [vincentfretin]
 
 
 1.4.0 (2016-11-03)

@@ -15,3 +15,9 @@ def reactivateSearchable(tool):
             utility.deactivateSearchable()
             utility.activateSearchable()
             log.info('Reactivated searchable for ' + utility_name)
+
+
+def import_registry(tool):
+    tool.runImportStepFromProfile(
+        'profile-collective.taxonomy:default', 'plone.app.registry',
+         run_dependencies=False, purge_old=False)
