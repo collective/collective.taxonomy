@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from Acquisition import aq_parent
 from plone import api
 from plone.indexer.interfaces import IIndexer
 from plone.dexterity.interfaces import IDexterityContent
@@ -87,8 +88,7 @@ def get_language(obj):
     if lang:
         return lang
     elif not IPloneSiteRoot.providedBy(obj):
-        lang = get_language(obj.aq_parent)
+        lang = get_language(aq_parent(obj))
     else:
-        portal_languages = api.portal.get_tool('portal_languages')
-        lang = portal_languages.getDefaultLanguage()
+        lang = api.portal.get_default_language()
     return lang
