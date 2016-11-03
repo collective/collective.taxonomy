@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from plone import api
 from plone.namedfile.field import NamedBlobFile
 
 from zope.interface import Interface
@@ -50,12 +51,20 @@ class ITaxonomySettings(Interface):
     )
 
 
+def taxonomyDefaultValue():
+    taxonomy = api.portal.get().REQUEST.get('form.widgets.taxonomy')
+    if not taxonomy:
+        return u''
+    return taxonomy
+
+
 class ITaxonomyForm(Interface):
 
     taxonomy = schema.TextLine(
         title=_(u"Taxonomy"),
         description=_("The taxonomy identifier"),
-        required=True
+        required=True,
+        defaultFactory=taxonomyDefaultValue,
     )
 
     field_title = schema.TextLine(

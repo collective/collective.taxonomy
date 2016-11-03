@@ -8,6 +8,9 @@ Changes
 - Getting language by acquisition, indeed some Dexterity content has no language or empty language.
   [bsuttor]
 
+- Fix empty context.REQUEST.get('form.widgets.taxonomy'). It add it into POST form.
+  [bsuttor]
+
 - Plone 5 compatibility
   [tomgross]
 
