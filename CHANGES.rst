@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.4.1 (unreleased)
+1.4.1 (2016-11-03)
 ------------------
 
 - Remove Save and Cancel buttons in controlpanel introduced 1.4.0.
