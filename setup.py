@@ -10,7 +10,7 @@ def read(*pathnames):
     fh = open(os.path.join(os.path.dirname(__file__), *pathnames))
     return fh.read().decode('utf-8')
 
-version = '1.4.0'
+version = '1.4.1.dev0'
 
 setup(
     name='collective.taxonomy',
