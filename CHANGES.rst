@@ -5,7 +5,8 @@ Changes
 1.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix save in edit_taxonomy_data.
+  [cedricmessiant]
 
 
 1.4.1 (2016-11-03)
