@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.4.2 (unreleased)
+1.4.2 (2016-11-08)
 ------------------
 
 - Fix save action in edit-taxonomy-data. This was a regression in 1.4.0, the
