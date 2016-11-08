@@ -38,7 +38,7 @@ export function asyncSaveTree(nodes, rootId, languages) {
   const hashes = window.location.href.slice(
     window.location.href.indexOf('?') + 1).split('&')
   const taxonomyParam = hashes.map(hash => hash.split('=')).find(
-    param => param[0] === 'form.widgets.taxonomy')
+    param => param[0] === 'taxonomy')
   const tree = buildTree(nodes, rootId)
   return fetch(viewUrl, {
     credentials: 'include',

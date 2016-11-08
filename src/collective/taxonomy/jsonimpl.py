@@ -20,7 +20,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        utility_name = request.get('form.widgets.taxonomy', '')
+        utility_name = request.get('taxonomy', '')
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
             raise ValueError('Taxonomy `%s` could not be found.' % utility_name)

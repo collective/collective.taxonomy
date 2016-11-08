@@ -5,7 +5,8 @@ Changes
 1.4.2 (unreleased)
 ------------------
 
-- Fix save in edit_taxonomy_data.
+- Fix save action in edit-taxonomy-data. This was a regression in 1.4.0, the
+  get parameter should be taxonomy, not form.widgets.taxonomy.
   [cedricmessiant]
 
 

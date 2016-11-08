@@ -70,7 +70,7 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
         if len(data.get('taxonomies', [])) > 0:
             self.request.RESPONSE.redirect(
                 self.context.portal_url() +
-                '/@@taxonomy-edit-data?form.widgets.taxonomy=' +
+                '/@@taxonomy-edit-data?taxonomy=' +
                 data.get('taxonomies')[0])
         else:
             api.portal.show_message(_(u"Please select one taxonomy."),
