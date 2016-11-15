@@ -5,7 +5,9 @@ Changes
 1.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix save action to work on Plone 5 (by reading portal url from
+  body[data-portal-url] and adding X-CSRF-TOKEN for post requets
+  [datakurre]
 
 
 1.4.2 (2016-11-08)

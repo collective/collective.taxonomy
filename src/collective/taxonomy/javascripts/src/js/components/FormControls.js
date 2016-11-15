@@ -34,7 +34,7 @@ class FormControls extends Component {
 
   handleBack(e) {
     e.preventDefault()
-    const baseUrl = $('base').attr('href')
+    const baseUrl = $('base').attr('href') || $('body').attr('data-portal-url')
     window.location.href = `${baseUrl}/@@taxonomy-settings`
   }
 

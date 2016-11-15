@@ -42,7 +42,7 @@ class App extends Component {
       saveTree,
       status,
     } = this.props
-    const portalURL = $('base').attr('href')
+    const portalURL = $('base').attr('href') || $('body').attr('data-portal-url')
     return (
       <div>
         { isPending ? <Spinner imageURL={ `${portalURL}/spinner.gif` } /> : null }
