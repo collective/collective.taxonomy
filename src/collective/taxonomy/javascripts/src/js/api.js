@@ -33,19 +33,22 @@ function buildTree(nodes, rootId) {
 }
 
 export function asyncSaveTree(nodes, rootId, languages) {
-  const baseUrl = $('base').attr('href')
+  const baseUrl = $('base').attr('href') || $('body').attr('data-portal-url')
   const viewUrl = `${baseUrl}/@@taxonomy-import`
   const hashes = window.location.href.slice(
     window.location.href.indexOf('?') + 1).split('&')
   const taxonomyParam = hashes.map(hash => hash.split('=')).find(
     param => param[0] === 'taxonomy')
   const tree = buildTree(nodes, rootId)
+  const token = $('a[href*="_authenticator"]').first().attr("href").match(
+    "_authenticator=([a-z0-9]*)")
   return fetch(viewUrl, {
     credentials: 'include',
     method: 'post',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': token && token.length ? token[token.length - 1] : ''
     },
     body: JSON.stringify({
       languages,
