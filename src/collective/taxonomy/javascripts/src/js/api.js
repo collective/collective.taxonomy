@@ -33,7 +33,7 @@ function buildTree(nodes, rootId) {
 }
 
 export function asyncSaveTree(nodes, rootId, languages) {
-  const baseUrl = $('base').attr('href') || $('body').attr('data-portal-url')
+  const baseUrl = $('base').attr('href') || $('body').attr('data-portal-url')
   const viewUrl = `${baseUrl}/@@taxonomy-import`
   const hashes = window.location.href.slice(
     window.location.href.indexOf('?') + 1).split('&')
