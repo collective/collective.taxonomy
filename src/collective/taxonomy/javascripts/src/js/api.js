@@ -40,8 +40,9 @@ export function asyncSaveTree(nodes, rootId, languages) {
   const taxonomyParam = hashes.map(hash => hash.split('=')).find(
     param => param[0] === 'taxonomy')
   const tree = buildTree(nodes, rootId)
-  const token = $('a[href*="_authenticator"]').first().attr("href").match(
-    "_authenticator=([a-z0-9]*)")
+  const authenticatorHref = $('a[href*="_authenticator"]').first().attr('href')
+  const token = authenticatorHref ?
+    authenticatorHref.match('_authenticator=([a-z0-9]*)') : ''
   return fetch(viewUrl, {
     credentials: 'include',
     method: 'post',
