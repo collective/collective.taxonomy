@@ -82,7 +82,8 @@ class ITaxonomyForm(Interface):
     default_language = schema.Choice(
         title=_(u"Default language"),
         vocabulary='collective.taxonomy.languages',
-        required=True
+        required=True,
+        defaultFactory=api.portal.get_current_language
     )
 
     import_file = NamedBlobFile(
