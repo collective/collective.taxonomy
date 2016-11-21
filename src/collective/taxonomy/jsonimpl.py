@@ -5,7 +5,7 @@ import json
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
 from plone import api
-from zope.component import queryMultiAdapter, queryUtility
+from zope.component import queryUtility
 from zope.i18n import translate
 
 from collective.taxonomy import PATH_SEPARATOR
@@ -67,9 +67,9 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
-        portal = api.portal.get()
-        portal_state = queryMultiAdapter(
-            (portal, portal.REQUEST), name=u'plone_portal_state')
+        portal_state = api.content.get_view(
+            'plone_portal_state', self.context, self.request
+        )
         mapping = portal_state.locale().displayNames.languages
         language_tool = api.portal.get_tool('portal_languages')
         supported_langs = language_tool.supported_langs

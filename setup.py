@@ -40,6 +40,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
+        'lxml',
         'plone.supermodel',
         'plone.api',
         'plone.app.registry',
