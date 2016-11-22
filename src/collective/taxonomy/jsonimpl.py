@@ -8,7 +8,7 @@ from plone import api
 from zope.component import queryMultiAdapter, queryUtility
 from zope.i18n import translate
 
-from collective.taxonomy import PATH_SEPARATOR
+from os import sep as PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import TreeExport

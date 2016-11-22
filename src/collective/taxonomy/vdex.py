@@ -1,7 +1,6 @@
 from lxml import etree
+from os import sep as PATH_SEPARATOR
 from plone.supermodel.utils import indent
-
-from collective.taxonomy import PATH_SEPARATOR
 
 
 LANG_SEPARATOR = '|'
