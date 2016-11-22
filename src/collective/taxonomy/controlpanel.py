@@ -229,13 +229,11 @@ class TaxonomyEditFormAdapter(object):
         utility = sm.queryUtility(ITaxonomy,
                                   name=taxonomy)
 
-        generated_name = utility.getGeneratedName()
-
         self.__dict__['context'] = context
         self.__dict__['utility'] = utility
         self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
         self.__dict__['behavior'] = sm.queryUtility(IBehavior,
-                                                    name=generated_name)
+                                                    name=self.name)
 
     def __getattr__(self, attr):
         if 'behavior' not in self.__dict__:
