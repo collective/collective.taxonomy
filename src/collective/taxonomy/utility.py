@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from .behavior import TaxonomyBehavior
-from .interfaces import ITaxonomy
-from .vocabulary import Vocabulary
+from collective.taxonomy.behavior import TaxonomyBehavior
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import get_lang_code
+from collective.taxonomy.vocabulary import Vocabulary
 
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
@@ -14,8 +15,6 @@ from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 
-from zope.component import getMultiAdapter
-from zope.component.interfaces import ComponentLookupError
 from zope.interface import implementer
 from zope.lifecycleevent import modified
 
@@ -39,7 +38,10 @@ class Taxonomy(SimpleItem):
         self.name = name
         self.title = title
         self.default_language = default_language
-        self.sm = api.portal.get().getSiteManager()
+
+    @property
+    def sm(self):
+        return api.portal.get().getSiteManager()
 
     def __call__(self, context):
 
@@ -64,11 +66,14 @@ class Taxonomy(SimpleItem):
                 inv_data[language][identifier] = path
         return inv_data
 
+    def getGeneratedName(self):
+        return 'collective.taxonomy.generated.' + self.getShortName()
+
     def getShortName(self):
         return self.name.split('.')[-1]
 
     def getCurrentLanguage(self, request):
-        language = api.portal.get_current_language().split('-', 1)[0]
+        language = get_lang_code()
         if language in self.data:
             return language
         elif self.default_language in self.data:
@@ -79,30 +84,32 @@ class Taxonomy(SimpleItem):
 
     def registerBehavior(self, **kwargs):
         new_args = copy(kwargs)
-        new_args['name'] = self.name
+        new_args['name'] = self.getGeneratedName()
         new_args['title'] = self.title
         new_args['description'] = kwargs.get('field_description', u'')
         new_args['field_description'] = new_args['description']
 
         behavior = TaxonomyBehavior(**new_args)
         self.sm.registerUtility(behavior, IBehavior,
-                                name=self.name)
+                                name=self.getGeneratedName())
         behavior.addIndex()
         behavior.activateSearchable()
 
     def cleanupFTI(self):
         """Cleanup the FTIs"""
+        generated_name = self.getGeneratedName()
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
-            if self.name in fti.behaviors:
+            if generated_name in fti.behaviors:
                 fti.behaviors = [behavior for behavior in
                                  fti.behaviors
-                                 if behavior != self.name]
+                                 if behavior != generated_name]
             modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def updateBehavior(self, **kwargs):
         short_name = self.getShortName()
+        generated_name = self.getGeneratedName()
 
-        utility = self.sm.queryUtility(IBehavior, name=self.name)
+        utility = self.sm.queryUtility(IBehavior, name=generated_name)
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
@@ -115,7 +122,8 @@ class Taxonomy(SimpleItem):
                 modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def unregisterBehavior(self):
-        utility = self.sm.queryUtility(IBehavior, name=self.name)
+        generated_name = self.getGeneratedName()
+        utility = self.sm.queryUtility(IBehavior, name=generated_name)
         if utility is None:
             return
 

@@ -99,7 +99,7 @@ class TaxonomyBehavior(Persistent):
         context = getSite()
         sm = context.getSiteManager()
         sm.registerAdapter(
-            TaxonomyIndexer(self.field_name, self.name),
+            TaxonomyIndexer(self.field_name, self.vocabulary_name),
             (IDexterityContent, IZCatalog),
             IIndexer, name=self.field_name)
 

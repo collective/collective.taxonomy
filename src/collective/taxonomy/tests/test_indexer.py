@@ -53,7 +53,6 @@ class TestIndexer(unittest.TestCase):
         query = {}
         query['taxonomy_test'] = '1'
         self.assertEqual(len(portal_catalog(query)), 0)
-
         simple_tax = [val for val in taxonomy['en'].values()]
         taxo_val = simple_tax[0]
         self.document.taxonomy_test = [taxo_val]

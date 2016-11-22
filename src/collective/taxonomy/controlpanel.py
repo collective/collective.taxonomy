@@ -16,7 +16,10 @@ from z3c.form.interfaces import HIDDEN_MODE
 
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import ITaxonomySettings
+from collective.taxonomy.interfaces import ITaxonomyForm
+from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 
 
@@ -220,20 +223,18 @@ class TaxonomyEditFormAdapter(object):
     implements(ITaxonomyForm)
 
     def __init__(self, context):
-        if context.REQUEST.get('form.widgets.taxonomy') is None:
+        taxonomy = context.REQUEST.get('form.widgets.taxonomy')
+        if taxonomy is None:
             return
 
-        taxonomy = context.REQUEST.get('form.widgets.taxonomy')
-
         sm = context.getSiteManager()
-        utility = sm.queryUtility(ITaxonomy,
-                                  name=taxonomy)
+        utility = sm.getUtility(ITaxonomy, name=taxonomy)
+        generated_name = utility.getGeneratedName()
 
         self.__dict__['context'] = context
         self.__dict__['utility'] = utility
         self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
-        self.__dict__['behavior'] = sm.queryUtility(IBehavior,
-                                                    name=self.name)
+        self.__dict__['behavior'] = sm.queryUtility(IBehavior, name=generated_name)
 
     def __getattr__(self, attr):
         if 'behavior' not in self.__dict__:
