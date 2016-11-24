@@ -76,10 +76,9 @@ def importTaxonomy(context):
 
 def exportTaxonomy(context):
     site = context.getSite()
-    for (name, taxonomy) in site.getSiteManager().getUtilitiesFor(ITaxonomy):
-        behavior = site.getSiteManager().queryUtility(
-            IBehavior, name=taxonomy.getGeneratedName()
-        )
+    sm = site.getSiteManager()
+    for (name, taxonomy) in sm.getUtilitiesFor(ITaxonomy):
+        behavior = sm.queryUtility(IBehavior, name=taxonomy.name)
 
         short_name = name.split('.')[-1]
         exporter = TaxonomyImportExportAdapter(context)
