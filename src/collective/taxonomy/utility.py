@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from .behavior import TaxonomyBehavior
-from .interfaces import ITaxonomy
-from .vocabulary import Vocabulary
+from collective.taxonomy.behavior import TaxonomyBehavior
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vocabulary import Vocabulary
 
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
@@ -67,6 +67,12 @@ class Taxonomy(SimpleItem):
     def getShortName(self):
         return self.name.split('.')[-1]
 
+    def getGeneratedName(self):
+        return 'collective.taxonomy.generated.' + self.getShortName()
+
+    def getVocabularyName(self):
+        return self.name
+
     def getCurrentLanguage(self, request):
         language = api.portal.get_current_language().split('-', 1)[0]
         if language in self.data:
@@ -79,30 +85,32 @@ class Taxonomy(SimpleItem):
 
     def registerBehavior(self, **kwargs):
         new_args = copy(kwargs)
-        new_args['name'] = self.name
+        new_args['name'] = self.getGeneratedName()
         new_args['title'] = self.title
         new_args['description'] = kwargs.get('field_description', u'')
         new_args['field_description'] = new_args['description']
 
         behavior = TaxonomyBehavior(**new_args)
         self.sm.registerUtility(behavior, IBehavior,
-                                name=self.name)
+                                name=self.getGeneratedName())
         behavior.addIndex()
         behavior.activateSearchable()
 
     def cleanupFTI(self):
         """Cleanup the FTIs"""
+        generated_name = self.getGeneratedName()
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
-            if self.name in fti.behaviors:
+            if generated_name in fti.behaviors:
                 fti.behaviors = [behavior for behavior in
                                  fti.behaviors
-                                 if behavior != self.name]
+                                 if behavior != generated_name]
             modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def updateBehavior(self, **kwargs):
         short_name = self.getShortName()
+        generated_name = self.getGeneratedName()
 
-        utility = self.sm.queryUtility(IBehavior, name=self.name)
+        utility = self.sm.queryUtility(IBehavior, name=generated_name)
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
@@ -111,11 +119,12 @@ class Taxonomy(SimpleItem):
         delattr(generated, short_name)
 
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
-            if self.name in fti.behaviors:
+            if generated_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def unregisterBehavior(self):
-        utility = self.sm.queryUtility(IBehavior, name=self.name)
+        generated_name = self.getGeneratedName()
+        utility = self.sm.queryUtility(IBehavior, name=generated_name)
         if utility is None:
             return
 
@@ -125,7 +134,7 @@ class Taxonomy(SimpleItem):
         utility.deactivateSearchable()
         utility.unregisterInterface()
 
-        self.sm.unregisterUtility(utility, IBehavior, name=self.name)
+        self.sm.unregisterUtility(utility, IBehavior, name=generated_name)
 
     def clean(self):
         self.data.clear()
