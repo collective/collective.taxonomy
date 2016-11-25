@@ -4,7 +4,7 @@ from zope.component import getSiteManager
 from zope.publisher.interfaces import NotFound
 from zope.traversing.interfaces import ITraversable
 from zope.schema.interfaces import IVocabularyFactory
-from zope.interface import implements
+from zope.interface import implementer_only
 
 
 class TaxonomyView(BrowserView):
@@ -39,21 +39,15 @@ class TaxonomyView(BrowserView):
 class VocabularyTuplesView(BrowserView):
 
     def __init__(self, context, request, vocabulary):
-        self.context = context
-        self.request = request
+        super(VocabularyTuplesView, self).__init__(self.context, self.request)
         self.vocabulary = vocabulary
 
     def __call__(self):
         return ((term.token, term.title) for term in self.vocabulary)
 
 
-class TaxonomyTraverser(object):
-
-    implements(ITraversable)
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
+@implementer_only(ITraversable)
+class TaxonomyTraverser(BrowserView):
 
     def traverse(self, name, remaining):
         sm = getSiteManager()

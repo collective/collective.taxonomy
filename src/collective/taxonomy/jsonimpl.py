@@ -1,4 +1,4 @@
-from elementtree import ElementTree
+from lxml import etree
 import os
 import json
 
@@ -8,9 +8,10 @@ from plone import api
 from zope.component import queryMultiAdapter, queryUtility
 from zope.i18n import translate
 
-from collective.taxonomy import PATH_SEPARATOR
+from os import sep as PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vdex import TreeExport
 
 
@@ -46,7 +47,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_data(self):
         """Get json data."""
-        root = ElementTree.Element('vdex')
+        root = etree.Element('vdex')
         try:
             root = self.buildTree(root)
         except ValueError:
@@ -73,8 +74,10 @@ class EditTaxonomyData(TreeExport, BrowserView):
         mapping = portal_state.locale().displayNames.languages
         language_tool = api.portal.get_tool('portal_languages')
         supported_langs = language_tool.supported_langs
-        languages_mapping = dict(
-            [(lang, mapping[lang].capitalize()) for lang in supported_langs])
+        languages_mapping = {
+            get_lang_code(lang): mapping[get_lang_code(lang)].capitalize()
+            for lang in supported_langs
+            }
 
         # add taxonomy's default language if it is not in supported langs
         default_lang = self.taxonomy.default_language
