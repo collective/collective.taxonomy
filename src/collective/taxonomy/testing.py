@@ -41,6 +41,6 @@ ROBOT_TESTING = FunctionalTesting(
     bases=(FIXTURE,
            REMOTE_LIBRARY_BUNDLE_FIXTURE,
            z2.ZSERVER_FIXTURE),
-    name="CollectiveSolr:Acceptance"
+    name="CollectiveTaxonomy:Acceptance"
 )
 
