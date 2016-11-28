@@ -96,7 +96,7 @@ class Taxonomy(SimpleItem):
         sm = context.getSiteManager()
         new_args = copy(kwargs)
 
-        new_args['name'] = self.name
+        new_args['name'] = self.getGeneratedName()
         new_args['title'] = self.title
         new_args['description'] = kwargs.get('field_description', u'')
         new_args['field_description'] = new_args['description']

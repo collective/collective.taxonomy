@@ -44,6 +44,7 @@ setup(
         'plone.api',
         'plone.app.registry',
         'plone.app.dexterity',
+        'lxml',
     ],
     extras_require={
         'test': [
