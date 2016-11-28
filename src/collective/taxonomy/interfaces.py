@@ -58,6 +58,12 @@ def taxonomyDefaultValue():
     return taxonomy
 
 
+def get_lang_code(lang=None):
+    if lang is None:
+        lang = api.portal.get_current_language()
+    return lang.split('-', 1)[0]
+
+
 class ITaxonomyForm(Interface):
 
     taxonomy = schema.TextLine(
@@ -82,7 +88,8 @@ class ITaxonomyForm(Interface):
     default_language = schema.Choice(
         title=_(u"Default language"),
         vocabulary='collective.taxonomy.languages',
-        required=True
+        required=True,
+        defaultFactory=get_lang_code
     )
 
     import_file = NamedBlobFile(
