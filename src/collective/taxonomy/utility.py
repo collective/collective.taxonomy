@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from .behavior import TaxonomyBehavior
-from .interfaces import ITaxonomy
-from .vocabulary import Vocabulary
+from collective.taxonomy.behavior import TaxonomyBehavior
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import get_lang_code
+from collective.taxonomy.vocabulary import Vocabulary
 
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
@@ -17,7 +18,7 @@ from plone.memoize import ram
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from zope.component.interfaces import ComponentLookupError
-from zope.interface import implements
+from zope.interface import implementer
 from zope.lifecycleevent import modified
 
 import generated
@@ -31,11 +32,10 @@ from collective.taxonomy import PATH_SEPARATOR
 logger = logging.getLogger("collective.taxonomy")
 
 
+@implementer(ITaxonomy)
 class Taxonomy(SimpleItem):
-    implements(ITaxonomy)
 
     def __init__(self, name, title, default_language):
-        super(Taxonomy, self).__init__(self)
         self.data = PersistentDict()
         self.name = name
         self.title = title
