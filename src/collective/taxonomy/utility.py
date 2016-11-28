@@ -10,14 +10,12 @@ from OFS.SimpleItem import SimpleItem
 
 from persistent.dict import PersistentDict
 
+from plone import api
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 
-from zope.component import getMultiAdapter
-from zope.component.hooks import getSite
-from zope.component.interfaces import ComponentLookupError
 from zope.interface import implementer
 from zope.lifecycleevent import modified
 
@@ -40,6 +38,10 @@ class Taxonomy(SimpleItem):
         self.name = name
         self.title = title
         self.default_language = default_language
+
+    @property
+    def sm(self):
+        return api.portal.get().getSiteManager()
 
     def __call__(self, context):
 
@@ -74,15 +76,7 @@ class Taxonomy(SimpleItem):
         return 'collective.taxonomy.' + self.getShortName()
 
     def getCurrentLanguage(self, request):
-        try:
-            portal_state = getMultiAdapter(
-                (self, request), name=u'plone_portal_state'
-            )
-
-            language = portal_state.language().split('-', 1)[0]
-        except ComponentLookupError:
-            language = ''  # Force to return default language.
-
+        language = get_lang_code()
         if language in self.data:
             return language
         elif self.default_language in self.data:
@@ -92,8 +86,6 @@ class Taxonomy(SimpleItem):
             return self.data.keys()[0]
 
     def registerBehavior(self, **kwargs):
-        context = getSite()
-        sm = context.getSiteManager()
         new_args = copy(kwargs)
 
         new_args['name'] = self.getGeneratedName()
@@ -102,8 +94,8 @@ class Taxonomy(SimpleItem):
         new_args['field_description'] = new_args['description']
 
         behavior = TaxonomyBehavior(**new_args)
-        sm.registerUtility(behavior, IBehavior,
-                           name=self.getGeneratedName())
+        self.sm.registerUtility(behavior, IBehavior,
+                                name=self.getGeneratedName())
 
         behavior.addIndex()
         behavior.activateSearchable()
@@ -111,9 +103,7 @@ class Taxonomy(SimpleItem):
     def cleanupFTI(self):
         """Cleanup the FTIs"""
         generated_name = self.getGeneratedName()
-        context = getSite()
-        sm = context.getSiteManager()
-        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+        for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
             if generated_name in fti.behaviors:
                 fti.behaviors = [behavior for behavior in
                                  fti.behaviors
@@ -121,12 +111,10 @@ class Taxonomy(SimpleItem):
             modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def updateBehavior(self, **kwargs):
-        sm = getSite().getSiteManager()
-
         behavior_name = self.getGeneratedName()
         short_name = self.getShortName()
 
-        utility = sm.queryUtility(IBehavior, name=behavior_name)
+        utility = self.sm.queryUtility(IBehavior, name=behavior_name)
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
@@ -134,15 +122,13 @@ class Taxonomy(SimpleItem):
 
         delattr(generated, short_name)
 
-        for (name, fti) in sm.getUtilitiesFor(IDexterityFTI):
+        for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
     def unregisterBehavior(self):
-        context = getSite()
-        sm = context.getSiteManager()
         behavior_name = self.getGeneratedName()
-        utility = sm.queryUtility(IBehavior, name=behavior_name)
+        utility = self.sm.queryUtility(IBehavior, name=behavior_name)
 
         if utility is None:
             return
@@ -153,7 +139,7 @@ class Taxonomy(SimpleItem):
         utility.deactivateSearchable()
         utility.unregisterInterface()
 
-        sm.unregisterUtility(utility, IBehavior, name=behavior_name)
+        self.sm.unregisterUtility(utility, IBehavior, name=behavior_name)
 
     def clean(self):
         self.data.clear()
