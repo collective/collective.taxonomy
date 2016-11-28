@@ -48,12 +48,12 @@ Scenario: As a manager I can add a taxonomy
 
 TestSetup
   Open test browser
-  a logged in Manager
+#  a logged in Manager
 
 
 TestTeardown
-  a logged in Manager
-  Run keywords  Close all browsers
+#  a logged in Manager
+  Close all browsers
 
 
 # Given
