@@ -9,6 +9,9 @@ Changes
   body[data-portal-url] and adding X-CSRF-TOKEN for post requests
   [datakurre]
 
+- Fix BehaviorRegistrationNotFound error with Plone 5.0.6
+  [tomgross]
+
 - Use lxml instead of elementtree
   [tomgross]
 
