@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.4.4 (unreleased)
+1.4.4 (2016-11-29)
 ------------------
 
 - Fix taxonomy export that was broken since 1.4.0.
