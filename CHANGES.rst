@@ -6,8 +6,11 @@ Changes
 ------------------
 
 - Fix save action to work on Plone 5 (by reading portal url from
-  body[data-portal-url] and adding X-CSRF-TOKEN for post requets
+  body[data-portal-url] and adding X-CSRF-TOKEN for post requests
   [datakurre]
+
+- Use lxml instead of elementtree
+  [tomgross]
 
 
 1.4.2 (2016-11-08)
@@ -42,9 +45,6 @@ Changes
 
 - Use context language to find index.
   [bsuttor]
-
-- Use lxml instead of elementtree
-  [tomgross]
 
 
 1.3.0 (2016-07-07)
