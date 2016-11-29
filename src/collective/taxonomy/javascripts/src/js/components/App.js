@@ -79,7 +79,7 @@ class App extends Component {
             />) : null
           }
 
-          <div className="visualClear" />
+          <div style={ { clear: 'both' } } />
 
           <FormControls
             dirty={ dirty }

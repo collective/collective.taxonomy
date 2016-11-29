@@ -77,7 +77,6 @@
   border: 0.3px groove;
   margin: 3px;
   padding: 3px;
-  line-height: 31px;
 }
 
 /* fix style in forms in firefox */
@@ -86,3 +85,14 @@
   font: 100% Arial, FreeSans, sans-serif;
 }
 
+/* override barceloneta theme */
+
+input[type="text"] {
+    display: inline !important;
+    height: auto !important;
+    padding: 5px !important;
+}
+
+.tree-view_item, div.info {
+    height: 35px;
+}
