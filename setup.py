@@ -41,7 +41,7 @@ setup(
     install_requires=[
         'setuptools',
         'plone.supermodel',
-        'plone.api',
+        'plone.api >= 1.5',
         'plone.app.registry',
         'plone.app.dexterity',
         'lxml',
