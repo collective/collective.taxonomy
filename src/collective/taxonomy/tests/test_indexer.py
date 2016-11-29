@@ -100,7 +100,7 @@ class TestIndexer(unittest.TestCase):
         registry = queryUtility(IRegistry)
         config = IQuerystringRegistryReader(registry)()
         self.assertEqual(
-            config['indexes']['taxonomy_test']['values'].items(),
+            sorted(config['indexes']['taxonomy_test']['values'].items()),
             [('1', {'title': u'Information Science'}),
              ('2', {'title': u'Information Science \xbb Book Collecting'}),
              ('3', {'title': u'Information Science \xbb Chronology'}),
