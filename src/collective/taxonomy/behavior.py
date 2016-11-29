@@ -91,7 +91,7 @@ class TaxonomyBehavior(Persistent):
         add('group', Record(field.TextLine(), unicode('Taxonomy')))
         add('operations', Record(field.List(value_type=field.TextLine()),
             [u'plone.app.querystring.operation.selection.is']))
-        add('vocabulary', Record(field.TextLine(), unicode(self.name)))
+        add('vocabulary', Record(field.TextLine(), unicode(self.vocabulary_name)))
         add('sortable', Record(field.Bool(), False))
         add('description', Record(field.Text(), unicode('')))
 
@@ -99,7 +99,7 @@ class TaxonomyBehavior(Persistent):
         context = getSite()
         sm = context.getSiteManager()
         sm.registerAdapter(
-            TaxonomyIndexer(self.field_name, self.name),
+            TaxonomyIndexer(self.field_name, self.vocabulary_name),
             (IDexterityContent, IZCatalog),
             IIndexer, name=self.field_name)
 

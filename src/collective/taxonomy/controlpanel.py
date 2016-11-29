@@ -16,7 +16,9 @@ from z3c.form.interfaces import HIDDEN_MODE
 
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.interfaces import ITaxonomy, ITaxonomySettings, ITaxonomyForm
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import ITaxonomySettings
+from collective.taxonomy.interfaces import ITaxonomyForm
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 
 
@@ -44,13 +46,13 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
         self.actions['export'].addClass("context")
 
     @button.buttonAndHandler(_(u'label_add_taxonomy', default='Add'),
-                    name='add-taxonomy')
+                             name='add-taxonomy')
     def handle_add_taxonomy_action(self, action):
         self.request.RESPONSE.redirect(
             self.context.portal_url() + '/@@taxonomy-add')
 
     @button.buttonAndHandler(_(u'label_edit_taxonomy', default='Edit'),
-                    name='edit-taxonomy')
+                             name='edit-taxonomy')
     def handle_edit_taxonomy_action(self, action):
         data, errors = self.extractData()
         if len(data.get('taxonomies', [])) > 0:
@@ -75,7 +77,6 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
         else:
             api.portal.show_message(_(u"Please select one taxonomy."),
                                     request=self.request)
-
 
     @button.buttonAndHandler(_(u'label_delete_taxonomy', default='Delete taxonomy'),
                              name='delete-taxonomy')
@@ -220,22 +221,18 @@ class TaxonomyEditFormAdapter(object):
     implements(ITaxonomyForm)
 
     def __init__(self, context):
-        if context.REQUEST.get('form.widgets.taxonomy') is None:
+        taxonomy = context.REQUEST.get('form.widgets.taxonomy')
+        if taxonomy is None:
             return
 
-        taxonomy = context.REQUEST.get('form.widgets.taxonomy')
-
         sm = context.getSiteManager()
-        utility = sm.queryUtility(ITaxonomy,
-                                  name=taxonomy)
-
+        utility = sm.getUtility(ITaxonomy, name=taxonomy)
         generated_name = utility.getGeneratedName()
 
         self.__dict__['context'] = context
         self.__dict__['utility'] = utility
         self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
-        self.__dict__['behavior'] = sm.queryUtility(IBehavior,
-                                                    name=generated_name)
+        self.__dict__['behavior'] = sm.queryUtility(IBehavior, name=generated_name)
 
     def __getattr__(self, attr):
         if 'behavior' not in self.__dict__:

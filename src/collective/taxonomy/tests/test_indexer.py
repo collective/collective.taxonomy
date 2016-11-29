@@ -2,7 +2,9 @@
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
+from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.testing import applyProfile
+from plone.registry.interfaces import IRegistry
 from plone.schemaeditor.utils import FieldAddedEvent
 from plone.schemaeditor.utils import IEditableSchema
 from zope import schema
@@ -53,7 +55,6 @@ class TestIndexer(unittest.TestCase):
         query = {}
         query['taxonomy_test'] = '1'
         self.assertEqual(len(portal_catalog(query)), 0)
-
         simple_tax = [val for val in taxonomy['en'].values()]
         taxo_val = simple_tax[0]
         self.document.taxonomy_test = [taxo_val]
@@ -94,3 +95,14 @@ class TestIndexer(unittest.TestCase):
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog(query)), 1)
+
+    def test_querystring_widget(self):
+        registry = queryUtility(IRegistry)
+        config = IQuerystringRegistryReader(registry)()
+        self.assertEqual(
+            sorted(config['indexes']['taxonomy_test']['values'].items()),
+            [('1', {'title': u'Information Science'}),
+             ('2', {'title': u'Information Science \xbb Book Collecting'}),
+             ('3', {'title': u'Information Science \xbb Chronology'}),
+             ('5', {'title': u'Information Science \xbb Sport'})]
+        )

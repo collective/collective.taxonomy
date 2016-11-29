@@ -3,11 +3,11 @@ import ConfigParser
 from plone.behavior.interfaces import IBehavior
 
 from io import BytesIO
-from elementtree import ElementTree
+from lxml.etree import fromstring
 
-from .interfaces import ITaxonomy
-from .factory import registerTaxonomy
-from .vdex import ImportVdex, ExportVdex
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.factory import registerTaxonomy
+from collective.taxonomy.vdex import ImportVdex, ExportVdex
 
 
 def parseConfigFile(data):
@@ -76,10 +76,9 @@ def importTaxonomy(context):
 
 def exportTaxonomy(context):
     site = context.getSite()
-    for (name, taxonomy) in site.getSiteManager().getUtilitiesFor(ITaxonomy):
-        behavior = site.getSiteManager().queryUtility(
-            IBehavior, name=taxonomy.getGeneratedName()
-        )
+    sm = site.getSiteManager()
+    for (name, taxonomy) in sm.getUtilitiesFor(ITaxonomy):
+        behavior = sm.queryUtility(IBehavior, name=taxonomy.getGeneratedName())
 
         short_name = name.split('.')[-1]
         exporter = TaxonomyImportExportAdapter(context)
@@ -131,7 +130,7 @@ class TaxonomyImportExportAdapter(object):
     def importDocument(self, taxonomy, document):
         # XXX: we should change this
 
-        tree = ElementTree.fromstring(document)
+        tree = fromstring(document)
         # taxonomy.clean()
 
         results = ImportVdex(tree, self.IMSVDEX_NS)()
