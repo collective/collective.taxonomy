@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.4.3 (unreleased)
+1.4.3 (2016-11-29)
 ------------------
 
 - Fix save action to work on Plone 5 (by reading portal url from
