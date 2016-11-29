@@ -22,7 +22,7 @@ const RemoveNodeButton = ({
     handleClick={ () => removeNode(parentId, id, index) }
     title={ intl.formatMessage(messages.removeNodeLabel) }
   >
-    <i className="icon-minus"></i>
+    <i className="taxonomy-icon-minus"></i>
   </Button>
 )
 

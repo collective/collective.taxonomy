@@ -15,6 +15,9 @@ Changes
 - Use lxml instead of elementtree
   [tomgross]
 
+- Rename fontello font to taxonomy to avoid clash with Plone 5 theme
+  [vincentfretin]
+
 
 1.4.2 (2016-11-08)
 ------------------

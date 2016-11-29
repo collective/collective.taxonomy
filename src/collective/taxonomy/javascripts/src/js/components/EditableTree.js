@@ -17,7 +17,7 @@ const EditableTree = ({
         parentId={ rootId }
         title="Add a term inside this node"
       >
-        <i className="icon-flow-split"></i>
+        <i className="taxonomy-icon-flow-split"></i>
       </AddNodeButton>
       : null }
 

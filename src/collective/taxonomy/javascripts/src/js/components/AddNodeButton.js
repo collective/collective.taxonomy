@@ -21,7 +21,7 @@ const AddNodeButton = ({
     handleClick={ addNode }
     title={ title || intl.formatMessage(messages.addNodeLabel) }
   >
-    { children || <i className="icon-plus"></i> }
+    { children || <i className="taxonomy-icon-plus"></i> }
   </Button>
 )
 

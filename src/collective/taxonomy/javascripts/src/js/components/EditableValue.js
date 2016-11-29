@@ -10,6 +10,18 @@ const messages = defineMessages({
   }
 })
 
+class CustomReactPencil extends ReactPencil {
+
+  renderPencilButton() {
+    return (
+      <button className='pencil-button' onClick={() => this.focus()}>
+        <i className='taxonomy-icon-pencil'></i>
+      </button> : null
+    );
+  }
+
+}
+
 const EditableValue = ({
   editTranslation,
   hidden,
@@ -20,7 +32,7 @@ const EditableValue = ({
 }) => (
   <span>
     { hidden ? null : (
-      <ReactPencil
+      <CustomReactPencil
         language={ language }
         name={ `${id}-${language}` }
         value={ value }

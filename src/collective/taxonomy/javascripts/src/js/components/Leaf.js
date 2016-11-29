@@ -34,7 +34,7 @@ const Leaf = ({ id, index, intl, language, parentId, title }) => (
       parentId={ id }
       title={ intl.formatMessage(messages.addChildNodeLabel) }
     >
-      <i className="icon-flow-split"></i>
+      <i className="taxonomy-icon-flow-split"></i>
     </AddNodeButton>
   </div>
 )
