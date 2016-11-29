@@ -5,7 +5,8 @@ Changes
 1.4.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix taxonomy export that was broken since 1.4.0.
+  [vincentfretin]
 
 
 1.4.3 (2016-11-29)

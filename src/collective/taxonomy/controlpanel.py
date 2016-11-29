@@ -112,7 +112,8 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
             adapter = TaxonomyImportExportAdapter(self.context)
             self.request.RESPONSE.setHeader('Content-type', 'text/xml')
             utility = sm.queryUtility(ITaxonomy, name=taxonomies[0])
-            return adapter.exportDocument(utility)
+            result = adapter.exportDocument(utility)
+            self.render = lambda: result
 
 
 class TaxonomyAddForm(form.AddForm):

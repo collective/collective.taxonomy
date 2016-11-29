@@ -151,14 +151,16 @@ class ExportVdex(TreeExport):
     """Helper class for import"""
 
     IMSVDEX_ATTRIBS = {
-        'xmlns': "http://www.imsglobal.org/xsd/imsvdex_v1p0",
-        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xsi:schemaLocation': "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
+        '{http://www.w3.org/2001/XMLSchema-instance}schemaLocation': "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
         "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
         "imsmd_rootv1p2p1.xsd",
         'orderSignificant': "false",
         'profileType': "hierarchicalTokenTerms",
         'language': "en"
+    }
+    NSMAP = {
+        None: "http://www.imsglobal.org/xsd/imsvdex_v1p0",
+        'xsi': "http://www.w3.org/2001/XMLSchema-instance"
     }
     IMSVDEX_ENCODING = 'utf-8'
 
@@ -171,7 +173,7 @@ class ExportVdex(TreeExport):
         attrib = self.IMSVDEX_ATTRIBS
         attrib['language'] = taxonomy.default_language or ''
 
-        root = etree.Element('vdex', attrib=attrib)
+        root = etree.Element('vdex', attrib=attrib, nsmap=self.NSMAP)
 
         vocabName = etree.Element('vocabName')
         root.append(vocabName)
@@ -193,10 +195,8 @@ class ExportVdex(TreeExport):
 
         if as_string:
             indent(root)
-            treestring = etree.tostring(root, self.IMSVDEX_ENCODING)
-            header = """<?xml version="1.0" encoding="%s"?>""" % \
-                     self.IMSVDEX_ENCODING.upper() + '\n'
-            treestring = header + treestring
+            treestring = etree.tostring(root, encoding=self.IMSVDEX_ENCODING,
+                xml_declaration=True)
             return treestring
         else:
             return root
