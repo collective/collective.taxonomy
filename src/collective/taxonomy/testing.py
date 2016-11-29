@@ -43,4 +43,3 @@ ROBOT_TESTING = FunctionalTesting(
            z2.ZSERVER_FIXTURE),
     name="CollectiveTaxonomy:Acceptance"
 )
-

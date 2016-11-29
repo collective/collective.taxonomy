@@ -77,9 +77,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         languages_mapping = {
             get_lang_code(lang): mapping[get_lang_code(lang)].capitalize()
             for lang in supported_langs
-            }
-
-
+        }
         # add taxonomy's default language if it is not in supported langs
         default_lang = self.taxonomy.default_language
         languages_mapping[default_lang] = mapping[default_lang].capitalize()

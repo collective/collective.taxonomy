@@ -62,5 +62,6 @@ class Wrapper(object):
 
         return getattr(self.__dict__['wrapped'], name)
 
+
 if type(sys.modules[__name__]) is not Wrapper:
     sys.modules[__name__] = Wrapper(sys.modules[__name__])

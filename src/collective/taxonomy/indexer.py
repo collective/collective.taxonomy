@@ -7,12 +7,14 @@ from plone.dexterity.interfaces import IDexterityContent
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import adapts
-from zope.interface import classImplements
+from zope.interface import implementer
 
-from .interfaces import ITaxonomy
+from collective.taxonomy.interfaces import ITaxonomy
 
 import collections
 import logging
+
+
 logger = logging.getLogger("collective.taxonomy")
 
 
@@ -69,10 +71,10 @@ class TaxonomyIndexerWrapper(object):
         return result
 
 
+@implementer(IIndexer)
 class TaxonomyIndexer(object):
     __name__ = 'TaxonomyIndexer'
 
-    classImplements(IIndexer)
     adapts(IDexterityContent, IZCatalog)
 
     def __init__(self, field_name, utility_name):
@@ -82,6 +84,7 @@ class TaxonomyIndexer(object):
     def __call__(self, context, catalog):
         return TaxonomyIndexerWrapper(self.field_name, self.utility_name,
                                       context, catalog)
+
 
 def get_language(obj):
     lang = getattr(obj, 'language', None)

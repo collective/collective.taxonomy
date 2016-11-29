@@ -19,7 +19,6 @@ from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.interfaces import ITaxonomySettings
 from collective.taxonomy.interfaces import ITaxonomyForm
-from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 
 
@@ -47,13 +46,13 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
         self.actions['export'].addClass("context")
 
     @button.buttonAndHandler(_(u'label_add_taxonomy', default='Add'),
-                    name='add-taxonomy')
+                             name='add-taxonomy')
     def handle_add_taxonomy_action(self, action):
         self.request.RESPONSE.redirect(
             self.context.portal_url() + '/@@taxonomy-add')
 
     @button.buttonAndHandler(_(u'label_edit_taxonomy', default='Edit'),
-                    name='edit-taxonomy')
+                             name='edit-taxonomy')
     def handle_edit_taxonomy_action(self, action):
         data, errors = self.extractData()
         if len(data.get('taxonomies', [])) > 0:
@@ -78,7 +77,6 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
         else:
             api.portal.show_message(_(u"Please select one taxonomy."),
                                     request=self.request)
-
 
     @button.buttonAndHandler(_(u'label_delete_taxonomy', default='Delete taxonomy'),
                              name='delete-taxonomy')

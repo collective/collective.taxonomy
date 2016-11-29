@@ -1,16 +1,9 @@
 # -*- coding: utf-8 -*-
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
-from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.app.testing import applyProfile
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
-from plone.schemaeditor.utils import FieldAddedEvent
-from plone.schemaeditor.utils import IEditableSchema
-from zope import schema
-from zope.component import queryUtility
-from zope.event import notify
-from zope.lifecycleevent import ObjectAddedEvent
 import unittest
 from transaction import commit
 from plone.testing.z2 import Browser
@@ -31,7 +24,6 @@ class TestControlPanel(unittest.TestCase):
         self.browser = Browser(self.layer['app'])
         self.browser.addHeader(
             'Authorization', 'Basic {0}:{1}'.format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
-
         commit()
 
     def test_add_vocabulary(self):
@@ -43,7 +35,7 @@ class TestControlPanel(unittest.TestCase):
         self.browser.getControl(name='form.widgets.default_language:list').value = ['en']
         self.browser.getForm(id='form').submit('Add')
         self.assertIn('<span class="label">Foo Bar Vocabulary</span>', self.browser.contents)
-        
+     
     def test_edit_vocabulary(self):
         self.browser.open(self.portal.absolute_url() + '/@@taxonomy-settings')
         self.assertIn('id="TaxonomySettings"', self.browser.contents)

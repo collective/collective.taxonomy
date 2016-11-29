@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.taxonomy.i18n import _pmf
 from interfaces import ITaxonomy
 
 from zope.component import queryMultiAdapter
@@ -11,9 +12,6 @@ from zope.security.interfaces import IPermission
 from zope.component.hooks import getSite
 
 from plone import api
-
-
-_pmf = MessageFactory('plone')
 
 
 class TaxonomyVocabulary(object):
