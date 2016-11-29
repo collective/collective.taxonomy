@@ -25,16 +25,11 @@ class TaxonomyVocabulary(object):
         results = []
         sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
-
-        for (utility_name, utility) in utilities:
-            utility_name = utility.name
-            utility_title = utility.title
-
-            results.append(SimpleTerm(value=utility_name,
-                                      title=utility_title)
-                           )
-
-        return SimpleVocabulary(results)
+        return SimpleVocabulary([
+            SimpleTerm(value=utility.name,
+                       title=utility.title)
+            for utility_name, utility in utilities
+        ])
 
 
 class Vocabulary(object):
@@ -48,8 +43,7 @@ class Vocabulary(object):
         self.message = MessageFactory(name)
 
     def __iter__(self):
-        for term in self.getTerms():
-            yield term
+        return iter(self.getTerms())
 
     def __len__(self):
         return len(self.getTerms())
