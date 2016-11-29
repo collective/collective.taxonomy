@@ -60,7 +60,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
             'subnodes': [],
             'default_language': self.taxonomy.default_language,
         }
-        if root:
+        if root is not None:
             for term in root.findall('term'):
                 result['subnodes'].append(self.generate_json(term))
 
