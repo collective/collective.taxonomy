@@ -9,6 +9,8 @@ Changes
   the api.portal.get_current_language api was introduced.
   [vincentfretin]
 
+- Add german translation
+  [tomgross]
 
 1.4.4 (2016-11-29)
 ------------------
