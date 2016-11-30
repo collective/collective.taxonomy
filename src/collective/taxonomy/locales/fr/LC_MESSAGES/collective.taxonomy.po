@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2\n"
 "POT-Creation-Date: 2016-11-29 18:34+0000\n"
-"PO-Revision-Date: 2015-11-13 10:07+0100\n"
-"Last-Translator: Thomas Desvenain <thomasdesvenain@ecreall.com>\n"
+"PO-Revision-Date: 2016-11-30 10:12+0100\n"
+"Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -16,159 +16,156 @@ msgstr ""
 "X-Generator: Poedit 1.6.10\n"
 "Language: fr\n"
 
-#: ./interfaces.py:97
+#: interfaces.py:97
 msgid " "
 msgstr ""
 
-#: ./controlpanel.py:161
+#: controlpanel.py:161
 msgid "Add"
 msgstr "Ajouter"
 
-#: ./controlpanel.py:174
+#: controlpanel.py:174
 msgid "Add cancelled"
 msgstr "Ajout annulé"
 
-#: ./controlpanel.py:172
+#: controlpanel.py:172
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ./controlpanel.py:208
+#: controlpanel.py:208
 msgid "Changes saved"
 msgstr "Modifications enregistrées"
 
-#: ./interfaces.py:110
+#: interfaces.py:110
 msgid "Check this box if you want the field to be mono-valued"
 msgstr "Cochez cette case si vous voulez que le champ soit mono-valué"
 
-#: ./interfaces.py:103
+#: interfaces.py:103
 msgid "Check this box if you want the field to be required"
 msgstr "Cochez cette case si vous voulez que le champ soit obligatoire"
 
-#: ./interfaces.py:89
+#: interfaces.py:89
 msgid "Default language"
 msgstr "Langue par défaut"
 
-#: ./interfaces.py:83
+#: interfaces.py:83
 msgid "Description"
 msgstr "Description"
 
-#: ./controlpanel.py:214
+#: controlpanel.py:214
 msgid "Edit cancelled"
 msgstr "Modifications annulées"
 
-#: ./controlpanel.py:99
+#: controlpanel.py:99
 msgid "Please select at least one taxonomy."
 msgstr "Veuillez sélectionner au moins une taxonomie."
 
-#: ./controlpanel.py:65
+#: controlpanel.py:65
 msgid "Please select one taxonomy."
 msgstr "Veuillez sélectionner une taxonomie."
 
-#: ./configure.zcml:23
+#: configure.zcml:23
 msgid "Registers control panel and default settings."
-msgstr ""
+msgstr "Ajoute le panneau de configuration et la configuration par défaut."
 
-#: ./interfaces.py:102
+#: interfaces.py:102
 msgid "Required"
 msgstr "Obligatoire"
 
-#: ./controlpanel.py:190
+#: controlpanel.py:190
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ./interfaces.py:109
+#: interfaces.py:109
 msgid "Single select"
 msgstr "Sélection simple"
 
-#: ./interfaces.py:41
-#: ./profile/controlpanel.xml
+#: interfaces.py:41 profile/controlpanel.xml
 msgid "Taxonomies"
 msgstr "Taxonomies"
 
-#: ./interfaces.py:70
+#: interfaces.py:70
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
-#: ./controlpanel.py:96
+#: controlpanel.py:96
 msgid "Taxonomy deleted."
 msgstr "Taxonomie supprimée"
 
-#: ./controlpanel.py:151
+#: controlpanel.py:151
 msgid "Taxonomy imported."
 msgstr "Taxonomie importée"
 
-#: ./controlpanel.py:31
+#: controlpanel.py:31
 msgid "Taxonomy settings"
 msgstr "Propriétés des taxonomies"
 
-#: ./interfaces.py:71
+#: interfaces.py:71
 msgid "The taxonomy identifier"
 msgstr "L'identifiant de la taxonomie"
 
-#: ./jsonimpl.py:130
+#: jsonimpl.py:130
 msgid "There seems to have been an error."
 msgstr "Il semble y avoir eu une erreur."
 
-#: ./interfaces.py:77
+#: interfaces.py:77
 msgid "Title"
 msgstr "Titre"
 
-#: ./interfaces.py:96
+#: interfaces.py:96
 msgid "Upload VDEX xml file"
 msgstr "Téléverser un fichier xml VDEX"
 
-#: ./interfaces.py:84
+#: interfaces.py:84
 msgid "Will be used for the field description as well"
 msgstr "Sera utilisé pour la description du champ"
 
-#: ./interfaces.py:78
+#: interfaces.py:78
 msgid "Will be used for the field title as well"
 msgstr "Sera utilisé pour le titre du champ"
 
-#: ./interfaces.py:116
+#: interfaces.py:116
 msgid "Write permission"
 msgstr "Permission d'écriture"
 
-#: ./interfaces.py:117
+#: interfaces.py:117
 msgid "Write permission for the field"
 msgstr "Permission d'écriture pour ce champ"
 
-#: ./jsonimpl.py:123
+#: jsonimpl.py:123
 msgid "Your taxonomy has been saved with success."
 msgstr "Votre taxonomie a été sauvegardée avec succès."
 
-#: ./configure.zcml:23
+#: configure.zcml:23
 msgid "collective.taxonomy"
-msgstr ""
+msgstr "collective.taxonomy"
 
 #. Default: "Select the taxnomies you desire to modify"
-#: ./interfaces.py:43
+#: interfaces.py:43
 msgid "help_taxonomies"
 msgstr "Sélectionnez les taxonomies que vous souhaitez modifier"
 
 #. Default: "Add"
-#: ./controlpanel.py:48
-#, fuzzy
+#: controlpanel.py:48
 msgid "label_add_taxonomy"
 msgstr "Ajouter une taxonomie"
 
 #. Default: "Delete taxonomy"
-#: ./controlpanel.py:81
+#: controlpanel.py:81
 msgid "label_delete_taxonomy"
 msgstr "Supprimer une taxonomie"
 
 #. Default: "Edit taxonomy data"
-#: ./controlpanel.py:68
+#: controlpanel.py:68
 msgid "label_edit_data_taxonomy"
 msgstr "Modifier les données de la taxonomie"
 
 #. Default: "Edit"
-#: ./controlpanel.py:54
-#, fuzzy
+#: controlpanel.py:54
 msgid "label_edit_taxonomy"
 msgstr "Modifier la taxonomie"
 
 #. Default: "Export"
-#: ./controlpanel.py:104
+#: controlpanel.py:104
 msgid "label_export"
 msgstr "Exporter"
