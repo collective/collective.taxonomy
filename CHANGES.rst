@@ -5,6 +5,9 @@ Changes
 1.4.5 (unreleased)
 ------------------
 
+- updateBehavior method can now modify other attributes (and not only `field_title`).
+  [cedricmessiant]
+
 - Add explicit dependency on plone.api >= 1.5 which
   the api.portal.get_current_language api was introduced.
   [vincentfretin]

@@ -118,7 +118,11 @@ class Taxonomy(SimpleItem):
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
-            utility.title = kwargs['field_title']
+            if 'field_title' in kwargs:
+                utility.title = kwargs.pop('field_title')
+
+            for k, v in kwargs.iteritems():
+                setattr(utility, k, v)
 
         delattr(generated, short_name)
 
