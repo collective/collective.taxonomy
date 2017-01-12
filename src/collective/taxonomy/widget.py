@@ -15,11 +15,19 @@ from interfaces import ITaxonomySelectWidget
 ONE_DAY = 60 * 60 * 24
 
 
+def _cache_one_day(fun, self):
+    key = '{0}{1}'.format(
+        self.field.__name__,
+        time() // ONE_DAY
+    )
+    return key
+
+
 @zope.interface.implementer(ITaxonomySelectWidget,
                             interfaces.IOrderedSelectWidget)
 class TaxonomySelectWidget(OrderedSelectWidget):
 
-    @ram.cache(lambda *args: time() // ONE_DAY)
+    @ram.cache(_cache_one_day)
     def _get_items(self):
         return [
             self.getItem(term, count)
