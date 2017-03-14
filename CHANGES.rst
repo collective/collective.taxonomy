@@ -5,6 +5,9 @@ Changes
 1.4.5 (unreleased)
 ------------------
 
+- Vocabulary is a IVocabularyTokenized implementer.
+  [cedricmessiant]
+
 - updateBehavior method can now modify other attributes (and not only `field_title`).
   [cedricmessiant]
 
