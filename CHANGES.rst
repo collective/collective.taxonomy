@@ -17,6 +17,9 @@ Changes
 
 - Add german translation
   [tomgross]
+  
+- Mention Plone 5.0 and 5.1 compatibility
+  [tkimnguyen]
 
 1.4.4 (2016-11-29)
 ------------------
