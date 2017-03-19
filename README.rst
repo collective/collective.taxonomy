@@ -184,9 +184,11 @@ You'll have to rebuild the js bundle: ``npm run build``
 
 That's it!
 
-Requirements
-============
+Plone Version Compatibility
+===========================
 
+* Plone 5.1
+* Plone 5.0
 * Plone 4.3
 * or an older version using a recent version of plone.dexterity/plone.app.dexterity
 
