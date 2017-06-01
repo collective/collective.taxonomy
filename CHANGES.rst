@@ -2,8 +2,8 @@ Changes
 =======
 
 
-1.4.5 (unreleased)
-------------------
+1.4.4.post1 (2017-06-01)
+------------------------
 
 - Add explicit dependency on plone.api >= 1.5 which
   the api.portal.get_current_language api was introduced.
