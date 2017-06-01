@@ -16,6 +16,7 @@ setup(
     name='collective.taxonomy',
     version=version,
     description="Create, edit and use hierarchical taxonomies in Plone!",
+    url='http://pypi.python.org/pypi/collective.taxonomy',
     long_description='\n'.join([
         read('README.rst'),
         read('CHANGES.rst'),
