@@ -120,6 +120,16 @@ class ITaxonomyForm(Interface):
         vocabulary='collective.taxonomy.permissions'
     )
 
+    taxonomy_fieldset = schema.TextLine(
+        title=_(u"Fieldset"),
+        description=_(u"Fieldset for the taxonomy behavior field. "
+                      u"Example: 'categorization'. Use 'default' for "
+                      u"the first fieldset."),
+        default=u"categorization",
+        required=False
+    )
+
+
 
 class ITaxonomyView(Interface):
 
