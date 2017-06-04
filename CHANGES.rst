@@ -17,9 +17,14 @@ Changes
 
 - Add german translation
   [tomgross]
-  
+
 - Mention Plone 5.0 and 5.1 compatibility
   [tkimnguyen]
+
+- Enable choosing what fieldset to use for the behavior fields. Fallback to categorization,
+  keeping backwards compatibility.
+  [sunew]
+
 
 1.4.4 (2016-11-29)
 ------------------
