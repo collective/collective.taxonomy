@@ -14,6 +14,8 @@ from zope.component.hooks import getSite
 
 from plone import api
 
+from Products.CMFPlone.utils import safe_unicode
+
 
 class TaxonomyVocabulary(object):
     # Vocabulary for generating a list of existing taxonomies
@@ -52,6 +54,7 @@ class Vocabulary(object):
         return self.getTerm(identifier) is not None
 
     def getTermByToken(self, input_identifier):
+        input_identifier = safe_unicode(input_identifier)
         if type(input_identifier) == list:
             raise LookupError("Expected string, not list")
 
