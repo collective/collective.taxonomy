@@ -52,16 +52,26 @@ class ITaxonomySettings(Interface):
 
 
 def taxonomyDefaultValue():
-    taxonomy = api.portal.get().REQUEST.get('form.widgets.taxonomy')
+    request = api.portal.get().REQUEST
+    if not request:
+        return u''
+    taxonomy = request.get('form.widgets.taxonomy')
     if not taxonomy:
         return u''
     return taxonomy
 
 
 def get_lang_code(lang=None):
-    if lang is None:
-        lang = api.portal.get_current_language()
-    return lang.split('-', 1)[0]
+    try:
+        if lang is None:
+            lang = api.portal.get_current_language()
+        return lang.split('-', 1)[0]
+    except AttributeError:
+        lang = api.portal.get_default_language()
+        if lang:
+            return lang.split('-', 1)[0]
+        else:
+            return 'en'
 
 
 class ITaxonomyForm(Interface):

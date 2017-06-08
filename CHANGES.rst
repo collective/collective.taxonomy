@@ -5,6 +5,9 @@ Changes
 1.4.5 (unreleased)
 ------------------
 
+- Fix get taxonomy in a context without request.
+  [thomasdesvenain]
+
 - Vocabulary is a IVocabularyTokenized implementer.
   [cedricmessiant]
 
