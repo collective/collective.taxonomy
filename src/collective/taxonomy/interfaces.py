@@ -26,6 +26,13 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
         """
         For example: self.add('en', 'identifier', 'What a lovely day!')
 
+    def replace(language, items):
+        """Replace all items for a given language.
+
+        Items are given as (path, identifier) tuples.
+
+        Note that order will be assigned naively. It is assumed that
+        items are given in depth-first order.
         """
 
     def __setitem__(identifier, term):

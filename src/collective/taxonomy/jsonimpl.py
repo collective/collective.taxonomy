@@ -113,9 +113,9 @@ class ImportJson(BrowserView):
                 data_for_taxonomy = self.generate_data_for_taxonomy(
                     tree['subnodes'], language)
 
-                taxonomy.data[language] = OOBTree()
-                for key, value in data_for_taxonomy:
-                    taxonomy.data[language][key] = value
+                # Update taxonomy and use 'clear' since we want to remain with
+                # just the items that were submitted by the user.
+                taxonomy.update(language, data_for_taxonomy, True)
 
             return json.dumps({
                 'status': 'info',

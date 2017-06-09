@@ -129,16 +129,11 @@ class TaxonomyImportExportAdapter(object):
         self.context = context
 
     def importDocument(self, taxonomy, document):
-        # XXX: we should change this
-
         tree = fromstring(document)
-        # taxonomy.clean()
-
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
-        for (language, elements) in results.items():
-            for (path, identifier) in elements.items():
-                taxonomy.add(language, identifier, path)
+        for language, items in results.items():
+            taxonomy.update(language, items)
 
     def exportDocument(self, taxonomy):
         treestring = ExportVdex(taxonomy)(as_string=True)
