@@ -5,6 +5,8 @@ import SubTree from '../containers/SubTree'
 import EditableValues from '../containers/EditableValues'
 import AddNodeButton from '../containers/AddNodeButton'
 import RemoveNodeButton from '../containers/RemoveNodeButton'
+import MoveDownButton from '../containers/MoveDownButton'
+import MoveUpButton from '../containers/MoveUpButton'
 
 const Node = ({ id, index, language, parentId, subnodes }) => {
   const nodeLabel = (
@@ -17,6 +19,16 @@ const Node = ({ id, index, language, parentId, subnodes }) => {
         parentId={ parentId }
       />
       <RemoveNodeButton
+        id={ id }
+        index={ index }
+        parentId={ parentId }
+      />
+      <MoveDownButton
+        id={ id }
+        index={ index }
+        parentId={ parentId }
+      />
+      <MoveUpButton
         id={ id }
         index={ index }
         parentId={ parentId }
