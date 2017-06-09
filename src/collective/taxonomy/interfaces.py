@@ -23,8 +23,10 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
     """Persistent local utility."""
 
     def add(language, identifier, path):
+        """Add or update entry.
+
+        For example: `self.add('en', 'identifier', 'What a lovely day!')`
         """
-        For example: self.add('en', 'identifier', 'What a lovely day!')
 
     def replace(language, items):
         """Replace all items for a given language.
