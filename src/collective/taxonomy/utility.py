@@ -5,6 +5,7 @@ from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vocabulary import Vocabulary
 
+from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
@@ -24,15 +25,21 @@ import logging
 
 from copy import copy
 
-from collective.taxonomy import PATH_SEPARATOR
-
+from collective.taxonomy import PATH_SEPARATOR, COUNT, ORDER
 
 logger = logging.getLogger("collective.taxonomy")
 
+def pop_value(d, compare_value, default=None):
+    for key, value in d.items():
+        if compare_value == value:
+            break
+    else:
+        return default
+
+    return d.pop(key)
 
 @implementer(ITaxonomy)
 class Taxonomy(SimpleItem):
-
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
         self.name = name
@@ -44,17 +51,12 @@ class Taxonomy(SimpleItem):
         return api.portal.get().getSiteManager()
 
     def __call__(self, context):
-
         if not self.data:
             return Vocabulary(self.name, {}, {})
 
         request = getattr(context, "REQUEST", None)
-
-        current_language = self.getCurrentLanguage(request)
-        data = self.data[current_language]
-        inverted_data = self.inverted_data[current_language]
-
-        return Vocabulary(self.name, data, inverted_data)
+        language = self.getCurrentLanguage(request)
+        return self.makeVocabulary(language)
 
     @property
     @ram.cache(lambda method, self: (self.name, self.data._p_mtime))
@@ -63,6 +65,8 @@ class Taxonomy(SimpleItem):
         for (language, elements) in self.data.items():
             inv_data[language] = {}
             for (path, identifier) in elements.items():
+                if path[0] == u'#':
+                    continue
                 inv_data[language][identifier] = path
         return inv_data
 
@@ -75,6 +79,11 @@ class Taxonomy(SimpleItem):
     def getVocabularyName(self):
         return 'collective.taxonomy.' + self.getShortName()
 
+    def makeVocabulary(self, language):
+        data = self.data[language]
+        inverted_data = self.inverted_data[language]
+        return Vocabulary(self.name, data, inverted_data)
+
     def getCurrentLanguage(self, request):
         language = get_lang_code()
         if language in self.data:
@@ -84,6 +93,23 @@ class Taxonomy(SimpleItem):
         else:
             # our best guess!
             return self.data.keys()[0]
+
+    def getLanguages(self):
+        return tuple(self.data)
+
+    def iterLanguage(self, language=None):
+        if language is None:
+            language = self.default_language
+
+        vocabulary = self.makeVocabulary(language)
+
+        for path, identifier in vocabulary.iterEntries():
+            parent_path = path.rsplit(PATH_SEPARATOR, 1)[0]
+            if parent_path:
+                parent = vocabulary.getTermByValue(parent_path)
+            else:
+                parent = None
+            yield path, identifier, parent
 
     def registerBehavior(self, **kwargs):
         new_args = copy(kwargs)
@@ -148,11 +174,61 @@ class Taxonomy(SimpleItem):
     def clean(self):
         self.data.clear()
 
-    def add(self, language, identifier, path):
-        if language not in self.data:
-            self.data[language] = OOBTree()
+    def add(self, language, value, key):
+        tree = self.data.get(language)
+        if tree is None:
+            tree = self.data[language] = OOBTree()
+        else:
+            # Make sure we update the modification time.
+            self.data[language] = tree
 
-        self.data[language][path] = identifier
+        update = key in tree
+        tree[key] = value
+
+        order = tree.get(ORDER)
+        if order is None:
+            order = tree[ORDER] = IOBTree()
+            count = 0
+        else:
+            if update:
+                pop_value(tree[COUNT], key)
+
+            count = tree[COUNT] + 1
+
+        tree[COUNT] = count
+        order[count] = key
+
+    def update(self, language, items, clear=False):
+        tree = self.data.setdefault(language, OOBTree())
+        if clear:
+            tree.clear()
+
+        # Make sure we update the modification time.
+        self.data[language] = tree
+
+        order = tree.setdefault(ORDER, IOBTree())
+        count = tree.setdefault(COUNT, 0)
+
+        # The following structure is used to expunge updated entries.
+        if not clear:
+            inv = {}
+            for i, key in order.items():
+                inv[key] = i
+
+        for key, value in items:
+            update = key in tree
+            tree[key] = value
+            order[count] = key
+            count += 1
+
+            # If we're updating, then we have to pop out the old ordering
+            # information in order to maintain relative ordering of new items.
+            if update:
+                i = inv.get(key)
+                if i is not None:
+                    del order[i]
+
+        tree[COUNT] = count
 
     def translate(self, msgid, mapping=None, context=None,
                   target_language=None, default=None):

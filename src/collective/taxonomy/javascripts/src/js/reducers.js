@@ -5,6 +5,8 @@ import { combineReducers } from 'redux'
 import {
   ADD_NODE,
   REMOVE_NODE,
+  MOVE_DOWN,
+  MOVE_UP,
   EDIT_TRANSLATION,
   SAVE_TREE_PENDING,
   SAVE_TREE_FULFILLED,
@@ -41,6 +43,37 @@ function removeNode(nodes, action) {
   return newNodes
 }
 
+function moveDown(nodes, action) {
+  const swapped = nodes[action.parentId].subnodes.slice(
+    action.index,
+    action.index + 2
+  ).reverse();
+
+  return update(
+    nodes, {
+      [action.parentId]: { subnodes: { $splice: [
+        [].concat([action.index, 2], swapped)
+      ] }}
+    }
+  )
+}
+
+function moveUp(nodes, action) {
+  if (action.index == 0) return nodes;
+  const swapped = nodes[action.parentId].subnodes.slice(
+    action.index - 1,
+    action.index + 1
+  ).reverse();
+
+  return update(
+    nodes, {
+      [action.parentId]: { subnodes: { $splice: [
+        [].concat([action.index - 1, 2], swapped)
+      ] }}
+    }
+  )
+}
+
 export function tree(state = { nodes: {}, dirty: false }, action) {
   switch (action.type) {
     case ADD_NODE:
@@ -55,6 +88,16 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
       return {
         dirty: true,
         nodes: removeNode(state.nodes, action)
+      }
+    case MOVE_DOWN:
+      return {
+        dirty: true,
+        nodes: moveDown(state.nodes, action)
+      }
+    case MOVE_UP:
+      return {
+        dirty: true,
+        nodes: moveUp(state.nodes, action)
       }
     case EDIT_TRANSLATION: {
       const language = action.language

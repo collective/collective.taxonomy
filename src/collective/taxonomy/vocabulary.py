@@ -13,6 +13,7 @@ from zope.security.interfaces import IPermission
 from zope.component.hooks import getSite
 
 from plone import api
+from collective.taxonomy import ORDER
 
 
 class TaxonomyVocabulary(object):
@@ -60,24 +61,52 @@ class Vocabulary(object):
                                              self.inv_data[
                                                  input_identifier]))
 
+    def getTermByValue(self, path):
+        return self.data[path]
+
     def getTerm(self, input_identifier):
         return self.getTermByToken(input_identifier)
 
     def getTerms(self):
         results = []
-        identifiers = set()
 
-        for (path, identifier) in self.data.items():
-            if identifier in identifiers:
-                continue
-
-            identifiers.add(identifier)
-
-            term = SimpleTerm(value=identifier,
-                              title=self.message(identifier, path))
+        for path, identifier in self.iterEntries():
+            term = SimpleTerm(
+                value=identifier,
+                title=self.message(identifier, path)
+            )
             results.append(term)
 
         return results
+
+    def iterEntries(self):
+        """Yields (path, identifier) pairs.
+
+        Duplicate identifiers are omitted from output. Identifiers are
+        returned in order (when ordering information is available).
+        """
+
+        identifiers = set()
+
+        order = self.data.get(ORDER)
+        if order is None:
+            for path, identifier in self.data.items():
+                if identifier in identifiers:
+                    continue
+
+                if path[0] == u"#":
+                    continue
+
+                identifiers.add(identifier)
+                yield path, identifier
+        else:
+            for path in order.values():
+                identifier = self.data[path]
+                if identifier in identifiers:
+                    continue
+
+                identifiers.add(identifier)
+                yield path, identifier
 
 
 class PermissionsVocabulary(object):

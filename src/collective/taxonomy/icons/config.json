@@ -7,28 +7,40 @@
   "ascent": 850,
   "glyphs": [
     {
+      "uid": "qab5uvjyoc3uu4d2pvt8soshtgkuvpak",
+      "css": "minus",
+      "code": 59392,
+      "src": "typicons"
+    },
+    {
       "uid": "1gf923f9wvaezxmfon515dglxa3drf0e",
       "css": "plus",
       "code": 59393,
       "src": "typicons"
     },
     {
-      "uid": "qab5uvjyoc3uu4d2pvt8soshtgkuvpak",
-      "css": "minus",
+      "uid": "1e77a2yvsq3owssduo2lcgsiven57iv5",
+      "css": "pencil",
       "code": 59394,
       "src": "typicons"
     },
     {
       "uid": "da6c4728f6175a4b99b122274b8f921c",
       "css": "flow-split",
-      "code": 59392,
+      "code": 59395,
       "src": "typicons"
     },
     {
-      "uid": "667b873c8422e4cab006df8422cb51c5",
-      "css": "pencil",
+      "uid": "xq9z5jujkqhrf97s70hjek6otohmhr1y",
+      "css": "down",
+      "code": 59396,
+      "src": "typicons"
+    },
+    {
+      "uid": "mj2pxhfj0eumtbzirpdokhtzk00480uo",
+      "css": "up",
       "code": 59397,
-      "src": "iconic"
+      "src": "typicons"
     }
   ]
 }

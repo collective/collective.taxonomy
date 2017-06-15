@@ -1,1 +1,3 @@
 PATH_SEPARATOR = '/'
+COUNT = u"#COUNT"
+ORDER = u"#ORDER"

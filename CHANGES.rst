@@ -2,8 +2,17 @@ Changes
 =======
 
 
-1.4.5 (unreleased)
+1.5.0 (unreleased)
 ------------------
+
+- Taxonomies are now assigned a persistent order. Taxonomies imported
+  from VDEX now preserve the ordering of the input document.
+  [malthe]
+
+- Add new method `iterEntries` on taxonomy vocabulary class that
+  provides a safe way to iterate over the path to identifier mapping
+  (in order).
+  [malthe]
 
 - Vocabulary is a IVocabularyTokenized implementer.
   [cedricmessiant]
