@@ -239,7 +239,7 @@ class TaxonomyEditFormAdapter(object):
         if 'behavior' not in self.__dict__:
             return None
 
-        if 'taxonomy' is attr:
+        if 'taxonomy' == attr:
             return self.__dict__['taxonomy']
 
         return getattr(self.__dict__['behavior'], attr)
