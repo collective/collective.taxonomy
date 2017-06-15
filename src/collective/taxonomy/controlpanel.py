@@ -232,7 +232,7 @@ class TaxonomyEditFormAdapter(object):
 
         self.__dict__['context'] = context
         self.__dict__['utility'] = utility
-        self.__dict__['taxonomy'] = context.REQUEST.get('taxonomy')
+        self.__dict__['taxonomy'] = taxonomy
         self.__dict__['behavior'] = sm.queryUtility(IBehavior, name=generated_name)
 
     def __getattr__(self, attr):
