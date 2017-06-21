@@ -102,7 +102,7 @@ class TreeExport(object):
         for identifier in index.keys():
             termnode = etree.Element('term')
             identifiernode = etree.Element('termIdentifier')
-            identifiernode.text = str(identifier)
+            identifiernode.text = identifier
             captionnode = etree.Element('caption')
 
             translations = table[identifier].items()

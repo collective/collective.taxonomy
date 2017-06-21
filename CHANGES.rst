@@ -5,6 +5,9 @@ Changes
 1.4.5 (unreleased)
 ------------------
 
+- Fix taxonomy export when we have accents in ids.
+  [thomasdesvenain]
+
 - Fix get taxonomy in a context without request.
   [thomasdesvenain]
 
