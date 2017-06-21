@@ -1,7 +1,7 @@
 from lxml import etree
 from plone.supermodel.utils import indent
 
-from collective.taxonomy import PATH_SEPARATOR
+import collective.taxonomy
 
 
 LANG_SEPARATOR = '|'
@@ -29,8 +29,8 @@ class ImportVdex(object):
             (identifier, children) = results[element]
             (lang, text) = element.split(LANG_SEPARATOR, 1)
             if lang == language:
-                extended_path = PATH_SEPARATOR.join(path)
-                extended_path = PATH_SEPARATOR.join((extended_path, text))
+                extended_path = collective.taxonomy.PATH_SEPARATOR.join(path)
+                extended_path = collective.taxonomy.PATH_SEPARATOR.join((extended_path, text))
                 result[extended_path] = identifier
                 result.update(self.processLanguage(children, language,
                                                    path + (text,)))
@@ -85,9 +85,9 @@ class TreeExport(object):
         for (language, children) in self.taxonomy.data.items():
             if language == self.taxonomy.default_language:
                 for (path, identifier) in children.items():
-                    parent_path = path.split(PATH_SEPARATOR)[:-1]
+                    parent_path = path.split(collective.taxonomy.PATH_SEPARATOR)[:-1]
                     parent_identifier = children.get(
-                        PATH_SEPARATOR.join(parent_path))
+                        collective.taxonomy.PATH_SEPARATOR.join(parent_path))
                     if parent_identifier not in pathIndex:
                         pathIndex[parent_identifier] = set()
                     pathIndex[parent_identifier].add(identifier)
@@ -134,7 +134,7 @@ class TreeExport(object):
                     translationTable[identifier] = {}
 
                 translationTable[identifier][language] = \
-                    path[path.rfind(PATH_SEPARATOR) + 1:]
+                    path[path.rfind(collective.taxonomy.PATH_SEPARATOR) + 1:]
 
         return translationTable
 

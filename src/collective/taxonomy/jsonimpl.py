@@ -8,7 +8,7 @@ from plone import api
 from zope.component import queryMultiAdapter, queryUtility
 from zope.i18n import translate
 
-from collective.taxonomy import PATH_SEPARATOR
+import collective.taxonomy
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.interfaces import ITaxonomy
@@ -131,7 +131,7 @@ class ImportJson(BrowserView):
                 context=request)})
 
     def generate_data_for_taxonomy(self, parsed_data, language,
-                                   path=PATH_SEPARATOR):
+                                   path=collective.taxonomy.PATH_SEPARATOR):
         result = []
         for item in parsed_data:
             new_key = item['key']
@@ -140,7 +140,7 @@ class ImportJson(BrowserView):
             result.append((new_path, new_key, ))
             subnodes = item.get('subnodes', [])
             if subnodes:
-                new_path = u'{}{}'.format(new_path, PATH_SEPARATOR)
+                new_path = u'{}{}'.format(new_path, collective.taxonomy.PATH_SEPARATOR)
                 result.extend(self.generate_data_for_taxonomy(
                     subnodes, language, new_path))
 

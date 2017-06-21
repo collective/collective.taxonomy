@@ -24,7 +24,7 @@ import logging
 
 from copy import copy
 
-from collective.taxonomy import PATH_SEPARATOR
+import collective.taxonomy
 
 
 logger = logging.getLogger("collective.taxonomy")
@@ -156,7 +156,6 @@ class Taxonomy(SimpleItem):
 
     def translate(self, msgid, mapping=None, context=None,
                   target_language=None, default=None):
-
         if target_language is None or \
                 target_language not in self.inverted_data:
             target_language = str(self.getCurrentLanguage(
@@ -167,6 +166,6 @@ class Taxonomy(SimpleItem):
             return ''
 
         path = self.inverted_data[target_language][msgid]
-        pretty_path = path[1:].replace(PATH_SEPARATOR, u' » ')
+        pretty_path = path[1:].replace(collective.taxonomy.PATH_SEPARATOR, u' » ')
 
         return pretty_path
