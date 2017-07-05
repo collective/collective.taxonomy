@@ -5,6 +5,10 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- When uploading a taxonomy there is now an option to purge the
+  existing entries prior to processing.
+  [malthe]
+
 - Taxonomies are now assigned a persistent order. Taxonomies imported
   from VDEX now preserve the ordering of the input document.
   [malthe]

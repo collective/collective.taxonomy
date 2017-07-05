@@ -1,7 +1,10 @@
+import logging
+
 from plone.app.registry.browser import controlpanel
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from plone.behavior.interfaces import IBehavior
 from plone import api
+from plone.memoize import view
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
@@ -20,6 +23,8 @@ from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.interfaces import ITaxonomySettings
 from collective.taxonomy.interfaces import ITaxonomyForm
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
+
+logger = logging.getLogger("taxonomy.controlpanel")
 
 
 class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
@@ -122,6 +127,7 @@ class TaxonomyAddForm(form.AddForm):
 
     def updateWidgets(self):
         form.AddForm.updateWidgets(self)
+        self.widgets['import_file_purge'].mode = HIDDEN_MODE
 
     def create(self, data):
         return data
@@ -148,6 +154,8 @@ class TaxonomyAddForm(form.AddForm):
             del data['import_file']
 
         del data['taxonomy']
+        del data['import_file_purge']
+
         taxonomy.registerBehavior(**data)
         api.portal.show_message(_(u"Taxonomy imported."),
                                 request=self.request)
@@ -185,6 +193,7 @@ class TaxonomyEditForm(form.EditForm):
         form.EditForm.updateWidgets(self)
         self.widgets['taxonomy'].mode = HIDDEN_MODE
 
+    @view.memoize
     def getContent(self):
         return TaxonomyEditFormAdapter(self.context)
 
@@ -196,6 +205,9 @@ class TaxonomyEditForm(form.EditForm):
             self.status = self.formErrorsMessage
             return
 
+        # This is sort of a hack; we need the import file purge setting to be
+        # set before applying the file data.
+        self.getContent().purge = data.pop('import_file_purge', False)
         self.applyChanges(data)
 
         sm = self.context.getSiteManager()
@@ -221,6 +233,8 @@ class TaxonomyEditFormAdapter(object):
     adapts(IPloneSiteRoot)
     implements(ITaxonomyForm)
 
+    purge = False
+
     def __init__(self, context):
         taxonomy = context.REQUEST.get('form.widgets.taxonomy')
         if taxonomy is None:
@@ -239,7 +253,7 @@ class TaxonomyEditFormAdapter(object):
         if 'behavior' not in self.__dict__:
             return None
 
-        if 'taxonomy' == attr:
+        if attr == 'taxonomy':
             return self.__dict__['taxonomy']
 
         return getattr(self.__dict__['behavior'], attr)
@@ -248,10 +262,18 @@ class TaxonomyEditFormAdapter(object):
         if attr in ['taxonomy']:
             return
 
-        if 'import_file' is attr and value is not None:
+        if attr == 'purge':
+            self.__dict__['purge'] = value
+            return
+
+        if attr == 'import_file' and value is not None:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
-            adapter.importDocument(self.utility, import_file)
+            purge = self.__dict__.get('purge', False)
+            logger.info("Importing document into '%s' (purge: %s)" % (
+                self.__dict__['taxonomy'], str(purge).lower()
+            ))
+            adapter.importDocument(self.utility, import_file, purge)
         else:
             if attr == 'field_title':
                 self.__dict__['utility'].title = value
