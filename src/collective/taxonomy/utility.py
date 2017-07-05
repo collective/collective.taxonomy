@@ -210,12 +210,17 @@ class Taxonomy(SimpleItem):
         count = tree.setdefault(COUNT, 0)
 
         # The following structure is used to expunge updated entries.
+        inv = {}
         if not clear:
-            inv = {}
             for i, key in order.items():
                 inv[key] = i
 
+        seen = set()
         for key, value in items:
+            if key in seen:
+                logger.warning("Duplicate key entry: %r" % (key, ))
+
+            seen.add(key)
             update = key in tree
             tree[key] = value
             order[count] = key
