@@ -296,7 +296,7 @@ class Taxonomy(SimpleItem):
         path = self.inverted_data[target_language][msgid]
         pretty_path = path[1:].replace(path_sep, PRETTY_PATH_SEPARATOR)
 
-        if mapping.get(NODE):
+        if mapping is not None and mapping.get(NODE):
             pretty_path = pretty_path.rsplit(PRETTY_PATH_SEPARATOR, 1)[-1]
 
         return pretty_path
