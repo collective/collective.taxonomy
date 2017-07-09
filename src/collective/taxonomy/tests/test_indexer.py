@@ -56,7 +56,7 @@ class TestIndexer(unittest.TestCase):
         query['taxonomy_test'] = '1'
         self.assertEqual(len(portal_catalog(query)), 0)
 
-        taxo_val = taxonomy['en']['\u241fInformation Science\u241fChronology']
+        taxo_val = taxonomy['en'][u'\u241fInformation Science\u241fChronology']
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog(query)), 1)
@@ -88,7 +88,7 @@ class TestIndexer(unittest.TestCase):
         notify(FieldAddedEvent(fti, taxonomy_test))
         query = {}
         query['taxonomy_test'] = '5'
-        taxo_val = taxonomy['en']['\u241fInformation Science\u241fSport']
+        taxo_val = taxonomy['en'][u'\u241fInformation Science\u241fSport']
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog(query)), 1)
