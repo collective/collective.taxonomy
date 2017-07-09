@@ -107,6 +107,15 @@ class ITaxonomyForm(Interface):
         required=False
     )
 
+    import_file_purge = schema.Bool(
+        title=_(u"Purge entries on upload"),
+        description=_(
+            u"Check this box if you want to purge all entries "
+            u"when uploading."
+        ),
+        required=False,
+    )
+
     is_required = schema.Bool(
         title=_(u"Required"),
         description=_(

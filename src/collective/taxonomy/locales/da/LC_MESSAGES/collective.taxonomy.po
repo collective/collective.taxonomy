@@ -115,6 +115,14 @@ msgstr ""
 msgid "Upload VDEX xml file"
 msgstr "Upload VDEX xml fil"
 
+#: ./interfaces.py:110
+msgid "Purge entries on upload"
+msgstr "Slet indhold ved upload"
+
+#: ./interfaces.py:112
+msgid "Check this box if you want to purge all entries when uploading."
+msgstr "Vælg dette, hvis taksonomien skal indlæses forfra ved upload."
+
 #: ./interfaces.py:84
 msgid "Will be used for the field description as well"
 msgstr ""

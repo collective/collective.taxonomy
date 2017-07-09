@@ -118,6 +118,14 @@ msgstr ""
 msgid "Upload VDEX xml file"
 msgstr ""
 
+#: ./interfaces.py:110
+msgid "Purge entries on upload"
+msgstr ""
+
+#: ./interfaces.py:112
+msgid "Check this box if you want to purge all entries when uploading."
+msgstr ""
+
 #: ./interfaces.py:84
 msgid "Will be used for the field description as well"
 msgstr ""
