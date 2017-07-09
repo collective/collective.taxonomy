@@ -28,6 +28,8 @@ from copy import copy
 from collective.taxonomy import (
     LEGACY_PATH_SEPARATOR,
     PATH_SEPARATOR,
+    PRETTY_PATH_SEPARATOR,
+    NODE,
 )
 
 logger = logging.getLogger("collective.taxonomy")
@@ -292,7 +294,10 @@ class Taxonomy(SimpleItem):
             path_sep = PATH_SEPARATOR
 
         path = self.inverted_data[target_language][msgid]
-        pretty_path = path[1:].replace(path_sep, u' » ')
+        pretty_path = path[1:].replace(path_sep, PRETTY_PATH_SEPARATOR)
+
+        if mapping.get(NODE):
+            pretty_path = pretty_path.rsplit(PRETTY_PATH_SEPARATOR, 1)[-1]
 
         return pretty_path
 

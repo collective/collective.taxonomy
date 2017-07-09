@@ -5,6 +5,10 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- Added new method `makeTree` on taxonomy vocabulary class which
+  returns a term tree.
+  [malthe]
+
 - Support "slash" character in term title (issue #34).
   [malthe]
 

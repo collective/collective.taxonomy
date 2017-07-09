@@ -2,6 +2,7 @@
 
 from collective.taxonomy.i18n import _pmf
 from interfaces import ITaxonomy
+from collections import OrderedDict
 
 from zope.component import queryMultiAdapter
 from zope.i18nmessageid import MessageFactory
@@ -15,9 +16,17 @@ from zope.component.hooks import getSite
 from plone import api
 
 from collective.taxonomy import (
+    NODE,
     PATH_SEPARATOR,
     LEGACY_PATH_SEPARATOR
 )
+
+class Node(OrderedDict):
+    """A non-persistent taxonomy tree node."""
+
+    def __init__(self, term):
+        self.term = term
+        super(Node, self).__init__()
 
 
 class TaxonomyVocabulary(object):
@@ -116,6 +125,33 @@ class Vocabulary(object):
 
                 identifiers.add(identifier)
                 yield fix(path), identifier
+
+    def makeTree(self):
+        """Return term tree."""
+
+        version = self.data.get(VERSION)
+        path_sep = LEGACY_PATH_SEPARATOR if version == 1 else PATH_SEPARATOR
+        tree = OrderedDict()
+
+        def add(path, value):
+            parts = path.split(path_sep)[1:]
+            node = tree
+            for part in parts[:-1]:
+                node = node[part]
+
+            last = parts[-1]
+
+            # The special flag NODE is provided in the translation
+            # message mapping to indicate that the title should be
+            # just the last term.
+            title = self.message(value, path, mapping={NODE: True})
+            term = SimpleTerm(value=value, title=title)
+            node[last] = Node(term)
+
+        for path, value in self.iterEntries():
+            add(path, value)
+
+        return tree
 
 
 class PermissionsVocabulary(object):
