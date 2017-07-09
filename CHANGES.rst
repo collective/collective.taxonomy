@@ -5,6 +5,9 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- Support "slash" character in term title (issue #34).
+  [malthe]
+
 - When uploading a taxonomy there is now an option to purge the
   existing entries prior to processing.
   [malthe]

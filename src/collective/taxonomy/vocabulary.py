@@ -14,6 +14,11 @@ from zope.component.hooks import getSite
 
 from plone import api
 
+from collective.taxonomy import (
+    PATH_SEPARATOR,
+    LEGACY_PATH_SEPARATOR
+)
+
 
 class TaxonomyVocabulary(object):
     # Vocabulary for generating a list of existing taxonomies
@@ -36,10 +41,11 @@ class Vocabulary(object):
 
     implements(IVocabulary)
 
-    def __init__(self, name, data, inv_data, order):
+    def __init__(self, name, data, inv_data, order, version):
         self.data = data
         self.inv_data = inv_data
         self.order = order
+        self.version = version
         self.message = MessageFactory(name)
 
     def __iter__(self):
@@ -61,6 +67,8 @@ class Vocabulary(object):
                                                  input_identifier]))
 
     def getTermByValue(self, path):
+        if self.version == 1:
+            path = path.replace(PATH_SEPARATOR, LEGACY_PATH_SEPARATOR)
         return self.data[path]
 
     def getTerm(self, input_identifier):
@@ -87,16 +95,19 @@ class Vocabulary(object):
 
         identifiers = set()
 
+        if self.version == 1:
+            def fix(path):
+                return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
+        else:
+            fix = lambda path: path
+
         if self.order is None:
             for path, identifier in self.data.items():
                 if identifier in identifiers:
                     continue
 
-                if path[0] == u"#":
-                    continue
-
                 identifiers.add(identifier)
-                yield path, identifier
+                yield fix(path), identifier
         else:
             for path in self.order.values():
                 identifier = self.data[path]
@@ -104,7 +115,7 @@ class Vocabulary(object):
                     continue
 
                 identifiers.add(identifier)
-                yield path, identifier
+                yield fix(path), identifier
 
 
 class PermissionsVocabulary(object):
