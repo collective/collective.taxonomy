@@ -1,4 +1,5 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from plone.app.testing.helpers import login
@@ -35,7 +36,7 @@ class TestJson(unittest.TestCase):
         output = import_json_view.generate_data_for_taxonomy(input_data, 'fr')
         self.assertEqual(
             output,
-            [(u'/Animaux', 'animals'), (u'/Végétaux', 'plants')])
+            [(u'\u241fAnimaux', 'animals'), (u'\u241fVégétaux', 'plants')])
 
         input_data[0]['subnodes'] = [
             {
@@ -85,13 +86,13 @@ class TestJson(unittest.TestCase):
         output = import_json_view.generate_data_for_taxonomy(input_data, 'fr')
         self.assertEqual(
             output,
-            [(u'/Animaux', 'animals'),
-             (u'/Animaux/Oiseaux', 'birds'),
-             (u'/Animaux/Oiseaux/Aigles', 'eagles'),
-             (u'/Animaux/Oiseaux/Manchots', 'penguins'),
-             (u'/Animaux/Mammifères', 'mammals'),
-             (u'/Animaux/Mammifères/Vaches', 'cows'),
-             (u'/Animaux/Mammifères/Lions', 'lions'),
-             (u'/Animaux/Reptiles', 'reptiles'),
-             (u'/Animaux/Reptiles/Pythons', 'pythons'),
-             (u'/Végétaux', 'plants')])
+            [(u'\u241fAnimaux', 'animals'),
+             (u'\u241fAnimaux\u241fOiseaux', 'birds'),
+             (u'\u241fAnimaux\u241fOiseaux\u241fAigles', 'eagles'),
+             (u'\u241fAnimaux\u241fOiseaux\u241fManchots', 'penguins'),
+             (u'\u241fAnimaux\u241fMammifères', 'mammals'),
+             (u'\u241fAnimaux\u241fMammifères\u241fVaches', 'cows'),
+             (u'\u241fAnimaux\u241fMammifères\u241fLions', 'lions'),
+             (u'\u241fAnimaux\u241fReptiles', 'reptiles'),
+             (u'\u241fAnimaux\u241fReptiles\u241fPythons', 'pythons'),
+             (u'\u241fVégétaux', 'plants')])
