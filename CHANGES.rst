@@ -5,6 +5,11 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- The `getTermByToken` method now accepts an optional argument
+  `tail_only` which if set, returns a message object where the title
+  translates to the last path segment (the "tail" node).
+  [malthe]
+
 - Added new method `makeTree` on taxonomy vocabulary class which
   returns a term tree.
   [malthe]

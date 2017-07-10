@@ -66,14 +66,21 @@ class Vocabulary(object):
     def __contains__(self, identifier):
         return self.getTerm(identifier) is not None
 
-    def getTermByToken(self, input_identifier):
+    def getTermByToken(self, input_identifier, tail_only=False):
+        """Return term for token.
+
+        If `tail_only` is provided, the title will be the last path
+        element only.
+        """
+
         if type(input_identifier) == list:
             raise LookupError("Expected string, not list")
 
         return SimpleTerm(value=input_identifier,
                           title=self.message(input_identifier,
                                              self.inv_data[
-                                                 input_identifier]))
+                                                 input_identifier],
+                                             mapping={NODE: tail_only}))
 
     def getTermByValue(self, path):
         if self.version == 1:
