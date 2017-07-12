@@ -5,6 +5,9 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- Add support for specifying behavior field prefix.
+  [malthe]
+
 - The `getTermByToken` method now accepts an optional argument
   `tail_only` which if set, returns a message object where the title
   translates to the last path segment (the "tail" node).

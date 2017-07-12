@@ -41,9 +41,12 @@ class TaxonomyBehavior(Persistent):
 
     implements(IBehavior)
 
+    field_prefix = "taxonomy_"
+
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
                  is_single_select=False, write_permission='',
+                 field_prefix="taxonomy_",
                  default_language='en', taxonomy_fieldset='categorization'):
         self.name = name
         self.title = _(title)
@@ -51,6 +54,7 @@ class TaxonomyBehavior(Persistent):
         self.factory = None
         self.field_title = field_title
         self.field_description = field_description
+        self.field_prefix = field_prefix
         self.is_single_select = is_single_select
         self.is_required = is_required
         self.write_permission = write_permission
@@ -121,7 +125,7 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def field_name(self):
-        return 'taxonomy_' + self.short_name
+        return self.field_prefix + self.short_name
 
     @property
     def vocabulary_name(self):

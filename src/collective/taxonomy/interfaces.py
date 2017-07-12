@@ -138,6 +138,15 @@ class ITaxonomyForm(Interface):
         vocabulary='collective.taxonomy.permissions'
     )
 
+    field_prefix = schema.ASCIILine(
+        title=_(u"Field prefix"),
+        description=_(
+            u"Prefix used for behavior indexer."
+        ),
+        default="taxonomy_",
+        required=False
+    )
+
     taxonomy_fieldset = schema.TextLine(
         title=_(u"Fieldset"),
         description=_(u"Fieldset for the taxonomy behavior field. "

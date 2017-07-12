@@ -266,6 +266,12 @@ class TaxonomyEditFormAdapter(object):
             self.__dict__['purge'] = value
             return
 
+        if attr == 'field_prefix':
+            self.__dict__['behavior'].removeIndex()
+            setattr(self.__dict__['behavior'], attr, value or "")
+            self.__dict__['behavior'].addIndex()
+            return
+
         if attr == 'import_file' and value is not None:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__['context'])
