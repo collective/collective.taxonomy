@@ -90,13 +90,24 @@ class Vocabulary(object):
     def getTerm(self, input_identifier):
         return self.getTermByToken(input_identifier)
 
-    def getTerms(self):
+    def getTerms(self, tail_only=False):
+        """Return all terms.
+
+        If `tail_only` is provided, the title will be the last path
+        element only.
+        """
+
         results = []
+
+        if tail_only:
+            mapping = {NODE: True}
+        else:
+            mapping = None
 
         for path, identifier in self.iterEntries():
             term = SimpleTerm(
                 value=identifier,
-                title=self.message(identifier, path)
+                title=self.message(identifier, path, mapping=mapping)
             )
             results.append(term)
 
