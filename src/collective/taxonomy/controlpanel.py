@@ -190,6 +190,7 @@ class TaxonomyEditForm(form.EditForm):
     fields = field.Fields(ITaxonomyForm)
 
     def updateWidgets(self):
+        self.fields['field_prefix'].showDefault = False
         form.EditForm.updateWidgets(self)
         self.widgets['taxonomy'].mode = HIDDEN_MODE
 
