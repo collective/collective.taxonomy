@@ -125,7 +125,7 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def field_name(self):
-        return self.field_prefix + self.short_name
+        return (self.field_prefix or "") + self.short_name
 
     @property
     def vocabulary_name(self):
