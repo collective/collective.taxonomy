@@ -29,6 +29,7 @@ from collective.taxonomy import PATH_SEPARATOR, COUNT, ORDER
 
 logger = logging.getLogger("collective.taxonomy")
 
+
 def pop_value(d, compare_value, default=None):
     for key, value in d.items():
         if compare_value == value:
@@ -37,6 +38,7 @@ def pop_value(d, compare_value, default=None):
         return default
 
     return d.pop(key)
+
 
 @implementer(ITaxonomy)
 class Taxonomy(SimpleItem):
