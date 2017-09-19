@@ -18,9 +18,10 @@ install:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-script: 
-  - bin/coverage run bin/test
+script:
   - bin/code-analysis
+  - bin/test
 after_success:
-  - pip install -q coveralls python-coveralls==2.5.0 coverage==3.7.1
+  - bin/createcoverage
+  - pip install -q coveralls
   - coveralls
