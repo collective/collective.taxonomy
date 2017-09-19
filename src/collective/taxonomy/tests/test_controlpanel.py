@@ -35,7 +35,7 @@ class TestControlPanel(unittest.TestCase):
         self.browser.getControl(name='form.widgets.default_language:list').value = ['en']
         self.browser.getForm(id='form').submit('Add')
         self.assertIn('<span class="label">Foo Bar Vocabulary</span>', self.browser.contents)
-     
+
     def test_edit_vocabulary(self):
         self.browser.open(self.portal.absolute_url() + '/@@taxonomy-settings')
         self.assertIn('id="TaxonomySettings"', self.browser.contents)

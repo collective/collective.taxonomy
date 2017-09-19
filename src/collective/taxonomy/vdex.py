@@ -189,7 +189,8 @@ class ExportVdex(TreeExport):
 
         if as_string:
             indent(root)
-            treestring = etree.tostring(root, encoding=self.IMSVDEX_ENCODING,
+            treestring = etree.tostring(
+                root, encoding=self.IMSVDEX_ENCODING,
                 xml_declaration=True)
             return treestring
         else:

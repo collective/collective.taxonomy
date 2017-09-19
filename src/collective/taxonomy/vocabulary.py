@@ -22,7 +22,6 @@ class TaxonomyVocabulary(object):
     implements(IVocabularyFactory)
 
     def __call__(self, adapter):
-        results = []
         sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
         return SimpleVocabulary([

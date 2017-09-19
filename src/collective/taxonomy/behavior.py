@@ -30,7 +30,6 @@ from zope.interface import implements, alsoProvides
 from zope.component import getUtility
 
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.i18n import _pmf
 from collective.taxonomy.indexer import TaxonomyIndexer
 
 
