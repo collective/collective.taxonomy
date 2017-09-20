@@ -25,7 +25,7 @@ import logging
 
 from copy import copy
 
-from collective.taxonomy import PATH_SEPARATOR, COUNT, ORDER
+from collective.taxonomy import PATH_SEPARATOR
 
 logger = logging.getLogger("collective.taxonomy")
 
@@ -40,6 +40,9 @@ def pop_value(d, compare_value, default=None):
 
 @implementer(ITaxonomy)
 class Taxonomy(SimpleItem):
+    order = None
+    count = None
+
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
         self.name = name
@@ -52,7 +55,7 @@ class Taxonomy(SimpleItem):
 
     def __call__(self, context):
         if not self.data:
-            return Vocabulary(self.name, {}, {})
+            return Vocabulary(self.name, {}, {}, {})
 
         request = getattr(context, "REQUEST", None)
         language = self.getCurrentLanguage(request)
@@ -80,9 +83,11 @@ class Taxonomy(SimpleItem):
         return 'collective.taxonomy.' + self.getShortName()
 
     def makeVocabulary(self, language):
+        self._fixup()
         data = self.data[language]
+        order = self.order.get(language)
         inverted_data = self.inverted_data[language]
-        return Vocabulary(self.name, data, inverted_data)
+        return Vocabulary(self.name, data, inverted_data, order)
 
     def getCurrentLanguage(self, request):
         language = get_lang_code()
@@ -175,6 +180,7 @@ class Taxonomy(SimpleItem):
         self.data.clear()
 
     def add(self, language, value, key):
+        self._fixup()
         tree = self.data.get(language)
         if tree is None:
             tree = self.data[language] = OOBTree()
@@ -185,20 +191,22 @@ class Taxonomy(SimpleItem):
         update = key in tree
         tree[key] = value
 
-        order = tree.get(ORDER)
+        order = self.order.get(language)
         if order is None:
-            order = tree[ORDER] = IOBTree()
-            count = 0
+            order = self.order[language] = IOBTree()
+            count = self.count[language] = 0
         else:
             if update:
-                pop_value(tree[COUNT], key)
+                pop_value(tree, key)
 
-            count = tree[COUNT] + 1
+            count = self.count[language] + 1
 
-        tree[COUNT] = count
+        self.count[language] = count
         order[count] = key
 
     def update(self, language, items, clear=False):
+        self._fixup()
+
         tree = self.data.setdefault(language, OOBTree())
         if clear:
             tree.clear()
@@ -206,8 +214,8 @@ class Taxonomy(SimpleItem):
         # Make sure we update the modification time.
         self.data[language] = tree
 
-        order = tree.setdefault(ORDER, IOBTree())
-        count = tree.setdefault(COUNT, 0)
+        order = self.order.setdefault(language, IOBTree())
+        count = self.count.get(language, 0)
 
         # The following structure is used to expunge updated entries.
         inv = {}
@@ -233,7 +241,7 @@ class Taxonomy(SimpleItem):
                 if i is not None:
                     del order[i]
 
-        tree[COUNT] = count
+        self.count[language] = count
 
     def translate(self, msgid, mapping=None, context=None,
                   target_language=None, default=None):
@@ -251,3 +259,8 @@ class Taxonomy(SimpleItem):
         pretty_path = path[1:].replace(PATH_SEPARATOR, u' » ')
 
         return pretty_path
+
+    def _fixup(self):
+        if self.order is None:
+            self.order = PersistentDict()
+            self.count = PersistentDict()

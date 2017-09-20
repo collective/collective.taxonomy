@@ -13,7 +13,6 @@ from zope.security.interfaces import IPermission
 from zope.component.hooks import getSite
 
 from plone import api
-from collective.taxonomy import ORDER
 
 
 class TaxonomyVocabulary(object):
@@ -38,9 +37,10 @@ class Vocabulary(object):
 
     implements(IVocabulary)
 
-    def __init__(self, name, data, inv_data):
+    def __init__(self, name, data, inv_data, order):
         self.data = data
         self.inv_data = inv_data
+        self.order = order
         self.message = MessageFactory(name)
 
     def __iter__(self):
@@ -88,8 +88,7 @@ class Vocabulary(object):
 
         identifiers = set()
 
-        order = self.data.get(ORDER)
-        if order is None:
+        if self.order is None:
             for path, identifier in self.data.items():
                 if identifier in identifiers:
                     continue
@@ -100,7 +99,7 @@ class Vocabulary(object):
                 identifiers.add(identifier)
                 yield path, identifier
         else:
-            for path in order.values():
+            for path in self.order.values():
                 identifier = self.data[path]
                 if identifier in identifiers:
                     continue
