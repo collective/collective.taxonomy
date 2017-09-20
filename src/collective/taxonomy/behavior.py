@@ -69,9 +69,9 @@ class TaxonomyBehavior(Persistent):
     def removeIndex(self):
         context = getSite()
         sm = context.getSiteManager()
-        sm.unregisterAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
-                             IIndexer, name=self.field_name)
-
+        sm.unregisterAdapter(
+            factory=None, required=(IDexterityContent, IZCatalog),
+            provided=IIndexer, name=self.field_name)
         catalog = getToolByName(context, 'portal_catalog')
         try:
             catalog.delIndex(self.field_name)
