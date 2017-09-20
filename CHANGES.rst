@@ -38,6 +38,10 @@ Changes
   keeping backwards compatibility.
   [sunew]
 
+- Fix issue where taxonomy indexer adapter was not properly unregistered from
+  the persistent local registry on taxonomy removal
+  [datakurre]
+
 
 1.4.4 (2016-11-29)
 ------------------

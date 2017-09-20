@@ -30,7 +30,6 @@ from zope.interface import implements, alsoProvides
 from zope.component import getUtility
 
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.i18n import _pmf
 from collective.taxonomy.indexer import TaxonomyIndexer
 
 
@@ -70,9 +69,9 @@ class TaxonomyBehavior(Persistent):
     def removeIndex(self):
         context = getSite()
         sm = context.getSiteManager()
-        sm.unregisterAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
-                             IIndexer, name=self.field_name)
-
+        sm.unregisterAdapter(
+            factory=None, required=(IDexterityContent, IZCatalog),
+            provided=IIndexer, name=self.field_name)
         catalog = getToolByName(context, 'portal_catalog')
         try:
             catalog.delIndex(self.field_name)

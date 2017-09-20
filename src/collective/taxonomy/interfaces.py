@@ -148,7 +148,6 @@ class ITaxonomyForm(Interface):
     )
 
 
-
 class ITaxonomyView(Interface):
 
     def taxonomiesForContext(self):
