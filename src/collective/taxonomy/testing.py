@@ -27,6 +27,7 @@ class Fixture(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'collective.taxonomy:default')
+        self.applyProfile(portal, 'collective.taxonomy:examples')
         setRoles(portal, TEST_USER_ID, ['Manager'])
 
 

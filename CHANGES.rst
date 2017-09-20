@@ -38,6 +38,9 @@ Changes
   keeping backwards compatibility.
   [sunew]
 
+- Change to no longer register example *Test*-taxonomy on install
+  [datakurre]
+
 - Fix issue where taxonomy indexer adapter was not properly unregistered from
   the persistent local registry on taxonomy removal
   [datakurre]

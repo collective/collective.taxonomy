@@ -4,4 +4,12 @@
   <include file="configure.zcml" />
   <include package="plone.app.contenttypes" />
 
+  <genericsetup:registerProfile
+      name="examples"
+      title="collective.taxonomy"
+      directory="profiles/examples"
+      description="Registers example taxonomy used in tests."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>

@@ -17,7 +17,7 @@
   <genericsetup:registerProfile
       name="default"
       title="collective.taxonomy"
-      directory="profile"
+      directory="profiles/default"
       description="Registers control panel and default settings."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
