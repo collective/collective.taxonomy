@@ -25,7 +25,12 @@ import logging
 
 from copy import copy
 
-from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy import (
+    LEGACY_PATH_SEPARATOR,
+    PATH_SEPARATOR,
+    PRETTY_PATH_SEPARATOR,
+    NODE,
+)
 
 logger = logging.getLogger("collective.taxonomy")
 
@@ -44,6 +49,7 @@ def pop_value(d, compare_value, default=None):
 class Taxonomy(SimpleItem):
     order = None
     count = None
+    version = None
 
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
@@ -57,7 +63,7 @@ class Taxonomy(SimpleItem):
 
     def __call__(self, context):
         if not self.data:
-            return Vocabulary(self.name, {}, {}, {})
+            return Vocabulary(self.name, {}, {}, {}, 2)
 
         request = getattr(context, "REQUEST", None)
         language = self.getCurrentLanguage(request)
@@ -70,8 +76,6 @@ class Taxonomy(SimpleItem):
         for (language, elements) in self.data.items():
             inv_data[language] = {}
             for (path, identifier) in elements.items():
-                if path[0] == u'#':
-                    continue
                 inv_data[language][identifier] = path
         return inv_data
 
@@ -88,8 +92,9 @@ class Taxonomy(SimpleItem):
         self._fixup()
         data = self.data[language]
         order = self.order.get(language)
+        version = self.version.get(language, 1)
         inverted_data = self.inverted_data[language]
-        return Vocabulary(self.name, data, inverted_data, order)
+        return Vocabulary(self.name, data, inverted_data, order, version)
 
     def getCurrentLanguage(self, request):
         language = get_lang_code()
@@ -213,11 +218,37 @@ class Taxonomy(SimpleItem):
         if clear:
             tree.clear()
 
-        # Make sure we update the modification time.
-        self.data[language] = tree
+        # A new tree always uses the newest version.
+        if not tree:
+            version = self.version[language] = 2
+        else:
+            version = self.version.get(language, 1)
 
         order = self.order.setdefault(language, IOBTree())
         count = self.count.get(language, 0)
+
+        # Always migrate to newest version.
+        if version == 1:
+            def fix(path):
+                return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
+
+            for i in list(order):
+                path = order[i]
+                order[i] = fix(path)
+
+            for path in list(tree):
+                value = tree.pop(path)
+                tree[fix(path)] = value
+
+            version = self.version[language] = 2
+            logger.info(
+                "Taxonomy '%s' upgraded to version %d for language '%s'." % (
+                    self.name, version, language
+                )
+            )
+
+        # Make sure we update the modification time.
+        self.data[language] = tree
 
         # The following structure is used to expunge updated entries.
         inv = {}
@@ -257,8 +288,16 @@ class Taxonomy(SimpleItem):
         if msgid not in self.inverted_data[target_language]:
             return ''
 
+        if self.version is not None and self.version.get(target_language) != 2:
+            path_sep = LEGACY_PATH_SEPARATOR
+        else:
+            path_sep = PATH_SEPARATOR
+
         path = self.inverted_data[target_language][msgid]
-        pretty_path = path[1:].replace(PATH_SEPARATOR, u' » ')
+        pretty_path = path[1:].replace(path_sep, PRETTY_PATH_SEPARATOR)
+
+        if mapping is not None and mapping.get(NODE):
+            pretty_path = pretty_path.rsplit(PRETTY_PATH_SEPARATOR, 1)[-1]
 
         return pretty_path
 
@@ -266,3 +305,6 @@ class Taxonomy(SimpleItem):
         if self.order is None:
             self.order = PersistentDict()
             self.count = PersistentDict()
+
+        if self.version is None:
+            self.version = PersistentDict()

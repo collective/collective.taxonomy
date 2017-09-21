@@ -190,6 +190,7 @@ class TaxonomyEditForm(form.EditForm):
     fields = field.Fields(ITaxonomyForm)
 
     def updateWidgets(self):
+        self.fields['field_prefix'].showDefault = False
         form.EditForm.updateWidgets(self)
         self.widgets['taxonomy'].mode = HIDDEN_MODE
 
@@ -264,6 +265,12 @@ class TaxonomyEditFormAdapter(object):
 
         if attr == 'purge':
             self.__dict__['purge'] = value
+            return
+
+        if attr == 'field_prefix':
+            self.__dict__['behavior'].removeIndex()
+            setattr(self.__dict__['behavior'], attr, value or "")
+            self.__dict__['behavior'].addIndex()
             return
 
         if attr == 'import_file' and value is not None:
