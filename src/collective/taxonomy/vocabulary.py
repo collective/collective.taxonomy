@@ -147,8 +147,7 @@ class Vocabulary(object):
     def makeTree(self):
         """Return term tree."""
 
-        version = self.data.get(VERSION)
-        path_sep = LEGACY_PATH_SEPARATOR if version == 1 else PATH_SEPARATOR
+        path_sep = LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR
         tree = OrderedDict()
 
         def add(path, value):
