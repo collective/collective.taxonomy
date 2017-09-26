@@ -1,5 +1,6 @@
 from logging import getLogger
 from plone.behavior.interfaces import IBehavior
+from .interfaces import ITaxonomy
 
 
 log = getLogger('collective.taxonomy:upgrades')
@@ -24,3 +25,25 @@ def import_registry(tool):
         run_dependencies=False,
         purge_old=False
     )
+
+
+def fix_metadata(tool):
+    tool = tool.aq_parent
+    sm = tool.getSiteManager()
+    utilities = sm.getUtilitiesFor(ITaxonomy)
+    for (utility_name, utility) in utilities:
+        utility._fixup()
+        for lang, data in utility.data.items():
+            version = data.pop('#VERSION', None)
+            if version is not None:
+                utility.version[lang] = version
+
+            count = data.pop('#COUNT', None)
+            if count is not None:
+                utility.count[lang] = count
+
+            order = data.pop('#ORDER', None)
+            if order is not None:
+                utility.order[lang] = order
+
+
