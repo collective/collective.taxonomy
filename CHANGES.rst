@@ -60,6 +60,10 @@ Changes
   the persistent local registry on taxonomy removal
   [datakurre]
 
+- Fix issue where public ++taxonomy++short_name -traverser for returning
+  generator of (key, label) tuples for given taxonomy was broken
+  [datakurre]
+
 
 1.4.4 (2016-11-29)
 ------------------

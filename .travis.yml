@@ -8,8 +8,8 @@ env:
 cache:
   pip: true
   directories:
-    - eggs
-    - downloads
+    - buildout-cache/eggs       # see buildout-cache.cfg
+    - buildout-cache/downloads  # see buildout-cache.cfg
 install:
   - sed -ie "s#test-5.x.cfg#travis-$PLONE_VERSION.x.cfg#" buildout.cfg
   - python bootstrap.py --buildout-version=2.9.4 --setuptools-version=33.1.1

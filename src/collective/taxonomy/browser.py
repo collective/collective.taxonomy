@@ -1,10 +1,11 @@
-from Products.Five.browser import BrowserView
 from collective.taxonomy.interfaces import ITaxonomy
+from Products.Five.browser import BrowserView
 from zope.component import getSiteManager
-from zope.publisher.interfaces import NotFound
-from zope.traversing.interfaces import ITraversable
-from zope.schema.interfaces import IVocabularyFactory
+from zope.i18n import translate
 from zope.interface import implementer_only
+from zope.publisher.interfaces import NotFound
+from zope.schema.interfaces import IVocabularyFactory
+from zope.traversing.interfaces import ITraversable
 
 
 class TaxonomyView(BrowserView):
@@ -39,11 +40,14 @@ class TaxonomyView(BrowserView):
 class VocabularyTuplesView(BrowserView):
 
     def __init__(self, context, request, vocabulary):
-        super(VocabularyTuplesView, self).__init__(self.context, self.request)
+        super(VocabularyTuplesView, self).__init__(context, request)
         self.vocabulary = vocabulary
 
-    def __call__(self):
-        return ((term.token, term.title) for term in self.vocabulary)
+    def __call__(self, target_language=None):
+        return ((term.token, translate(term.title,
+                                       context=self.request,
+                                       target_language=target_language))
+                for term in self.vocabulary)
 
 
 @implementer_only(ITraversable)
