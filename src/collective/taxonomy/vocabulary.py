@@ -137,8 +137,8 @@ class Vocabulary(object):
                 yield fix(path), identifier
         else:
             for path in self.order.values():
-                identifier = self.data[path]
-                if identifier in identifiers:
+                identifier = self.data.get(path)
+                if identifier is None or identifier in identifiers:
                     continue
 
                 identifiers.add(identifier)
