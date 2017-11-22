@@ -118,7 +118,10 @@ class Taxonomy(SimpleItem):
         for path, identifier in vocabulary.iterEntries():
             parent_path = path.rsplit(PATH_SEPARATOR, 1)[0]
             if parent_path:
-                parent = vocabulary.getTermByValue(parent_path)
+                try:
+                    parent = vocabulary.getTermByValue(parent_path)
+                except KeyError:
+                    parent = None
             else:
                 parent = None
             yield path, identifier, parent
