@@ -5,6 +5,9 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- When using "delete" option on import, clear any previous ordering.
+  [malthe]
+
 - Add support for specifying behavior field prefix.
   [malthe]
 

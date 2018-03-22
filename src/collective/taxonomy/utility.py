@@ -227,6 +227,10 @@ class Taxonomy(SimpleItem):
         order = self.order.setdefault(language, IOBTree())
         count = self.count.get(language, 0)
 
+        if clear:
+            order.clear()
+            count = 0
+
         # Always migrate to newest version.
         if version == 1:
             def fix(path):
