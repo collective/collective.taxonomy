@@ -2,9 +2,10 @@ language: python
 sudo: false
 python: 2.7
 env:
-  - PLONE_VERSION=4.3
-  - PLONE_VERSION=5.0
-  - PLONE_VERSION=5.1
+  matrix:
+    - PLONE_VERSION=4.3
+    - PLONE_VERSION=5.0
+    - PLONE_VERSION=5.1
 cache:
   pip: true
   directories:
@@ -22,6 +23,6 @@ script:
   - bin/code-analysis
   - bin/test
 after_success:
-  - bin/createcoverage
+  - bin/createcoverage --output-dir=parts/test/coverage
   - pip install -q coveralls
   - coveralls
