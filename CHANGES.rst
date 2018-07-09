@@ -5,6 +5,15 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- fix #53 when editing taxonomy data the first time
+  [petschki]
+
+- update german translations
+  [petschki]
+
+- add uninstall profile
+  [petschki]
+
 - When using "delete" option on import, clear any previous ordering.
   [malthe]
 

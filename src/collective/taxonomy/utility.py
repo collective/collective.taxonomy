@@ -90,10 +90,10 @@ class Taxonomy(SimpleItem):
 
     def makeVocabulary(self, language):
         self._fixup()
-        data = self.data[language]
+        data = self.data.get(language, {})
         order = self.order.get(language)
         version = self.version.get(language, 1)
-        inverted_data = self.inverted_data[language]
+        inverted_data = self.inverted_data.get(language, {})
         return Vocabulary(self.name, data, inverted_data, order, version)
 
     def getCurrentLanguage(self, request):

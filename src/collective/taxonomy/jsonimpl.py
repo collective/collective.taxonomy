@@ -1,17 +1,22 @@
-from lxml import etree
-import os
+# -*- coding: utf-8 -*-
 import json
+import os
+
+from lxml import etree
 
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
 from plone import api
-from zope.component import queryMultiAdapter, queryUtility
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.component import queryMultiAdapter
+from zope.component import queryUtility
 from zope.i18n import translate
+from zope.interface import alsoProvides
 
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vdex import TreeExport
 
 
@@ -24,7 +29,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         utility_name = request.get('taxonomy', '')
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)
+            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)  # noqa
 
         self.taxonomy = taxonomy
 
@@ -47,6 +52,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_data(self):
         """Get json data."""
+        alsoProvides(self.request, IDisableCSRFProtection)
         root = etree.Element('vdex')
         try:
             root = self.buildTree(root)
