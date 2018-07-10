@@ -1,24 +1,24 @@
-from time import time
-from plone.memoize import ram
-import zope.interface
+# -*- coding: utf-8 -*-
 import zope.component
+import zope.interface
 import zope.schema.interfaces
 
+from plone.memoize import ram
+
 from z3c.form import interfaces
+from z3c.form.browser import widget
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import SequenceWidget
-from z3c.form.browser import widget
 
 from interfaces import ITaxonomySelectWidget
 
-ONE_DAY = 60 * 60 * 24
 
-
-def _cache_one_day(fun, self):
-    key = '{0}{1}'.format(
+def _items_cachekey(fun, self):
+    key = '{0}-{1}'.format(
         self.field.__name__,
-        time() // ONE_DAY
+        # self.terms.terms contains the Taxonomy utility
+        self.terms.terms.data._p_mtime,
     )
     return key
 
@@ -27,7 +27,7 @@ def _cache_one_day(fun, self):
                             interfaces.IOrderedSelectWidget)
 class TaxonomySelectWidget(OrderedSelectWidget):
 
-    @ram.cache(_cache_one_day)
+    @ram.cache(_items_cachekey)
     def _get_items(self):
         return [
             self.getItem(term, count)
