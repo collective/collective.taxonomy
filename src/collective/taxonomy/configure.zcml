@@ -22,6 +22,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="collective.taxonomy"
+      directory="profiles/uninstall"
+      description="Uninstall profile."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:importStep
       name="collective.taxonomy"
       title="Manage the taxonomy tool"

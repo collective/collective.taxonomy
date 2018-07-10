@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<layers>
+  <layer name="collective.taxonomy" interface="collective.taxonomy.interfaces.IBrowserLayer" remove="true" />
+</layers>

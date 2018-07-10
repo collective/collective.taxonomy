@@ -2,26 +2,29 @@ language: python
 sudo: false
 python: 2.7
 env:
-  - PLONE_VERSION=4.3
-  - PLONE_VERSION=5.0
-  - PLONE_VERSION=5.1
+  matrix:
+    - PLONE_VERSION=4.3
+    - PLONE_VERSION=5.0
+    - PLONE_VERSION=5.1
 cache:
   pip: true
   directories:
-    - buildout-cache/eggs       # see buildout-cache.cfg
-    - buildout-cache/downloads  # see buildout-cache.cfg
+    - $HOME/buildout-cache
+before_install:
+  - mkdir -p $HOME/buildout-cache/{eggs,downloads}
+  - mkdir $HOME/.buildout
+  - echo "[buildout]" > $HOME/.buildout/default.cfg
+  - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
+  - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
+  - pip install -r requirements.txt
 install:
-  - sed -ie "s#test-5.x.cfg#travis-$PLONE_VERSION.x.cfg#" buildout.cfg
-  - python bootstrap.py --buildout-version=2.9.4 --setuptools-version=33.1.1
-  - bin/buildout annotate
-  - bin/buildout -N -q versions:setuptools= versions:zc.buildout=
-before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - sed -ie "s#test-5.x.cfg#test-$PLONE_VERSION.x.cfg#" buildout.cfg
+  - buildout annotate
+  - buildout -N -q
 script:
   - bin/code-analysis
   - bin/test
 after_success:
-  - bin/createcoverage
+  - bin/createcoverage --output-dir=parts/test/coverage
   - pip install -q coveralls
   - coveralls

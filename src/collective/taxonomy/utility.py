@@ -18,6 +18,7 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 
 from zope.interface import implementer
+from zope.globalrequest import getRequest
 from zope.lifecycleevent import modified
 
 import generated
@@ -31,6 +32,14 @@ from collective.taxonomy import (
     PRETTY_PATH_SEPARATOR,
     NODE,
 )
+
+try:
+    from plone.protect.auto import safeWrite
+except ImportError:
+    # plone.protect < 3.x compatibility
+    def safeWrite(obj, request):
+        pass
+
 
 logger = logging.getLogger("collective.taxonomy")
 
@@ -53,6 +62,10 @@ class Taxonomy(SimpleItem):
 
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
+        self.order = PersistentDict()
+        self.count = PersistentDict()
+        self.version = PersistentDict()
+
         self.name = name
         self.title = title
         self.default_language = default_language
@@ -90,10 +103,10 @@ class Taxonomy(SimpleItem):
 
     def makeVocabulary(self, language):
         self._fixup()
-        data = self.data[language]
+        data = self.data.get(language, {})
         order = self.order.get(language)
         version = self.version.get(language, 1)
-        inverted_data = self.inverted_data[language]
+        inverted_data = self.inverted_data.get(language, {})
         return Vocabulary(self.name, data, inverted_data, order, version)
 
     def getCurrentLanguage(self, request):
@@ -306,9 +319,14 @@ class Taxonomy(SimpleItem):
         return pretty_path
 
     def _fixup(self):
+        # due to compatibility reasons this method fixes data structure
+        # for old Taxonomy instances.
+        # XXX: remove this in version 2.0 to prevent write on read
         if self.order is None:
+            safeWrite(self, getRequest())
             self.order = PersistentDict()
             self.count = PersistentDict()
 
         if self.version is None:
+            safeWrite(self, getRequest())
             self.version = PersistentDict()

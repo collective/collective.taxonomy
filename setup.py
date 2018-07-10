@@ -1,16 +1,18 @@
 import os
 import sys
 
+from setuptools import find_packages
+from setuptools import setup
+
 reload(sys).setdefaultencoding("UTF-8")
 
-from setuptools import setup, find_packages
+version = '1.5.0.dev0'
 
 
 def read(*pathnames):
     fh = open(os.path.join(os.path.dirname(__file__), *pathnames))
     return fh.read().decode('utf-8')
 
-version = '1.5.0-dev'
 
 setup(
     name='collective.taxonomy',

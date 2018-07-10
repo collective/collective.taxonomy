@@ -21,6 +21,7 @@ from collective.taxonomy import (
     LEGACY_PATH_SEPARATOR
 )
 
+
 class Node(OrderedDict):
     """A non-persistent taxonomy tree node."""
 
@@ -126,7 +127,7 @@ class Vocabulary(object):
             def fix(path):
                 return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
         else:
-            fix = lambda path: path
+            fix = lambda path: path  # noqa: E731
 
         if self.order is None:
             for path, identifier in self.data.items():
@@ -147,7 +148,7 @@ class Vocabulary(object):
     def makeTree(self):
         """Return term tree."""
 
-        path_sep = LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR
+        path_sep = LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR  # noqa: E501
         tree = OrderedDict()
 
         def add(path, value):

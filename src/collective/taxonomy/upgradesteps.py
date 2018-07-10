@@ -2,7 +2,6 @@ from logging import getLogger
 from plone.behavior.interfaces import IBehavior
 from .interfaces import ITaxonomy
 
-
 log = getLogger('collective.taxonomy:upgrades')
 
 
@@ -45,5 +44,3 @@ def fix_metadata(tool):
             order = data.pop('#ORDER', None)
             if order is not None:
                 utility.order[lang] = order
-
-
