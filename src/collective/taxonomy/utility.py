@@ -16,7 +16,6 @@ from plone.behavior.interfaces import IBehavior
 from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
-from plone.protect.auto import safeWrite
 
 from zope.interface import implementer
 from zope.globalrequest import getRequest
@@ -33,6 +32,14 @@ from collective.taxonomy import (
     PRETTY_PATH_SEPARATOR,
     NODE,
 )
+
+try:
+    from plone.protect.auto import safeWrite
+except ImportError:
+    # plone.protect < 3.x compatibility
+    def safeWrite(obj, request):
+        pass
+
 
 logger = logging.getLogger("collective.taxonomy")
 
