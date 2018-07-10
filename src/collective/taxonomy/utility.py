@@ -47,17 +47,15 @@ def pop_value(d, compare_value, default=None):
 
 @implementer(ITaxonomy)
 class Taxonomy(SimpleItem):
+    order = None
+    count = None
+    version = None
 
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
-        self.order = PersistentDict()
-        self.count = PersistentDict()
-        self.version = PersistentDict()
-
         self.name = name
         self.title = title
         self.default_language = default_language
-        self.order = {}
 
     @property
     def sm(self):
@@ -91,6 +89,7 @@ class Taxonomy(SimpleItem):
         return 'collective.taxonomy.' + self.getShortName()
 
     def makeVocabulary(self, language):
+        self._fixup()
         data = self.data.get(language, {})
         order = self.order.get(language)
         version = self.version.get(language, 1)
@@ -188,6 +187,7 @@ class Taxonomy(SimpleItem):
         self.data.clear()
 
     def add(self, language, value, key):
+        self._fixup()
         tree = self.data.get(language)
         if tree is None:
             tree = self.data[language] = OOBTree()
@@ -212,6 +212,8 @@ class Taxonomy(SimpleItem):
         order[count] = key
 
     def update(self, language, items, clear=False):
+        self._fixup()
+
         tree = self.data.setdefault(language, OOBTree())
         if clear:
             tree.clear()
@@ -302,3 +304,11 @@ class Taxonomy(SimpleItem):
             pretty_path = pretty_path.rsplit(PRETTY_PATH_SEPARATOR, 1)[-1]
 
         return pretty_path
+
+    def _fixup(self):
+        if self.order is None:
+            self.order = PersistentDict()
+            self.count = PersistentDict()
+
+        if self.version is None:
+            self.version = PersistentDict()
