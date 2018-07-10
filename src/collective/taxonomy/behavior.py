@@ -30,7 +30,6 @@ from zope.interface import implements, alsoProvides
 from zope.component import getUtility
 
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.i18n import _pmf
 from collective.taxonomy.indexer import TaxonomyIndexer
 
 
@@ -42,20 +41,25 @@ class TaxonomyBehavior(Persistent):
 
     implements(IBehavior)
 
+    field_prefix = "taxonomy_"
+
     def __init__(self, name, title, description, field_title,
                  field_description, is_required=False,
                  is_single_select=False, write_permission='',
-                 default_language='en'):
+                 field_prefix="taxonomy_",
+                 default_language='en', taxonomy_fieldset='categorization'):
         self.name = name
         self.title = _(title)
         self.description = _(description)
         self.factory = None
         self.field_title = field_title
         self.field_description = field_description
+        self.field_prefix = field_prefix
         self.is_single_select = is_single_select
         self.is_required = is_required
         self.write_permission = write_permission
         self.default_language = default_language
+        self.taxonomy_fieldset = taxonomy_fieldset
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)
@@ -69,9 +73,9 @@ class TaxonomyBehavior(Persistent):
     def removeIndex(self):
         context = getSite()
         sm = context.getSiteManager()
-        sm.unregisterAdapter(TaxonomyIndexer, (IDexterityContent, IZCatalog),
-                             IIndexer, name=self.field_name)
-
+        sm.unregisterAdapter(
+            factory=None, required=(IDexterityContent, IZCatalog),
+            provided=IIndexer, name=self.field_name)
         catalog = getToolByName(context, 'portal_catalog')
         try:
             catalog.delIndex(self.field_name)
@@ -121,7 +125,7 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def field_name(self):
-        return 'taxonomy_' + self.short_name
+        return (self.field_prefix or "") + self.short_name
 
     @property
     def vocabulary_name(self):
@@ -172,12 +176,17 @@ class TaxonomyBehavior(Persistent):
                  self.write_permission}
             )
 
-        schemaclass.setTaggedValue(
-            FIELDSETS_KEY,
-            [Fieldset('categorization',
-                      label=_pmf(u'label_schema_categorization', default=u'Categorization'),
-                      fields=[self.field_name])]
-        )
+        try:
+            taxonomy_fieldset = self.taxonomy_fieldset
+        except AttributeError:
+            # Backwards compatible:
+            taxonomy_fieldset = 'categorization'
+        if taxonomy_fieldset != 'default':
+            schemaclass.setTaggedValue(
+                FIELDSETS_KEY,
+                [Fieldset(taxonomy_fieldset,
+                          fields=[self.field_name])]
+            )
 
         if hasattr(self, 'is_single_select') and not self.is_single_select:
             schemaclass.setTaggedValue(

@@ -1,8 +1,8 @@
 from lxml import etree
+from collections import OrderedDict
 from plone.supermodel.utils import indent
 
 from collective.taxonomy import PATH_SEPARATOR
-
 
 LANG_SEPARATOR = '|'
 
@@ -24,20 +24,20 @@ class ImportVdex(object):
         return final_results
 
     def processLanguage(self, results, language, path=('',)):
-        result = {}
+        result = []
         for element in results.keys():
             (identifier, children) = results[element]
             (lang, text) = element.split(LANG_SEPARATOR, 1)
             if lang == language:
                 extended_path = PATH_SEPARATOR.join(path)
                 extended_path = PATH_SEPARATOR.join((extended_path, text))
-                result[extended_path] = identifier
-                result.update(self.processLanguage(children, language,
+                result.append((extended_path, identifier))
+                result.extend(self.processLanguage(children, language,
                                                    path + (text,)))
         return result
 
     def recurse(self, tree, available_languages=set(), parent_language=None):
-        result = {}
+        result = OrderedDict()
 
         for node in tree.findall('./{%s}term' % self.ns):
             identifier = node.find('./{%s}termIdentifier' % self.ns)
@@ -69,28 +69,22 @@ class TreeExport(object):
         self.taxonomy = taxonomy
 
     def buildFinalPathIndex(self, node, tree):
-        results = {}
+        results = OrderedDict()
 
         for i in node:
             # leaf
             if i not in tree:
-                results[i] = {}
+                results[i] = OrderedDict()
             else:
                 results[i] = self.buildFinalPathIndex(tree[i], tree)
 
         return results
 
     def buildPathIndex(self):
-        pathIndex = {}
-        for (language, children) in self.taxonomy.data.items():
-            if language == self.taxonomy.default_language:
-                for (path, identifier) in children.items():
-                    parent_path = path.split(PATH_SEPARATOR)[:-1]
-                    parent_identifier = children.get(
-                        PATH_SEPARATOR.join(parent_path))
-                    if parent_identifier not in pathIndex:
-                        pathIndex[parent_identifier] = set()
-                    pathIndex[parent_identifier].add(identifier)
+        pathIndex = OrderedDict()
+
+        for path, identifier, parent in self.taxonomy.iterLanguage():
+            pathIndex.setdefault(parent, []).append(identifier)
 
         if None not in pathIndex:
             raise ValueError("No root node!")
@@ -128,12 +122,12 @@ class TreeExport(object):
     def makeTranslationTable(self):
         translationTable = {}
 
-        for (language, children) in self.taxonomy.data.items():
-            for (path, identifier) in children.items():
+        for lang in self.taxonomy.getLanguages():
+            for path, identifier, parent in self.taxonomy.iterLanguage(lang):
                 if identifier not in translationTable:
                     translationTable[identifier] = {}
 
-                translationTable[identifier][language] = \
+                translationTable[identifier][lang] = \
                     path[path.rfind(PATH_SEPARATOR) + 1:]
 
         return translationTable
@@ -195,7 +189,8 @@ class ExportVdex(TreeExport):
 
         if as_string:
             indent(root)
-            treestring = etree.tostring(root, encoding=self.IMSVDEX_ENCODING,
+            treestring = etree.tostring(
+                root, encoding=self.IMSVDEX_ENCODING,
                 xml_declaration=True)
             return treestring
         else:

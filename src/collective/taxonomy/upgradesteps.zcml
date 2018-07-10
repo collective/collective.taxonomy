@@ -1,6 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
-  
+
   <genericsetup:upgradeSteps
      profile="collective.taxonomy:default"
      source="0.2"
@@ -13,11 +13,11 @@
   </genericsetup:upgradeSteps>
   <genericsetup:upgradeSteps
      profile="collective.taxonomy:default"
-     source="0.3"
-     destination="1004">
+     source="1004"
+     destination="1005">
     <genericsetup:upgradeStep
-       handler=".upgradesteps.import_registry"
-       title="Create records in registry"
+       handler=".upgradesteps.fix_metadata"
+       title="Fixes taxonomy metadata"
        description=""
        />
   </genericsetup:upgradeSteps>

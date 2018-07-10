@@ -9,6 +9,14 @@ export function removeNode(parentId, id, index) {
   return { type: constants.REMOVE_NODE, parentId, id, index }
 }
 
+export function moveDown(parentId, id, index) {
+  return { type: constants.MOVE_DOWN, parentId, id, index }
+}
+
+export function moveUp(parentId, id, index) {
+  return { type: constants.MOVE_UP, parentId, id, index }
+}
+
 export function editTranslation(id, language, value) {
   return { type: constants.EDIT_TRANSLATION, id, language, value }
 }

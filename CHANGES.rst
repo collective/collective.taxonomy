@@ -2,14 +2,57 @@ Changes
 =======
 
 
-1.4.5 (unreleased)
+1.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- memoize vocabulary lookup
+  [tomgross, petschki]
 
+- fix #53 when editing taxonomy data the first time
+  [petschki]
 
-1.4.4.post1 (2017-06-01)
-------------------------
+- update german translations
+  [petschki]
+
+- add uninstall profile
+  [petschki]
+
+- When using "delete" option on import, clear any previous ordering.
+  [malthe]
+
+- Add support for specifying behavior field prefix.
+  [malthe]
+
+- The `getTermByToken` method now accepts an optional argument
+  `tail_only` which if set, returns a message object where the title
+  translates to the last path segment (the "tail" node).
+  [malthe]
+
+- Added new method `makeTree` on taxonomy vocabulary class which
+  returns a term tree.
+  [malthe]
+
+- Support "slash" character in term title (issue #34).
+  [malthe]
+
+- When uploading a taxonomy there is now an option to purge the
+  existing entries prior to processing.
+  [malthe]
+
+- Taxonomies are now assigned a persistent order. Taxonomies imported
+  from VDEX now preserve the ordering of the input document.
+  [malthe]
+
+- Add new method `iterEntries` on taxonomy vocabulary class that
+  provides a safe way to iterate over the path to identifier mapping
+  (in order).
+  [malthe]
+
+- Vocabulary is a IVocabularyTokenized implementer.
+  [cedricmessiant]
+
+- updateBehavior method can now modify other attributes (and not only `field_title`).
+  [cedricmessiant]
 
 - Add explicit dependency on plone.api >= 1.5 which
   the api.portal.get_current_language api was introduced.
@@ -17,6 +60,25 @@ Changes
 
 - Add german translation
   [tomgross]
+
+- Mention Plone 5.0 and 5.1 compatibility
+  [tkimnguyen]
+
+- Enable choosing what fieldset to use for the behavior fields. Fallback to categorization,
+  keeping backwards compatibility.
+  [sunew]
+
+- Change to no longer register example *Test*-taxonomy on install
+  [datakurre]
+
+- Fix issue where taxonomy indexer adapter was not properly unregistered from
+  the persistent local registry on taxonomy removal
+  [datakurre]
+
+- Fix issue where public ++taxonomy++short_name -traverser for returning
+  generator of (key, label) tuples for given taxonomy was broken
+  [datakurre]
+
 
 1.4.4 (2016-11-29)
 ------------------

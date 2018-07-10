@@ -23,9 +23,18 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
     """Persistent local utility."""
 
     def add(language, identifier, path):
-        """
-        For example: self.add('en', 'identifier', 'What a lovely day!')
+        """Add or update entry.
 
+        For example: `self.add('en', 'identifier', 'What a lovely day!')`
+        """
+
+    def replace(language, items):
+        """Replace all items for a given language.
+
+        Items are given as (path, identifier) tuples.
+
+        Note that order will be assigned naively. It is assumed that
+        items are given in depth-first order.
         """
 
     def __setitem__(identifier, term):
@@ -98,6 +107,15 @@ class ITaxonomyForm(Interface):
         required=False
     )
 
+    import_file_purge = schema.Bool(
+        title=_(u"Purge entries on upload"),
+        description=_(
+            u"Check this box if you want to purge all entries "
+            u"when uploading."
+        ),
+        required=False,
+    )
+
     is_required = schema.Bool(
         title=_(u"Required"),
         description=_(
@@ -118,6 +136,24 @@ class ITaxonomyForm(Interface):
             u"Write permission for the field"),
         required=False,
         vocabulary='collective.taxonomy.permissions'
+    )
+
+    field_prefix = schema.ASCIILine(
+        title=_(u"Field prefix"),
+        description=_(
+            u"Prefix used for behavior indexer."
+        ),
+        default="taxonomy_",
+        required=False
+    )
+
+    taxonomy_fieldset = schema.TextLine(
+        title=_(u"Fieldset"),
+        description=_(u"Fieldset for the taxonomy behavior field. "
+                      u"Example: 'categorization'. Use 'default' for "
+                      u"the first fieldset."),
+        default=u"categorization",
+        required=False
     )
 
 

@@ -58,16 +58,9 @@ class TaxonomyIndexerWrapper(object):
         result = []
         for (key, value) in utility.inverted_data[lang].items():
             for (found_identifier, found_language, found_path) in found:
-                in_path = False
-                for s in value.split('/'):
-                    if s != '' and s in found_path.split('/'):
-                        in_path = True
-                    else:
-                        in_path = False
+                if found_path.startswith(value) and key not in result:
+                    result.append(key)
 
-                if in_path:
-                    if key not in result:
-                        result.append(key)
         return result
 
 

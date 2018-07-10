@@ -1,5 +1,7 @@
 
-.taxonomy-icon-flow-split:before { content: '\e800'; } /* '' */
+.taxonomy-icon-minus:before { content: '\e800'; } /* '' */
 .taxonomy-icon-plus:before { content: '\e801'; } /* '' */
-.taxonomy-icon-minus:before { content: '\e802'; } /* '' */
-.taxonomy-icon-pencil:before { content: '\e805'; } /* '' */
+.taxonomy-icon-pencil:before { content: '\e802'; } /* '' */
+.taxonomy-icon-flow-split:before { content: '\e803'; } /* '' */
+.taxonomy-icon-down:before { content: '\e804'; } /* '' */
+.taxonomy-icon-up:before { content: '\e805'; } /* '' */

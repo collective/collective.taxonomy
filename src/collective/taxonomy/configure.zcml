@@ -17,8 +17,16 @@
   <genericsetup:registerProfile
       name="default"
       title="collective.taxonomy"
-      directory="profile"
+      directory="profiles/default"
       description="Registers control panel and default settings."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="collective.taxonomy"
+      directory="profiles/uninstall"
+      description="Uninstall profile."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

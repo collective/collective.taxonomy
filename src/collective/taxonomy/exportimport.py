@@ -5,9 +5,10 @@ from plone.behavior.interfaces import IBehavior
 from io import BytesIO
 from lxml.etree import fromstring
 
-from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.vdex import ImportVdex, ExportVdex
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vdex import ExportVdex
+from collective.taxonomy.vdex import ImportVdex
 
 
 def parseConfigFile(data):
@@ -46,7 +47,8 @@ def importTaxonomy(context):
                 for name in ['name', 'title',
                              'description', 'default_language']:
                     try:
-                        result[name] = unicode(config.get('taxonomy', name), 'utf-8')
+                        result[name] = unicode(
+                            config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
                         pass
 
@@ -59,15 +61,17 @@ def importTaxonomy(context):
 
                 result = {}
                 for name in ['field_title', 'field_description',
-                             'default_language', 'write_permission']:
+                             'default_language', 'write_permission',
+                             'taxonomy_fieldset']:
                     try:
-                        result[name] = unicode(config.get('taxonomy', name), 'utf-8')
+                        result[name] = unicode(
+                            config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
                         pass
 
                 for name in ['is_single_select', 'is_required']:
                     try:
-                        result[name] = config.get('taxonomy', name) == 'true' and True
+                        result[name] = config.get('taxonomy', name) == 'true' and True  # noqa: E501
                     except ConfigParser.NoOptionError:
                         pass
 
@@ -100,7 +104,7 @@ def exportTaxonomy(context):
                         config.set('taxonomy', name, value)
 
             for name in ['field_title', 'field_description',
-                         'write_permission']:
+                         'write_permission', 'taxonomy_fieldset']:
                 value = getattr(behavior, name, None)
                 if value:
                     if type(value) == unicode:
@@ -127,17 +131,12 @@ class TaxonomyImportExportAdapter(object):
     def __init__(self, context):
         self.context = context
 
-    def importDocument(self, taxonomy, document):
-        # XXX: we should change this
-
+    def importDocument(self, taxonomy, document, clear=False):
         tree = fromstring(document)
-        # taxonomy.clean()
-
         results = ImportVdex(tree, self.IMSVDEX_NS)()
 
-        for (language, elements) in results.items():
-            for (path, identifier) in elements.items():
-                taxonomy.add(language, identifier, path)
+        for language, items in results.items():
+            taxonomy.update(language, items, clear)
 
     def exportDocument(self, taxonomy):
         treestring = ExportVdex(taxonomy)(as_string=True)
