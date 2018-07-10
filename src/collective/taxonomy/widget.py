@@ -6,10 +6,8 @@ import zope.schema.interfaces
 from plone.memoize import ram
 
 from z3c.form import interfaces
-from z3c.form.browser import widget
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.widget import FieldWidget
-from z3c.form.widget import SequenceWidget
 
 from interfaces import ITaxonomySelectWidget
 
@@ -36,8 +34,7 @@ class TaxonomySelectWidget(OrderedSelectWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        SequenceWidget.update(self)
-        widget.addFieldClass(self)
+        super(TaxonomySelectWidget, self).update()
         self.items = self._get_items()
         self.selectedItems = [
             self.getItem(self.terms.getTermByToken(token), count)
