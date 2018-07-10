@@ -29,7 +29,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         utility_name = request.get('taxonomy', '')
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)  # noqa
+            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)  # noqa: E501
 
         self.taxonomy = taxonomy
 

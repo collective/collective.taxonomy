@@ -5,9 +5,10 @@ from plone.behavior.interfaces import IBehavior
 from io import BytesIO
 from lxml.etree import fromstring
 
-from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.vdex import ImportVdex, ExportVdex
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vdex import ExportVdex
+from collective.taxonomy.vdex import ImportVdex
 
 
 def parseConfigFile(data):
@@ -46,7 +47,8 @@ def importTaxonomy(context):
                 for name in ['name', 'title',
                              'description', 'default_language']:
                     try:
-                        result[name] = unicode(config.get('taxonomy', name), 'utf-8')
+                        result[name] = unicode(
+                            config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
                         pass
 
@@ -62,13 +64,14 @@ def importTaxonomy(context):
                              'default_language', 'write_permission',
                              'taxonomy_fieldset']:
                     try:
-                        result[name] = unicode(config.get('taxonomy', name), 'utf-8')
+                        result[name] = unicode(
+                            config.get('taxonomy', name), 'utf-8')
                     except ConfigParser.NoOptionError:
                         pass
 
                 for name in ['is_single_select', 'is_required']:
                     try:
-                        result[name] = config.get('taxonomy', name) == 'true' and True
+                        result[name] = config.get('taxonomy', name) == 'true' and True  # noqa: E501
                     except ConfigParser.NoOptionError:
                         pass
 
