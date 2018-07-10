@@ -7,11 +7,9 @@ from lxml import etree
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
 from plone import api
-from plone.protect.interfaces import IDisableCSRFProtection
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
-from zope.interface import alsoProvides
 
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
@@ -52,7 +50,6 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_data(self):
         """Get json data."""
-        alsoProvides(self.request, IDisableCSRFProtection)
         root = etree.Element('vdex')
         try:
             root = self.buildTree(root)

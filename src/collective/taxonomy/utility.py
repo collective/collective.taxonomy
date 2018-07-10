@@ -16,8 +16,10 @@ from plone.behavior.interfaces import IBehavior
 from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
+from plone.protect.auto import safeWrite
 
 from zope.interface import implementer
+from zope.globalrequest import getRequest
 from zope.lifecycleevent import modified
 
 import generated
@@ -53,6 +55,10 @@ class Taxonomy(SimpleItem):
 
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
+        self.order = PersistentDict()
+        self.count = PersistentDict()
+        self.version = PersistentDict()
+
         self.name = name
         self.title = title
         self.default_language = default_language
@@ -306,9 +312,14 @@ class Taxonomy(SimpleItem):
         return pretty_path
 
     def _fixup(self):
+        # due to compatibility reasons this method fixes data structure
+        # for old Taxonomy instances.
+        # XXX: remove this in version 2.0 to prevent write on read
         if self.order is None:
+            safeWrite(self, getRequest())
             self.order = PersistentDict()
             self.count = PersistentDict()
 
         if self.version is None:
+            safeWrite(self, getRequest())
             self.version = PersistentDict()
