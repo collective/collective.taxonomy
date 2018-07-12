@@ -5,6 +5,9 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- fix controlpanel to show settings navigation
+  [petschki]
+
 - memoize vocabulary lookup
   [tomgross, petschki]
 

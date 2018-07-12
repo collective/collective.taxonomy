@@ -27,7 +27,7 @@ from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 logger = logging.getLogger("taxonomy.controlpanel")
 
 
-class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
+class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
     """ A controlpanel for managing taxonomies
 
     """
@@ -39,7 +39,7 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
     description = _("Taxonomy settings")
 
     def updateFields(self):
-        super(TaxonomySettingsControlPanel, self).updateFields()
+        super(TaxonomySettingsControlPanelForm, self).updateFields()
         self.fields['taxonomies'].widgetFactory = CheckBoxFieldWidget
 
     def updateActions(self):
@@ -119,6 +119,10 @@ class TaxonomySettingsControlPanel(controlpanel.RegistryEditForm):
             utility = sm.queryUtility(ITaxonomy, name=taxonomies[0])
             result = adapter.exportDocument(utility)
             self.render = lambda: result
+
+
+class TaxonomySettingsControlPanel(controlpanel.ControlPanelFormWrapper):
+    form = TaxonomySettingsControlPanelForm
 
 
 class TaxonomyAddForm(form.AddForm):
