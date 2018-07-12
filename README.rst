@@ -139,8 +139,7 @@ The view ``@@taxonomy-edit-data`` that allow users to edit the taxonomy data is 
 
 Here's a preview of this view:
 
-.. image:: images/edit_taxonomy_data.gif
-    :target: images/edit_taxonomy_data.gif
+.. image:: https://raw.githubusercontent.com/collective/collective.taxonomy/master/images/edit_taxonomy_data.gif
     :alt: Edit taxonomy data preview
 
 The languages allowed for the taxonomies are the languages defined in ``portal_languages``.
