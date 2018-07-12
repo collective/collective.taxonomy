@@ -5,6 +5,9 @@ Changes
 1.5.0 (unreleased)
 ------------------
 
+- memoize vocabulary lookup
+  [tomgross, petschki]
+
 - fix #53 when editing taxonomy data the first time
   [petschki]
 
