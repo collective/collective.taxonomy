@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.5.0 (unreleased)
+1.5.0 (2018-10-18)
 ------------------
 
 - fix controlpanel to show settings navigation
