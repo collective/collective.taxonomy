@@ -6,7 +6,7 @@ from setuptools import setup
 
 reload(sys).setdefaultencoding("UTF-8")
 
-version = '1.5.1'
+version = '1.5.2-dev'
 
 
 def read(*pathnames):
