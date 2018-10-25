@@ -1,29 +1,29 @@
 Changes
 =======
 
-1.5.1 (unreleased)
+1.5.1 (2018-10-25)
 ------------------
 
-- fix bug in cachekey generator
+- Fix bug in cachekey generator
   [petschki]
 
 
 1.5.0 (2018-10-18)
 ------------------
 
-- fix controlpanel to show settings navigation
+- Fix controlpanel to show settings navigation
   [petschki]
 
-- memoize vocabulary lookup
+- Memoize vocabulary lookup
   [tomgross, petschki]
 
-- fix #53 when editing taxonomy data the first time
+- Fix #53 when editing taxonomy data the first time
   [petschki]
 
-- update german translations
+- Update german translations
   [petschki]
 
-- add uninstall profile
+- Add uninstall profile
   [petschki]
 
 - When using "delete" option on import, clear any previous ordering.
