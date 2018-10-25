@@ -6,12 +6,12 @@ from setuptools import setup
 
 reload(sys).setdefaultencoding("UTF-8")
 
-version = '1.6.0-dev'
+version = '1.5.1-dev'
 
 
 def read(*pathnames):
-    fh = open(os.path.join(os.path.dirname(__file__), *pathnames))
-    return fh.read().decode('utf-8')
+    with open(os.path.join(os.path.dirname(__file__), *pathnames)) as fh:
+        return fh.read().decode('utf-8')
 
 
 setup(

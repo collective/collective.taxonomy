@@ -1,9 +1,11 @@
 Changes
 =======
 
-In next release ...
+1.5.1 (unreleased)
+------------------
 
--
+- fix bug in cachekey generator
+  [petschki]
 
 
 1.5.0 (2018-10-18)

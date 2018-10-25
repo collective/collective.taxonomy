@@ -2,7 +2,6 @@ include *.py
 include *.rst
 include .coveragerc
 include buildout.cfg
-include travis.cfg
 recursive-include images *.gif
 graft src
 global-exclude *.pyc
