@@ -4,7 +4,7 @@ Changes
 1.5.1 (unreleased)
 ------------------
 
-- fux bug in cachekey generator
+- fix bug in cachekey generator
   [petschki]
 
 
