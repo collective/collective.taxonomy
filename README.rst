@@ -1,3 +1,6 @@
+Taxonomy Vocabularies
+=====================
+
 This add-on provides support for hierarchical taxonomies in multiple
 languages, letting users easily associate existing content with terms
 from one or more taxonomies.
@@ -129,8 +132,6 @@ be used for catalog queries.
 
 See a short guide on how to use the product `here <http://bo.geekworld.dk/introducing-collective-taxonomy/>`_.
 
-Development
-===========
 
 React/Redux app to edit taxonomies
 ----------------------------------
@@ -145,7 +146,7 @@ Here's a preview of this view:
 The languages allowed for the taxonomies are the languages defined in ``portal_languages``.
 
 Development
-```````````
+===========
 
 Run the app, run ``npm start`` in the ``javascripts`` directory.
 To make Plone use the development code, you need the ``NODE_ENV`` environment variable to be set to ``development``:
@@ -156,7 +157,7 @@ To make Plone use the development code, you need the ``NODE_ENV`` environment va
 
 
 i18n
-````
+----
 
 The app uses `react-intl <https://github.com/yahoo/react-intl>`_ to handle i18n. To translate the app, add a new language in the translations directory. For example, create a ``es`` file in the translations directory that contains:
 
