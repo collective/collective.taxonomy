@@ -1,28 +1,30 @@
+# -*- coding: utf-8 -*-
 import logging
-
-from plone.app.registry.browser import controlpanel
-from z3c.form.browser.checkbox import CheckBoxFieldWidget
-from plone.behavior.interfaces import IBehavior
-from plone import api
-from plone.memoize import view
+import zipfile
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-
-from zope.interface import implements
+from Products.Five.browser import BrowserView
+from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
+from collective.taxonomy.factory import registerTaxonomy
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import ITaxonomyForm
+from collective.taxonomy.interfaces import ITaxonomySettings
+from plone import api
+from plone.app.registry.browser import controlpanel
+from plone.behavior.interfaces import IBehavior
+from plone.memoize import view
+from six import BytesIO
+from zExceptions import NotFound
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.interfaces import HIDDEN_MODE
 from zope.component import adapts
 from zope.i18n.interfaces import ITranslationDomain
+from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-
-
-from z3c.form import form, field, button
-from z3c.form.interfaces import HIDDEN_MODE
-
-from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import ITaxonomySettings
-from collective.taxonomy.interfaces import ITaxonomyForm
-from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 
 logger = logging.getLogger("taxonomy.controlpanel")
 
@@ -104,25 +106,51 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
             api.portal.show_message(_(u"Please select at least one taxonomy."),
                                     request=self.request)
 
-        return self.request.RESPONSE.redirect(self.context.portal_url() + '/@@taxonomy-settings')
+        return self.request.RESPONSE.redirect(
+            self.context.portal_url() + '/@@taxonomy-settings')
 
     @button.buttonAndHandler(_(u'label_export', default='Export'),
                              name='export')
     def handle_export_action(self, action):
         data, errors = self.extractData()
-        sm = self.context.getSiteManager()
         taxonomies = data.get('taxonomies', [])
 
         if len(taxonomies) > 0:
-            adapter = TaxonomyImportExportAdapter(self.context)
-            self.request.RESPONSE.setHeader('Content-type', 'text/xml')
-            utility = sm.queryUtility(ITaxonomy, name=taxonomies[0])
-            result = adapter.exportDocument(utility)
-            self.render = lambda: result
+            return self.request.RESPONSE.redirect(
+                self.context.portal_url() + '/@@taxonomy-export?taxonomies=' + ','.join(taxonomies))  # noqa
 
 
 class TaxonomySettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = TaxonomySettingsControlPanelForm
+
+
+class TaxonomyExport(BrowserView):
+
+    def __call__(self, REQUEST):
+        taxonomies = REQUEST.get('taxonomies')
+        if not bool(taxonomies):
+            raise NotFound()
+
+        stream = BytesIO()
+        z_file = zipfile.ZipFile(
+            stream, "w", zipfile.ZIP_DEFLATED, True)
+        sm = self.context.getSiteManager()
+        adapter = TaxonomyImportExportAdapter(self.context)
+
+        for taxonomy in taxonomies.split(","):
+            utility = sm.queryUtility(ITaxonomy, name=taxonomy)
+            if utility is None:
+                continue
+            result = adapter.exportDocument(utility)
+            z_file.writestr("%s.xml" % taxonomy, result)
+
+        z_file.close()
+        self.request.RESPONSE.setHeader('Content-type', 'text/xml')
+        self.request.RESPONSE.setHeader('Content-length', len(result))
+        self.request.RESPONSE.setHeader(
+            'Content-disposition',
+            'attachment; filename="taxonomy_export.zip"')
+        return stream.getvalue()
 
 
 class TaxonomyAddForm(form.AddForm):

@@ -1,6 +1,13 @@
 Changes
 =======
 
+1.5.2 (unreleased)
+------------------
+
+- export selected taxonomies as ZIPed folder with XML files
+  [petschki]
+
+
 1.5.1 (2018-10-25)
 ------------------
 
