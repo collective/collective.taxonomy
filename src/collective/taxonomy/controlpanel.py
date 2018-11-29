@@ -145,7 +145,8 @@ class TaxonomyExport(BrowserView):
             z_file.writestr("%s.xml" % taxonomy, result)
 
         z_file.close()
-        self.request.RESPONSE.setHeader('Content-type', 'text/xml')
+        self.request.RESPONSE.setHeader(
+            'Content-type', 'application/x-zip-compressed')
         self.request.RESPONSE.setHeader(
             'Content-disposition',
             'attachment; filename="taxonomy_export.zip"')
