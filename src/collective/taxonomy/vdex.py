@@ -1,8 +1,8 @@
-from lxml import etree
+# -*- coding: utf-8 -*-
 from collections import OrderedDict
-from plone.supermodel.utils import indent
-
 from collective.taxonomy import PATH_SEPARATOR
+from lxml import etree
+from plone.supermodel.utils import indent
 
 LANG_SEPARATOR = '|'
 
@@ -93,6 +93,10 @@ class TreeExport(object):
 
     def makeSubtree(self, index, table):
         termnodes = []
+
+        def _sortkey(lng, lngstr):
+            return lng
+
         for identifier in index.keys():
             termnode = etree.Element('term')
             identifiernode = etree.Element('termIdentifier')
@@ -100,12 +104,12 @@ class TreeExport(object):
             captionnode = etree.Element('caption')
 
             translations = table[identifier].items()
-            translations.sort(key=lambda (language, langstring): language)
+            translations.sort(key=_sortkey)
 
             for (language, langstring) in translations:
                 langstringnode = etree.Element('langstring')
                 langstringnode.text = langstring
-                langstringnode.attrib['language'] = language or self.taxonomy.default_language or ''
+                langstringnode.attrib['language'] = language or self.taxonomy.default_language or ''  # noqa: E501
                 captionnode.append(langstringnode)
 
             termnode.append(identifiernode)

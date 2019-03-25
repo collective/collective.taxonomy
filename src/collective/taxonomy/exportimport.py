@@ -1,28 +1,24 @@
-import ConfigParser
-
-from plone.behavior.interfaces import IBehavior
-
-from io import BytesIO
-from lxml.etree import fromstring
+# -*- coding: utf-8 -*-
+import six
 
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
 from collective.taxonomy.vdex import ImportVdex
+from io import BytesIO
+from io import StringIO
+from lxml.etree import fromstring
+from plone.behavior.interfaces import IBehavior
+from six.moves import configparser
 
 
 def parseConfigFile(data):
     try:
-        config = ConfigParser.RawConfigParser(allow_no_value=True)
-    except TypeError:
-        # We are probably on Python < 2.7 that does not support
-        # allow_no_value, so we are just forced to do ConfigParsing
-        # without allowing empty arguments :(
-        config = ConfigParser.RawConfigParser()
+        config = configparser.RawConfigParser(allow_no_value=True)
     except Exception as exception:
         raise exception
 
-    config.readfp(BytesIO(data))
+    config.readfp(StringIO(data.decode('utf-8')))
     return config
 
 
@@ -47,9 +43,8 @@ def importTaxonomy(context):
                 for name in ['name', 'title',
                              'description', 'default_language']:
                     try:
-                        result[name] = unicode(
-                            config.get('taxonomy', name), 'utf-8')
-                    except ConfigParser.NoOptionError:
+                        result[name] = config.get('taxonomy', name)
+                    except configparser.NoOptionError:
                         pass
 
                 taxonomy = registerTaxonomy(
@@ -64,15 +59,14 @@ def importTaxonomy(context):
                              'default_language', 'write_permission',
                              'taxonomy_fieldset']:
                     try:
-                        result[name] = unicode(
-                            config.get('taxonomy', name), 'utf-8')
-                    except ConfigParser.NoOptionError:
+                        result[name] = config.get('taxonomy', name)
+                    except configparser.NoOptionError:
                         pass
 
                 for name in ['is_single_select', 'is_required']:
                     try:
                         result[name] = config.get('taxonomy', name) == 'true' and True  # noqa: E501
-                    except ConfigParser.NoOptionError:
+                    except configparser.NoOptionError:
                         pass
 
                 taxonomy.registerBehavior(**result)
@@ -89,7 +83,7 @@ def exportTaxonomy(context):
         body = exporter.exportDocument(taxonomy)
 
         if body is not None:
-            config = ConfigParser.RawConfigParser()
+            config = configparser.RawConfigParser()
 
             config.add_section('taxonomy')
             name = name.replace('collective.taxonomy.', '')
@@ -98,7 +92,7 @@ def exportTaxonomy(context):
             for name in ['title', 'description', 'default_language']:
                 value = getattr(taxonomy, name, None)
                 if value:
-                    if type(value) == unicode:
+                    if isinstance(value, six.string_types):
                         config.set('taxonomy', name, value.encode('utf-8'))
                     else:
                         config.set('taxonomy', name, value)
@@ -107,7 +101,7 @@ def exportTaxonomy(context):
                          'write_permission', 'taxonomy_fieldset']:
                 value = getattr(behavior, name, None)
                 if value:
-                    if type(value) == unicode:
+                    if isinstance(value, six.string_types):
                         config.set('taxonomy', name, value.encode('utf-8'))
                     else:
                         config.set('taxonomy', name, value)

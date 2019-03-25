@@ -34,7 +34,7 @@ class TaxonomyView(BrowserView):
         """ Eq to context.translate(msgid, domain) """
         sm = getSiteManager()
         utility = sm.queryUtility(ITaxonomy, name=domain)
-        return utility.translate(msgid, context=self.context, target_language=target_language)
+        return utility.translate(msgid, context=self.context, target_language=target_language)  # noqa: E501
 
 
 class VocabularyTuplesView(BrowserView):

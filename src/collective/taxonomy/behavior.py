@@ -1,46 +1,40 @@
+# -*- coding: utf-8 -*-
 import logging
-import generated
 
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
+from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
+from Products.ZCatalog.Catalog import CatalogError
+from Products.ZCatalog.interfaces import IZCatalog
+from collective.taxonomy import generated
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
+from collective.taxonomy.indexer import TaxonomyIndexer
 from persistent import Persistent
-
-from plone.autoform.interfaces import (
-    WRITE_PERMISSIONS_KEY,
-    WIDGETS_KEY,
-    IFormFieldProvider
-)
-
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.autoform.interfaces import WIDGETS_KEY
+from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
-from plone.registry import Record, field
+from plone.registry import Record
+from plone.registry import field
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
 from plone.supermodel.model import Schema
 from plone.supermodel.model import SchemaClass
-
-from Products.CMFCore.utils import getToolByName
-from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
-from Products.ZCatalog.Catalog import CatalogError
-from Products.ZCatalog.interfaces import IZCatalog
-
 from zope import schema
-from zope.component.hooks import getSite
-from zope.interface import implements, alsoProvides
 from zope.component import getUtility
-
-from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.indexer import TaxonomyIndexer
-
+from zope.component.hooks import getSite
+from zope.interface import alsoProvides
+from zope.interface import implementer
 
 logger = logging.getLogger("collective.taxonomy")
 
 
+@implementer(IBehavior)
 class TaxonomyBehavior(Persistent):
     is_single_select = False
-
-    implements(IBehavior)
-
     field_prefix = "taxonomy_"
 
     def __init__(self, name, title, description, field_title,
@@ -90,14 +84,14 @@ class TaxonomyBehavior(Persistent):
         def add(name, value):
             registry.records[prefix + '.' + name] = value
 
-        add('title', Record(field.TextLine(), unicode(self.field_title)))
+        add('title', Record(field.TextLine(), safe_unicode(self.field_title)))
         add('enabled', Record(field.Bool(), True))
-        add('group', Record(field.TextLine(), unicode('Taxonomy')))
+        add('group', Record(field.TextLine(), safe_unicode('Taxonomy')))
         add('operations', Record(field.List(value_type=field.TextLine()),
             [u'plone.app.querystring.operation.selection.is']))
-        add('vocabulary', Record(field.TextLine(), unicode(self.vocabulary_name)))
+        add('vocabulary', Record(field.TextLine(), safe_unicode(self.vocabulary_name)))  # noqa: E501
         add('sortable', Record(field.Bool(), False))
-        add('description', Record(field.Text(), unicode('')))
+        add('description', Record(field.Text(), safe_unicode('')))
 
     def addIndex(self):
         context = getSite()
@@ -144,15 +138,15 @@ class TaxonomyBehavior(Persistent):
 
         if hasattr(self, 'is_single_select') and self.is_single_select:
             select_field = schema.Choice(
-                title=_(unicode(self.field_title)),
-                description=_(unicode(self.field_description)),
+                title=_(safe_unicode(self.field_title)),
+                description=_(safe_unicode(self.field_description)),
                 required=self.is_required,
                 vocabulary=self.vocabulary_name
             )
         else:
             select_field = schema.List(
-                title=_(unicode(self.field_title)),
-                description=_(unicode(self.field_description)),
+                title=_(safe_unicode(self.field_title)),
+                description=_(safe_unicode(self.field_description)),
                 required=self.is_required,
                 min_length=self.is_required and 1 or 0,
                 value_type=schema.Choice(

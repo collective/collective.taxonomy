@@ -15,15 +15,15 @@ from plone.app.registry.browser import controlpanel
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import view
 from six import BytesIO
-from zExceptions import NotFound
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.interfaces import HIDDEN_MODE
-from zope.component import adapts
+from zExceptions import NotFound
+from zope.component import adapter
 from zope.i18n.interfaces import ITranslationDomain
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 logger = logging.getLogger("taxonomy.controlpanel")
@@ -262,9 +262,9 @@ class TaxonomyEditForm(form.EditForm):
                                        '/@@taxonomy-settings')
 
 
+@adapter(IPloneSiteRoot)
+@implementer(ITaxonomyForm)
 class TaxonomyEditFormAdapter(object):
-    adapts(IPloneSiteRoot)
-    implements(ITaxonomyForm)
 
     purge = False
 

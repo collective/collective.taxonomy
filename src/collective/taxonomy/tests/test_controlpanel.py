@@ -22,6 +22,7 @@ class TestControlPanel(unittest.TestCase):
         self.document = api.content.create(
             container=self.portal, type='Document', title='Doc')
         self.browser = Browser(self.layer['app'])
+        self.browser.handleErrors = False
         self.browser.addHeader(
             'Authorization', 'Basic {0}:{1}'.format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
         commit()

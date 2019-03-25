@@ -1,37 +1,29 @@
 # -*- coding: utf-8 -*-
 
-from collective.taxonomy.behavior import TaxonomyBehavior
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
-from collective.taxonomy.vocabulary import Vocabulary
+import logging
 
 from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
-
+from collective.taxonomy import LEGACY_PATH_SEPARATOR
+from collective.taxonomy import NODE
+from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy import PRETTY_PATH_SEPARATOR
+from collective.taxonomy import generated
+from collective.taxonomy.behavior import TaxonomyBehavior
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import get_lang_code
+from collective.taxonomy.vocabulary import Vocabulary
+from copy import copy
 from persistent.dict import PersistentDict
-
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
-
-from zope.interface import implementer
 from zope.globalrequest import getRequest
+from zope.interface import implementer
 from zope.lifecycleevent import modified
-
-import generated
-import logging
-
-from copy import copy
-
-from collective.taxonomy import (
-    LEGACY_PATH_SEPARATOR,
-    PATH_SEPARATOR,
-    PRETTY_PATH_SEPARATOR,
-    NODE,
-)
 
 try:
     from plone.protect.auto import safeWrite
@@ -172,7 +164,7 @@ class Taxonomy(SimpleItem):
             if 'field_title' in kwargs:
                 utility.title = kwargs.pop('field_title')
 
-            for k, v in kwargs.iteritems():
+            for k, v in kwargs.items():
                 setattr(utility, k, v)
 
         delattr(generated, short_name)
@@ -294,7 +286,8 @@ class Taxonomy(SimpleItem):
         self.count[language] = count
 
     def translate(self, msgid, mapping=None, context=None,
-                  target_language=None, default=None):
+                  target_language=None, default=None, msgid_plural=None,
+                  default_plural=None, number=None):
 
         if target_language is None or \
                 target_language not in self.inverted_data:
