@@ -32,7 +32,7 @@ class TaxonomySelectWidget(OrderedSelectWidget):
         return [
             self.getItem(term, count)
             for count, term in enumerate(self.terms)
-            ]
+        ]
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""

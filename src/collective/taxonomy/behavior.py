@@ -74,8 +74,9 @@ class TaxonomyBehavior(Persistent):
         try:
             catalog.delIndex(self.field_name)
         except CatalogError:
-            logging.info("Could not delete index " + self.field_name +
-                         " something is not right..")
+            logging.info(
+                "Could not delete index {0} .. something is not right.".format(
+                    self.field_name))
 
     def activateSearchable(self):
         registry = getUtility(IRegistry)
@@ -106,8 +107,9 @@ class TaxonomyBehavior(Persistent):
         try:
             catalog.addIndex(self.field_name, idx_object)
         except CatalogError:
-            logging.info("Index " + self.field_name +
-                         " already exists, we hope it is proper configured")
+            logging.info(
+                "Index {0} already exists, we hope it is proper configured".format(  # noqa: E501
+                    self.field_name))
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):

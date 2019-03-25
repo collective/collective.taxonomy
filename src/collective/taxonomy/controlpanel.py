@@ -64,28 +64,29 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         data, errors = self.extractData()
         if len(data.get('taxonomies', [])) > 0:
             self.request.RESPONSE.redirect(
-                self.context.portal_url() +
-                '/@@taxonomy-edit?form.widgets.taxonomy=' +
-                data.get('taxonomies')[0]
-            )
+                '{0}/@@taxonomy-edit?form.widgets.taxonomy={1}'.format(
+                    self.context.portal_url(),
+                    data.get('taxonomies')[0]))
         else:
             api.portal.show_message(_(u"Please select one taxonomy."),
                                     request=self.request)
 
-    @button.buttonAndHandler(_(u'label_edit_data_taxonomy', default='Edit taxonomy data'),
+    @button.buttonAndHandler(_(u'label_edit_data_taxonomy',
+                             default='Edit taxonomy data'),
                              name='edit_data_taxonomy')
     def handle_edit_taxonomy_data_action(self, action):
         data, errors = self.extractData()
         if len(data.get('taxonomies', [])) > 0:
             self.request.RESPONSE.redirect(
-                self.context.portal_url() +
-                '/@@taxonomy-edit-data?taxonomy=' +
-                data.get('taxonomies')[0])
+                '{0}/@@taxonomy-edit-data?taxonomy={1}'.format(
+                    self.context.portal_url(),
+                    data.get('taxonomies')[0]))
         else:
             api.portal.show_message(_(u"Please select one taxonomy."),
                                     request=self.request)
 
-    @button.buttonAndHandler(_(u'label_delete_taxonomy', default='Delete taxonomy'),
+    @button.buttonAndHandler(_(u'label_delete_taxonomy',
+                             default='Delete taxonomy'),
                              name='delete-taxonomy')
     def handle_delete_taxonomy_action(self, action):
         data, errors = self.extractData()
@@ -214,8 +215,8 @@ class TaxonomyAddForm(form.AddForm):
     def handleCancel(self, action):
         api.portal.show_message(_(u"Add cancelled"),
                                 request=self.request)
-        self.request.response.redirect(self.context.absolute_url() +
-                                       '/@@taxonomy-settings')
+        self.request.response.redirect(
+            '{0}/@@taxonomy-settings'.format(self.context.absolute_url()))
 
 
 class TaxonomyEditForm(form.EditForm):
@@ -252,14 +253,14 @@ class TaxonomyEditForm(form.EditForm):
             utility.updateBehavior(**data)
 
             api.portal.show_message(_(u"Changes saved"), request=self.request)
-        self.request.response.redirect(self.context.absolute_url() +
-                                       '/@@taxonomy-settings')
+        self.request.response.redirect(
+            '{0}/@@taxonomy-settings'.format(self.context.absolute_url()))
 
     @button.buttonAndHandler(_(u'Cancel'), name='cancel')
     def handleCancel(self, action):
         api.portal.show_message(_(u"Edit cancelled"), request=self.request)
-        self.request.response.redirect(self.context.absolute_url() +
-                                       '/@@taxonomy-settings')
+        self.request.response.redirect(
+            '{0}/@@taxonomy-settings'.format(self.context.absolute_url()))
 
 
 @adapter(IPloneSiteRoot)
