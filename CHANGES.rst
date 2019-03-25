@@ -1,10 +1,13 @@
 Changes
 =======
 
-1.5.2 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
 - export selected taxonomies as ZIPed folder with XML files
+  [petschki]
+
+- Python 3 compatibility
   [petschki]
 
 
