@@ -12,8 +12,7 @@ def test_suite():
     robot_dir = os.path.join(current_dir, 'robot')
     robot_tests = [
         os.path.join('robot', doc) for doc in
-        os.listdir(robot_dir) if doc.endswith('.robot') and
-        doc.startswith('test_')
+        os.listdir(robot_dir) if doc.endswith('.robot') and doc.startswith('test_')  # noqa: E501
     ]
     for robot_test in robot_tests:
         robottestsuite = robotsuite.RobotTestSuite(robot_test)

@@ -1,17 +1,14 @@
 import os
-import sys
 
 from setuptools import find_packages
 from setuptools import setup
 
-reload(sys).setdefaultencoding("UTF-8")
-
-version = '1.5.2-dev'
+version = '2.0.0-dev'
 
 
 def read(*pathnames):
     with open(os.path.join(os.path.dirname(__file__), *pathnames)) as fh:
-        return fh.read().decode('utf-8')
+        return fh.read()
 
 
 setup(
@@ -24,13 +21,17 @@ setup(
         read('CHANGES.rst'),
     ]),
     classifiers=[
+        "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 4.3",
-        "Framework :: Plone :: 5.0",
         "Framework :: Plone :: 5.1",
-        "Framework :: Zope2",
+        "Framework :: Plone :: 5.2",
+        "Framework :: Zope",
+        "Framework :: Zope :: 2",
+        "Framework :: Zope :: 4",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ],
     keywords='plone taxonomy dexterity',
     author='Bo Simonsen and Malthe Borch',
@@ -48,6 +49,7 @@ setup(
         'plone.app.registry',
         'plone.app.dexterity',
         'lxml',
+        'six',
     ],
     extras_require={
         'test': [

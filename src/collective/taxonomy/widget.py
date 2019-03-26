@@ -3,13 +3,11 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
+from collective.taxonomy.interfaces import ITaxonomySelectWidget
 from plone.memoize import ram
-
 from z3c.form import interfaces
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.widget import FieldWidget
-
-from interfaces import ITaxonomySelectWidget
 
 
 def _items_cachekey(fun, self):
@@ -34,7 +32,7 @@ class TaxonomySelectWidget(OrderedSelectWidget):
         return [
             self.getItem(term, count)
             for count, term in enumerate(self.terms)
-            ]
+        ]
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""

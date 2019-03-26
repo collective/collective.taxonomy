@@ -33,11 +33,15 @@ Library  DateTime
 Test Setup  TestSetup
 Test Teardown  TestTeardown
 
+*** Variables ***
+
+${BROWSER}  chrome
+
 
 *** Test Cases ***************************************************************
 
 Scenario: As a manager I can add a taxonomy
-  Given loged in manager
+  Given a loged in manager
    When I search for 'Colorless Green Ideas'
    Then the search returns '1' results
     and the search results should include 'Colorless Green Ideas'
