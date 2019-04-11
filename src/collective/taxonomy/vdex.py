@@ -94,7 +94,7 @@ class TreeExport(object):
     def makeSubtree(self, index, table):
         termnodes = []
 
-        def _sortkey(lng, lngstr):
+        def _sortkey(lng):
             return lng
 
         for identifier in index.keys():

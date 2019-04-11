@@ -4,6 +4,9 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- fix vdex zip export
+  [erral]
+
 - export selected taxonomies as ZIPed folder with XML files
   [petschki]
 
