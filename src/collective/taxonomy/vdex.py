@@ -94,17 +94,12 @@ class TreeExport(object):
     def makeSubtree(self, index, table):
         termnodes = []
 
-        def _sortkey(lng, lngstr):
-            return lng
-
         for identifier in index.keys():
             termnode = etree.Element('term')
             identifiernode = etree.Element('termIdentifier')
             identifiernode.text = str(identifier)
             captionnode = etree.Element('caption')
-
-            translations = table[identifier].items()
-            translations.sort(key=_sortkey)
+            translations = sorted(table[identifier].items())
 
             for (language, langstring) in translations:
                 langstringnode = etree.Element('langstring')
