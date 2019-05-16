@@ -8,7 +8,7 @@ Changes
   [petschki]
 
 - Python 3 compatibility
-  [petschki]
+  [petschki, agitator]
 
 
 1.5.1 (2018-10-25)
