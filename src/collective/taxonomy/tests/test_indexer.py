@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.testing import INTEGRATION_TESTING
 from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone import api
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.testing import applyProfile
@@ -11,6 +11,7 @@ from zope import schema
 from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
+
 import unittest
 
 

@@ -4,9 +4,10 @@ from plone import api
 from plone.app.testing import applyProfile
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
-import unittest
-from transaction import commit
 from plone.testing.z2 import Browser
+from transaction import commit
+
+import unittest
 
 
 class TestControlPanel(unittest.TestCase):

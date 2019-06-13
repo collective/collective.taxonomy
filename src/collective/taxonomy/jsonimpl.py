@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
-import json
-import os
-
-from lxml import etree
-
 from BTrees.OOBTree import OOBTree
-from Products.Five.browser import BrowserView
+from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
+from collective.taxonomy.interfaces import get_lang_code
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vdex import TreeExport
+from lxml import etree
 from plone import api
+from Products.Five.browser import BrowserView
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.i18n import translate
 
-from collective.taxonomy import PATH_SEPARATOR
-from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
-from collective.taxonomy.vdex import TreeExport
+import json
+import os
 
 
 class EditTaxonomyData(TreeExport, BrowserView):

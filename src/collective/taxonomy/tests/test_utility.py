@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from zope.component import queryUtility
+
+import unittest
 
 
 class TestUtility(unittest.TestCase):

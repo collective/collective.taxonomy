@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
-from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
-from Products.ZCatalog.Catalog import CatalogError
-from Products.ZCatalog.interfaces import IZCatalog
 from collective.taxonomy import generated
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.indexer import TaxonomyIndexer
@@ -16,19 +9,27 @@ from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
-from plone.registry import Record
 from plone.registry import field
+from plone.registry import Record
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
 from plone.supermodel.model import Schema
 from plone.supermodel.model import SchemaClass
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
+from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
+from Products.ZCatalog.Catalog import CatalogError
+from Products.ZCatalog.interfaces import IZCatalog
 from zope import schema
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import alsoProvides
 from zope.interface import implementer
+
+import logging
 import pkg_resources
+
 
 try:
     pkg_resources.get_distribution('plone.app.multilingual')

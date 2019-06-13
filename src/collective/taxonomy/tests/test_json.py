@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
+from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
-from collective.taxonomy.testing import INTEGRATION_TESTING
+import unittest
 
 
 class TestJson(unittest.TestCase):

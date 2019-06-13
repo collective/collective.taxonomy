@@ -1,6 +1,7 @@
+from .interfaces import ITaxonomy
 from logging import getLogger
 from plone.behavior.interfaces import IBehavior
-from .interfaces import ITaxonomy
+
 
 log = getLogger('collective.taxonomy:upgrades')
 
