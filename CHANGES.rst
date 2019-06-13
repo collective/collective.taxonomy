@@ -4,6 +4,9 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- Make generated behaviors language independent
+  [agitator]
+
 - export selected taxonomies as ZIPed folder with XML files
   [petschki]
 

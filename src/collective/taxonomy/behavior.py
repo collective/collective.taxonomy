@@ -28,6 +28,15 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import alsoProvides
 from zope.interface import implementer
+import pkg_resources
+
+try:
+    pkg_resources.get_distribution('plone.app.multilingual')
+except pkg_resources.DistributionNotFound:
+    HAS_PAM = False
+else:
+    from plone.app.multilingual.dx.interfaces import ILanguageIndependentField
+    HAS_PAM = True
 
 logger = logging.getLogger("collective.taxonomy")
 
@@ -192,4 +201,8 @@ class TaxonomyBehavior(Persistent):
             )
 
         alsoProvides(schemaclass, IFormFieldProvider)
+        
+        if HAS_PAM:
+            alsoProvides(schemaclass[self.field_name], ILanguageIndependentField)
+
         return schemaclass
