@@ -4,6 +4,9 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- Use taxonomy default language for indexing if current language is not available
+  [agitator]
+
 - Make generated behaviors language independent
   [agitator]
 
