@@ -291,7 +291,7 @@ class Taxonomy(SimpleItem):
 
         if target_language is None or \
                 target_language not in self.inverted_data:
-            target_language = self.default_language
+            target_language = str(api.portal.get_current_language())
 
         if msgid not in self.inverted_data[target_language]:
             return ''
