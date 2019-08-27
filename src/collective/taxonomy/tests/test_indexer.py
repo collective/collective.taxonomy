@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from collective.dexteritytextindexer.directives import SEARCHABLE_KEY
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.testing import applyProfile
+from plone.behavior.interfaces import IBehavior
+from plone.dexterity.schema import SchemaInvalidatedEvent
 from plone.registry.interfaces import IRegistry
 from plone.schemaeditor.utils import FieldAddedEvent
 from plone.schemaeditor.utils import IEditableSchema
@@ -11,6 +14,7 @@ from zope import schema
 from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
+
 import unittest
 
 
@@ -103,3 +107,45 @@ class TestIndexer(unittest.TestCase):
              ('3', {'title': u'Information Science \xbb Chronology'}),
              ('5', {'title': u'Information Science \xbb Sport'})]
         )
+
+    def test_searchabletext_indexer(self):
+        portal_types = api.portal.get_tool("portal_types")
+        fti = portal_types.get("Document")
+
+        behaviors = list(fti.behaviors)
+        behaviors.append(
+            "collective.dexteritytextindexer.behavior.IDexterityTextIndexer"
+        )
+        fti._updateProperty("behaviors", tuple(behaviors))
+        notify(SchemaInvalidatedEvent("Document"))
+
+        utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
+        behavior = queryUtility(IBehavior, name=utility.getGeneratedName())
+        self.assertFalse(behavior.is_searchable_text)
+        behavior.is_searchable_text = True
+        behavior.updateSearchableText()
+
+        notify(SchemaInvalidatedEvent("Document"))
+        portal_catalog = api.portal.get_tool("portal_catalog")
+
+        taxonomy_test = schema.Set(
+            title=u"taxonomy_test",
+            description=u"taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(vocabulary=u"collective.taxonomy.taxonomies"),
+        )
+
+        document_schema = fti.lookupSchema()
+        schemaeditor = IEditableSchema(document_schema)
+        schemaeditor.addField(taxonomy_test, name="taxonomy_test")
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
+
+        self.document.taxonomy_test = ["5"]
+        self.document.reindexObject()
+
+        result = portal_catalog(SearchableText="*Sport*")
+        # self.assertEqual(len(result), 1)
+        iface = behavior.generateInterface()
+        self.assertEquals(iface.queryTaggedValue(SEARCHABLE_KEY)[0][1], "taxonomy_test")
+        self.assertEquals(iface.queryTaggedValue(SEARCHABLE_KEY)[0][2], "true")

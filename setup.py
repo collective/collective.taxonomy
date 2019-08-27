@@ -48,6 +48,7 @@ setup(
         'plone.api >= 1.5',
         'plone.app.registry',
         'plone.app.dexterity',
+        "collective.dexteritytextindexer",
         'lxml',
         'six',
     ],

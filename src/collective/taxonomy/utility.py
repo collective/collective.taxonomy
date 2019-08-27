@@ -142,6 +142,7 @@ class Taxonomy(SimpleItem):
 
         behavior.addIndex()
         behavior.activateSearchable()
+        behavior.updateSearchableText()
 
     def cleanupFTI(self):
         """Cleanup the FTIs"""
@@ -161,6 +162,7 @@ class Taxonomy(SimpleItem):
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
+            utility.updateSearchableText()
             if 'field_title' in kwargs:
                 utility.title = kwargs.pop('field_title')
 
@@ -184,6 +186,7 @@ class Taxonomy(SimpleItem):
 
         utility.removeIndex()
         utility.deactivateSearchable()
+        utility.unregisterSearchableText()
         utility.unregisterInterface()
 
         self.sm.unregisterUtility(utility, IBehavior, name=behavior_name)

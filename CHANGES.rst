@@ -4,6 +4,9 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- Add option to add taxonomy values on searchable text index.
+  [bsuttor]
+
 - Use taxonomy default language for indexing if current language is not available
   [agitator]
 

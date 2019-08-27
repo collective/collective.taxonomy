@@ -6,6 +6,8 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
 from Products.ZCatalog.Catalog import CatalogError
 from Products.ZCatalog.interfaces import IZCatalog
+from collective.dexteritytextindexer.utils import no_longer_searchable
+from collective.dexteritytextindexer.utils import searchable
 from collective.taxonomy import generated
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.indexer import TaxonomyIndexer
@@ -50,7 +52,8 @@ class TaxonomyBehavior(Persistent):
                  field_description, is_required=False,
                  is_single_select=False, write_permission='',
                  field_prefix="taxonomy_",
-                 default_language='en', taxonomy_fieldset='categorization'):
+                 default_language='en', taxonomy_fieldset='categorization',
+                 is_searchable_text=False):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -63,6 +66,7 @@ class TaxonomyBehavior(Persistent):
         self.write_permission = write_permission
         self.default_language = default_language
         self.taxonomy_fieldset = taxonomy_fieldset
+        self.is_searchable_text = is_searchable_text
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)
@@ -123,6 +127,18 @@ class TaxonomyBehavior(Persistent):
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):
             delattr(generated, self.short_name)
+
+    def updateSearchableText(self):
+        # add searchable beahavior
+        if self.is_searchable_text:
+            searchable(self.interface, self.field_name)
+            # XXX get all objects with taxonomy field and reindex it
+        else:
+            self.unregisterSearchableText()
+
+    def unregisterSearchableText(self):
+        no_longer_searchable(self.interface, self.field_name)
+        # XXX get all objects with taxonomy field and reindex it
 
     @property
     def short_name(self):
@@ -199,6 +215,11 @@ class TaxonomyBehavior(Persistent):
                 {self.field_name:
                  'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
             )
+
+        if getattr(self, 'is_searchable_text', False):
+            searchable(schemaclass, self.field_name)
+        else:
+            no_longer_searchable(schemaclass, self.field_name)
 
         alsoProvides(schemaclass, IFormFieldProvider)
         

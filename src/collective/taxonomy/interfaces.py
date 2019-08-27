@@ -156,6 +156,13 @@ class ITaxonomyForm(Interface):
         required=False
     )
 
+    is_searchable_text = schema.Bool(
+        title=_(u"Searchable text"),
+        description=_(
+            u"Check to add taxonomy value on global search"),
+        required=True
+    )
+
 
 class ITaxonomyView(Interface):
 
