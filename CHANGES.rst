@@ -4,6 +4,9 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- Fix GenericSetup import/export in python3
+  [erral]
+
 - Use taxonomy default language for indexing if current language is not available
   [agitator]
 

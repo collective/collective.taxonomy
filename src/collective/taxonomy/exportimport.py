@@ -92,26 +92,20 @@ def exportTaxonomy(context):
             for name in ['title', 'description', 'default_language']:
                 value = getattr(taxonomy, name, None)
                 if value:
-                    if isinstance(value, six.string_types):
-                        config.set('taxonomy', name, value.encode('utf-8'))
-                    else:
-                        config.set('taxonomy', name, value)
+                    config.set('taxonomy', name, six.ensure_text(value))
 
             for name in ['field_title', 'field_description',
                          'write_permission', 'taxonomy_fieldset']:
                 value = getattr(behavior, name, None)
                 if value:
-                    if isinstance(value, six.string_types):
-                        config.set('taxonomy', name, value.encode('utf-8'))
-                    else:
-                        config.set('taxonomy', name, value)
+                    config.set('taxonomy', name, six.ensure_text(value))
 
             for name in ['is_single_select', 'is_required']:
                 value = getattr(behavior, name, None)
                 if value:
                     config.set('taxonomy', name, str(value).lower())
 
-            filehandle = BytesIO()
+            filehandle = StringIO()
             config.write(filehandle)
             context.writeDataFile('taxonomies/' + short_name + '.cfg',
                                   filehandle.getvalue(), 'text/plain')
