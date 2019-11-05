@@ -31,7 +31,7 @@
     "chai": "^3.5.0",
     "chai-equal-jsx": "^1.0.9",
     "chai-spies": "*",
-    "eslint": "^2.11.1",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
