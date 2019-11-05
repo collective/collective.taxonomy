@@ -5,8 +5,6 @@ from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
 from collective.taxonomy.vdex import ImportVdex
-from io import StringIO
-from io import BytesIO
 from lxml.etree import fromstring
 from plone.behavior.interfaces import IBehavior
 from six.moves import configparser
@@ -18,7 +16,7 @@ def parseConfigFile(data):
     except Exception as exception:
         raise exception
 
-    config.readfp(StringIO(data.decode("utf-8")))
+    config.readfp(six.StringIO(data.decode('utf-8')))
     return config
 
 
@@ -111,10 +109,7 @@ def exportTaxonomy(context):
                 if value:
                     config.set("taxonomy", name, str(value).lower())
 
-            if six.PY3:
-                filehandle = StringIO()
-            else:
-                filehandle = BytesIO()
+            filehandle = six.StringIO()
             config.write(filehandle)
             context.writeDataFile(
                 "taxonomies/" + short_name + ".cfg", filehandle.getvalue(), "text/plain"

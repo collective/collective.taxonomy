@@ -255,33 +255,12 @@ class Taxonomy(SimpleItem):
                 % (self.name, version, language)
             )
 
-        # Make sure we update the modification time.
-        self.data[language] = tree
-
-        # The following structure is used to expunge updated entries.
-        inv = {}
-        if not clear:
-            for i, key in order.items():
-                inv[key] = i
-
-        seen = set()
         for key, value in items:
-            if key in seen:
-                logger.warning("Duplicate key entry: %r" % (key,))
-
-            seen.add(key)
-            update = key in tree
             tree[key] = value
             order[count] = key
             count += 1
 
-            # If we're updating, then we have to pop out the old ordering
-            # information in order to maintain relative ordering of new items.
-            if update:
-                i = inv.get(key)
-                if i is not None:
-                    del order[i]
-
+        self.data[language] = tree
         self.count[language] = count
 
     def translate(
