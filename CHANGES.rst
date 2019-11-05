@@ -4,6 +4,9 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- add uninstall handler to cleanup persistent utilites and generated behaviors
+  [petschki]
+
 - Fix GenericSetup import/export in python3
   [erral]
 

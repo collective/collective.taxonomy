@@ -28,6 +28,7 @@
       directory="profiles/uninstall"
       description="Uninstall profile."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.uninstall"
       />
 
   <genericsetup:importStep
