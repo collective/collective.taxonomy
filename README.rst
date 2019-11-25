@@ -191,10 +191,10 @@ collective.taxonomy version `2.x`
 
 * Plone 5.2 (py2/py3)
 * Plone 5.1
+* Plone 5.0
 
 collective.taxonomy version `1.x`
 
-* Plone 5.0
 * Plone 4.3
 * or an older version using a recent version of plone.dexterity/plone.app.dexterity
 
