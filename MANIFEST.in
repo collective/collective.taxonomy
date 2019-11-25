@@ -1,5 +1,6 @@
 include *.py
 include *.rst
+include *.txt
 include .coveragerc
 include buildout.cfg
 recursive-include images *.gif

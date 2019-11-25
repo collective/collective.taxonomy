@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.0.0-dev'
+version = '2.0.0.dev0'
 
 
 def read(*pathnames):
@@ -15,20 +15,23 @@ setup(
     name='collective.taxonomy',
     version=version,
     description="Create, edit and use hierarchical taxonomies in Plone!",
-    url='http://pypi.python.org/pypi/collective.taxonomy',
+    url='https://pypi.org/project/collective.taxonomy/',
     long_description='\n'.join([
         read('README.rst'),
         read('CHANGES.rst'),
     ]),
     classifiers=[
+        "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: 5.0",
         "Framework :: Plone :: 5.1",
         "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: Addon",
         "Framework :: Zope",
         "Framework :: Zope :: 2",
         "Framework :: Zope :: 4",
+        "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.7",
@@ -52,6 +55,9 @@ setup(
         'six',
     ],
     extras_require={
+        'dev': [
+            'zest.releaser[recommended]',
+        ],
         'test': [
             'plone.testing',
             'plone.app.testing',

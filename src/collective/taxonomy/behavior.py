@@ -201,7 +201,7 @@ class TaxonomyBehavior(Persistent):
             )
 
         alsoProvides(schemaclass, IFormFieldProvider)
-        
+
         if HAS_PAM:
             alsoProvides(schemaclass[self.field_name], ILanguageIndependentField)
 
