@@ -52,6 +52,9 @@ setup(
         'six',
     ],
     extras_require={
+        'dev': [
+            'zest.releaser[recommended]',
+        ],
         'test': [
             'plone.testing',
             'plone.app.testing',
