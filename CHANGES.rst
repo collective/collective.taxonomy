@@ -10,6 +10,9 @@ Changes
 - Integrate taxonomies into collective.collectionfilter
   [MrTango]
 
+- add ``moveUp/Down`` functionality to widget
+  [petschki]
+
 
 2.0.1 (2020-07-04)
 ------------------
@@ -41,8 +44,6 @@ Changes
 
 2.0.0 (2019-11-25)
 ------------------
-- add ``moveUp/Down`` functionality to widget
-  [petschki]
 
 - add uninstall handler to cleanup persistent utilites and generated behaviors
   [petschki]
