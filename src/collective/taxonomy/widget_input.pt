@@ -174,20 +174,16 @@ function selectionError() {
                 tal:content="nocall:entry/content" i18n:translate=""/>
       </select>
     </td>
-  </tr>
-  <tr>
     <td style="text-align: center; padding-top: 5px; padding-bottom: 5px;">
-      <button onclick="javascript:to2from()"
-              name="to2fromButton" type="button" value="&uarr;"
-              tal:attributes="onClick string:javascript:to2from('${view/id}')"
-          >&uarr;</button>
       <button onclick="javascript:from2to()"
-              name="from2toButton" type="button" value="&darr;"
+              name="from2toButton" type="button" value="&rarr;"
               tal:attributes="onClick string:javascript:from2to('${view/id}')"
-          >&darr;</button>
+          >&rarr;</button>
+      <button onclick="javascript:to2from()"
+              name="to2fromButton" type="button" value="&larr;"
+              tal:attributes="onClick string:javascript:to2from('${view/id}')"
+          >&larr;</button>
     </td>
-  </tr>
-  <tr>
     <td style="text-align: right">
       <select id="to" name="to" class="" multiple="" size="5" style="width: 100%"
           tal:attributes="id string:${view/id}-to;
@@ -217,20 +213,30 @@ function selectionError() {
                 tal:attributes="value entry/value"
                 tal:content="nocall:entry/content" i18n:translate=""/>
       </select>
-      <input name="foo-empty-marker" type="hidden"
-        tal:attributes="name string:${view/name}-empty-marker"/>
-      <span id="toDataContainer"
-            tal:attributes="id string:${view/id}-toDataContainer">
-        <script type="text/javascript" tal:content="string:
-          copyDataForSubmit('${view/id}');">
-          /*  <![CDATA[ */
-          // initial copying of field "field.to" --> "field"
-          copyDataForSubmit("<i tal:replace="${view/id}"/>");
-          /* ]]> */
-        </script>
-      </span>
 
+    </td>
+    <td>
+      <button onclick="javascript:to2from()"
+              name="moveUpButton" type="button" value="&uarr;"
+              tal:attributes="onClick string:javascript:moveUp('${view/id}')"
+          >&uarr;</button>
+      <button onclick="javascript:from2to()"
+              name="moveDownButton" type="button" value="&darr;"
+              tal:attributes="onClick string:javascript:moveDown('${view/id}')"
+          >&darr;</button>
     </td>
   </tr>
 </table>
+<input name="foo-empty-marker" type="hidden"
+  tal:attributes="name string:${view/name}-empty-marker"/>
+<span id="toDataContainer"
+      tal:attributes="id string:${view/id}-toDataContainer">
+  <script type="text/javascript" tal:content="string:
+    copyDataForSubmit('${view/id}');">
+    /*  <![CDATA[ */
+    // initial copying of field "field.to" --> "field"
+    copyDataForSubmit("<i tal:replace="${view/id}"/>");
+    /* ]]> */
+  </script>
+</span>
 </html>

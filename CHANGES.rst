@@ -41,6 +41,8 @@ Changes
 
 2.0.0 (2019-11-25)
 ------------------
+- add ``moveUp/Down`` functionality to widget
+  [petschki]
 
 - add uninstall handler to cleanup persistent utilites and generated behaviors
   [petschki]
