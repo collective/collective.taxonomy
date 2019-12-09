@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import six
+from io import BytesIO, StringIO
 
+import six
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.vdex import ExportVdex
-from collective.taxonomy.vdex import ImportVdex
-from io import StringIO
+from collective.taxonomy.vdex import ExportVdex, ImportVdex
 from lxml.etree import fromstring
+
 from plone.behavior.interfaces import IBehavior
 from six.moves import configparser
 
@@ -18,6 +18,7 @@ def parseConfigFile(data):
         raise exception
 
     config.readfp(StringIO(data.decode('utf-8')))
+
     return config
 
 
@@ -37,8 +38,10 @@ def importTaxonomy(context):
 
             filename = 'taxonomies/' + filename.replace('.cfg', '.xml')
             body = context.readDataFile(filename)
+
             if body is not None:
                 result = {}
+
                 for name in ['name', 'title',
                              'description', 'default_language']:
                     try:
@@ -54,6 +57,7 @@ def importTaxonomy(context):
                 importer.importDocument(taxonomy, body)
 
                 result = {}
+
                 for name in ['field_title', 'field_description',
                              'default_language', 'write_permission',
                              'taxonomy_fieldset']:
@@ -74,6 +78,7 @@ def importTaxonomy(context):
 def exportTaxonomy(context):
     site = context.getSite()
     sm = site.getSiteManager()
+
     for (name, taxonomy) in sm.getUtilitiesFor(ITaxonomy):
         behavior = sm.queryUtility(IBehavior, name=taxonomy.getGeneratedName())
 
@@ -90,21 +95,28 @@ def exportTaxonomy(context):
 
             for name in ['title', 'description', 'default_language']:
                 value = getattr(taxonomy, name, None)
+
                 if value:
                     config.set('taxonomy', name, six.ensure_text(value))
 
             for name in ['field_title', 'field_description',
                          'write_permission', 'taxonomy_fieldset']:
                 value = getattr(behavior, name, None)
+
                 if value:
                     config.set('taxonomy', name, six.ensure_text(value))
 
             for name in ['is_single_select', 'is_required']:
                 value = getattr(behavior, name, None)
+
                 if value:
                     config.set('taxonomy', name, str(value).lower())
 
-            filehandle = StringIO()
+            if six.PY2:
+                filehandle = BytesIO()
+            else:
+                filehandle = StringIO()
+
             config.write(filehandle)
             context.writeDataFile('taxonomies/' + short_name + '.cfg',
                                   filehandle.getvalue(), 'text/plain')
@@ -127,4 +139,5 @@ class TaxonomyImportExportAdapter(object):
 
     def exportDocument(self, taxonomy):
         treestring = ExportVdex(taxonomy)(as_string=True)
+
         return treestring
