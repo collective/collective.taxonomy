@@ -1,29 +1,26 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from copy import copy
 
 from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
-from OFS.SimpleItem import SimpleItem
-from collective.taxonomy import LEGACY_PATH_SEPARATOR
-from collective.taxonomy import NODE
-from collective.taxonomy import PATH_SEPARATOR
-from collective.taxonomy import PRETTY_PATH_SEPARATOR
-from collective.taxonomy import generated
+from collective.taxonomy import (LEGACY_PATH_SEPARATOR, NODE, PATH_SEPARATOR,
+                                 PRETTY_PATH_SEPARATOR, generated)
 from collective.taxonomy.behavior import TaxonomyBehavior
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
+from collective.taxonomy.interfaces import ITaxonomy, get_lang_code
 from collective.taxonomy.vocabulary import Vocabulary
-from copy import copy
 from persistent.dict import PersistentDict
+from zope.globalrequest import getRequest
+from zope.interface import implementer
+from zope.lifecycleevent import modified
+
+from OFS.SimpleItem import SimpleItem
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
-from zope.globalrequest import getRequest
-from zope.interface import implementer
-from zope.lifecycleevent import modified
 
 try:
     from plone.protect.auto import safeWrite
@@ -72,16 +69,20 @@ class Taxonomy(SimpleItem):
 
         request = getattr(context, "REQUEST", None)
         language = self.getCurrentLanguage(request)
+
         return self.makeVocabulary(language)
 
     @property
     @ram.cache(lambda method, self: (self.name, self.data._p_mtime))
     def inverted_data(self):
         inv_data = {}
+
         for (language, elements) in self.data.items():
             inv_data[language] = {}
+
             for (path, identifier) in elements.items():
                 inv_data[language][identifier] = path
+
         return inv_data
 
     def getShortName(self):
@@ -99,16 +100,19 @@ class Taxonomy(SimpleItem):
         order = self.order.get(language)
         version = self.version.get(language, 1)
         inverted_data = self.inverted_data.get(language, {})
+
         return Vocabulary(self.name, data, inverted_data, order, version)
 
     def getCurrentLanguage(self, request):
         language = get_lang_code()
+
         if language in self.data:
             return language
         elif self.default_language in self.data:
             return self.default_language
         else:
             # our best guess!
+
             return self.data.keys()[0]
 
     def getLanguages(self):
@@ -122,6 +126,7 @@ class Taxonomy(SimpleItem):
 
         for path, identifier in vocabulary.iterEntries():
             parent_path = path.rsplit(PATH_SEPARATOR, 1)[0]
+
             if parent_path:
                 parent = vocabulary.getTermByValue(parent_path)
             else:
@@ -146,10 +151,12 @@ class Taxonomy(SimpleItem):
     def cleanupFTI(self):
         """Cleanup the FTIs"""
         generated_name = self.getGeneratedName()
+
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
             if generated_name in fti.behaviors:
                 fti.behaviors = [behavior for behavior in
                                  fti.behaviors
+
                                  if behavior != generated_name]
             modified(fti, DexterityFTIModificationDescription("behaviors", ''))
 
@@ -158,9 +165,11 @@ class Taxonomy(SimpleItem):
         short_name = self.getShortName()
 
         utility = self.sm.queryUtility(IBehavior, name=behavior_name)
+
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
+
             if 'field_title' in kwargs:
                 utility.title = kwargs.pop('field_title')
 
@@ -171,7 +180,8 @@ class Taxonomy(SimpleItem):
 
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
-                modified(fti, DexterityFTIModificationDescription("behaviors", ''))
+                modified(fti, DexterityFTIModificationDescription(
+                    "behaviors", ''))
 
     def unregisterBehavior(self):
         behavior_name = self.getGeneratedName()
@@ -194,6 +204,7 @@ class Taxonomy(SimpleItem):
     def add(self, language, value, key):
         self._fixup()
         tree = self.data.get(language)
+
         if tree is None:
             tree = self.data[language] = OOBTree()
         else:
@@ -204,6 +215,7 @@ class Taxonomy(SimpleItem):
         tree[key] = value
 
         order = self.order.get(language)
+
         if order is None:
             order = self.order[language] = IOBTree()
             count = self.count[language] = 0
@@ -220,10 +232,12 @@ class Taxonomy(SimpleItem):
         self._fixup()
 
         tree = self.data.setdefault(language, OOBTree())
+
         if clear:
             tree.clear()
 
         # A new tree always uses the newest version.
+
         if not tree:
             version = self.version[language] = 2
         else:
@@ -237,6 +251,7 @@ class Taxonomy(SimpleItem):
             count = 0
 
         # Always migrate to newest version.
+
         if version == 1:
             def fix(path):
                 return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
@@ -261,11 +276,13 @@ class Taxonomy(SimpleItem):
 
         # The following structure is used to expunge updated entries.
         inv = {}
+
         if not clear:
             for i, key in order.items():
                 inv[key] = i
 
         seen = set()
+
         for key, value in items:
             if key in seen:
                 logger.warning("Duplicate key entry: %r" % (key, ))
@@ -278,8 +295,10 @@ class Taxonomy(SimpleItem):
 
             # If we're updating, then we have to pop out the old ordering
             # information in order to maintain relative ordering of new items.
+
             if update:
                 i = inv.get(key)
+
                 if i is not None:
                     del order[i]
 
@@ -293,7 +312,10 @@ class Taxonomy(SimpleItem):
                 target_language not in self.inverted_data:
             target_language = str(api.portal.get_current_language())
 
-        if msgid not in self.inverted_data[target_language]:
+        if msgid not in self.inverted_data.get(target_language, {}):
+            logger.warning("msgid %s is not included in data for language %s",
+                           msgid, target_language)
+
             return ''
 
         if self.version is not None and self.version.get(target_language) != 2:
@@ -313,6 +335,7 @@ class Taxonomy(SimpleItem):
         # due to compatibility reasons this method fixes data structure
         # for old Taxonomy instances.
         # XXX: remove this in version 2.0 to prevent write on read
+
         if self.order is None:
             safeWrite(self, getRequest())
             self.order = PersistentDict()
