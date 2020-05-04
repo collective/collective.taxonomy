@@ -24,9 +24,9 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="collective.taxonomy"
+      title="collective.taxonomy uninstall"
       directory="profiles/uninstall"
-      description="Uninstall profile."
+      description="Uninstall profile for collective.taxonomy."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler=".setuphandlers.uninstall"
       />

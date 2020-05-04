@@ -4,6 +4,9 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
+- Updated the i18n support
+  [macagua]
+
 - Added license documentation of package
   [macagua]
 

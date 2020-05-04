@@ -72,7 +72,7 @@ function moveUp(name)
   if (toSel.selectedIndex == -1)
       selectionError();
   else if (toSel.options[0].selected)
-      alert("Cannot move further up!");
+      alert("Cannot move further up!"); # TODO: Add i18n support
   else for (var i = 0; i < toSel.length; i++)
     if (toSel.options[i].selected)
       {
@@ -90,7 +90,7 @@ function moveDown(name)
     if (toSel.selectedIndex == -1) {
         selectionError();
     } else if (toSel.options[toSel.length-1].selected) {
-        alert("Cannot move further down!");
+        alert("Cannot move further down!"); # TODO: Add i18n support
     } else {
       for (var i = toSel.length-1; i >= 0; i--) {
         if (toSel.options[i].selected) {
@@ -137,7 +137,7 @@ function copyDataForSubmit(name)
 
 // error message for missing selection
 function selectionError()
-  {alert("Must select something!")}
+  {alert("Must select something!")} # TODO: Add i18n support
 
 /* ]]> */
 </script>
