@@ -4,6 +4,9 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
+- Added Spanish translation
+  [macagua]
+
 - Updated the i18n support
   [macagua]
 
