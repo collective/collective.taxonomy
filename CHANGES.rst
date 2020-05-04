@@ -4,7 +4,8 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added license documentation of package
+  [macagua]
 
 
 2.0.0 (2019-11-25)
