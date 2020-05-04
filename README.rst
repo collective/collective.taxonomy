@@ -1,11 +1,13 @@
 Taxonomy Vocabularies
 =====================
 
+Create, edit and use hierarchical taxonomies in `Plone`_.
+
 This add-on provides support for hierarchical taxonomies in multiple
 languages, letting users easily associate existing content with terms
 from one or more taxonomies.
 
-    `Taxonomy <http://en.wikipedia.org/wiki/Taxonomy>`_ is the
+    `Taxonomy <https://en.wikipedia.org/wiki/Taxonomy>`_ is the
     "discipline of defining groups [...] on the basis of shared
     characteristics and giving names to those groups. Each group is
     given a rank and groups of a given rank can be aggregated to form
@@ -46,7 +48,7 @@ The implementation tries to meet the following requirements:
 
 #. Easily import and export in a common format (VDEX).
 
-#. Taxonomies will provide vocabularies that are translateable.
+#. Taxonomies will provide vocabularies that are translatable.
 
 #. Use behaviors to provide a choice field for each taxonomy.
 
@@ -76,7 +78,9 @@ terms, virtually without cost (as well as containment queries).
 At the same time, while the hierarchy is encoded, we can quickly look
 up terms in a subtree.
 
-Note: As ``collective.taxonomy`` uses slash as separator, you have to monkey patch the ``PATH_SEPARATOR`` constant if you want to use '/' in your terms.
+Note: As ``collective.taxonomy`` uses slash as separator, you have to
+monkey patch the ``PATH_SEPARATOR`` constant if you want to use '/' in
+your terms.
 
 
 Data exchange
@@ -92,13 +96,13 @@ primary focus is to support the exchange of terms in the VDEX format:
     collections often denoted "vocabulary".
 
 This exchange is integrated with `GenericSetup
-<http://packages.python.org/Products.GenericSetup/>`_ which manages
+<https://pypi.org/project/Products.GenericSetup/>`_ which manages
 imports and exports using setup profiles. It is also possible to
-use the controlpanel for importing and exporting VDEX files.
+use the control panel for importing and exporting VDEX files.
 
 The package comes with integration for the `Dexterity
-<http://plone.org/products/dexterity/>`_ content type framework: for
-each taxonomy, a *behavior* is available that adds a choice field
+<https://pypi.org/project/plone.app.dexterity/>`_ content type framework:
+for each taxonomy, a *behavior* is available that adds a choice field
 which pulls its vocabulary from the taxonomy. The behavior is
 configurable in terms of field name, title and whether it allows the
 selection of one or more multiple terms.  You should *first* install
@@ -111,9 +115,9 @@ How does it work?
 
 The main objective during this project has been to get a high rate
 of through-the-Web administration. Therefore the use of the product
-will not require any Python programming nor configure.zcml directives.
+will not require any Python programming nor ``configure.zcml`` directives.
 
-In the controlpanel (``/@@taxonomy-settings``), the user can:
+In the control panel (``/@@taxonomy-settings``), the user can:
 
 #. Import taxonomies from VDEX files.
 
@@ -121,7 +125,7 @@ In the controlpanel (``/@@taxonomy-settings``), the user can:
 
 #. Delete taxonomies
 
-#. Add and delete behaviours for taxonomies
+#. Add and delete behaviors for taxonomies
 
 When a new behavior is created for a taxonomy, it can easily be added
 to the desired content types using the content type control panel, provided
@@ -136,7 +140,8 @@ See a short guide on how to use the product `here <http://bo.geekworld.dk/introd
 React/Redux app to edit taxonomies
 ----------------------------------
 
-The view ``@@taxonomy-edit-data`` that allow users to edit the taxonomy data is a React/Redux app (the source code is in the ``javascripts`` directory.
+The view ``@@taxonomy-edit-data`` that allow users to edit the taxonomy data
+is a React/Redux app (the source code is in the ``javascripts`` directory.
 
 Here's a preview of this view:
 
@@ -145,11 +150,13 @@ Here's a preview of this view:
 
 The languages allowed for the taxonomies are the languages defined in ``portal_languages``.
 
+
 Development
 ===========
 
 Run the app, run ``npm start`` in the ``javascripts`` directory.
-To make Plone use the development code, you need the ``NODE_ENV`` environment variable to be set to ``development``:
+To make Plone use the development code, you need the ``NODE_ENV`` environment
+variable to be set to ``development``:
 
 ::
 
@@ -159,7 +166,9 @@ To make Plone use the development code, you need the ``NODE_ENV`` environment va
 i18n
 ----
 
-The app uses `react-intl <https://github.com/yahoo/react-intl>`_ to handle i18n. To translate the app, add a new language in the translations directory. For example, create a ``es`` file in the translations directory that contains:
+The app uses `react-intl <https://github.com/yahoo/react-intl>`_ to handle i18n.
+To translate the app, add a new language in the translations directory. For example,
+create a ``es`` file in the translations directory that contains:
 
 ::
 
@@ -184,6 +193,25 @@ You'll have to rebuild the js bundle: ``npm run build``
 
 That's it!
 
+
+Translations
+------------
+
+This product has been translated into
+
+- Danish.
+
+- German.
+
+- French.
+
+- Spanish.
+
+You can contribute for any message missing or other new languages, join us at
+`Plone Collective Team <https://www.transifex.com/plone/plone-collective/>`_
+into *Transifex.net* service with all world Plone translators community.
+
+
 Plone Version Compatibility
 ===========================
 
@@ -196,7 +224,8 @@ collective.taxonomy version `2.x`
 collective.taxonomy version `1.x`
 
 * Plone 4.3
-* or an older version using a recent version of plone.dexterity/plone.app.dexterity
+* or an older version using a recent version of `plone.dexterity <https://pypi.org/project/plone.dexterity/>`_/`plone.app.dexterity <https://pypi.org/project/plone.app.dexterity/>`_
+
 
 Frequently Asked Questions
 ==========================
@@ -206,18 +235,37 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
   Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
   remember to edit the vocabIdentifier and vocabName.
 
+
 To-Do
 =====
 
-.. image:: https://secure.travis-ci.org/collective/collective.taxonomy.png?branch=master
+- Better documentation.
+
+
+Tests status
+============
+
+This add-on is tested using Travis CI. The current status of the add-on is:
+
+.. image:: https://img.shields.io/travis/collective/collective.taxonomy/master.svg
     :alt: Travis CI badge
-    :target: http://travis-ci.org/collective/collective.taxonomy
+    :target: https://travis-ci.org/collective/collective.taxonomy
 
 .. image:: https://coveralls.io/repos/collective/collective.taxonomy/badge.png?branch=master
     :alt: Coveralls badge
     :target: https://coveralls.io/r/collective/collective.taxonomy
 
-- Better documentation.
+.. image:: http://img.shields.io/pypi/v/collective.taxonomy.svg
+    :target: https://pypi.org/project/collective.taxonomy
+
+
+Contribute
+==========
+
+Have an idea? Found a bug? Let us know by `opening a ticket`_.
+
+- Issue Tracker: https://github.com/collective/collective.taxonomy/issues
+- Source Code: https://github.com/collective/collective.taxonomy
 
 
 Contributors
@@ -242,6 +290,8 @@ Contributors
 
 - Cédric Messiant <cedric.messiant@gmail.com>
 
+- Leonardo J. Caballero G. <leonardocaballero@gmail.com>
+
 
 Existing work
 =============
@@ -249,7 +299,7 @@ Existing work
 In 2010, Rok Garbas <rok@garbas.si> reimplemented and extended prior
 work by `Seantis <http://www.seantis.ch/>`_ and released
 `collective.vdexvocabulary
-<http://pypi.python.org/pypi/collective.vdexvocabulary>`_. This
+<https://pypi.org/project/collective.vdexvocabulary>`_. This
 package allows you to configure and populate vocabulary components
 from a VDEX-specification. The package supports flat vocabularies
 only, and support for multiple languages takes a different approach
@@ -259,11 +309,20 @@ proposed that vocabularies might be edited through-the-web.
 
 In 2005, Jens Klein <jens.klein@bluedynamics.com> released
 `ATVocabularyManager
-<http://plone.org/products/atvocabularymanager>`_. This package makes
+<https://pypi.org/project/Products.ATVocabularyManager/>`_. This package makes
 it possible to create taxonomies using Plone's content management
 interface with terms existing as regular site content. It's integrated
-with the `Archetypes <http://plone.org/products/archetypes>`_ content
+with the `Archetypes <https://pypi.org/project/Products.Archetypes/>`_ content
 type framework (now deprecated).
 
 
 .. [#] Term relationships are currently not supported.
+
+
+License
+=======
+
+The project is licensed under the GPL v2 or later (GPLv2+).
+
+.. _Plone: https://plone.org/
+.. _`opening a ticket`: https://github.com/collective/collective.taxonomy/issues
