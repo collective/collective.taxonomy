@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[plone-collective.collective-taxonomy-pot]
+file_filter = src/collective/taxonomy/locales/<lang>/LC_MESSAGES/collective.taxonomy.po
+minimum_perc = 0
+source_file = src/collective/taxonomy/locales/collective.taxonomy.pot
+source_lang = en
+type = PO
