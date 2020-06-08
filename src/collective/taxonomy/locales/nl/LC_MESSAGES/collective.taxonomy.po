@@ -1,0 +1,203 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-05-04 05:38+0000\n"
+"PO-Revision-Date: 2020-06-08 12:00+0100\n"
+"Last-Translator: Kim Paulissen <kim.paulissen@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: nl\n"
+"Language-Name: Dutch\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: collective.taxonomy\n"
+"Language: de\n"
+
+#: ./interfaces.py:106
+msgid " "
+msgstr ""
+
+#: ./controlpanel.py:203
+msgid "Add"
+msgstr "Toevoegen"
+
+#: ./controlpanel.py:216
+msgid "Add cancelled"
+msgstr "Toevoegen geannuleerd"
+
+#: ./controlpanel.py:214
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: ./controlpanel.py:255
+msgid "Changes saved"
+msgstr "Wijzigingen bewaard"
+
+#: ./interfaces.py:128
+msgid "Check this box if you want the field to be mono-valued"
+msgstr "Het veld moet enkele selectie zijn"
+
+#: ./interfaces.py:121
+msgid "Check this box if you want the field to be required"
+msgstr "Het veld is verplicht"
+
+#: ./interfaces.py:112
+msgid "Check this box if you want to purge all entries when uploading."
+msgstr "Verwijder alle items bij uploaden"
+
+#: ./interfaces.py:98
+msgid "Default language"
+msgstr "Standaard taal"
+
+#: ./interfaces.py:92
+msgid "Description"
+msgstr "Beschrijving"
+
+#: ./controlpanel.py:261
+msgid "Edit cancelled"
+msgstr "Wijzigen geannuleerd"
+
+#: ./interfaces.py:142
+msgid "Field prefix"
+msgstr "Veld prefix"
+
+#: ./interfaces.py:151
+msgid "Fieldset"
+msgstr "Tab"
+
+#: ./interfaces.py:152
+msgid "Fieldset for the taxonomy behavior field. Example: 'categorization'. Use 'default' for the first fieldset."
+msgstr "Tab voor het taxonomie behavior veld. Bijvoorbeeld:'categorisatie'. Gebruik 'standaard' voor de eerste tab."
+
+#: ./controlpanel.py:107
+msgid "Please select at least one taxonomy."
+msgstr "Selecteer minstens 1 taxonomie."
+
+#: ./controlpanel.py:71
+msgid "Please select one taxonomy."
+msgstr "Selecteer 1 taxonomie."
+
+#: ./interfaces.py:143
+msgid "Prefix used for behavior indexer."
+msgstr "Prefix voor de indexer van de behavior."
+
+#: ./interfaces.py:111
+msgid "Purge entries on upload"
+msgstr "Verwijder items bij uploaden"
+
+#: ./configure.zcml:23
+msgid "Registers control panel and default settings."
+msgstr "Registreert controlepaneel en standaard instellingen."
+
+#: ./interfaces.py:120
+msgid "Required"
+msgstr "Verplicht"
+
+#: ./controlpanel.py:234
+msgid "Save"
+msgstr "Bewaren"
+
+#: ./interfaces.py:127
+msgid "Single select"
+msgstr "Enkele selectie"
+
+#: ./interfaces.py:50
+#: ./profiles/default/controlpanel.xml
+msgid "Taxonomies"
+msgstr "Taxonomieën"
+
+#: ./interfaces.py:79
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: ./controlpanel.py:104
+msgid "Taxonomy deleted."
+msgstr "Taxonomie verwijderd"
+
+#: ./controlpanel.py:193
+msgid "Taxonomy imported."
+msgstr "Taxonomie geïmporteerd"
+
+#: ./controlpanel.py:38
+msgid "Taxonomy settings"
+msgstr "Taxonomie instellingen"
+
+#: ./interfaces.py:80
+msgid "The taxonomy identifier"
+msgstr "De taxonomie id (geen spaties of speciale karakters)"
+
+#: ./jsonimpl.py:133
+msgid "There seems to have been an error."
+msgstr "Er is een fout opgetreden."
+
+#: ./interfaces.py:86
+msgid "Title"
+msgstr "Titel"
+
+#: ./configure.zcml:32
+msgid "Uninstall profile for collective.taxonomy."
+msgstr ""
+
+#: ./interfaces.py:105
+msgid "Upload VDEX xml file"
+msgstr "VDEX xml bestand uploaden"
+
+#: ./interfaces.py:93
+msgid "Will be used for the field description as well"
+msgstr "Wordt ook gebruikt voor de veld beschrijving"
+
+#: ./interfaces.py:87
+msgid "Will be used for the field title as well"
+msgstr "Wordt ook gebruikt voor de veld titel"
+
+#: ./interfaces.py:134
+msgid "Write permission"
+msgstr "Schrijfrechten"
+
+#: ./interfaces.py:135
+msgid "Write permission for the field"
+msgstr "Schrijfrechten voor het veld"
+
+#: ./jsonimpl.py:126
+msgid "Your taxonomy has been saved with success."
+msgstr "De taxonomie is succesvol bewaard."
+
+#: ./configure.zcml:23
+msgid "collective.taxonomy"
+msgstr ""
+
+#: ./configure.zcml:32
+msgid "collective.taxonomy uninstall"
+msgstr ""
+
+#. Default: "Select the taxnomies you desire to modify"
+#: ./interfaces.py:52
+msgid "help_taxonomies"
+msgstr "Taxonomie kiezen om te bewerken"
+
+#. Default: "Add"
+#: ./controlpanel.py:55
+msgid "label_add_taxonomy"
+msgstr "Taxonomie toevoegen"
+
+#. Default: "Delete taxonomy"
+#: ./controlpanel.py:88
+msgid "label_delete_taxonomy"
+msgstr "Taxonomie verwijderen"
+
+#. Default: "Edit taxonomy data"
+#: ./controlpanel.py:74
+msgid "label_edit_data_taxonomy"
+msgstr "Taxonomie data bewerken"
+
+#. Default: "Edit"
+#: ./controlpanel.py:61
+msgid "label_edit_taxonomy"
+msgstr "Taxonomie bewerken"
+
+#. Default: "Export"
+#: ./controlpanel.py:113
+msgid "label_export"
+msgstr "Exporteren"
