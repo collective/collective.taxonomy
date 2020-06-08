@@ -1,9 +1,9 @@
-import es from './es'
-import fr from './fr'
+import es from "./es";
+import fr from "./fr";
 
 const translations = {
-  es
-  fr
-}
+  es,
+  fr,
+};
 
-export default translations
+export default translations;
