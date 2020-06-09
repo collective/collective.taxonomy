@@ -25,11 +25,8 @@ class TestIndexer(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.portal_workflow.setDefaultChain(
-            'simple_publication_workflow')
-        applyProfile(self.portal, 'plone.app.contenttypes:plone-content')
-        self.document = api.content.create(
-            container=self.portal, type='Document', title='Doc', language='en')
+        self.portal.invokeFactory('Document', 'doc1', title='Doc', language='en')
+        self.document = self.portal.doc1
 
     def test_indexer_with_field(self):
         portal_catalog = api.portal.get_tool('portal_catalog')
