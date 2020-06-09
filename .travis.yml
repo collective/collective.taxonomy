@@ -1,48 +1,12 @@
-language: python
-sudo: false
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+version: ~> 1.0
+import: collective/buildout.plonetest:travis/default.yml
 matrix:
   include:
     - python: "2.7"
-      env: PLONE_VERSION=5.0.x
+      env: PLONE_VERSION=5.0
     - python: "2.7"
-      env: PLONE_VERSION=5.1.x
+      env: PLONE_VERSION=5.1
     - python: "2.7"
-      env: PLONE_VERSION=5.2.x
+      env: PLONE_VERSION=5.2
     - python: "3.7"
-      env: PLONE_VERSION=5.2.x
-      dist: xenial
-      sudo: true
-cache:
-  pip: true
-  directories:
-  - eggs
-  - downloads
-before_install:
-# install chrome webdriver
-  - mkdir webdriver;
-    wget https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip;
-    unzip chromedriver_linux64.zip -d webdriver;
-    export PATH=$PATH:$(pwd)/webdriver;
-  - mkdir -p $HOME/buildout-cache/{eggs,downloads}
-  - mkdir $HOME/.buildout
-  - echo "[buildout]" > $HOME/.buildout/default.cfg
-  - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
-  - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
-  - pip install zc.buildout
-install:
-  - sed -ie "s#test-5.x.cfg#test-$PLONE_VERSION.cfg#" buildout.cfg
-  - buildout annotate
-  - buildout -N -q
-script:
-  - bin/code-analysis
-  - bin/test
-after_success:
-  - bin/createcoverage --output-dir=parts/test/coverage
-  - pip install -q coveralls
-  - coveralls
+      env: PLONE_VERSION=5.2
