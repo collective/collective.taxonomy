@@ -2,6 +2,8 @@
 
 import unittest
 
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
@@ -17,6 +19,7 @@ class TestJson(unittest.TestCase):
     def setUp(self):
         super(TestJson, self).setUp()
         self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_generate_json(self):
         login(self.portal, TEST_USER_NAME)

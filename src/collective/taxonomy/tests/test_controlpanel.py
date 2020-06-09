@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
@@ -16,6 +18,7 @@ class TestControlPanel(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.portal_workflow.setDefaultChain(
             'simple_publication_workflow')
         applyProfile(self.portal, 'plone.app.contenttypes:plone-content')
