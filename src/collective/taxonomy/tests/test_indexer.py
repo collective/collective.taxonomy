@@ -4,6 +4,8 @@ from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.testing import applyProfile
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from plone.schemaeditor.utils import FieldAddedEvent
 from plone.schemaeditor.utils import IEditableSchema
@@ -22,6 +24,7 @@ class TestIndexer(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.portal_workflow.setDefaultChain(
             'simple_publication_workflow')
         applyProfile(self.portal, 'plone.app.contenttypes:plone-content')
