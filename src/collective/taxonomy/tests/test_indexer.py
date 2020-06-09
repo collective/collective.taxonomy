@@ -70,6 +70,8 @@ class TestIndexer(unittest.TestCase):
         self.document.reindexObject()
         index = portal_catalog.Indexes['taxonomy_test']
         self.assertEqual(index.numObjects(), 1)
+        # clean up
+        schemaeditor.removeField('taxonomy_test')
 
     def test_multilanguage_indexer(self):
         portal_catalog = api.portal.get_tool('portal_catalog')
@@ -95,6 +97,8 @@ class TestIndexer(unittest.TestCase):
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog(query)), 1)
+        # clean up
+        schemaeditor.removeField('taxonomy_test')
 
     def test_querystring_widget(self):
         registry = queryUtility(IRegistry)
