@@ -74,7 +74,7 @@ code-format: code-format-backend code-format-frontend  ## Code Format
 code-format-backend:
 	@echo "$(GREEN)==> Run Python code format$(RESET)"
 	if [ "$$(command -v bin/black)" ]; then \
-		bin/black src/
+		bin/black src/                      \
 	fi
 
 code-format-frontend:
