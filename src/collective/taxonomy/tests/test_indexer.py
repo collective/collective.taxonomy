@@ -3,7 +3,6 @@ from collective.taxonomy.testing import INTEGRATION_TESTING
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
-from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry

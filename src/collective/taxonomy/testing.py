@@ -8,11 +8,11 @@ import collective.taxonomy
 
 
 FIXTURE = PloneWithPackageLayer(
-        name="TAXONOMY_FIXTURE",
-        zcml_package=collective.taxonomy,
-        zcml_filename="testing.zcml",
-        gs_profile_id="collective.taxonomy:examples",
-        additional_z2_products=['Products.DateRecurringIndex'],
+    name="TAXONOMY_FIXTURE",
+    zcml_package=collective.taxonomy,
+    zcml_filename="testing.zcml",
+    gs_profile_id="collective.taxonomy:examples",
+    additional_z2_products=['Products.DateRecurringIndex'],
 )
 
 INTEGRATION_TESTING = IntegrationTesting(
