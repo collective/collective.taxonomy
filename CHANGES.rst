@@ -7,6 +7,9 @@ Changes
 - fix translating msgid when portal language is not found in taxonomy
   [petschki]
 
+- fix JavaScript in ``input_widget.pt`` which had python comments
+  [petschki]
+
 - Add Transifex.net service integration to manage the translation process
   [macagua]
 
