@@ -5,7 +5,7 @@ Changes
 ------------------
 
 - fix translating msgid when portal language is not found in taxonomy
-  [petschki]
+  [petschki, rodfersou]
 
 - fix JavaScript in ``input_widget.pt`` which had python comments
   [petschki]
