@@ -60,7 +60,9 @@ code-format-check: code-format-check-backend code-format-check-frontend  ## Code
 
 code-format-check-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
-	bin/black --check src/
+	if [ "$$(command -v bin/black)" ]; then \
+		bin/black --check src/;             \
+	fi
 
 code-format-check-frontend:
 	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
@@ -71,7 +73,9 @@ code-format: code-format-backend code-format-frontend  ## Code Format
 
 code-format-backend:
 	@echo "$(GREEN)==> Run Python code format$(RESET)"
-	bin/black src/
+	if [ "$$(command -v bin/black)" ]; then \
+		bin/black src/
+	fi
 
 code-format-frontend:
 	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
