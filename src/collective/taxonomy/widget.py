@@ -14,7 +14,7 @@ def _items_cachekey(fun, self):
     # try to get modified time of taxonomy utility
     try:
         mtime = self.terms.terms.data._p_mtime
-        key = '{0}-{1}'.format(self.field.__name__, mtime)
+        key = "{0}-{1}".format(self.field.__name__, mtime)
         return key
     except AttributeError:
         # XXX: this happens with newly created taxonomies
@@ -23,16 +23,11 @@ def _items_cachekey(fun, self):
         raise ram.DontCache()
 
 
-@zope.interface.implementer(ITaxonomySelectWidget,
-                            interfaces.IOrderedSelectWidget)
+@zope.interface.implementer(ITaxonomySelectWidget, interfaces.IOrderedSelectWidget)
 class TaxonomySelectWidget(OrderedSelectWidget):
-
     @ram.cache(_items_cachekey)
     def _get_items(self):
-        return [
-            self.getItem(term, count)
-            for count, term in enumerate(self.terms)
-        ]
+        return [self.getItem(term, count) for count, term in enumerate(self.terms)]
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
@@ -40,12 +35,12 @@ class TaxonomySelectWidget(OrderedSelectWidget):
         self.items = self._get_items()
         self.selectedItems = [
             self.getItem(self.terms.getTermByToken(token), count)
-            for count, token in enumerate(self.value)]
+            for count, token in enumerate(self.value)
+        ]
         self.notselectedItems = self.deselect()
 
 
-@zope.component.adapter(zope.schema.interfaces.ISequence,
-                        interfaces.IFormLayer)
+@zope.component.adapter(zope.schema.interfaces.ISequence, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def TaxonomySelectFieldWidget(field, request):
     """IFieldWidget factory for SelectWidget."""
