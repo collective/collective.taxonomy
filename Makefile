@@ -26,7 +26,7 @@ build-backend:
 	virtualenv --clear --python=python3 .
 	bin/pip install --upgrade pip
 	bin/pip install -r requirements.txt
-	bin/buildout
+	bin/buildout -N -t 3
 
 build-frontend:
 	@echo "$(GREEN)==> Build Frontend$(RESET)"
