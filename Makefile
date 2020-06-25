@@ -26,6 +26,7 @@ build-backend:
 	virtualenv --clear --python=python3 .
 	bin/pip install --upgrade pip
 	bin/pip install -r requirements.txt
+	bin/pip install black || true
 	bin/buildout
 
 build-frontend:
@@ -52,7 +53,15 @@ start-frontend:
 	(cd src/collective/taxonomy/javascripts && yarn start)
 
 .PHONY: Test
-test: code-analysis test-backend test-frontend  ## Test
+test: code-format-check code-analysis test-backend test-frontend  ## Test
+
+code-format-check:
+	@echo "$(GREEN)==> Run Python code format check$(RESET)"
+	bin/black --check src/
+
+code-format:
+	@echo "$(GREEN)==> Run Python code format$(RESET)"
+	bin/black src/
 
 code-analysis:
 	@echo "$(green)==> Run static code analysis$(reset)"
