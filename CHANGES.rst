@@ -4,6 +4,9 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
+- fix JavaScript in ``input_widget.pt`` which had python comments
+  [petschki]
+
 - Add Transifex.net service integration to manage the translation process
   [macagua]
 
