@@ -2,20 +2,17 @@
 import json
 import os
 
-from lxml import etree
-
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
-from plone import api
-from zope.component import queryMultiAdapter
-from zope.component import queryUtility
-from zope.i18n import translate
-
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vdex import TreeExport
+from lxml import etree
+from plone import api
+from plone.app.vocabularies.language import AvailableContentLanguageVocabularyFactory
+from zope.component import queryUtility
+from zope.i18n import translate
 
 
 class EditTaxonomyData(TreeExport, BrowserView):
@@ -71,19 +68,19 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
-        portal = api.portal.get()
-        portal_state = queryMultiAdapter(
-            (portal, portal.REQUEST), name=u'plone_portal_state')
-        mapping = portal_state.locale().displayNames.languages
+        vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool('portal_languages')
         supported_langs = language_tool.supported_langs
         languages_mapping = {
-            get_lang_code(lang): mapping[get_lang_code(lang)].capitalize()
+            lang: vocab.getTermByToken(lang).title
             for lang in supported_langs
         }
-        # add taxonomy's default language if it is not in supported langs
-        default_lang = self.taxonomy.default_language
-        languages_mapping[default_lang] = mapping[default_lang].capitalize()
+        # if the supported languages changed we might have data of unsupported
+        # languages in our taxonomy. let's add them here.
+        for data_lng in self.taxonomy.inverted_data.keys():
+            if data_lng not in languages_mapping:
+                lng_term = vocab.getTermByToken(data_lng)
+                languages_mapping[data_lng] = lng_term.title if lng_term else data_lng
         return json.dumps(languages_mapping)
 
     def get_resource_url(self):

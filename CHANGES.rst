@@ -4,6 +4,9 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
+- fix translating msgid when portal language is not found in taxonomy
+  [petschki]
+
 - Add Transifex.net service integration to manage the translation process
   [macagua]
 
