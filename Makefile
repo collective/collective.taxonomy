@@ -52,7 +52,11 @@ start-frontend:
 	(cd src/collective/taxonomy/javascripts && yarn start)
 
 .PHONY: Test
-test: test-backend test-frontend  ## Test
+test: code-analysis test-backend test-frontend  ## Test
+
+code-analysis:
+	@echo "$(green)==> Run static code analysis$(reset)"
+	bin/code-analysis
 
 test-backend:
 	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
