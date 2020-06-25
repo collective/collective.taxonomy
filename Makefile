@@ -55,13 +55,27 @@ start-frontend:
 .PHONY: Test
 test: code-format-check code-analysis test-backend test-frontend  ## Test
 
-code-format-check:
+.PHONY: Code Format Check
+code-format-check: code-format-check-backend code-format-check-frontend  ## Code Format Check
+
+code-format-check-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
 	bin/black --check src/
 
-code-format:
+code-format-check-frontend:
+	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
+	(cd src/collective/taxonomy/javascripts && yarn prettier)
+
+.PHONY: Code Format
+code-format: code-format-backend code-format-frontend  ## Code Format
+
+code-format-backend:
 	@echo "$(GREEN)==> Run Python code format$(RESET)"
 	bin/black src/
+
+code-format-frontend:
+	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
+	(cd src/collective/taxonomy/javascripts && yarn prettier:fix)
 
 code-analysis:
 	@echo "$(green)==> Run static code analysis$(reset)"
