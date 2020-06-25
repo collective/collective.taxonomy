@@ -10,3 +10,5 @@ jobs:
     env: PLONE_VERSION=5.2
   - python: "3.7"
     env: PLONE_VERSION=5.2
+script:
+  - make test
