@@ -1,20 +1,18 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import Tree from '../components/Tree'
+import Tree from '../components/Tree';
 
 export const mapStateToProps = ({
   languages,
   rootId,
   selectedLanguage,
-  tree: { nodes },
+  tree: { nodes }
 }) => ({
   nodes,
   subnodes: nodes[rootId].subnodes,
   rootId,
   selectedLanguage: languages[selectedLanguage].toLowerCase(),
-  title: nodes[rootId].title,
-})
+  title: nodes[rootId].title
+});
 
-export default connect(
-  mapStateToProps
-)(Tree)
+export default connect(mapStateToProps)(Tree);

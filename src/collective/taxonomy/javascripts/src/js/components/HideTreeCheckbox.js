@@ -1,11 +1,13 @@
-import React, { PropTypes } from 'react'
-import { FormattedMessage } from 'react-intl'
+import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 const HideTreeCheckbox = ({ onChange }) => (
   <div className="field">
     <input
-      type="checkbox" id="toggle-view-tree" name="toggle-view-tree"
-      onChange={ onChange }
+      type="checkbox"
+      id="toggle-view-tree"
+      name="toggle-view-tree"
+      onChange={onChange}
     />
     &nbsp;
     <label htmlFor="toggle-view-tree">
@@ -15,10 +17,10 @@ const HideTreeCheckbox = ({ onChange }) => (
       />
     </label>
   </div>
-)
+);
 
 HideTreeCheckbox.propTypes = {
   onChange: PropTypes.func.isRequired
-}
+};
 
-export default HideTreeCheckbox
+export default HideTreeCheckbox;
