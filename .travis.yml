@@ -11,6 +11,7 @@ jobs:
   - python: "3.7"
     env: PLONE_VERSION=5.2
 install:
+  - bin/pip install black || true
   - bin/buildout -N -t 3
   - make build-frontend
 script:

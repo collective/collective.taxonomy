@@ -10,7 +10,9 @@
     "start": "node server.js",
     "test": "NODE_ENV=test mocha src/test/ --compilers js:babel-register --recursive --require src/test/setup.js",
     "test:watch": "NODE_ENV=test npm test -- --watch",
-    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- src/test/ --recursive"
+    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- src/test/ --recursive",
+    "prettier": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "prettier:fix": "./node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "author": "Cédric Messiant",
   "license": "GPL-3.0",
@@ -39,6 +41,7 @@
     "express": "^4.13.3",
     "isparta": "^4.0.0",
     "mocha": "^2.5.3",
+    "prettier": "1.19.1",
     "react-transform-hmr": "^1.0.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
