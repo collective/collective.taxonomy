@@ -9,6 +9,8 @@ from plone.app.testing.interfaces import TEST_USER_NAME
 
 from collective.taxonomy.testing import INTEGRATION_TESTING
 
+import json
+
 
 class TestJson(unittest.TestCase):
 
@@ -19,6 +21,7 @@ class TestJson(unittest.TestCase):
     def setUp(self):
         super(TestJson, self).setUp()
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_generate_json(self):
@@ -99,3 +102,76 @@ class TestJson(unittest.TestCase):
              (u'\u241fAnimaux\u241fReptiles', 'reptiles'),
              (u'\u241fAnimaux\u241fReptiles\u241fPythons', 'pythons'),
              (u'\u241fVégétaux', 'plants')])
+
+
+class TestEditDataJson(unittest.TestCase):
+
+    """Test Edit Data JSON view."""
+
+    layer = INTEGRATION_TESTING
+
+    def setUp(self):
+        super(TestEditDataJson, self).setUp()
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.request.set('taxonomy', 'collective.taxonomy.test')
+        self.view = self.portal.restrictedTraverse("@@taxonomy-edit-data")
+
+    def test_get_data(self):
+        data = json.loads(self.view.get_data())
+        self.assertEqual({
+            'default_language': 'da',
+            'key': '0',
+            'name': 'collective.taxonomy.test',
+            'subnodes': [{
+                'key': '1',
+                'subnodes': [
+                    {
+                        'key': '2',
+                        'subnodes': [{
+                            'key': '4',
+                            'subnodes': [],
+                            'translations': {
+                                'da': 'Hest'
+                            }
+                        }],
+                        'translations': {
+                            'da': 'Bogsamling',
+                            'en': 'Book Collecting'
+                        }
+                    }, {
+                        'key': '3',
+                        'subnodes': [],
+                        'translations': {
+                            'da': 'Kronologi',
+                            'en': 'Chronology'
+                        }
+                    }
+                ],
+                'translations': {
+                    'da': 'Informationsvidenskab',
+                    'de': 'Informatik',
+                    'en': 'Information Science',
+                    'ru': 'Информатику'
+                }
+            }],
+            'title': 'Test vocabulary'
+        }, data)
+
+    def test_get_languages_mapping(self):
+        data = json.loads(self.view.get_languages_mapping())
+        self.assertEqual({
+            'da': 'Dansk',
+            'de': 'Deutsch',
+            'en': 'English',
+            'ru': 'Русский'
+        }, data)
+
+    def test_get_resource_url(self):
+        url = self.view.get_resource_url()
+        self.assertEqual(
+            'http://nohost/plone/++resource++taxonomy/edittaxonomydata.js',
+            url
+        )
