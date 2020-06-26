@@ -96,36 +96,39 @@ context('Navigation', () => {
     cy.get('#form-widgets-IDublinCore-title').type('Netherlands Museums');
     cy.get('#select2-chosen-12').click();
     cy.get('.select2-result-label:last').click();
-    cy.get('#s2id_autogen38 > .select2-choices').click();
-    cy.get('#select2-result-label-48').click();
+    cy.get('ul.select2-choices:first').click();
+    cy.get('#select2-drop > ul > li:nth-child(7) > div').click();
+    cy.wait(1000);
     cy.get('#form-buttons-save').click();
-    cy.get('#content').contains('Centraal Museum').should('exist');
-    cy.get('#content').contains('Zeeuws Museum').should('exist');
-    cy.get('#content').contains('Kunsthal KAdE').should('exist');
-    cy.get('#content').contains('Louvre Museum').should('not.exist');
+    cy.contains('#content', 'Centraal Museum').should('exist');
+    cy.contains('#content', 'Zeeuws Museum').should('exist');
+    cy.contains('#content', 'Kunsthal KAdE').should('exist');
+    cy.contains('#content', 'Louvre Museum').should('not.exist');
 
     cy.visit('/++add++Collection');
     cy.get('#form-widgets-IDublinCore-title').type('France Museums');
     cy.get('#select2-chosen-12').click();
     cy.get('.select2-result-label:last').click();
-    cy.get('#s2id_autogen38 > .select2-choices').click();
-    cy.get('#select2-result-label-47').click();
+    cy.get('ul.select2-choices:first').click();
+    cy.get('#select2-drop > ul > li:nth-child(6) > div').click();
+    cy.wait(1000);
     cy.get('#form-buttons-save').click();
-    cy.get('#content').contains('Centraal Museum').should('not.exist');
-    cy.get('#content').contains('Zeeuws Museum').should('not.exist');
-    cy.get('#content').contains('Kunsthal KAdE').should('not.exist');
-    cy.get('#content').contains('Louvre Museum').should('exist');
+    cy.contains('#content', 'Centraal Museum').should('not.exist');
+    cy.contains('#content', 'Zeeuws Museum').should('not.exist');
+    cy.contains('#content', 'Kunsthal KAdE').should('not.exist');
+    cy.contains('#content', 'Louvre Museum').should('exist');
 
     cy.visit('/++add++Collection');
     cy.get('#form-widgets-IDublinCore-title').type('All Museums');
     cy.get('#select2-chosen-12').click();
     cy.get('.select2-result-label:last').click();
-    cy.get('#s2id_autogen38 > .select2-choices').click();
-    cy.get('#select2-result-label-45').click();
+    cy.get('ul.select2-choices:first').click();
+    cy.get('#select2-drop > ul > li:nth-child(4) > div').click();
+    cy.wait(1000);
     cy.get('#form-buttons-save').click();
-    cy.get('#content').contains('Centraal Museum').should('exist');
-    cy.get('#content').contains('Zeeuws Museum').should('exist');
-    cy.get('#content').contains('Kunsthal KAdE').should('exist');
-    cy.get('#content').contains('Louvre Museum').should('exist');
+    cy.contains('#content', 'Centraal Museum').should('exist');
+    cy.contains('#content', 'Zeeuws Museum').should('exist');
+    cy.contains('#content', 'Kunsthal KAdE').should('exist');
+    cy.contains('#content', 'Louvre Museum').should('exist');
   })
 })
