@@ -102,19 +102,17 @@ test-frontend:
 
 test-cypress:
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
-	if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then                  \
-		bin/instance start && while ! nc -z localhost 8080; do sleep 1; done; \
-		cd src/collective/taxonomy/javascripts && yarn run cypress run;       \
-		bin/instance stop;                                                    \
+	if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then                          \
+		bin/instance start && while ! nc -z localhost 8080; do sleep 1; done || true; \
+		cd src/collective/taxonomy/javascripts && yarn run cypress run;               \
+		bin/instance stop || true;                                                    \
 	fi
 
 test-cypress-foreground:
 	@echo "$(GREEN)==> Run Cypress Test Displaying Browser$(RESET)"
-	if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then                               \
-		bin/instance start && while ! nc -z localhost 8080; do sleep 1; done;              \
-		cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit; \
-		bin/instance stop;                                                                 \
-	fi
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit
+	bin/instance stop
 
 .PHONY: Clean
 clean:  ## Clean
