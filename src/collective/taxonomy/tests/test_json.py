@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-
-import unittest
-
+from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
-from collective.taxonomy.testing import INTEGRATION_TESTING
-
 import json
+import six
+import unittest
 
 
 class TestJson(unittest.TestCase):
@@ -104,6 +102,7 @@ class TestJson(unittest.TestCase):
              (u'\u241fVégétaux', 'plants')])
 
 
+@unittest.skipIf(six.PY2, "Those tests run just for Python 3")
 class TestEditDataJson(unittest.TestCase):
 
     """Test Edit Data JSON view."""
