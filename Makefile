@@ -54,11 +54,9 @@ start-frontend:
 
 .PHONY: Start Cypress
 start-cypress:  ## Start Cypress
-	@echo "$(GREEN)==> Start Plone$(RESET)"
-	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
 	@echo "$(GREEN)==> Start Cypress$(RESET)"
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
 	(cd src/collective/taxonomy/javascripts && yarn run cypress open)
-	@echo "$(GREEN)==> Stop Plone$(RESET)"
 	bin/instance stop
 
 .PHONY: Test
@@ -103,14 +101,12 @@ test-frontend:
 	(cd src/collective/taxonomy/javascripts && yarn test)
 
 test-cypress:
-ifeq ($(PLONE_VERSION),"5.2")
-	@echo "$(GREEN)==> Start Plone$(RESET)"
-	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn run cypress run)
-	@echo "$(GREEN)==> Stop Plone$(RESET)"
-	bin/instance stop
-endif
+	if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then                  \
+		bin/instance start && while ! nc -z localhost 8080; do sleep 1; done; \
+		(cd src/collective/taxonomy/javascripts && yarn run cypress run);     \
+		bin/instance stop;                                                    \
+	fi
 
 .PHONY: Clean
 clean:  ## Clean
