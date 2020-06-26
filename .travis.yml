@@ -1,5 +1,8 @@
 version: ~> 1.0
 import: collective/buildout.plonetest:travis/default.yml
+language: node_js
+node_js:
+    - 12
 jobs:
   include:
   - python: "2.7"
