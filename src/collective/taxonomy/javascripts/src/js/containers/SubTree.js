@@ -1,25 +1,14 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import SubTree from '../components/SubTree'
-import { editTranslation } from '../actions'
+import SubTree from '../components/SubTree';
+import { editTranslation } from '../actions';
 
-export const mapStateToProps = (
-  {
-    tree: { nodes },
-  },
-  {
-    id,
-    language
-  }
-) => {
-  const node = nodes[id]
+export const mapStateToProps = ({ tree: { nodes } }, { id, language }) => {
+  const node = nodes[id];
   return {
     subnodes: node.subnodes,
-    title: node.translations[language],
-  }
-}
+    title: node.translations[language]
+  };
+};
 
-export default connect(
-  mapStateToProps,
-  { editTranslation }
-)(SubTree)
+export default connect(mapStateToProps, { editTranslation })(SubTree);

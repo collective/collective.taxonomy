@@ -21,55 +21,57 @@ class EditTaxonomyData(TreeExport, BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        utility_name = request.get('taxonomy', '')
+        utility_name = request.get("taxonomy", "")
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError('Taxonomy `%s` could not be found.' % utility_name)  # noqa: E501
+            raise ValueError(
+                "Taxonomy `%s` could not be found." % utility_name
+            )  # noqa: E501
 
         self.taxonomy = taxonomy
 
     def generate_json(self, root):
         item = {}
-        item['key'] = root.find('termIdentifier').text
-        captionnode = root.find('caption')
+        item["key"] = root.find("termIdentifier").text
+        captionnode = root.find("caption")
         translations = {}
         for langstringnode in captionnode.getchildren():
-            translations[langstringnode.get('language')] = langstringnode.text
+            translations[langstringnode.get("language")] = langstringnode.text
 
-        item['translations'] = translations
-        item['subnodes'] = []
-        terms = root.findall('term')
+        item["translations"] = translations
+        item["subnodes"] = []
+        terms = root.findall("term")
         if terms:
             for child in terms:
-                item['subnodes'].append(self.generate_json(child))
+                item["subnodes"].append(self.generate_json(child))
 
         return item
 
     def get_data(self):
         """Get json data."""
-        root = etree.Element('vdex')
+        root = etree.Element("vdex")
         try:
             root = self.buildTree(root)
         except ValueError:
             root = None
 
         result = {
-            'key': '0',
-            'name': self.taxonomy.name,
-            'title': self.taxonomy.title,
-            'subnodes': [],
-            'default_language': self.taxonomy.default_language,
+            "key": "0",
+            "name": self.taxonomy.name,
+            "title": self.taxonomy.title,
+            "subnodes": [],
+            "default_language": self.taxonomy.default_language,
         }
         if root is not None:
-            for term in root.findall('term'):
-                result['subnodes'].append(self.generate_json(term))
+            for term in root.findall("term"):
+                result["subnodes"].append(self.generate_json(term))
 
         return json.dumps(result)
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
         vocab = AvailableContentLanguageVocabularyFactory(self.context)
-        language_tool = api.portal.get_tool('portal_languages')
+        language_tool = api.portal.get_tool("portal_languages")
         plone_selected_languages = language_tool.supported_langs
         taxonomy_languages_translations = {
             language: vocab.getTermByToken(language).title
@@ -80,18 +82,18 @@ class EditTaxonomyData(TreeExport, BrowserView):
             if language in taxonomy_languages_translations:
                 continue
             term = vocab.getTermByToken(language)
-            taxonomy_languages_translations[language] = getattr(
-                term, 'title', language)
+            taxonomy_languages_translations[language] = getattr(term, "title", language)
         return json.dumps(taxonomy_languages_translations)
 
     def get_resource_url(self):
         """Return resource url."""
-        node_env = os.environ.get('NODE_ENV', 'production')
-        if node_env == 'development' and api.env.debug_mode():
+        node_env = os.environ.get("NODE_ENV", "production")
+        if node_env == "development" and api.env.debug_mode():
             return "http://localhost:3000/static/edittaxonomydata.js"
         else:
-            return '{}/++resource++taxonomy/edittaxonomydata.js'.format(
-                api.portal.get().absolute_url())
+            return "{}/++resource++taxonomy/edittaxonomydata.js".format(
+                api.portal.get().absolute_url()
+            )
 
 
 class ImportJson(BrowserView):
@@ -100,49 +102,55 @@ class ImportJson(BrowserView):
 
     def __call__(self):
         request = self.request
-        if request.method == 'POST':
+        if request.method == "POST":
             request.stdin.seek(0)
             data = json.loads(request.stdin.read())
-            taxonomy = queryUtility(ITaxonomy, name=data['taxonomy'])
-            tree = data['tree']
-            languages = data['languages']
+            taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"])
+            tree = data["tree"]
+            languages = data["languages"]
             for language in languages:
                 if language not in taxonomy.data:
                     taxonomy.data[language] = OOBTree()
 
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree['subnodes'], language)
+                    tree["subnodes"], language
+                )
 
                 # Update taxonomy and use 'clear' since we want to remain with
                 # just the items that were submitted by the user.
                 taxonomy.update(language, data_for_taxonomy, True)
 
-            return json.dumps({
-                'status': 'info',
-                'message': translate(
-                    _("Your taxonomy has been saved with success."),
-                    context=request)
-            })
+            return json.dumps(
+                {
+                    "status": "info",
+                    "message": translate(
+                        _("Your taxonomy has been saved with success."), context=request
+                    ),
+                }
+            )
 
-        return json.dumps({
-            'status': 'error',
-            'message': translate(
-                _("There seems to have been an error."),
-                context=request)})
+        return json.dumps(
+            {
+                "status": "error",
+                "message": translate(
+                    _("There seems to have been an error."), context=request
+                ),
+            }
+        )
 
-    def generate_data_for_taxonomy(self, parsed_data, language,
-                                   path=PATH_SEPARATOR):
+    def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
         result = []
         for item in parsed_data:
-            new_key = item['key']
-            title = item['translations'].get(language, '')
-            new_path = u'{}{}'.format(path, title)
-            result.append((new_path, new_key, ))
-            subnodes = item.get('subnodes', [])
+            new_key = item["key"]
+            title = item["translations"].get(language, "")
+            new_path = u"{}{}".format(path, title)
+            result.append((new_path, new_key,))
+            subnodes = item.get("subnodes", [])
             if subnodes:
-                new_path = u'{}{}'.format(new_path, PATH_SEPARATOR)
-                result.extend(self.generate_data_for_taxonomy(
-                    subnodes, language, new_path))
+                new_path = u"{}{}".format(new_path, PATH_SEPARATOR)
+                result.extend(
+                    self.generate_data_for_taxonomy(subnodes, language, new_path)
+                )
 
         return result

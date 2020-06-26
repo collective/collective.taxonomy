@@ -31,11 +31,12 @@ from zope.interface import implementer
 import pkg_resources
 
 try:
-    pkg_resources.get_distribution('plone.app.multilingual')
+    pkg_resources.get_distribution("plone.app.multilingual")
 except pkg_resources.DistributionNotFound:
     HAS_PAM = False
 else:
     from plone.app.multilingual.dx.interfaces import ILanguageIndependentField
+
     HAS_PAM = True
 
 logger = logging.getLogger("collective.taxonomy")
@@ -46,11 +47,20 @@ class TaxonomyBehavior(Persistent):
     is_single_select = False
     field_prefix = "taxonomy_"
 
-    def __init__(self, name, title, description, field_title,
-                 field_description, is_required=False,
-                 is_single_select=False, write_permission='',
-                 field_prefix="taxonomy_",
-                 default_language='en', taxonomy_fieldset='categorization'):
+    def __init__(
+        self,
+        name,
+        title,
+        description,
+        field_title,
+        field_description,
+        is_required=False,
+        is_single_select=False,
+        write_permission="",
+        field_prefix="taxonomy_",
+        default_language="en",
+        taxonomy_fieldset="categorization",
+    ):
         self.name = name
         self.title = _(title)
         self.description = _(description)
@@ -66,10 +76,17 @@ class TaxonomyBehavior(Persistent):
 
     def deactivateSearchable(self):
         registry = getUtility(IRegistry)
-        prefix = 'plone.app.querystring.field.' + self.field_name
-        for suffix in ('title', 'enabled', 'group',
-                       'operations', 'vocabulary', 'sortable', 'description'):
-            record_name = prefix + '.' + suffix
+        prefix = "plone.app.querystring.field." + self.field_name
+        for suffix in (
+            "title",
+            "enabled",
+            "group",
+            "operations",
+            "vocabulary",
+            "sortable",
+            "description",
+        ):
+            record_name = prefix + "." + suffix
             if record_name in registry.records:
                 del registry.records[record_name]
 
@@ -77,31 +94,43 @@ class TaxonomyBehavior(Persistent):
         context = getSite()
         sm = context.getSiteManager()
         sm.unregisterAdapter(
-            factory=None, required=(IDexterityContent, IZCatalog),
-            provided=IIndexer, name=self.field_name)
-        catalog = getToolByName(context, 'portal_catalog')
+            factory=None,
+            required=(IDexterityContent, IZCatalog),
+            provided=IIndexer,
+            name=self.field_name,
+        )
+        catalog = getToolByName(context, "portal_catalog")
         try:
             catalog.delIndex(self.field_name)
         except CatalogError:
             logging.info(
                 "Could not delete index {0} .. something is not right.".format(
-                    self.field_name))
+                    self.field_name
+                )
+            )
 
     def activateSearchable(self):
         registry = getUtility(IRegistry)
-        prefix = 'plone.app.querystring.field.' + self.field_name
+        prefix = "plone.app.querystring.field." + self.field_name
 
         def add(name, value):
-            registry.records[prefix + '.' + name] = value
+            registry.records[prefix + "." + name] = value
 
-        add('title', Record(field.TextLine(), safe_unicode(self.field_title)))
-        add('enabled', Record(field.Bool(), True))
-        add('group', Record(field.TextLine(), safe_unicode('Taxonomy')))
-        add('operations', Record(field.List(value_type=field.TextLine()),
-            [u'plone.app.querystring.operation.selection.is']))
-        add('vocabulary', Record(field.TextLine(), safe_unicode(self.vocabulary_name)))  # noqa: E501
-        add('sortable', Record(field.Bool(), False))
-        add('description', Record(field.Text(), safe_unicode('')))
+        add("title", Record(field.TextLine(), safe_unicode(self.field_title)))
+        add("enabled", Record(field.Bool(), True))
+        add("group", Record(field.TextLine(), safe_unicode("Taxonomy")))
+        add(
+            "operations",
+            Record(
+                field.List(value_type=field.TextLine()),
+                [u"plone.app.querystring.operation.selection.is"],
+            ),
+        )
+        add(
+            "vocabulary", Record(field.TextLine(), safe_unicode(self.vocabulary_name))
+        )  # noqa: E501
+        add("sortable", Record(field.Bool(), False))
+        add("description", Record(field.Text(), safe_unicode("")))
 
     def addIndex(self):
         context = getSite()
@@ -109,16 +138,20 @@ class TaxonomyBehavior(Persistent):
         sm.registerAdapter(
             TaxonomyIndexer(self.field_name, self.vocabulary_name),
             (IDexterityContent, IZCatalog),
-            IIndexer, name=self.field_name)
+            IIndexer,
+            name=self.field_name,
+        )
 
-        catalog = getToolByName(context, 'portal_catalog')
+        catalog = getToolByName(context, "portal_catalog")
         idx_object = KeywordIndex(str(self.field_name))
         try:
             catalog.addIndex(self.field_name, idx_object)
         except CatalogError:
             logging.info(
                 "Index {0} already exists, we hope it is proper configured".format(  # noqa: E501
-                    self.field_name))
+                    self.field_name
+                )
+            )
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):
@@ -126,7 +159,7 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def short_name(self):
-        return str(self.name.split('.')[-1])
+        return str(self.name.split(".")[-1])
 
     @property
     def field_name(self):
@@ -134,7 +167,7 @@ class TaxonomyBehavior(Persistent):
 
     @property
     def vocabulary_name(self):
-        return 'collective.taxonomy.' + self.short_name
+        return "collective.taxonomy." + self.short_name
 
     @property
     def interface(self):
@@ -145,14 +178,14 @@ class TaxonomyBehavior(Persistent):
         return getattr(generated, self.short_name)
 
     def generateInterface(self):
-        logger.debug('generating interface for %s' % self.short_name)
+        logger.debug("generating interface for %s" % self.short_name)
 
-        if hasattr(self, 'is_single_select') and self.is_single_select:
+        if hasattr(self, "is_single_select") and self.is_single_select:
             select_field = schema.Choice(
                 title=_(safe_unicode(self.field_title)),
                 description=_(safe_unicode(self.field_description)),
                 required=self.is_required,
-                vocabulary=self.vocabulary_name
+                vocabulary=self.vocabulary_name,
             )
         else:
             select_field = schema.List(
@@ -161,43 +194,38 @@ class TaxonomyBehavior(Persistent):
                 required=self.is_required,
                 min_length=self.is_required and 1 or 0,
                 value_type=schema.Choice(
-                    vocabulary=self.vocabulary_name,
-                    required=self.is_required
-                )
+                    vocabulary=self.vocabulary_name, required=self.is_required
+                ),
             )
 
         schemaclass = SchemaClass(
-            self.short_name, (Schema, ),
-            __module__='collective.taxonomy.generated',
-            attrs={
-                str(self.field_name): select_field
-            }
+            self.short_name,
+            (Schema,),
+            __module__="collective.taxonomy.generated",
+            attrs={str(self.field_name): select_field},
         )
 
         if self.write_permission:
             schemaclass.setTaggedValue(
-                WRITE_PERMISSIONS_KEY,
-                {self.field_name:
-                 self.write_permission}
+                WRITE_PERMISSIONS_KEY, {self.field_name: self.write_permission}
             )
 
         try:
             taxonomy_fieldset = self.taxonomy_fieldset
         except AttributeError:
             # Backwards compatible:
-            taxonomy_fieldset = 'categorization'
-        if taxonomy_fieldset != 'default':
+            taxonomy_fieldset = "categorization"
+        if taxonomy_fieldset != "default":
             schemaclass.setTaggedValue(
-                FIELDSETS_KEY,
-                [Fieldset(taxonomy_fieldset,
-                          fields=[self.field_name])]
+                FIELDSETS_KEY, [Fieldset(taxonomy_fieldset, fields=[self.field_name])]
             )
 
-        if hasattr(self, 'is_single_select') and not self.is_single_select:
+        if hasattr(self, "is_single_select") and not self.is_single_select:
             schemaclass.setTaggedValue(
                 WIDGETS_KEY,
-                {self.field_name:
-                 'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
+                {
+                    self.field_name: "collective.taxonomy.widget.TaxonomySelectFieldWidget"
+                },
             )
 
         alsoProvides(schemaclass, IFormFieldProvider)

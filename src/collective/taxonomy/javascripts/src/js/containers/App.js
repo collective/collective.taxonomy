@@ -1,21 +1,18 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import { saveTree } from '../actions'
-import App from '../components/App'
+import { saveTree } from '../actions';
+import App from '../components/App';
 
 const mapStateToProps = ({
   defaultLanguage,
   tree: { dirty },
-  saveTree: { isPending, message, status },
+  saveTree: { isPending, message, status }
 }) => ({
   defaultLanguage,
   dirty,
   isPending,
   message,
-  status,
-})
+  status
+});
 
-export default connect(
-  mapStateToProps,
-  { saveTree }
-)(App)
+export default connect(mapStateToProps, { saveTree })(App);

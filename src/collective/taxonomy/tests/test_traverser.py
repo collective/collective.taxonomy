@@ -12,19 +12,19 @@ class TestTaxonomyTraverser(unittest.TestCase):
     layer = INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
 
     def test_traverser(self):
-        view = self.portal.restrictedTraverse('++taxonomy++test')
+        view = self.portal.restrictedTraverse("++taxonomy++test")
 
         self.assertIsInstance(view, VocabularyTuplesView)
         self.assertIsInstance(view.vocabulary, Vocabulary)
 
         keys, labels = zip(*view())
 
-        self.assertIn(u'Information Science', labels)
+        self.assertIn(u"Information Science", labels)
 
-        keys, labels = zip(*view(target_language='de'))
+        keys, labels = zip(*view(target_language="de"))
 
-        self.assertIn(u'Informatik', labels)
-        self.assertNotIn(u'Information Science', labels)
+        self.assertIn(u"Informatik", labels)
+        self.assertNotIn(u"Information Science", labels)
