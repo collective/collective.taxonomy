@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import json
+import os
+
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
 from collective.taxonomy import PATH_SEPARATOR
@@ -7,11 +10,9 @@ from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import TreeExport
 from lxml import etree
 from plone import api
+from plone.app.vocabularies.language import AvailableContentLanguageVocabularyFactory
 from zope.component import queryUtility
 from zope.i18n import translate
-
-import json
-import os
 
 
 class EditTaxonomyData(TreeExport, BrowserView):
@@ -67,8 +68,19 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
+        vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool('portal_languages')
-        languages_mapping = dict(language_tool.listAvailableLanguages())
+        supported_langs = language_tool.supported_langs
+        languages_mapping = {
+            lang: vocab.getTermByToken(lang).title
+            for lang in supported_langs
+        }
+        # if the supported languages changed we might have data of unsupported
+        # languages in our taxonomy. let's add them here.
+        for data_lng in self.taxonomy.inverted_data.keys():
+            if data_lng not in languages_mapping:
+                lng_term = vocab.getTermByToken(data_lng)
+                languages_mapping[data_lng] = lng_term.title if lng_term else data_lng
         return json.dumps(languages_mapping)
 
     def get_resource_url(self):
