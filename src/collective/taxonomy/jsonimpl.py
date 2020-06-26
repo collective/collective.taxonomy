@@ -70,18 +70,19 @@ class EditTaxonomyData(TreeExport, BrowserView):
         """Get mapping token/value for languages."""
         vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool('portal_languages')
-        supported_langs = language_tool.supported_langs
-        languages_mapping = {
-            lang: vocab.getTermByToken(lang).title
-            for lang in supported_langs
+        plone_selected_languages = language_tool.supported_langs
+        taxonomy_languages_translations = {
+            language: vocab.getTermByToken(language).title
+            for language in plone_selected_languages
         }
-        # if the supported languages changed we might have data of unsupported
-        # languages in our taxonomy. let's add them here.
-        for data_lng in self.taxonomy.inverted_data.keys():
-            if data_lng not in languages_mapping:
-                lng_term = vocab.getTermByToken(data_lng)
-                languages_mapping[data_lng] = lng_term.title if lng_term else data_lng
-        return json.dumps(languages_mapping)
+        # Add previous taxonomy translations that currently are not in Plone selected languages
+        for language in self.taxonomy.inverted_data.keys():
+            if language in taxonomy_languages_translations:
+                continue
+            term = vocab.getTermByToken(language)
+            taxonomy_languages_translations[language] = getattr(
+                term, 'title', language)
+        return json.dumps(taxonomy_languages_translations)
 
     def get_resource_url(self):
         """Return resource url."""
