@@ -1,5 +1,6 @@
 # convenience makefile to boostrap & run buildout
 SHELL := /bin/bash
+RUN_CYPRESS_TEST := $(shell if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ] && [ $$TRAVIS_PYTHON_VERSION == "3.7" ]; then echo "true"; else echo "false"; fi)
 
 version = 3
 
@@ -31,8 +32,8 @@ build-backend:
 
 build-frontend:
 	@echo "$(GREEN)==> Build Frontend$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn)
-	(cd src/collective/taxonomy/javascripts && yarn build)
+	cd src/collective/taxonomy/javascripts && yarn
+	cd src/collective/taxonomy/javascripts && yarn build
 
 .PHONY: Start
 start:  ## Start
@@ -50,15 +51,13 @@ start-backend:
 
 start-frontend:
 	@echo "$(GREEN)==> Start Webpack Watcher$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn start)
+	cd src/collective/taxonomy/javascripts && yarn start
 
 .PHONY: Start Cypress
 start-cypress:  ## Start Cypress
-	@echo "$(GREEN)==> Start Plone$(RESET)"
-	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
 	@echo "$(GREEN)==> Start Cypress$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn run cypress open)
-	@echo "$(GREEN)==> Stop Plone$(RESET)"
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress open
 	bin/instance stop
 
 .PHONY: Test
@@ -75,7 +74,7 @@ code-format-check-backend:
 
 code-format-check-frontend:
 	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn prettier)
+	cd src/collective/taxonomy/javascripts && yarn prettier
 
 .PHONY: Code Format
 code-format: code-format-backend code-format-frontend  ## Code Format
@@ -88,7 +87,7 @@ code-format-backend:
 
 code-format-frontend:
 	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn prettier:fix)
+	cd src/collective/taxonomy/javascripts && yarn prettier:fix
 
 code-analysis:
 	@echo "$(green)==> Run static code analysis$(reset)"
@@ -100,25 +99,21 @@ test-backend:
 
 test-frontend:
 	@echo "$(GREEN)==> Run Frontend Tests$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn test)
+	cd src/collective/taxonomy/javascripts && yarn test
 
 test-cypress:
-ifeq ($(PLONE_VERSION),"5.2")
-	@echo "$(GREEN)==> Start Plone$(RESET)"
-	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn run cypress run)
-	@echo "$(GREEN)==> Stop Plone$(RESET)"
+ifeq ("$(RUN_CYPRESS_TEST)", "true")
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run
 	bin/instance stop
 endif
 
 test-cypress-foreground:
 	@echo "$(GREEN)==> Run Cypress Test Displaying Browser$(RESET)"
-	if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then                               \
-		bin/instance start && while ! nc -z localhost 8080; do sleep 1; done;              \
-		cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit; \
-		bin/instance stop;                                                                 \
-	fi
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit
+	bin/instance stop
 
 .PHONY: Clean
 clean:  ## Clean
