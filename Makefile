@@ -52,8 +52,17 @@ start-frontend:
 	@echo "$(GREEN)==> Start Webpack Watcher$(RESET)"
 	(cd src/collective/taxonomy/javascripts && yarn start)
 
+.PHONY: Start Cypress
+start-cypress:  ## Start Cypress
+	@echo "$(GREEN)==> Start Plone$(RESET)"
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	@echo "$(GREEN)==> Start Cypress$(RESET)"
+	(cd src/collective/taxonomy/javascripts && yarn run cypress open)
+	@echo "$(GREEN)==> Stop Plone$(RESET)"
+	bin/instance stop
+
 .PHONY: Test
-test: code-format-check code-analysis test-backend test-frontend  ## Test
+test: code-format-check code-analysis test-backend test-frontend test-cypress  ## Test
 
 .PHONY: Code Format Check
 code-format-check: code-format-check-backend code-format-check-frontend  ## Code Format Check
@@ -92,6 +101,16 @@ test-backend:
 test-frontend:
 	@echo "$(GREEN)==> Run Frontend Tests$(RESET)"
 	(cd src/collective/taxonomy/javascripts && yarn test)
+
+test-cypress:
+ifeq ($(PLONE_VERSION),"5.2")
+	@echo "$(GREEN)==> Start Plone$(RESET)"
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
+	(cd src/collective/taxonomy/javascripts && yarn run cypress run)
+	@echo "$(GREEN)==> Stop Plone$(RESET)"
+	bin/instance stop
+endif
 
 .PHONY: Clean
 clean:  ## Clean
