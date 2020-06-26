@@ -2,20 +2,17 @@
 import json
 import os
 
-from lxml import etree
-
 from BTrees.OOBTree import OOBTree
 from Products.Five.browser import BrowserView
-from plone import api
-from zope.component import queryMultiAdapter
-from zope.component import queryUtility
-from zope.i18n import translate
-
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vdex import TreeExport
+from lxml import etree
+from plone import api
+from plone.app.vocabularies.language import AvailableContentLanguageVocabularyFactory
+from zope.component import queryUtility
+from zope.i18n import translate
 
 
 class EditTaxonomyData(TreeExport, BrowserView):
@@ -71,20 +68,21 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
-        portal = api.portal.get()
-        portal_state = queryMultiAdapter(
-            (portal, portal.REQUEST), name=u'plone_portal_state')
-        mapping = portal_state.locale().displayNames.languages
+        vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool('portal_languages')
-        supported_langs = language_tool.supported_langs
-        languages_mapping = {
-            get_lang_code(lang): mapping[get_lang_code(lang)].capitalize()
-            for lang in supported_langs
+        plone_selected_languages = language_tool.supported_langs
+        taxonomy_languages_translations = {
+            language: vocab.getTermByToken(language).title
+            for language in plone_selected_languages
         }
-        # add taxonomy's default language if it is not in supported langs
-        default_lang = self.taxonomy.default_language
-        languages_mapping[default_lang] = mapping[default_lang].capitalize()
-        return json.dumps(languages_mapping)
+        # Add previous taxonomy translations that currently are not in Plone selected languages
+        for language in self.taxonomy.inverted_data.keys():
+            if language in taxonomy_languages_translations:
+                continue
+            term = vocab.getTermByToken(language)
+            taxonomy_languages_translations[language] = getattr(
+                term, 'title', language)
+        return json.dumps(taxonomy_languages_translations)
 
     def get_resource_url(self):
         """Return resource url."""

@@ -12,7 +12,6 @@ from collective.taxonomy import PRETTY_PATH_SEPARATOR
 from collective.taxonomy import generated
 from collective.taxonomy.behavior import TaxonomyBehavior
 from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vocabulary import Vocabulary
 from copy import copy
 from persistent.dict import PersistentDict
@@ -102,7 +101,7 @@ class Taxonomy(SimpleItem):
         return Vocabulary(self.name, data, inverted_data, order, version)
 
     def getCurrentLanguage(self, request):
-        language = get_lang_code()
+        language = api.portal.get_current_language()
         if language in self.data:
             return language
         elif self.default_language in self.data:
@@ -292,6 +291,15 @@ class Taxonomy(SimpleItem):
         if target_language is None or \
                 target_language not in self.inverted_data:
             target_language = str(api.portal.get_current_language())
+
+            if target_language not in self.inverted_data:
+                # might be a non standard language or the portal has
+                # switched standard language after creating the taxonomy
+                lngs = list(self.inverted_data.keys())
+                if not len(lngs):
+                    # empty taxonomy
+                    return ''
+                target_language = lngs[0]
 
         if msgid not in self.inverted_data[target_language]:
             return ''
