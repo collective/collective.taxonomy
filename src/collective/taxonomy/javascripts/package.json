@@ -38,6 +38,7 @@
     "chai": "^3.5.0",
     "chai-equal-jsx": "^1.0.9",
     "chai-spies": "*",
+    "cypress": "^4.3.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.7.0",
