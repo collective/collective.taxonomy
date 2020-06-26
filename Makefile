@@ -26,6 +26,7 @@ build-backend:
 	virtualenv --clear --python=python3 .
 	bin/pip install --upgrade pip
 	bin/pip install -r requirements.txt
+	bin/pip install black || true
 	bin/buildout
 
 build-frontend:
@@ -52,7 +53,33 @@ start-frontend:
 	(cd src/collective/taxonomy/javascripts && yarn start)
 
 .PHONY: Test
-test: code-analysis test-backend test-frontend  ## Test
+test: code-format-check code-analysis test-backend test-frontend  ## Test
+
+.PHONY: Code Format Check
+code-format-check: code-format-check-backend code-format-check-frontend  ## Code Format Check
+
+code-format-check-backend:
+	@echo "$(GREEN)==> Run Python code format check$(RESET)"
+	if [ "$$(command -v bin/black)" ]; then \
+		bin/black --check src/;             \
+	fi
+
+code-format-check-frontend:
+	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
+	(cd src/collective/taxonomy/javascripts && yarn prettier)
+
+.PHONY: Code Format
+code-format: code-format-backend code-format-frontend  ## Code Format
+
+code-format-backend:
+	@echo "$(GREEN)==> Run Python code format$(RESET)"
+	if [ "$$(command -v bin/black)" ]; then \
+		bin/black src/;                     \
+	fi
+
+code-format-frontend:
+	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
+	(cd src/collective/taxonomy/javascripts && yarn prettier:fix)
 
 code-analysis:
 	@echo "$(green)==> Run static code analysis$(reset)"

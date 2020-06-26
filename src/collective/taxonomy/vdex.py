@@ -4,7 +4,7 @@ from collective.taxonomy import PATH_SEPARATOR
 from lxml import etree
 from plone.supermodel.utils import indent
 
-LANG_SEPARATOR = '|'
+LANG_SEPARATOR = "|"
 
 
 class ImportVdex(object):
@@ -23,7 +23,7 @@ class ImportVdex(object):
 
         return final_results
 
-    def processLanguage(self, results, language, path=('',)):
+    def processLanguage(self, results, language, path=("",)):
         result = []
         for element in results.keys():
             (identifier, children) = results[element]
@@ -32,39 +32,36 @@ class ImportVdex(object):
                 extended_path = PATH_SEPARATOR.join(path)
                 extended_path = PATH_SEPARATOR.join((extended_path, text))
                 result.append((extended_path, identifier))
-                result.extend(self.processLanguage(children, language,
-                                                   path + (text,)))
+                result.extend(self.processLanguage(children, language, path + (text,)))
         return result
 
     def recurse(self, tree, available_languages=set(), parent_language=None):
         result = OrderedDict()
 
-        for node in tree.findall('./{%s}term' % self.ns):
-            identifier = node.find('./{%s}termIdentifier' % self.ns)
-            langstrings = node.findall('./{%s}caption/{%s}langstring' %
-                                       (self.ns, self.ns))
+        for node in tree.findall("./{%s}term" % self.ns):
+            identifier = node.find("./{%s}termIdentifier" % self.ns)
+            langstrings = node.findall(
+                "./{%s}caption/{%s}langstring" % (self.ns, self.ns)
+            )
             for i in langstrings:
-                if not parent_language or \
-                        parent_language == i.attrib['language']:
+                if not parent_language or parent_language == i.attrib["language"]:
                     if i.text is None:
-                        text = ''
+                        text = ""
                     else:
-                        text = i.text.strip('\n ')
+                        text = i.text.strip("\n ")
 
-                    element = LANG_SEPARATOR.join([i.attrib['language'], text])
+                    element = LANG_SEPARATOR.join([i.attrib["language"], text])
                     result[element] = (
                         identifier.text,
-                        self.recurse(node, available_languages,
-                                     i.attrib['language'])
+                        self.recurse(node, available_languages, i.attrib["language"]),
                     )
 
-                available_languages.add(i.attrib['language'])
+                available_languages.add(i.attrib["language"])
 
         return result
 
 
 class TreeExport(object):
-
     def __init__(self, taxonomy):
         self.taxonomy = taxonomy
 
@@ -95,16 +92,18 @@ class TreeExport(object):
         termnodes = []
 
         for identifier in index.keys():
-            termnode = etree.Element('term')
-            identifiernode = etree.Element('termIdentifier')
+            termnode = etree.Element("term")
+            identifiernode = etree.Element("termIdentifier")
             identifiernode.text = str(identifier)
-            captionnode = etree.Element('caption')
+            captionnode = etree.Element("caption")
             translations = sorted(table[identifier].items())
 
             for (language, langstring) in translations:
-                langstringnode = etree.Element('langstring')
+                langstringnode = etree.Element("langstring")
                 langstringnode.text = langstring
-                langstringnode.attrib['language'] = language or self.taxonomy.default_language or ''  # noqa: E501
+                langstringnode.attrib["language"] = (
+                    language or self.taxonomy.default_language or ""
+                )  # noqa: E501
                 captionnode.append(langstringnode)
 
             termnode.append(identifiernode)
@@ -125,9 +124,8 @@ class TreeExport(object):
             for path, identifier, parent in self.taxonomy.iterLanguage(lang):
                 if identifier not in translationTable:
                     translationTable[identifier] = {}
-
-                translationTable[identifier][lang] = \
-                    path[path.rfind(PATH_SEPARATOR) + 1:]
+                index = path.rfind(PATH_SEPARATOR) + 1
+                translationTable[identifier][lang] = path[index:]
 
         return translationTable
 
@@ -144,18 +142,18 @@ class ExportVdex(TreeExport):
     """Helper class for import"""
 
     IMSVDEX_ATTRIBS = {
-        '{http://www.w3.org/2001/XMLSchema-instance}schemaLocation': "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
+        "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation": "http://www.imsglobal.org/xsd/imsvdex_v1p0 "
         "imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 "
         "imsmd_rootv1p2p1.xsd",
-        'orderSignificant': "false",
-        'profileType': "hierarchicalTokenTerms",
-        'language': "en"
+        "orderSignificant": "false",
+        "profileType": "hierarchicalTokenTerms",
+        "language": "en",
     }
     NSMAP = {
         None: "http://www.imsglobal.org/xsd/imsvdex_v1p0",
-        'xsi': "http://www.w3.org/2001/XMLSchema-instance"
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     }
-    IMSVDEX_ENCODING = 'utf-8'
+    IMSVDEX_ENCODING = "utf-8"
 
     def __init__(self, taxonomy):
         self.taxonomy = taxonomy
@@ -164,24 +162,21 @@ class ExportVdex(TreeExport):
         taxonomy = self.taxonomy
 
         attrib = self.IMSVDEX_ATTRIBS
-        attrib['language'] = taxonomy.default_language or ''
+        attrib["language"] = taxonomy.default_language or ""
 
-        root = etree.Element('vdex', attrib=attrib, nsmap=self.NSMAP)
+        root = etree.Element("vdex", attrib=attrib, nsmap=self.NSMAP)
 
-        vocabName = etree.Element('vocabName')
+        vocabName = etree.Element("vocabName")
         root.append(vocabName)
 
         langstring = etree.Element(
-            'langstring',
-            attrib={'language': taxonomy.default_language or ''}
+            "langstring", attrib={"language": taxonomy.default_language or ""}
         )
         langstring.text = taxonomy.title
         vocabName.append(langstring)
 
-        vocabIdentifier = etree.Element('vocabIdentifier')
-        vocabIdentifier.text = self.taxonomy.name.replace(
-            'collective.taxonomy.', ''
-        )
+        vocabIdentifier = etree.Element("vocabIdentifier")
+        vocabIdentifier.text = self.taxonomy.name.replace("collective.taxonomy.", "")
         root.append(vocabIdentifier)
 
         root = self.buildTree(root)
@@ -189,8 +184,8 @@ class ExportVdex(TreeExport):
         if as_string:
             indent(root)
             treestring = etree.tostring(
-                root, encoding=self.IMSVDEX_ENCODING,
-                xml_declaration=True)
+                root, encoding=self.IMSVDEX_ENCODING, xml_declaration=True
+            )
             return treestring
         else:
             return root

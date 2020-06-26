@@ -1,8 +1,6 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import ReadOnlySubTree from '../components/ReadOnlySubTree'
-import { mapStateToProps } from './SubTree'
+import ReadOnlySubTree from '../components/ReadOnlySubTree';
+import { mapStateToProps } from './SubTree';
 
-export default connect(
-  mapStateToProps,
-)(ReadOnlySubTree)
+export default connect(mapStateToProps)(ReadOnlySubTree);

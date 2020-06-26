@@ -10,9 +10,9 @@ class TestUtility(unittest.TestCase):
     layer = INTEGRATION_TESTING
 
     def test_make_tree(self):
-        taxonomy = queryUtility(ITaxonomy, name='collective.taxonomy.test')
+        taxonomy = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         self.assertIsNotNone(taxonomy)
 
-        tree = taxonomy.makeVocabulary('en').makeTree()
-        self.assertIn(u'Information Science', tree)
-        self.assertEqual(len(tree[u'Information Science']), 3)
+        tree = taxonomy.makeVocabulary("en").makeTree()
+        self.assertIn(u"Information Science", tree)
+        self.assertEqual(len(tree[u"Information Science"]), 3)

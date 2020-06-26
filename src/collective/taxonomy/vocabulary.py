@@ -32,11 +32,12 @@ class TaxonomyVocabulary(object):
     def __call__(self, adapter):
         sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
-        return SimpleVocabulary([
-            SimpleTerm(value=utility.name,
-                       title=utility.title)
-            for utility_name, utility in utilities
-        ])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=utility.name, title=utility.title)
+                for utility_name, utility in utilities
+            ]
+        )
 
 
 @implementer(IVocabularyTokenized)
@@ -69,11 +70,14 @@ class Vocabulary(object):
         if type(input_identifier) == list:
             raise LookupError("Expected string, not list")
 
-        return SimpleTerm(value=input_identifier,
-                          title=self.message(input_identifier,
-                                             self.inv_data[
-                                                 input_identifier],
-                                             mapping={NODE: tail_only}))
+        return SimpleTerm(
+            value=input_identifier,
+            title=self.message(
+                input_identifier,
+                self.inv_data[input_identifier],
+                mapping={NODE: tail_only},
+            ),
+        )
 
     def getTermByValue(self, path):
         if self.version == 1:
@@ -99,8 +103,7 @@ class Vocabulary(object):
 
         for path, identifier in self.iterEntries():
             term = SimpleTerm(
-                value=identifier,
-                title=self.message(identifier, path, mapping=mapping)
+                value=identifier, title=self.message(identifier, path, mapping=mapping)
             )
             results.append(term)
 
@@ -116,8 +119,10 @@ class Vocabulary(object):
         identifiers = set()
 
         if self.version == 1:
+
             def fix(path):
                 return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
+
         else:
             fix = lambda path: path  # noqa: E731
 
@@ -140,7 +145,9 @@ class Vocabulary(object):
     def makeTree(self):
         """Return term tree."""
 
-        path_sep = LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR  # noqa: E501
+        path_sep = (
+            LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR
+        )  # noqa: E501
         tree = OrderedDict()
 
         def add(path, value):
@@ -166,14 +173,16 @@ class Vocabulary(object):
 
 @implementer(IVocabularyFactory)
 class PermissionsVocabulary(object):
-
     def __call__(self, context):
         result = []
         sm = getSite().getSiteManager()
 
         for (permission, permission_object) in sm.getUtilitiesFor(IPermission):
-            result.append(SimpleTerm(value=permission_object.id,
-                                     title=_pmf(permission_object.title)))
+            result.append(
+                SimpleTerm(
+                    value=permission_object.id, title=_pmf(permission_object.title)
+                )
+            )
 
         result.sort(key=lambda permission: permission.title)
         return SimpleVocabulary(result)
@@ -187,10 +196,10 @@ class LanguagesVocabulary(object):
         portal = api.portal.get()
         terms = []
         portal_state = queryMultiAdapter(
-            (portal, portal.REQUEST), name=u'plone_portal_state')
+            (portal, portal.REQUEST), name=u"plone_portal_state"
+        )
         languages = portal_state.locale().displayNames.languages
         for token, value in sorted(languages.items()):
-            terms.append(SimpleVocabulary.createTerm(
-                token, token, value))
+            terms.append(SimpleVocabulary.createTerm(token, token, value))
 
         return SimpleVocabulary(terms)

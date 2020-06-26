@@ -12,18 +12,18 @@ FIXTURE = PloneWithPackageLayer(
     zcml_package=collective.taxonomy,
     zcml_filename="testing.zcml",
     gs_profile_id="collective.taxonomy:examples",
-    additional_z2_products=['Products.DateRecurringIndex'],
+    additional_z2_products=["Products.DateRecurringIndex"],
 )
 
 INTEGRATION_TESTING = IntegrationTesting(
-    bases=(FIXTURE,), name="TaxonomyFixture:Integration")
+    bases=(FIXTURE,), name="TaxonomyFixture:Integration"
+)
 
 FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(FIXTURE,), name="TaxonomyFixture:Functional")
+    bases=(FIXTURE,), name="TaxonomyFixture:Functional"
+)
 
 ROBOT_TESTING = FunctionalTesting(
-    bases=(FIXTURE,
-           REMOTE_LIBRARY_BUNDLE_FIXTURE,
-           z2.ZSERVER_FIXTURE),
-    name="CollectiveTaxonomy:Acceptance"
+    bases=(FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE),
+    name="CollectiveTaxonomy:Acceptance",
 )
