@@ -99,7 +99,9 @@ test-backend:
 
 test-frontend:
 	@echo "$(GREEN)==> Run Frontend Tests$(RESET)"
-	(cd src/collective/taxonomy/javascripts && yarn test)
+	cd src/collective/taxonomy/javascripts
+	yarn test
+	cd $CURRENT_DIR
 
 test-cypress:
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
