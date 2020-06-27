@@ -1,6 +1,6 @@
 # convenience makefile to boostrap & run buildout
 SHELL := /bin/bash
-CURRENT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+RUN_CYPRESS_TEST := $(shell if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then echo "true"; else echo "false"; fi)
 
 version = 3
 
@@ -103,11 +103,11 @@ test-frontend:
 
 test-cypress:
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
-	if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ]; then                           \
-		(bin/instance start && while ! nc -z localhost 8080; do sleep 1; done || true) \
-		&& cd src/collective/taxonomy/javascripts && yarn run cypress run              \
-		&& (cd $$(CURRENT_DIR) && bin/instance stop || true);                          \
-	fi
+ifeq ("$(RUN_CYPRESS_TEST)", "true")
+	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run
+	bin/instance stop
+endif
 
 test-cypress-foreground:
 	@echo "$(GREEN)==> Run Cypress Test Displaying Browser$(RESET)"
