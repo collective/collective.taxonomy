@@ -1,6 +1,7 @@
 # convenience makefile to boostrap & run buildout
 SHELL := /bin/bash
-RUN_CYPRESS_TEST := $(shell if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ] && [ $$TRAVIS_PYTHON_VERSION == "3.7" ]; then echo "true"; else echo "false"; fi)
+# Run test if not on Travis or Python 3 and Plone 5.2
+NOT_TRAVIS_OR_PYTHON3_PLONE52 := $(shell if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ] && [ $$TRAVIS_PYTHON_VERSION == "3.7" ]; then echo "true"; else echo "false"; fi)
 
 version = 3
 
@@ -27,7 +28,9 @@ build-backend:
 	virtualenv --clear --python=python3 .
 	bin/pip install --upgrade pip
 	bin/pip install -r requirements.txt
-	bin/pip install black || true
+ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
+	bin/pip install black
+endif
 	bin/buildout
 
 build-frontend:
@@ -68,9 +71,9 @@ code-format-check: code-format-check-backend code-format-check-frontend  ## Code
 
 code-format-check-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
-	if [ "$$(command -v bin/black)" ]; then \
-		bin/black --check src/;             \
-	fi
+ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
+	bin/black --check src/
+endif
 
 code-format-check-frontend:
 	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
@@ -81,9 +84,7 @@ code-format: code-format-backend code-format-frontend  ## Code Format
 
 code-format-backend:
 	@echo "$(GREEN)==> Run Python code format$(RESET)"
-	if [ "$$(command -v bin/black)" ]; then \
-		bin/black src/;                     \
-	fi
+	bin/black src/
 
 code-format-frontend:
 	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
@@ -91,7 +92,9 @@ code-format-frontend:
 
 code-analysis:
 	@echo "$(green)==> Run static code analysis$(reset)"
+ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/code-analysis
+endif
 
 test-backend:
 	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
@@ -103,7 +106,7 @@ test-frontend:
 
 test-cypress:
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
-ifeq ("$(RUN_CYPRESS_TEST)", "true")
+ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
 	cd src/collective/taxonomy/javascripts && yarn run cypress run
 	bin/instance stop
