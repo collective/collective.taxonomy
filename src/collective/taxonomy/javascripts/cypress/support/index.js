@@ -20,7 +20,7 @@ import './commands'
 // require('./commands')
 
 Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from
-  // failing the test
+  // There are some hidden exceptions in Plone when publish item
+  // This is needed to make Cypress ignore those javascript exceptions
   return false
 })
