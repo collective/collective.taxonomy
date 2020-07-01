@@ -108,7 +108,7 @@ test-cypress:
 	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
-	cd src/collective/taxonomy/javascripts && yarn run cypress run --config videoRecording=false
+	cd src/collective/taxonomy/javascripts && yarn run cypress run --config video=false
 	bin/instance stop
 endif
 
