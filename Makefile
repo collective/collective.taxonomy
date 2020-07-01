@@ -1,7 +1,7 @@
 # convenience makefile to boostrap & run buildout
 SHELL := /bin/bash
 # Run test if not on Travis or Python 3 and Plone 5.2
-NOT_TRAVIS_OR_PYTHON3_PLONE52 := $(shell if [ -z "$$TRAVIS" ] || ([ "$$PLONE_VERSION" == "5.2" ] && [ "$$TRAVIS_PYTHON_VERSION" == "3.7" ]); then echo "true"; else echo "false"; fi)
+NOT_TRAVIS_OR_PYTHON3_PLONE52 := $(shell if [ -z $$TRAVIS ] || [ $$PLONE_VERSION == "5.2" ] && [ $$TRAVIS_PYTHON_VERSION == "3.7" ]; then echo "true"; else echo "false"; fi)
 
 version = 3
 
