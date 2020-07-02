@@ -18,3 +18,9 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // There are some hidden exceptions in Plone when publish item
+  // This is needed to make Cypress ignore those javascript exceptions
+  return false
+})
