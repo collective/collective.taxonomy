@@ -1,9 +1,9 @@
-## Creating a Portifolio
+## Creating a Portfolio
 
-Let's think we have a company website, and need to show a Portifolio.
-At this Portifolio we wish to show a list of pages created by this company grouped by two levels of categories, field of the website in portifolio and country of location.
+Let's think we have a company website, and need to show a Portfolio.
+At this Portfolio we wish to show a list of pages created by this company grouped by two levels of categories, field of the website in portfolio and country of location.
 Let's take for example a company that makes websites for Museums, and others.
-At the Portifolio page we wish to be able to filter by Field and location.
+At the Portfolio page we wish to be able to filter by Field and location.
 
 ### Add taxonomy
 To add taxonomy we go into the [control panel](http://localhost:8080/Plone/@@overview-controlpanel) and click in Taxonomies option:
@@ -47,30 +47,30 @@ And hit "Save" button:
 ![Enable behavior 005](./img/enable-behavior-005.png "enable-behavior-005")
 
 ### Add categorized News items
-Finally it is time to create our Portifolio!
+Finally it is time to create our Portfolio!
 
 Let's add a folder in the [root](http://localhost:8080/Plone):
-![Create portifolio data 001](./img/create-portifolio-data-001.png "create-portifolio-data-001")
+![Create portfolio data 001](./img/create-portfolio-data-001.png "create-portfolio-data-001")
 
-With name Portifolio:
-![Create portifolio data 002](./img/create-portifolio-data-002.png "create-portifolio-data-002")
+With name Portfolio:
+![Create portfolio data 002](./img/create-portfolio-data-002.png "create-portfolio-data-002")
 
 Don't forget to Publish:
-![Create portifolio data 003](./img/create-portifolio-data-003.png "create-portifolio-data-003")
+![Create portfolio data 003](./img/create-portfolio-data-003.png "create-portfolio-data-003")
 
-Than [inside this folder](http://localhost:8080/Plone/portifolio) let's add some "News items":
-![Create portifolio data 004](./img/create-portifolio-data-004.png "create-portifolio-data-004")
+Than [inside this folder](http://localhost:8080/Plone/portfolio) let's add some "News items":
+![Create portfolio data 004](./img/create-portfolio-data-004.png "create-portfolio-data-004")
 
 And our taxonomy is in the "Categorization" tab:
-![Create portifolio data 005](./img/create-portifolio-data-005.png "create-portifolio-data-005")
+![Create portfolio data 005](./img/create-portfolio-data-005.png "create-portfolio-data-005")
 
 To add a Category, select the item and click on the "↓" button (note that you can add more than one category):
-![Create portifolio data 006](./img/create-portifolio-data-006.png "create-portifolio-data-006")
+![Create portfolio data 006](./img/create-portfolio-data-006.png "create-portfolio-data-006")
 
 Add as many items as needed.
 
-### Add a view to show the Portifolio
-Now you can create a new view for Folder to show the Portifolio with the filters, following the [Plone documentation](https://docs.plone.org/external/plone.app.dexterity/docs/custom-views.html), we suggest to have this in your new view:
+### Add a view to show the Portfolio
+Now you can create a new view for Folder to show the Portfolio with the filters, following the [Plone documentation](https://docs.plone.org/external/plone.app.dexterity/docs/custom-views.html), we suggest to have this in your new view:
 
 At your `browser.py` file, create the browser view:
 ```python
@@ -80,9 +80,9 @@ from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 
-class Portifolio(BrowserView):
+class Portfolio(BrowserView):
 
-    """Portifolio view."""
+    """Portfolio view."""
 
     def _setup(self):
         self.filter_id = self.request.form.get('filter-id', None)
@@ -119,7 +119,7 @@ class Portifolio(BrowserView):
         return self.index()
 ```
 
-Add the `portifolio.pt` template:
+Add the `portfolio.pt` template:
 ```html
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
@@ -182,19 +182,19 @@ And wire everything in the `configure.zcml` file:
   ...
 
   <browser:page
-      name="portifolio"
+      name="portfolio"
       for="plone.app.contenttypes.interfaces.IFolder"
-      class=".browser.Portifolio"
-      template="portifolio.pt"
+      class=".browser.Portfolio"
+      template="portfolio.pt"
       permission="zope2.View"
       />
   <browser:menuItems
       for="plone.app.contenttypes.interfaces.IFolder"
       menu="plone_displayviews">
     <browser:menuItem
-        title="Portifolio"
-        action="portifolio"
-        description="Portifolio view"
+        title="Portfolio"
+        action="portfolio"
+        description="Portfolio view"
         />
   </browser:menuItems>
 
@@ -204,10 +204,10 @@ And wire everything in the `configure.zcml` file:
 ```
 
 Well, it is a little beyond this tutorial, but instead of override the default view, let's [add the new view method at ZMI](http://localhost:8080/Plone/portal_types/Folder):
-![Add portifolio view 001](./img/add-portifolio-view-001.png "add-portifolio-view-001")
+![Add portfolio view 001](./img/add-portfolio-view-001.png "add-portfolio-view-001")
 
 The result is somethig like this:
-![Add portifolio view 002](./img/add-portifolio-view-002.png "add-portifolio-view-002")
+![Add portfolio view 002](./img/add-portfolio-view-002.png "add-portfolio-view-002")
 
 ### Video generated by Test
 In [this cypress test](https://github.com/collective/collective.taxonomy/blob/master/src/collective/taxonomy/javascripts/cypress/integration/end_to_end.js) we do almost the same, it runs every time we have a modification in this package to make sure if everything is working:
