@@ -136,6 +136,8 @@ be used for catalog queries.
 
 See a short guide on how to use the product `here <http://bo.geekworld.dk/introducing-collective-taxonomy/>`_.
 
+And the Getting Started Tutorial `here <https://github.com/collective/collective.taxonomy/blob/master/docs/tutorial.md>`_
+
 
 React/Redux app to edit taxonomies
 ----------------------------------
@@ -234,12 +236,6 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
 
   Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
   remember to edit the vocabIdentifier and vocabName.
-
-
-To-Do
-=====
-
-- Better documentation.
 
 
 Tests status
