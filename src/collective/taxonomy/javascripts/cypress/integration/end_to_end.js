@@ -7,7 +7,7 @@ const addFolder = (path, title) => {
 };
 
 const addNewsItem = (title, site, image, category) => {
-  cy.visit('/portifolio/all-museums/++add++News%20Item');
+  cy.visit('/portfolio/all-museums/++add++News%20Item');
   cy.get('#form-widgets-IDublinCore-title').type(title);
   cy.get('#form-widgets-IDublinCore-description').type(site);
   cy.get('input[type=file]').uploadFile(image, 'image/png');
@@ -81,10 +81,10 @@ context('Navigation', () => {
   })
 
   it('Add folders', () => {
-    addFolder('', 'Portifolio');
-    addFolder('/portifolio', 'All museums');
-    addFolder('/portifolio', 'Netherlands Museums');
-    addFolder('/portifolio', 'France Museums');
+    addFolder('', 'Portfolio');
+    addFolder('/portfolio', 'All museums');
+    addFolder('/portfolio', 'Netherlands Museums');
+    addFolder('/portfolio', 'France Museums');
   })
 
   it('Add categorized news items', () => {
@@ -115,25 +115,25 @@ context('Navigation', () => {
   })
 
   it('Create collections filtering by categories', () => {
-    addCollection('/portifolio', 'Portifolio', 4);
+    addCollection('/portfolio', 'Portfolio', 4);
     cy.contains('#content', 'Centraal Museum').should('exist');
     cy.contains('#content', 'Zeeuws Museum').should('exist');
     cy.contains('#content', 'Kunsthal KAdE').should('exist');
     cy.contains('#content', 'Louvre Museum').should('exist');
 
-    addCollection('/portifolio/all-museums', 'All Museums', 4);
+    addCollection('/portfolio/all-museums', 'All Museums', 4);
     cy.contains('#content', 'Centraal Museum').should('exist');
     cy.contains('#content', 'Zeeuws Museum').should('exist');
     cy.contains('#content', 'Kunsthal KAdE').should('exist');
     cy.contains('#content', 'Louvre Museum').should('exist');
 
-    addCollection('/portifolio/netherlands-museums', 'Netherlands Museums', 7);
+    addCollection('/portfolio/netherlands-museums', 'Netherlands Museums', 7);
     cy.contains('#content', 'Centraal Museum').should('exist');
     cy.contains('#content', 'Zeeuws Museum').should('exist');
     cy.contains('#content', 'Kunsthal KAdE').should('exist');
     cy.contains('#content', 'Louvre Museum').should('not.exist');
 
-    addCollection('/portifolio/france-museums', 'France Museums', 6);
+    addCollection('/portfolio/france-museums', 'France Museums', 6);
     cy.contains('#content', 'Centraal Museum').should('not.exist');
     cy.contains('#content', 'Zeeuws Museum').should('not.exist');
     cy.contains('#content', 'Kunsthal KAdE').should('not.exist');

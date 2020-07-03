@@ -4,10 +4,16 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
-- fix translating msgid when portal language is not found in taxonomy
-  [petschki]
+- Add a tutorial
+  [rodfersou]
 
-- fix JavaScript in ``input_widget.pt`` which had python comments
+- Add Cypress test
+  [rodfersou]
+
+- Fix translating msgid when portal language is not found in taxonomy
+  [petschki, rodfersou]
+
+- Fix JavaScript in ``input_widget.pt`` which had python comments
   [petschki]
 
 - Add Transifex.net service integration to manage the translation process
