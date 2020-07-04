@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.0.1 (unreleased)
+2.0.1 (2020-07-04)
 ------------------
 
 - Add a tutorial
