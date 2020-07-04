@@ -134,9 +134,7 @@ forms, and it is also available for collections, if ``plone.app.collection``
 is used on the site. An index is also created, so the taxonomies can easily
 be used for catalog queries.
 
-See a short guide on how to use the product `here <http://bo.geekworld.dk/introducing-collective-taxonomy/>`_.
-
-And the Getting Started Tutorial `here <https://github.com/collective/collective.taxonomy/blob/master/docs/tutorial.md>`_
+Please read the detailed `Getting Started Tutorial <https://github.com/collective/collective.taxonomy/blob/master/docs/tutorial.md>`_
 
 
 React/Redux app to edit taxonomies
