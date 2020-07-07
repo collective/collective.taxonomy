@@ -1,0 +1,11 @@
+version: '2'
+services:
+  plone-make:
+    image: plone-make:5.2.1
+    build: .
+  plone:
+    image: plone-make:5.2.1
+    ports:
+    - '8080:8080'
+    volumes:
+    - .:/app

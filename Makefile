@@ -118,6 +118,21 @@ test-cypress-foreground:
 	cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit
 	bin/instance stop
 
+docker-build:
+	@echo "$(GREEN)==> Setup Build with Docker$(RESET)"
+	docker-compose build
+	docker-compose run plone cp -R /plone/buildout-cache /app/cache
+	docker-compose run plone make build-backend
+
+docker-start:
+	@echo "$(GREEN)==> Start Plone Backend with Docker$(RESET)"
+	docker-compose up
+
+docker-clean:
+	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
+	docker-compose down --rmi all
+	rm -rf cache
+
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
