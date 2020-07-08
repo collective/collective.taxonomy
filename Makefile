@@ -64,18 +64,19 @@ start-cypress:  ## Start Cypress
 	bin/instance stop
 
 .PHONY: Test
-test: code-format-check code-analysis test-backend test-frontend test-cypress  ## Test
+test: lint test-backend test-frontend test-cypress  ## Test
 
 .PHONY: Code Format Check
-code-format-check: code-format-check-backend code-format-check-frontend  ## Code Format Check
+lint: lint-backend lint-frontend  ## Code Format Check
 
-code-format-check-backend:
+lint-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/black --check src/
+	bin/code-analysis
 endif
 
-code-format-check-frontend:
+lint-frontend:
 	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier
 
@@ -89,12 +90,6 @@ code-format-backend:
 code-format-frontend:
 	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier:fix
-
-code-analysis:
-	@echo "$(green)==> Run static code analysis$(reset)"
-ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/code-analysis
-endif
 
 test-backend:
 	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
@@ -118,24 +113,32 @@ test-cypress-foreground:
 	cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit
 	bin/instance stop
 
-docker-build:
+.PHONY: Build with Docker
+docker-build: docker-build-backend docker-build-frontend  ## Build with Docker
+
+docker-build-backend:
 	@echo "$(GREEN)==> Setup Build with Docker$(RESET)"
 	docker-compose build
-	docker-compose run plone cp -R /plone/buildout-cache /app/cache
-	docker-compose run plone make build-backend
+	docker-compose run backend "cp -R /plone/buildout-cache /app/cache"
+	docker-compose run backend "make build-backend"
 
-docker-start:
-	@echo "$(GREEN)==> Start Plone Backend with Docker$(RESET)"
+docker-build-frontend:
+	@echo "$(GREEN)==> Build Frontend with Docker$(RESET)"
+	docker-compose run frontend "make build-frontend"
+
+.PHONY: Start with Docker
+docker-start:  ## Start with Docker
+	@echo "$(GREEN)==> Start Plone and Webpack watcher with Docker$(RESET)"
 	docker-compose up
 
 docker-clean:
 	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
-	docker-compose down --rmi all
-	rm -rf cache
+	docker-compose down
 
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
-	git clean -Xdf
+	rm -rf bin cache lib include share develop-eggs .Python parts .installed.cfg .mr.developer.cfg
+	cd src/collective/taxonomy/javascripts && rm -rf node_modules
 
 .PHONY: all clean

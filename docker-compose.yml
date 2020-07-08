@@ -1,11 +1,25 @@
 version: '2'
 services:
-  plone-make:
-    image: plone-make:5.2.1
+  collective-taxonomy:
+    image: collective-taxonomy:5.2.1
     build: .
-  plone:
-    image: plone-make:5.2.1
+  backend:
+    image: collective-taxonomy:5.2.1
     ports:
-    - '8080:8080'
+      - '8080:8080'
     volumes:
-    - .:/app
+      - .:/app
+    command:
+      - make start-backend
+  frontend:
+    image: node:12
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - make start-frontend

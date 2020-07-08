@@ -1,5 +1,6 @@
 FROM plone:5.2.1
 ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update -qy                                                              \
     && apt-get install -qy make                                                     \
     && pip install -q virtualenv==16.7.9                                            \
@@ -18,5 +19,5 @@ RUN apt-get update -qy                                                          
 USER plone
 VOLUME /app
 WORKDIR /app
-ENTRYPOINT []
-CMD ["make", "start-backend"]
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["make start-backend"]
