@@ -1,0 +1,63 @@
+.PHONY: Build with Docker
+docker-build: docker-build-backend docker-build-frontend  ## Build with Docker
+
+docker-build-backend:
+	@echo "$(GREEN)==> Setup Build with Docker$(RESET)"
+	# docker-compose build
+	docker-compose run --rm backend "mkdir -p /app/cache/eggs /app/cache/downloads/list /app/cache/extends" || true
+	docker-compose run --rm backend "cd /app/cache/eggs && find /plone/buildout-cache/eggs/* -maxdepth 0 -type d -exec ln -sf {} . \;" || true
+	docker-compose run --rm backend "make build-backend"
+
+docker-build-frontend:
+	@echo "$(GREEN)==> Build Frontend with Docker$(RESET)"
+	docker-compose run --rm frontend "make build-frontend"
+
+.PHONY: Start with Docker
+docker-start:  ## Start with Docker
+	@echo "$(GREEN)==> Start Plone and Webpack watcher with Docker$(RESET)"
+	docker-compose up
+
+.PHONY: Code Format Check with Docker
+docker-lint: docker-lint-backend docker-lint-frontend  ## Code Format Check with Docker
+
+docker-lint-backend:
+	@echo "$(GREEN)==> Run Python code format check with Docker$(RESET)"
+	docker-compose run --rm backend "make lint-backend"
+
+docker-lint-frontend:
+	@echo "$(GREEN)==> Run Javascript code format check with Docker$(RESET)"
+	docker-compose run --rm frontend "make lint-frontend"
+
+.PHONY: Code Format Fixes with Docker
+docker-lint-fix: docker-lint-fix-backend docker-lint-fix-frontend  ## Code Format Fixes with Docker
+
+docker-lint-fix-backend:
+	@echo "$(GREEN)==> Run Python code format fix with Docker$(RESET)"
+	docker-compose run --rm backend "make lint-fix-backend"
+
+docker-lint-fix-frontend:
+	@echo "$(GREEN)==> Run Javascript code format fix with Docker$(RESET)"
+	docker-compose run --rm frontend "make lint-fix-frontend"
+
+.PHONY: Test
+docker-test: docker-lint docker-test-backend docker-test-frontend docker-test-cypress  ## Test
+
+docker-test-backend:
+	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
+	docker-compose run --rm backend "make test-backend"
+
+docker-test-frontend:
+	@echo "$(GREEN)==> Run Frontend Tests$(RESET)"
+	docker-compose run --rm frontend "make test-frontend"
+
+# docker-test-cypress:
+#	@echo "$(GREEN)==> Run Cypress Test$(RESET)"
+# ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
+#	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
+#	cd src/collective/taxonomy/javascripts && yarn run cypress run --config video=false
+#	bin/instance stop
+# endif
+
+docker-clean:
+	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
+	docker-compose down

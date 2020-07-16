@@ -63,9 +63,6 @@ start-cypress:  ## Start Cypress
 	cd src/collective/taxonomy/javascripts && yarn run cypress open
 	bin/instance stop
 
-.PHONY: Test
-test: lint test-backend test-frontend test-cypress  ## Test
-
 .PHONY: Code Format Check
 lint: lint-backend lint-frontend  ## Code Format Check
 
@@ -80,16 +77,21 @@ lint-frontend:
 	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier
 
-.PHONY: Code Format
-code-format: code-format-backend code-format-frontend  ## Code Format
+.PHONY: Code Format Fixes
+lint-fix: lint-fix-backend lint-fix-frontend  ## Code Format Fixes
 
-code-format-backend:
-	@echo "$(GREEN)==> Run Python code format$(RESET)"
+lint-fix-backend:
+	@echo "$(GREEN)==> Run Python code format fix$(RESET)"
+ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/black src/
+endif
 
-code-format-frontend:
-	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
+lint-fix-frontend:
+	@echo "$(GREEN)==> Run Javascript code format fix$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier:fix
+
+.PHONY: Test
+test: lint test-backend test-frontend test-cypress  ## Test
 
 test-backend:
 	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
@@ -113,32 +115,12 @@ test-cypress-foreground:
 	cd src/collective/taxonomy/javascripts && yarn run cypress run --headed --no-exit
 	bin/instance stop
 
-.PHONY: Build with Docker
-docker-build: docker-build-backend docker-build-frontend  ## Build with Docker
-
-docker-build-backend:
-	@echo "$(GREEN)==> Setup Build with Docker$(RESET)"
-	docker-compose build
-	docker-compose run backend "cp -R /plone/buildout-cache /app/cache"
-	docker-compose run backend "make build-backend"
-
-docker-build-frontend:
-	@echo "$(GREEN)==> Build Frontend with Docker$(RESET)"
-	docker-compose run frontend "make build-frontend"
-
-.PHONY: Start with Docker
-docker-start:  ## Start with Docker
-	@echo "$(GREEN)==> Start Plone and Webpack watcher with Docker$(RESET)"
-	docker-compose up
-
-docker-clean:
-	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
-	docker-compose down
-
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
 	rm -rf bin cache lib include share develop-eggs .Python parts .installed.cfg .mr.developer.cfg
 	cd src/collective/taxonomy/javascripts && rm -rf node_modules
+
+include Makefile.docker
 
 .PHONY: all clean
