@@ -1,8 +1,5 @@
 version: '2'
 services:
-  plone-tools:
-    image: plone-tools:5.2.1
-    build: .
   backend:
     image: plone-tools:5.2.1
     user: plone

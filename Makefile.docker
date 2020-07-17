@@ -3,9 +3,13 @@ docker-build: docker-build-backend docker-build-frontend  ## Build with Docker
 
 docker-build-backend:
 	@echo "$(GREEN)==> Setup Build with Docker$(RESET)"
-	# docker-compose build
-	docker-compose run --rm backend "mkdir -p /app/cache/eggs /app/cache/downloads/list /app/cache/extends" || true
-	docker-compose run --rm backend "cd /app/cache/eggs && find /plone/buildout-cache/eggs/* -maxdepth 0 -type d -exec ln -sf {} . \;" || true
+	if [[ "$$(docker images -q plone-tools:5.2.1 2> /dev/null)" == "" ]]; then \
+		docker build -t plone-tools:5.2.1 . ; \
+	fi
+	if [ ! -d cache ]; then \
+		docker-compose run --rm backend "mkdir -p /app/cache/eggs /app/cache/downloads/list /app/cache/extends" || true ; \
+		docker-compose run --rm backend "cd /app/cache/eggs && find /plone/buildout-cache/eggs/* -maxdepth 0 -type d -exec ln -sf {} . \;" || true ; \
+	fi
 	docker-compose run --rm backend "make build-backend"
 
 docker-build-frontend:
@@ -61,3 +65,7 @@ docker-test-frontend:
 docker-clean:
 	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
 	docker-compose down
+	if [[ "$$(docker images -q plone-tools:5.2.1 2> /dev/null)" != "" ]]; then \
+		docker image rm plone-tools:5.2.1 ; \
+	fi
+	make clean
