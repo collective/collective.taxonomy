@@ -1,24 +1,30 @@
 version: '2'
 services:
-  backend:
-    image: plone-tools:5.2.1
-    user: plone
-    ports:
-      - '8080:8080'
-    volumes:
-      - .:/app
-    working_dir: /app
-    entrypoint: /bin/sh -c
-    command:
-      - make start-backend
   frontend:
-    image: node:12
-    user: node
+    image: cypress/base:12.18.0
+    user: 1000:1000
     ports:
-      - '3000:3000'
+      - 3000:3000
     volumes:
       - .:/app
+    environment:
+      - npm_config_cache=/app/cache/npm
+      - YARN_CACHE_FOLDER=/app/cache/yarn
+      - CYPRESS_CACHE_FOLDER=/app/cache/cypress
+      - CYPRESS_VIDEO=false
+      - CYPRESS_baseUrl=http://backend:8080/Plone
     working_dir: /app
     entrypoint: /bin/sh -c
     command:
       - make start-frontend
+  backend:
+    image: collective/collective.taxonomy:2.0.1
+    user: 1000:1000
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: /bin/sh -c
+    command:
+      - make start-backend-development

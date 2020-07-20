@@ -45,12 +45,15 @@ start:  ## Start
 			split-window -h "make start-frontend" \; \
 			select-pane -t 0;                        \
 	else                                             \
-		make start-backend;                          \
+		make start-backend-development;                          \
 	fi
 
 start-backend:
 	@echo "$(GREEN)==> Start Plone Backend$(RESET)"
-	NODE_ENV=development bin/instance fg
+	bin/instance fg
+
+start-backend-development:
+	NODE_ENV=development make start-backend
 
 start-frontend:
 	@echo "$(GREEN)==> Start Webpack Watcher$(RESET)"
@@ -109,6 +112,11 @@ ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/instance stop
 endif
 
+test-cypress-docker:
+	while ! curl -sf http://frontend:3000 > /dev/null; do sleep 1; done
+	while ! curl -sf http://backend:8080/Plone > /dev/null; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run
+
 test-cypress-foreground:
 	@echo "$(GREEN)==> Run Cypress Test Displaying Browser$(RESET)"
 	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
@@ -118,7 +126,7 @@ test-cypress-foreground:
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
-	rm -rf bin cache lib include share develop-eggs .Python parts .installed.cfg .mr.developer.cfg
+	rm -rf bin cache var lib include share develop-eggs .Python parts .installed.cfg .mr.developer.cfg
 	cd src/collective/taxonomy/javascripts && rm -rf node_modules
 
 include Makefile.docker

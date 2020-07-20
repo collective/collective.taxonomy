@@ -1,0 +1,5 @@
+.git/
+docs/
+cache/
+src/collective/taxonomy/javascripts/cypress/videos/
+src/collective/taxonomy/javascripts/cypress/screenshots/
