@@ -35,7 +35,7 @@ endif
 
 build-frontend:
 	@echo "$(GREEN)==> Build Frontend$(RESET)"
-	cd src/collective/taxonomy/javascripts && yarn
+	cd src/collective/taxonomy/javascripts && yarn -–network-timeout 100000
 	cd src/collective/taxonomy/javascripts && yarn build
 
 .PHONY: Start
@@ -126,8 +126,8 @@ test-cypress-foreground:
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
-	rm -rf bin cache var lib include share develop-eggs .Python parts .installed.cfg .mr.developer.cfg
-	cd src/collective/taxonomy/javascripts && rm -rf node_modules
+	rm -rf bin var lib include share develop-eggs parts .installed.cfg .mr.developer.cfg
+	cd src/collective/taxonomy/javascripts && rm -rf node_modules yarn*
 
 include Makefile.docker
 

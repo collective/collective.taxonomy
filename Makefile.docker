@@ -63,10 +63,13 @@ docker-test-cypress:
 	docker-compose exec frontend make test-cypress-docker
 	docker-compose down
 
-docker-clean:
-	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
-	docker-compose down
+docker-clean-image:
 	if [[ "$$(docker images -q $(NAME) 2> /dev/null)" != "" ]]; then \
 		docker image rm $(NAME) ; \
 	fi
+
+docker-clean:
+	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
+	rm -rf cache
+	docker-compose down
 	make clean
