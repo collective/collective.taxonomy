@@ -2,6 +2,7 @@
 SHELL := /bin/bash
 # Run test if not on Travis or Python 3 and Plone 5.2
 NOT_TRAVIS_OR_PYTHON3_PLONE52 := $(shell if [ -z "$$TRAVIS" ] || ([ "$$PLONE_VERSION" == "5.2" ] && [ "$$TRAVIS_PYTHON_VERSION" == "3.7" ]); then echo "true"; else echo "false"; fi)
+VIRTUALENV_NOT_INSTALLED := $(shell if [ ! -d bin ]); then echo "true"; else echo "false"; fi)
 
 version = 3
 
@@ -25,17 +26,19 @@ build: build-backend build-frontend  ## Build
 
 build-backend:
 	@echo "$(GREEN)==> Setup Build$(RESET)"
+ifeq ("$(VIRTUALENV_NOT_INSTALLED)", "true")
 	virtualenv --clear --python=python3 .
 	bin/pip install --upgrade pip
 	bin/pip install -r requirements.txt
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/pip install black
 endif
+endif
 	bin/buildout
 
 build-frontend:
 	@echo "$(GREEN)==> Build Frontend$(RESET)"
-	cd src/collective/taxonomy/javascripts && yarn -–network-timeout 100000
+	cd src/collective/taxonomy/javascripts && yarn
 	cd src/collective/taxonomy/javascripts && yarn build
 
 .PHONY: Start
@@ -112,11 +115,6 @@ ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	bin/instance stop
 endif
 
-test-cypress-docker:
-	while ! curl -sf http://frontend:3000 > /dev/null; do sleep 1; done
-	while ! curl -sf http://backend:8080/Plone > /dev/null; do sleep 1; done
-	cd src/collective/taxonomy/javascripts && yarn run cypress run
-
 test-cypress-foreground:
 	@echo "$(GREEN)==> Run Cypress Test Displaying Browser$(RESET)"
 	bin/instance start && while ! nc -z localhost 8080; do sleep 1; done
@@ -126,7 +124,7 @@ test-cypress-foreground:
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
-	rm -rf bin var lib include share develop-eggs parts .installed.cfg .mr.developer.cfg
+	rm -rf bin lib include share develop-eggs parts .installed.cfg .mr.developer.cfg
 	cd src/collective/taxonomy/javascripts && rm -rf node_modules yarn*
 
 include Makefile.docker

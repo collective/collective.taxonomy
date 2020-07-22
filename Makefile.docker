@@ -14,10 +14,15 @@ docker-build-backend:
 	fi
 	docker-compose run --rm backend "make build-backend"
 
+build-frontend-docker:
+	@echo "$(GREEN)==> Build Frontend$(RESET)"
+	cd src/collective/taxonomy/javascripts && yarn --network-timeout 30000
+	cd src/collective/taxonomy/javascripts && yarn build
+
 docker-build-frontend:
 	@echo "$(GREEN)==> Build Frontend with Docker$(RESET)"
 	mkdir -p cache/npm cache/yarn cache/cypress
-	docker-compose run --rm frontend "make build-frontend"
+	docker-compose run --rm frontend "make build-frontend-docker"
 
 .PHONY: Start with Docker
 docker-start:  ## Start with Docker
@@ -56,6 +61,11 @@ docker-test-backend:
 docker-test-frontend:
 	@echo "$(GREEN)==> Run Frontend Tests with Docker$(RESET)"
 	docker-compose run --rm frontend "make test-frontend"
+
+test-cypress-docker:
+	while ! curl -sf http://frontend:3000 > /dev/null; do sleep 1; done
+	while ! curl -sf http://backend:8080/Plone > /dev/null; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run
 
 docker-test-cypress:
 	@echo "$(GREEN)==> Run Cypress Test with Docker$(RESET)"
