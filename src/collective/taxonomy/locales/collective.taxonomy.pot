@@ -174,7 +174,7 @@ msgstr ""
 msgid "collective.taxonomy uninstall"
 msgstr ""
 
-#. Default: "Select the taxnomies you desire to modify"
+#. Default: "Select the taxonomies you desire to modify"
 #: ./interfaces.py:52
 msgid "help_taxonomies"
 msgstr ""

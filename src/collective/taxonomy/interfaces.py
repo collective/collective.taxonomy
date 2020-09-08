@@ -51,12 +51,13 @@ class ITaxonomySettings(Interface):
         title=_(u"Taxonomies"),
         value_type=schema.Choice(
             description=_(
-                u"help_taxonomies", default=u"Select the taxnomies you desire to modify"
+                u"help_taxonomies", default=u"Select the taxonomies you desire to modify"
             ),
             required=False,
             vocabulary="collective.taxonomy.taxonomies",
         ),
         default=[],
+        required=False,
     )
 
 
