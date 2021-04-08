@@ -4,7 +4,8 @@ Changes
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix GenericSetup export in python2
+  [gotcha]
 
 
 2.0.1 (2020-07-04)
