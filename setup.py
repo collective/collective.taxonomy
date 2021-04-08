@@ -52,7 +52,7 @@ setup(
         'plone.app.registry',
         'plone.app.dexterity',
         'lxml',
-        'six',
+        'six >= 1.12',
     ],
     extras_require={
         'dev': [
