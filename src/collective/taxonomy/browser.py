@@ -14,7 +14,10 @@ class TaxonomyView(BrowserView):
 
         sm = getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
-        for (utility_name, utility,) in utilities:
+        for (
+            utility_name,
+            utility,
+        ) in utilities:
             short_name = utility.getShortName()
 
             if short_names and short_name not in short_names:
@@ -31,7 +34,7 @@ class TaxonomyView(BrowserView):
         return results
 
     def translate(self, msgid, domain="", target_language=None):
-        """ Eq to context.translate(msgid, domain) """
+        """Eq to context.translate(msgid, domain)"""
         sm = getSiteManager()
         utility = sm.queryUtility(ITaxonomy, name=domain)
         return utility.translate(

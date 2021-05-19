@@ -25,11 +25,12 @@ build: build-backend build-frontend  ## Build
 
 build-backend:
 	@echo "$(GREEN)==> Setup Build$(RESET)"
-	virtualenv --clear --python=python3 .
-	bin/pip install --upgrade pip
-	bin/pip install -r requirements.txt
+	python3 -m venv venv
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install -r requirements.txt
+	./venv/bin/buildout bootstrap
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/pip install black
+	./venv/bin/pip install black
 endif
 	bin/buildout
 
@@ -72,7 +73,7 @@ code-format-check: code-format-check-backend code-format-check-frontend  ## Code
 code-format-check-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/black --check src/
+	./venv/bin/black --check src/
 endif
 
 code-format-check-frontend:
@@ -84,7 +85,7 @@ code-format: code-format-backend code-format-frontend  ## Code Format
 
 code-format-backend:
 	@echo "$(GREEN)==> Run Python code format$(RESET)"
-	bin/black src/
+	./venv/bin/black src/
 
 code-format-frontend:
 	@echo "$(GREEN)==> Run Javascript code format$(RESET)"

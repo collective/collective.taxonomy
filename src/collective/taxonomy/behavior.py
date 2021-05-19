@@ -155,14 +155,12 @@ class TaxonomyBehavior(Persistent):
             )
 
     def addMetadata(self):
-        catalog = api.portal.get_tool(name='portal_catalog')
+        catalog = api.portal.get_tool(name="portal_catalog")
         try:
             catalog.addColumn(self.field_name)
         except CatalogError:
             logging.info(
-                "Column {0} already exists".format(  # noqa: E501
-                    self.field_name
-                )
+                "Column {0} already exists".format(self.field_name)  # noqa: E501
             )
 
     def unregisterInterface(self):

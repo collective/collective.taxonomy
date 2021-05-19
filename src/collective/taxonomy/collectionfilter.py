@@ -16,15 +16,13 @@ def resolve_title(token, index_name):
     shortname = None
     taxonomy_name = None
     for tax in taxonomies:
-        shortname = tax[len("collective.taxonomy."):]
+        shortname = tax[len("collective.taxonomy.") :]
         if not index_name.endswith(shortname):
             continue
         taxonomy_name = tax
     if not shortname or not taxonomy_name:
         return token
-    taxonomy = queryUtility(
-        ITaxonomy, name=taxonomy_name
-    )
+    taxonomy = queryUtility(ITaxonomy, name=taxonomy_name)
     lang = api.portal.get_current_language()
     lang = lang in taxonomy.inverted_data and lang or taxonomy.default_language
     term = taxonomy.translate(token, target_language=lang)
