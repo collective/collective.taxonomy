@@ -145,7 +145,12 @@ class ImportJson(BrowserView):
             new_key = item["key"]
             title = item["translations"].get(language, "")
             new_path = u"{}{}".format(path, title)
-            result.append((new_path, new_key,))
+            result.append(
+                (
+                    new_path,
+                    new_key,
+                )
+            )
             subnodes = item.get("subnodes", [])
             if subnodes:
                 new_path = u"{}{}".format(new_path, PATH_SEPARATOR)

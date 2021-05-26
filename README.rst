@@ -1,6 +1,16 @@
 Taxonomy Vocabularies
 =====================
 
+|CI| |Coverage| |Workflows|
+
+.. |CI| image:: https://github.com/collective/collective.taxonomy/workflows/CI/badge.svg
+   :target: https://github.com/collective/collective.taxonomy/actions
+.. |Coverage| image:: https://coveralls.io/repos/github/collective/collective.taxonomy/badge.svg
+   :target: https://coveralls.io/github/collective/collective.taxonomy
+.. |Workflows| image:: http://github-actions.40ants.com/collective/collective.taxonomy/matrix.svg
+   :target: https://github.com/collective/collective.taxonomy/actions
+
+
 Create, edit and use hierarchical taxonomies in `Plone`_.
 
 This add-on provides support for hierarchical taxonomies in multiple

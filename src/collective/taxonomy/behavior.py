@@ -10,6 +10,7 @@ from collective.taxonomy import generated
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.indexer import TaxonomyIndexer
 from persistent import Persistent
+from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
@@ -151,6 +152,15 @@ class TaxonomyBehavior(Persistent):
                 "Index {0} already exists, we hope it is proper configured".format(  # noqa: E501
                     self.field_name
                 )
+            )
+
+    def addMetadata(self):
+        catalog = api.portal.get_tool(name="portal_catalog")
+        try:
+            catalog.addColumn(self.field_name)
+        except CatalogError:
+            logging.info(
+                "Column {0} already exists".format(self.field_name)  # noqa: E501
             )
 
     def unregisterInterface(self):

@@ -139,6 +139,7 @@ class Taxonomy(SimpleItem):
         self.sm.registerUtility(behavior, IBehavior, name=self.getGeneratedName())
 
         behavior.addIndex()
+        behavior.addMetadata()
         behavior.activateSearchable()
 
     def cleanupFTI(self):
