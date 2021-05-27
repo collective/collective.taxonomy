@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.0.2 (unreleased)
+2.1.0 (2021-05-27)
 ------------------
 
 - Fix GenericSetup export in python2
