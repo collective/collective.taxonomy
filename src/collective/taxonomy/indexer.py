@@ -19,7 +19,6 @@ logger = logging.getLogger("collective.taxonomy")
 
 
 class TaxonomyIndexerWrapper(object):
-
     def __init__(self, field_name, utility_name, context, catalog):
         self.context = context
         self.catalog = catalog
@@ -52,7 +51,13 @@ class TaxonomyIndexerWrapper(object):
         for (language, data) in utility.data.items():
             for (identifier, path) in utility.inverted_data[language].items():
                 if identifier in stored_element:
-                    found.append((identifier, language, path,))
+                    found.append(
+                        (
+                            identifier,
+                            language,
+                            path,
+                        )
+                    )
 
         lang = get_language(self.context)
         if lang not in utility.inverted_data:
@@ -69,7 +74,7 @@ class TaxonomyIndexerWrapper(object):
 
 @implementer(IIndexer)
 class TaxonomyIndexer(object):
-    __name__ = 'TaxonomyIndexer'
+    __name__ = "TaxonomyIndexer"
 
     adapts(IDexterityContent, IZCatalog)
 
@@ -78,12 +83,13 @@ class TaxonomyIndexer(object):
         self.utility_name = utility_name
 
     def __call__(self, context, catalog):
-        return TaxonomyIndexerWrapper(self.field_name, self.utility_name,
-                                      context, catalog)
+        return TaxonomyIndexerWrapper(
+            self.field_name, self.utility_name, context, catalog
+        )
 
 
 def get_language(obj):
-    lang = getattr(obj, 'language', None)
+    lang = getattr(obj, "language", None)
     if lang:
         return lang
     elif not IPloneSiteRoot.providedBy(obj):

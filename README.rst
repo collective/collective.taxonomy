@@ -1,6 +1,16 @@
 Taxonomy Vocabularies
 =====================
 
+|CI| |Coverage| |Workflows|
+
+.. |CI| image:: https://github.com/collective/collective.taxonomy/workflows/CI/badge.svg
+   :target: https://github.com/collective/collective.taxonomy/actions
+.. |Coverage| image:: https://coveralls.io/repos/github/collective/collective.taxonomy/badge.svg
+   :target: https://coveralls.io/github/collective/collective.taxonomy
+.. |Workflows| image:: http://github-actions.40ants.com/collective/collective.taxonomy/matrix.svg
+   :target: https://github.com/collective/collective.taxonomy/actions
+
+
 Create, edit and use hierarchical taxonomies in `Plone`_.
 
 This add-on provides support for hierarchical taxonomies in multiple
@@ -134,7 +144,7 @@ forms, and it is also available for collections, if ``plone.app.collection``
 is used on the site. An index is also created, so the taxonomies can easily
 be used for catalog queries.
 
-See a short guide on how to use the product `here <http://bo.geekworld.dk/introducing-collective-taxonomy/>`_.
+Please read the detailed `Getting Started Tutorial <https://github.com/collective/collective.taxonomy/blob/master/docs/tutorial.md>`_
 
 
 React/Redux app to edit taxonomies
@@ -234,12 +244,6 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
 
   Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
   remember to edit the vocabIdentifier and vocabName.
-
-
-To-Do
-=====
-
-- Better documentation.
 
 
 Tests status

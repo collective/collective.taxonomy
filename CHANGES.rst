@@ -1,8 +1,30 @@
 Changes
 =======
 
-2.0.1 (unreleased)
+2.0.2 (unreleased)
 ------------------
+
+- Fix GenericSetup export in python2
+  [gotcha]
+
+- Integrate taxonomies into collective.collectionfilter
+  [MrTango]
+
+
+2.0.1 (2020-07-04)
+------------------
+
+- Add a tutorial
+  [rodfersou]
+
+- Add Cypress test
+  [rodfersou]
+
+- Fix translating msgid when portal language is not found in taxonomy
+  [petschki, rodfersou]
+
+- Fix JavaScript in ``input_widget.pt`` which had python comments
+  [petschki]
 
 - Add Transifex.net service integration to manage the translation process
   [macagua]

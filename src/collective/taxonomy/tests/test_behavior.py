@@ -20,7 +20,7 @@ class TestBehaviorRegistration(unittest.TestCase):
 
     def test_register_behavior(self):
         # Test taxonomy registration
-        taxonomy = queryUtility(ITaxonomy, name='collective.taxonomy.test')
+        taxonomy = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         self.assertIsNotNone(taxonomy)
 
         # Test behavior registration
@@ -28,27 +28,26 @@ class TestBehaviorRegistration(unittest.TestCase):
         self.assertIsNotNone(behavior)
 
         # Test index creation
-        pc = api.portal.get_tool('portal_catalog')
-        self.assertIn('taxonomy_test', pc.indexes())
+        pc = api.portal.get_tool("portal_catalog")
+        self.assertIn("taxonomy_test", pc.indexes())
 
         # Test indexer registration
         sm = getSiteManager()
         indexer = sm._adapter_registrations.get(
-            ((IDexterityContent, IZCatalog),
-             IIndexer, 'taxonomy_test'),
-            None)
+            ((IDexterityContent, IZCatalog), IIndexer, "taxonomy_test"), None
+        )
         self.assertIsNotNone(indexer)
 
         # Test querystring configuration
         registry = queryUtility(IRegistry)
         self.assertIsNotNone(registry)
-        prefix = 'plone.app.querystring.field.taxonomy_test'
+        prefix = "plone.app.querystring.field.taxonomy_test"
         records = registry.forInterface(IQueryField, prefix=prefix)  # noqa
         self.assertIsNotNone(records)
 
     def test_unregister_behavior(self):
         # Test taxonomy registration
-        taxonomy = queryUtility(ITaxonomy, name='collective.taxonomy.test')
+        taxonomy = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         self.assertIsNotNone(taxonomy)
 
         # Unregister behavior
@@ -59,20 +58,20 @@ class TestBehaviorRegistration(unittest.TestCase):
         self.assertIsNone(behavior)
 
         # Test index creation
-        pc = api.portal.get_tool('portal_catalog')
-        self.assertNotIn('taxonomy_test', pc.indexes())
+        pc = api.portal.get_tool("portal_catalog")
+        self.assertNotIn("taxonomy_test", pc.indexes())
 
         # Test indexer registration
         sm = getSiteManager()
         indexer = sm._adapter_registrations.get(
-            ((IDexterityContent, IZCatalog),
-             IIndexer, 'taxonomy_test'),
-            None)
+            ((IDexterityContent, IZCatalog), IIndexer, "taxonomy_test"), None
+        )
         self.assertIsNone(indexer)
 
         # Test querystring configuration
         registry = queryUtility(IRegistry)
         self.assertIsNotNone(registry)
-        prefix = 'plone.app.querystring.field.taxonomy_test'
+        prefix = "plone.app.querystring.field.taxonomy_test"
         self.assertRaises(
-            KeyError, registry.forInterface, IQueryField, prefix=prefix)  # noqa
+            KeyError, registry.forInterface, IQueryField, prefix=prefix
+        )  # noqa

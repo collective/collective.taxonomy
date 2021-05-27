@@ -5,7 +5,7 @@ import nl from "./nl";
 const translations = {
   es,
   fr,
-  nl,
+  nl
 };
 
 export default translations;

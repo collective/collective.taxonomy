@@ -8,16 +8,16 @@ from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.utility import Taxonomy
 
 
-def registerTaxonomy(context, name, title, default_language, description=''):
-    if hasattr(context, 'getSite'):
+def registerTaxonomy(context, name, title, default_language, description=""):
+    if hasattr(context, "getSite"):
         site = context.getSite()
     else:
         site = context
 
     normalizer = getUtility(IIDNormalizer)
 
-    normalized_name = normalizer.normalize(name).replace('-', '')
-    utility_name = 'collective.taxonomy.' + normalized_name
+    normalized_name = normalizer.normalize(name).replace("-", "")
+    utility_name = "collective.taxonomy." + normalized_name
     taxonomy = queryUtility(ITaxonomy, name=utility_name)
 
     if taxonomy is None:

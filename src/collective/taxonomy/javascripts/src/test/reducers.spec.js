@@ -1,9 +1,9 @@
-import * as constants from '../js/constants'
-import * as reducers from '../js/reducers'
+import * as constants from '../js/constants';
+import * as reducers from '../js/reducers';
 
 describe('Reducers', () => {
   describe('Tree reducer', () => {
-    const { tree } = reducers
+    const { tree } = reducers;
     const initialState = {
       dirty: false,
       nodes: {
@@ -16,17 +16,17 @@ describe('Reducers', () => {
           key: 'bar',
           subnodes: [],
           translations: { en: 'Bar', fr: 'Titi' }
-        },
-      },
-    }
+        }
+      }
+    };
     it('should handle ADD_NODE action type', () => {
       const action = {
         type: constants.ADD_NODE,
         parentId: 'foo',
         index: 1,
-        newKey: 'xyz',
-      }
-      const actual = tree(initialState, action)
+        newKey: 'xyz'
+      };
+      const actual = tree(initialState, action);
       const expected = {
         dirty: true,
         nodes: {
@@ -42,29 +42,29 @@ describe('Reducers', () => {
           },
           xyz: { key: 'xyz', subnodes: [], translations: {} }
         }
-      }
-      expect(actual).to.eql(expected)
-    })
+      };
+      expect(actual).to.eql(expected);
+    });
 
     it('should handle REMOVE_NODE action type', () => {
       const action = {
         type: constants.REMOVE_NODE,
         parentId: 'foo',
         id: 'bar',
-        index: 42,
-      }
-      const actual = tree(initialState, action)
+        index: 42
+      };
+      const actual = tree(initialState, action);
       const expected = {
         dirty: true,
         nodes: {
           foo: {
             key: 'foo',
-            subnodes: ['bar'],  // TODO: FIXME?
+            subnodes: ['bar'], // TODO: FIXME?
             translations: { en: 'Foo', fr: 'Toto' }
           }
         }
-      }
-      expect(actual).to.eql(expected)
-    })
-  })
-})
+      };
+      expect(actual).to.eql(expected);
+    });
+  });
+});

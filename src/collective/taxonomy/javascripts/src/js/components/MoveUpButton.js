@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
-import { defineMessages, injectIntl } from 'react-intl'
+import React, { PropTypes } from 'react';
+import { defineMessages, injectIntl } from 'react-intl';
 
-import Button from './common/Button'
+import Button from './common/Button';
 
 const messages = defineMessages({
   moveUpLabel: {
@@ -9,22 +9,16 @@ const messages = defineMessages({
     description: 'Move node up label',
     defaultMessage: 'Move node up'
   }
-})
+});
 
-const MoveUpButton = ({
-  parentId,
-  id,
-  index,
-  intl,
-  moveUp
-}) => (
+const MoveUpButton = ({ parentId, id, index, intl, moveUp }) => (
   <Button
-    handleClick={ () => moveUp(parentId, id, index) }
-    title={ intl.formatMessage(messages.moveUpLabel) }
+    handleClick={() => moveUp(parentId, id, index)}
+    title={intl.formatMessage(messages.moveUpLabel)}
   >
     <i className="taxonomy-icon-up"></i>
   </Button>
-)
+);
 
 MoveUpButton.propTypes = {
   parentId: PropTypes.string.isRequired,
@@ -32,6 +26,6 @@ MoveUpButton.propTypes = {
   index: PropTypes.number.isRequired,
   intl: PropTypes.object.isRequired,
   moveUp: PropTypes.func.isRequired
-}
+};
 
-export default injectIntl(MoveUpButton)
+export default injectIntl(MoveUpButton);

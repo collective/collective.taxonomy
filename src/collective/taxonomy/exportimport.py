@@ -6,6 +6,7 @@ from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
 from collective.taxonomy.vdex import ImportVdex
 from io import StringIO
+from io import BytesIO
 from lxml.etree import fromstring
 from plone.behavior.interfaces import IBehavior
 from six.moves import configparser
@@ -17,54 +18,56 @@ def parseConfigFile(data):
     except Exception as exception:
         raise exception
 
-    config.readfp(StringIO(data.decode('utf-8')))
+    config.readfp(StringIO(data.decode("utf-8")))
     return config
 
 
 def importTaxonomy(context):
-    directory = context.listDirectory('taxonomies/')
+    directory = context.listDirectory("taxonomies/")
 
     if not directory:
         return
 
     for filename in directory:
-        if filename.endswith('.xml'):
+        if filename.endswith(".xml"):
             continue
 
-        if filename.endswith('.cfg'):
-            data = context.readDataFile('taxonomies/' + filename)
+        if filename.endswith(".cfg"):
+            data = context.readDataFile("taxonomies/" + filename)
             config = parseConfigFile(data)
 
-            filename = 'taxonomies/' + filename.replace('.cfg', '.xml')
+            filename = "taxonomies/" + filename.replace(".cfg", ".xml")
             body = context.readDataFile(filename)
             if body is not None:
                 result = {}
-                for name in ['name', 'title',
-                             'description', 'default_language']:
+                for name in ["name", "title", "description", "default_language"]:
                     try:
-                        result[name] = config.get('taxonomy', name)
+                        result[name] = config.get("taxonomy", name)
                     except configparser.NoOptionError:
                         pass
 
-                taxonomy = registerTaxonomy(
-                    context,
-                    **result
-                )
+                taxonomy = registerTaxonomy(context, **result)
                 importer = TaxonomyImportExportAdapter(context)
                 importer.importDocument(taxonomy, body)
 
                 result = {}
-                for name in ['field_title', 'field_description',
-                             'default_language', 'write_permission',
-                             'taxonomy_fieldset']:
+                for name in [
+                    "field_title",
+                    "field_description",
+                    "default_language",
+                    "write_permission",
+                    "taxonomy_fieldset",
+                ]:
                     try:
-                        result[name] = config.get('taxonomy', name)
+                        result[name] = config.get("taxonomy", name)
                     except configparser.NoOptionError:
                         pass
 
-                for name in ['is_single_select', 'is_required']:
+                for name in ["is_single_select", "is_required"]:
                     try:
-                        result[name] = config.get('taxonomy', name) == 'true' and True  # noqa: E501
+                        result[name] = (
+                            config.get("taxonomy", name) == "true" and True
+                        )  # noqa: E501
                     except configparser.NoOptionError:
                         pass
 
@@ -77,43 +80,50 @@ def exportTaxonomy(context):
     for (name, taxonomy) in sm.getUtilitiesFor(ITaxonomy):
         behavior = sm.queryUtility(IBehavior, name=taxonomy.getGeneratedName())
 
-        short_name = name.split('.')[-1]
+        short_name = name.split(".")[-1]
         exporter = TaxonomyImportExportAdapter(context)
         body = exporter.exportDocument(taxonomy)
 
         if body is not None:
             config = configparser.RawConfigParser()
 
-            config.add_section('taxonomy')
-            name = name.replace('collective.taxonomy.', '')
-            config.set('taxonomy', 'name', name)
+            config.add_section("taxonomy")
+            name = name.replace("collective.taxonomy.", "")
+            config.set("taxonomy", "name", name)
 
-            for name in ['title', 'description', 'default_language']:
+            for name in ["title", "description", "default_language"]:
                 value = getattr(taxonomy, name, None)
                 if value:
-                    config.set('taxonomy', name, six.ensure_text(value))
+                    config.set("taxonomy", name, six.ensure_text(value))
 
-            for name in ['field_title', 'field_description',
-                         'write_permission', 'taxonomy_fieldset']:
+            for name in [
+                "field_title",
+                "field_description",
+                "write_permission",
+                "taxonomy_fieldset",
+            ]:
                 value = getattr(behavior, name, None)
                 if value:
-                    config.set('taxonomy', name, six.ensure_text(value))
+                    config.set("taxonomy", name, six.ensure_text(value))
 
-            for name in ['is_single_select', 'is_required']:
+            for name in ["is_single_select", "is_required"]:
                 value = getattr(behavior, name, None)
                 if value:
-                    config.set('taxonomy', name, str(value).lower())
+                    config.set("taxonomy", name, str(value).lower())
 
-            filehandle = StringIO()
+            if six.PY3:
+                filehandle = StringIO()
+            else:
+                filehandle = BytesIO()
             config.write(filehandle)
-            context.writeDataFile('taxonomies/' + short_name + '.cfg',
-                                  filehandle.getvalue(), 'text/plain')
-            context.writeDataFile('taxonomies/' + short_name + '.xml',
-                                  body, 'text/xml')
+            context.writeDataFile(
+                "taxonomies/" + short_name + ".cfg", filehandle.getvalue(), "text/plain"
+            )
+            context.writeDataFile("taxonomies/" + short_name + ".xml", body, "text/xml")
 
 
 class TaxonomyImportExportAdapter(object):
-    IMSVDEX_NS = 'http://www.imsglobal.org/xsd/imsvdex_v1p0'
+    IMSVDEX_NS = "http://www.imsglobal.org/xsd/imsvdex_v1p0"
 
     def __init__(self, context):
         self.context = context

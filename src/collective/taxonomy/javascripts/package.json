@@ -10,10 +10,17 @@
     "start": "node server.js",
     "test": "NODE_ENV=test mocha src/test/ --compilers js:babel-register --recursive --require src/test/setup.js",
     "test:watch": "NODE_ENV=test npm test -- --watch",
-    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- src/test/ --recursive"
+    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- src/test/ --recursive",
+    "prettier": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "prettier:fix": "./node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "author": "Cédric Messiant",
   "license": "GPL-3.0",
+  "husky": {
+    "hooks": {
+      "pre-commit": "cd $(git rev-parse --show-toplevel) && make code-format"
+    }
+  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.9.1",
@@ -31,15 +38,17 @@
     "chai": "^3.5.0",
     "chai-equal-jsx": "^1.0.9",
     "chai-spies": "*",
+    "cypress": "^4.3.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.1.1",
     "express": "^4.13.3",
+    "husky": "4.2.1",
     "isparta": "^4.0.0",
     "mocha": "^2.5.3",
-    "react-dom": "^0.14.0",
+    "prettier": "1.19.1",
     "react-transform-hmr": "^1.0.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",

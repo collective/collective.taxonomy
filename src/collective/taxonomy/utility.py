@@ -12,7 +12,6 @@ from collective.taxonomy import PRETTY_PATH_SEPARATOR
 from collective.taxonomy import generated
 from collective.taxonomy.behavior import TaxonomyBehavior
 from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.interfaces import get_lang_code
 from collective.taxonomy.vocabulary import Vocabulary
 from copy import copy
 from persistent.dict import PersistentDict
@@ -85,13 +84,13 @@ class Taxonomy(SimpleItem):
         return inv_data
 
     def getShortName(self):
-        return self.name.split('.')[-1]
+        return self.name.split(".")[-1]
 
     def getGeneratedName(self):
-        return 'collective.taxonomy.generated.' + self.getShortName()
+        return "collective.taxonomy.generated." + self.getShortName()
 
     def getVocabularyName(self):
-        return 'collective.taxonomy.' + self.getShortName()
+        return "collective.taxonomy." + self.getShortName()
 
     def makeVocabulary(self, language):
         self._fixup()
@@ -102,7 +101,7 @@ class Taxonomy(SimpleItem):
         return Vocabulary(self.name, data, inverted_data, order, version)
 
     def getCurrentLanguage(self, request):
-        language = get_lang_code()
+        language = api.portal.get_current_language()
         if language in self.data:
             return language
         elif self.default_language in self.data:
@@ -131,16 +130,16 @@ class Taxonomy(SimpleItem):
     def registerBehavior(self, **kwargs):
         new_args = copy(kwargs)
 
-        new_args['name'] = self.getGeneratedName()
-        new_args['title'] = self.title
-        new_args['description'] = kwargs.get('field_description', u'')
-        new_args['field_description'] = new_args['description']
+        new_args["name"] = self.getGeneratedName()
+        new_args["title"] = self.title
+        new_args["description"] = kwargs.get("field_description", u"")
+        new_args["field_description"] = new_args["description"]
 
         behavior = TaxonomyBehavior(**new_args)
-        self.sm.registerUtility(behavior, IBehavior,
-                                name=self.getGeneratedName())
+        self.sm.registerUtility(behavior, IBehavior, name=self.getGeneratedName())
 
         behavior.addIndex()
+        behavior.addMetadata()
         behavior.activateSearchable()
 
     def cleanupFTI(self):
@@ -148,10 +147,10 @@ class Taxonomy(SimpleItem):
         generated_name = self.getGeneratedName()
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
             if generated_name in fti.behaviors:
-                fti.behaviors = [behavior for behavior in
-                                 fti.behaviors
-                                 if behavior != generated_name]
-            modified(fti, DexterityFTIModificationDescription("behaviors", ''))
+                fti.behaviors = [
+                    behavior for behavior in fti.behaviors if behavior != generated_name
+                ]
+            modified(fti, DexterityFTIModificationDescription("behaviors", ""))
 
     def updateBehavior(self, **kwargs):
         behavior_name = self.getGeneratedName()
@@ -161,8 +160,8 @@ class Taxonomy(SimpleItem):
         if utility:
             utility.deactivateSearchable()
             utility.activateSearchable()
-            if 'field_title' in kwargs:
-                utility.title = kwargs.pop('field_title')
+            if "field_title" in kwargs:
+                utility.title = kwargs.pop("field_title")
 
             for k, v in kwargs.items():
                 setattr(utility, k, v)
@@ -171,7 +170,7 @@ class Taxonomy(SimpleItem):
 
         for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
-                modified(fti, DexterityFTIModificationDescription("behaviors", ''))
+                modified(fti, DexterityFTIModificationDescription("behaviors", ""))
 
     def unregisterBehavior(self):
         behavior_name = self.getGeneratedName()
@@ -238,6 +237,7 @@ class Taxonomy(SimpleItem):
 
         # Always migrate to newest version.
         if version == 1:
+
             def fix(path):
                 return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
 
@@ -251,9 +251,8 @@ class Taxonomy(SimpleItem):
 
             version = self.version[language] = 2
             logger.info(
-                "Taxonomy '%s' upgraded to version %d for language '%s'." % (
-                    self.name, version, language
-                )
+                "Taxonomy '%s' upgraded to version %d for language '%s'."
+                % (self.name, version, language)
             )
 
         # Make sure we update the modification time.
@@ -268,7 +267,7 @@ class Taxonomy(SimpleItem):
         seen = set()
         for key, value in items:
             if key in seen:
-                logger.warning("Duplicate key entry: %r" % (key, ))
+                logger.warning("Duplicate key entry: %r" % (key,))
 
             seen.add(key)
             update = key in tree
@@ -285,16 +284,32 @@ class Taxonomy(SimpleItem):
 
         self.count[language] = count
 
-    def translate(self, msgid, mapping=None, context=None,
-                  target_language=None, default=None, msgid_plural=None,
-                  default_plural=None, number=None):
+    def translate(
+        self,
+        msgid,
+        mapping=None,
+        context=None,
+        target_language=None,
+        default=None,
+        msgid_plural=None,
+        default_plural=None,
+        number=None,
+    ):
 
-        if target_language is None or \
-                target_language not in self.inverted_data:
+        if target_language is None or target_language not in self.inverted_data:
             target_language = str(api.portal.get_current_language())
 
+            if target_language not in self.inverted_data:
+                # might be a non standard language or the portal has
+                # switched standard language after creating the taxonomy
+                lngs = list(self.inverted_data.keys())
+                if not len(lngs):
+                    # empty taxonomy
+                    return ""
+                target_language = lngs[0]
+
         if msgid not in self.inverted_data[target_language]:
-            return ''
+            return ""
 
         if self.version is not None and self.version.get(target_language) != 2:
             path_sep = LEGACY_PATH_SEPARATOR
