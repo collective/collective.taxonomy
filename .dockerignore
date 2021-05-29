@@ -1,0 +1,15 @@
+.git/
+docs/
+cache/
+bin/
+var/
+lib/
+include/
+share/
+develop-eggs/
+parts/
+.installed.cfg
+.mr.developer.cfg
+src/collective/taxonomy/javascripts/node_modules/
+src/collective/taxonomy/javascripts/cypress/videos/
+src/collective/taxonomy/javascripts/cypress/screenshots/

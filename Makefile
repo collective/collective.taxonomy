@@ -2,6 +2,7 @@
 SHELL := /bin/bash
 # Run test if not on Travis or Python 3 and Plone 5.2
 NOT_TRAVIS_OR_PYTHON3_PLONE52 := $(shell if [ -z "$$TRAVIS" ] || ([ "$$PLONE_VERSION" == "5.2" ] && [ "$$TRAVIS_PYTHON_VERSION" == "3.7" ]); then echo "true"; else echo "false"; fi)
+VIRTUALENV_NOT_INSTALLED := $(shell if [ ! -d bin ]); then echo "true"; else echo "false"; fi)
 
 version = 3
 
@@ -32,6 +33,7 @@ build-backend:
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	./venv/bin/pip install black
 endif
+endif
 	bin/buildout
 
 build-frontend:
@@ -46,12 +48,15 @@ start:  ## Start
 			split-window -h "make start-frontend" \; \
 			select-pane -t 0;                        \
 	else                                             \
-		make start-backend;                          \
+		make start-backend-development;                          \
 	fi
 
 start-backend:
 	@echo "$(GREEN)==> Start Plone Backend$(RESET)"
-	NODE_ENV=development bin/instance fg
+	bin/instance fg
+
+start-backend-development:
+	NODE_ENV=development make start-backend
 
 start-frontend:
 	@echo "$(GREEN)==> Start Webpack Watcher$(RESET)"
@@ -64,38 +69,35 @@ start-cypress:  ## Start Cypress
 	cd src/collective/taxonomy/javascripts && yarn run cypress open
 	bin/instance stop
 
-.PHONY: Test
-test: code-format-check code-analysis test-backend test-frontend test-cypress  ## Test
-
 .PHONY: Code Format Check
-code-format-check: code-format-check-backend code-format-check-frontend  ## Code Format Check
+lint: lint-backend lint-frontend  ## Code Format Check
 
-code-format-check-backend:
+lint-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	./venv/bin/black --check src/
+	./venv/bin/code-analysis
 endif
 
-code-format-check-frontend:
+lint-frontend:
 	@echo "$(GREEN)==> Run Javascript code format check$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier
 
-.PHONY: Code Format
-code-format: code-format-backend code-format-frontend  ## Code Format
+.PHONY: Code Format Fixes
+lint-fix: lint-fix-backend lint-fix-frontend  ## Code Format Fixes
 
-code-format-backend:
+lint-fix-backend:
 	@echo "$(GREEN)==> Run Python code format$(RESET)"
+ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
 	./venv/bin/black src/
+endif
 
-code-format-frontend:
-	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
+lint-fix-frontend:
+	@echo "$(GREEN)==> Run Javascript code format fix$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier:fix
 
-code-analysis:
-	@echo "$(green)==> Run static code analysis$(reset)"
-ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/code-analysis
-endif
+.PHONY: Test
+test: lint test-backend test-frontend test-cypress  ## Test
 
 test-backend:
 	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
@@ -122,6 +124,9 @@ test-cypress-foreground:
 .PHONY: Clean
 clean:  ## Clean
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
-	git clean -Xdf
+	rm -rf bin lib include share develop-eggs parts .installed.cfg .mr.developer.cfg
+	cd src/collective/taxonomy/javascripts && rm -rf node_modules yarn*
+
+include Makefile.docker
 
 .PHONY: all clean

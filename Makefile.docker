@@ -1,0 +1,85 @@
+NAME='collective/collective.taxonomy:2.0.1'
+
+.PHONY: Build with Docker
+docker-build: docker-build-backend docker-build-frontend  ## Build with Docker
+
+docker-build-backend:
+	@echo "$(GREEN)==> Setup Build with Docker$(RESET)"
+	if [[ "$$(docker images -q $(NAME) 2> /dev/null)" == "" ]]; then \
+		docker build -t $(NAME) . ; \
+	fi
+	if [ ! -d cache ]; then \
+		mkdir -p cache/eggs cache/downloads/list cache/extends; \
+		docker-compose run --rm backend "cd /app/cache/eggs && find /plone/buildout-cache/eggs/* -maxdepth 0 -type d -exec ln -sf {} . \;" || true ; \
+	fi
+	docker-compose run --rm backend "make build-backend"
+
+build-frontend-docker:
+	@echo "$(GREEN)==> Build Frontend$(RESET)"
+	cd src/collective/taxonomy/javascripts && yarn --network-timeout 30000
+	cd src/collective/taxonomy/javascripts && yarn build
+
+docker-build-frontend:
+	@echo "$(GREEN)==> Build Frontend with Docker$(RESET)"
+	mkdir -p cache/npm cache/yarn cache/cypress
+	docker-compose run --rm frontend "make build-frontend-docker"
+
+.PHONY: Start with Docker
+docker-start:  ## Start with Docker
+	@echo "$(GREEN)==> Start Plone and Webpack watcher with Docker$(RESET)"
+	docker-compose up
+
+.PHONY: Code Format Check with Docker
+docker-lint: docker-lint-backend docker-lint-frontend  ## Code Format Check with Docker
+
+docker-lint-backend:
+	@echo "$(GREEN)==> Run Python code format check with Docker$(RESET)"
+	docker-compose run --rm backend "make lint-backend"
+
+docker-lint-frontend:
+	@echo "$(GREEN)==> Run Javascript code format check with Docker$(RESET)"
+	docker-compose run --rm frontend "make lint-frontend"
+
+.PHONY: Code Format Fixes with Docker
+docker-lint-fix: docker-lint-fix-backend docker-lint-fix-frontend  ## Code Format Fixes with Docker
+
+docker-lint-fix-backend:
+	@echo "$(GREEN)==> Run Python code format fix with Docker$(RESET)"
+	docker-compose run --rm backend "make lint-fix-backend"
+
+docker-lint-fix-frontend:
+	@echo "$(GREEN)==> Run Javascript code format fix with Docker$(RESET)"
+	docker-compose run --rm frontend "make lint-fix-frontend"
+
+.PHONY: Test
+docker-test: docker-lint docker-test-backend docker-test-frontend docker-test-cypress  ## Test
+
+docker-test-backend:
+	@echo "$(GREEN)==> Run Backend Tests with Docker$(RESET)"
+	docker-compose run --rm backend "make test-backend"
+
+docker-test-frontend:
+	@echo "$(GREEN)==> Run Frontend Tests with Docker$(RESET)"
+	docker-compose run --rm frontend "make test-frontend"
+
+test-cypress-docker:
+	while ! curl -sf http://frontend:3000 > /dev/null; do sleep 1; done
+	while ! curl -sf http://backend:8080/Plone > /dev/null; do sleep 1; done
+	cd src/collective/taxonomy/javascripts && yarn run cypress run
+
+docker-test-cypress:
+	@echo "$(GREEN)==> Run Cypress Test with Docker$(RESET)"
+	docker-compose up -d
+	docker-compose exec frontend make test-cypress-docker
+	docker-compose down
+
+docker-clean-image:
+	if [[ "$$(docker images -q $(NAME) 2> /dev/null)" != "" ]]; then \
+		docker image rm $(NAME) ; \
+	fi
+
+docker-clean:
+	@echo "$(RED)==> Cleaning Docker environment$(RESET)"
+	rm -rf cache
+	docker-compose down
+	make clean
