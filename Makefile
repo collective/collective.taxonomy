@@ -26,12 +26,12 @@ build: build-backend build-frontend  ## Build
 
 build-backend:
 	@echo "$(GREEN)==> Setup Build$(RESET)"
-ifeq ("$(VIRTUALENV_NOT_INSTALLED)", "true")
-	virtualenv --clear --python=python3 .
-	bin/pip install --upgrade pip
-	bin/pip install -r requirements.txt
+	python3 -m venv venv
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install -r requirements.txt
+	./venv/bin/buildout bootstrap
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/pip install black
+	./venv/bin/pip install black
 endif
 endif
 	bin/buildout
@@ -75,8 +75,8 @@ lint: lint-backend lint-frontend  ## Code Format Check
 lint-backend:
 	@echo "$(GREEN)==> Run Python code format check$(RESET)"
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/black --check src/
-	bin/code-analysis
+	./venv/bin/black --check src/
+	./venv/bin/code-analysis
 endif
 
 lint-frontend:
@@ -87,9 +87,9 @@ lint-frontend:
 lint-fix: lint-fix-backend lint-fix-frontend  ## Code Format Fixes
 
 lint-fix-backend:
-	@echo "$(GREEN)==> Run Python code format fix$(RESET)"
+	@echo "$(GREEN)==> Run Python code format$(RESET)"
 ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/black src/
+	./venv/bin/black src/
 endif
 
 lint-fix-frontend:

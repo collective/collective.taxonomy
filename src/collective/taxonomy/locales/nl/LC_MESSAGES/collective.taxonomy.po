@@ -1,20 +1,19 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.2\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2020-05-04 05:38+0000\n"
-"PO-Revision-Date: 2016-11-30 10:12+0100\n"
-"Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2020-06-08 12:00+0100\n"
+"Last-Translator: Kim Paulissen <kim.paulissen@gmail.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Code: en\n"
-"Language-Name: \n"
+"Language-Code: nl\n"
+"Language-Name: Dutch\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: collective.taxonomy\n"
-"X-Generator: Poedit 1.6.10\n"
-"Language: fr\n"
+"Language: de\n"
 
 #: ./interfaces.py:106
 msgid " "
@@ -22,92 +21,92 @@ msgstr ""
 
 #: ./controlpanel.py:203
 msgid "Add"
-msgstr "Ajouter"
+msgstr "Toevoegen"
 
 #: ./controlpanel.py:216
 msgid "Add cancelled"
-msgstr "Ajout annulé"
+msgstr "Toevoegen geannuleerd"
 
 #: ./controlpanel.py:214
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Annuleren"
 
 #: ./controlpanel.py:255
 msgid "Changes saved"
-msgstr "Modifications enregistrées"
+msgstr "Wijzigingen bewaard"
 
 #: ./interfaces.py:128
 msgid "Check this box if you want the field to be mono-valued"
-msgstr "Cochez cette case si vous voulez que le champ soit mono-valué"
+msgstr "Het veld moet enkele selectie zijn"
 
 #: ./interfaces.py:121
 msgid "Check this box if you want the field to be required"
-msgstr "Cochez cette case si vous voulez que le champ soit obligatoire"
+msgstr "Het veld is verplicht"
 
 #: ./interfaces.py:112
 msgid "Check this box if you want to purge all entries when uploading."
-msgstr ""
+msgstr "Verwijder alle items bij uploaden"
 
 #: ./interfaces.py:98
 msgid "Default language"
-msgstr "Langue par défaut"
+msgstr "Standaard taal"
 
 #: ./interfaces.py:92
 msgid "Description"
-msgstr "Description"
+msgstr "Beschrijving"
 
 #: ./controlpanel.py:261
 msgid "Edit cancelled"
-msgstr "Modifications annulées"
+msgstr "Wijzigen geannuleerd"
 
 #: ./interfaces.py:142
 msgid "Field prefix"
-msgstr ""
+msgstr "Veld prefix"
 
 #: ./interfaces.py:151
 msgid "Fieldset"
-msgstr ""
+msgstr "Tab"
 
 #: ./interfaces.py:152
 msgid "Fieldset for the taxonomy behavior field. Example: 'categorization'. Use 'default' for the first fieldset."
-msgstr ""
+msgstr "Tab voor het taxonomie behavior veld. Bijvoorbeeld:'categorisatie'. Gebruik 'standaard' voor de eerste tab."
 
 #: ./controlpanel.py:107
 msgid "Please select at least one taxonomy."
-msgstr "Veuillez sélectionner au moins une taxonomie."
+msgstr "Selecteer minstens 1 taxonomie."
 
 #: ./controlpanel.py:71
 msgid "Please select one taxonomy."
-msgstr "Veuillez sélectionner une taxonomie."
+msgstr "Selecteer 1 taxonomie."
 
 #: ./interfaces.py:143
 msgid "Prefix used for behavior indexer."
-msgstr ""
+msgstr "Prefix voor de indexer van de behavior."
 
 #: ./interfaces.py:111
 msgid "Purge entries on upload"
-msgstr ""
+msgstr "Verwijder items bij uploaden"
 
 #: ./configure.zcml:23
 msgid "Registers control panel and default settings."
-msgstr "Ajoute le panneau de configuration et la configuration par défaut."
+msgstr "Registreert controlepaneel en standaard instellingen."
 
 #: ./interfaces.py:120
 msgid "Required"
-msgstr "Obligatoire"
+msgstr "Verplicht"
 
 #: ./controlpanel.py:234
 msgid "Save"
-msgstr "Enregistrer"
+msgstr "Bewaren"
 
 #: ./interfaces.py:127
 msgid "Single select"
-msgstr "Sélection simple"
+msgstr "Enkele selectie"
 
 #: ./interfaces.py:50
 #: ./profiles/default/controlpanel.xml
 msgid "Taxonomies"
-msgstr "Taxonomies"
+msgstr "Taxonomieën"
 
 #: ./interfaces.py:79
 msgid "Taxonomy"
@@ -115,27 +114,27 @@ msgstr "Taxonomie"
 
 #: ./controlpanel.py:104
 msgid "Taxonomy deleted."
-msgstr "Taxonomie supprimée"
+msgstr "Taxonomie verwijderd"
 
 #: ./controlpanel.py:193
 msgid "Taxonomy imported."
-msgstr "Taxonomie importée"
+msgstr "Taxonomie geïmporteerd"
 
 #: ./controlpanel.py:38
 msgid "Taxonomy settings"
-msgstr "Propriétés des taxonomies"
+msgstr "Taxonomie instellingen"
 
 #: ./interfaces.py:80
 msgid "The taxonomy identifier"
-msgstr "L'identifiant de la taxonomie"
+msgstr "De taxonomie id (geen spaties of speciale karakters)"
 
 #: ./jsonimpl.py:133
 msgid "There seems to have been an error."
-msgstr "Il semble y avoir eu une erreur."
+msgstr "Er is een fout opgetreden."
 
 #: ./interfaces.py:86
 msgid "Title"
-msgstr "Titre"
+msgstr "Titel"
 
 #: ./configure.zcml:32
 msgid "Uninstall profile for collective.taxonomy."
@@ -143,62 +142,62 @@ msgstr ""
 
 #: ./interfaces.py:105
 msgid "Upload VDEX xml file"
-msgstr "Téléverser un fichier xml VDEX"
+msgstr "VDEX xml bestand uploaden"
 
 #: ./interfaces.py:93
 msgid "Will be used for the field description as well"
-msgstr "Sera utilisé pour la description du champ"
+msgstr "Wordt ook gebruikt voor de veld beschrijving"
 
 #: ./interfaces.py:87
 msgid "Will be used for the field title as well"
-msgstr "Sera utilisé pour le titre du champ"
+msgstr "Wordt ook gebruikt voor de veld titel"
 
 #: ./interfaces.py:134
 msgid "Write permission"
-msgstr "Permission d'écriture"
+msgstr "Schrijfrechten"
 
 #: ./interfaces.py:135
 msgid "Write permission for the field"
-msgstr "Permission d'écriture pour ce champ"
+msgstr "Schrijfrechten voor het veld"
 
 #: ./jsonimpl.py:126
 msgid "Your taxonomy has been saved with success."
-msgstr "Votre taxonomie a été sauvegardée avec succès."
+msgstr "De taxonomie is succesvol bewaard."
 
 #: ./configure.zcml:23
 msgid "collective.taxonomy"
-msgstr "collective.taxonomy"
+msgstr ""
 
 #: ./configure.zcml:32
 msgid "collective.taxonomy uninstall"
 msgstr ""
 
-#. Default: "Select the taxonomies you desire to modify"
+#. Default: "Select the taxnomies you desire to modify"
 #: ./interfaces.py:52
 msgid "help_taxonomies"
-msgstr "Sélectionnez les taxonomies que vous souhaitez modifier"
+msgstr "Taxonomie kiezen om te bewerken"
 
 #. Default: "Add"
 #: ./controlpanel.py:55
 msgid "label_add_taxonomy"
-msgstr "Ajouter une taxonomie"
+msgstr "Taxonomie toevoegen"
 
 #. Default: "Delete taxonomy"
 #: ./controlpanel.py:88
 msgid "label_delete_taxonomy"
-msgstr "Supprimer une taxonomie"
+msgstr "Taxonomie verwijderen"
 
 #. Default: "Edit taxonomy data"
 #: ./controlpanel.py:74
 msgid "label_edit_data_taxonomy"
-msgstr "Modifier les données de la taxonomie"
+msgstr "Taxonomie data bewerken"
 
 #. Default: "Edit"
 #: ./controlpanel.py:61
 msgid "label_edit_taxonomy"
-msgstr "Modifier la taxonomie"
+msgstr "Taxonomie bewerken"
 
 #. Default: "Export"
 #: ./controlpanel.py:113
 msgid "label_export"
-msgstr "Exporter"
+msgstr "Exporteren"

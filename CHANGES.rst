@@ -1,10 +1,20 @@
 Changes
 =======
 
-2.0.2 (unreleased)
+2.1.1 (unreleased)
 ------------------
 
 - Nothing changed yet.
+
+
+2.1.0 (2021-05-27)
+------------------
+
+- Fix GenericSetup export in python2
+  [gotcha]
+
+- Integrate taxonomies into collective.collectionfilter
+  [MrTango]
 
 
 2.0.1 (2020-07-04)

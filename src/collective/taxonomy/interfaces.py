@@ -12,7 +12,7 @@ from .i18n import CollectiveTaxonomyMessageFactory as _
 
 
 class ITaxonomySelectWidget(Interface):
-    """ Marker interface for the taxonomy select widget """
+    """Marker interface for the taxonomy select widget"""
 
 
 class IBrowserLayer(Interface):
@@ -45,18 +45,20 @@ class ITaxonomy(ITranslationDomain, IVocabularyFactory):
 
 
 class ITaxonomySettings(Interface):
-    """ Schema for controlpanel settings """
+    """Schema for controlpanel settings"""
 
     taxonomies = schema.List(
         title=_(u"Taxonomies"),
         value_type=schema.Choice(
             description=_(
-                u"help_taxonomies", default=u"Select the taxnomies you desire to modify"
+                u"help_taxonomies",
+                default=u"Select the taxonomies you desire to modify",
             ),
             required=False,
             vocabulary="collective.taxonomy.taxonomies",
         ),
         default=[],
+        required=False,
     )
 
 

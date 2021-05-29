@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.0.2.dev0'
+version = '2.1.1.dev0'
 
 
 def read(*pathnames):
@@ -52,7 +52,7 @@ setup(
         'plone.app.registry',
         'plone.app.dexterity',
         'lxml',
-        'six',
+        'six >= 1.12',
     ],
     extras_require={
         'dev': [

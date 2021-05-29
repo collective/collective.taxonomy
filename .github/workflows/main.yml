@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - "master"
+      - "releases/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        plone-version:
+          - '5.0'
+          - '5.1'
+          - '5.2'
+        python-version: ['3.7']
+        include:
+          - plone-version: 5.2
+            python-version: 3.6
+          - plone-version: 5.2
+            python-version: 3.7
+          - plone-version: 5.2
+            python-version: 3.8
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          # sudo apt-get install -y build-essentials
+          sudo apt-get install -y libxml2-dev libxslt-dev python-dev
+          # sudo apt-get install py-pip
+          pip install \
+            virtualenv wheel
+      - uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: lts/*
+      - uses: nanasess/setup-chromedriver@master
+        # with:
+        #   # Optional: do not specify to match Chrome's version
+        #   chromedriver-version: '77.0.3865.40'
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/buildout-cache
+            ~/extends
+            ~/.cache/pip
+          # key: ${{ runner.os }}-buildout-${{ hashFiles('**/*.cfg') }}-${{ matrix.plone-version }}-${{ matrix.python-version }}
+          key: ${{ runner.os }}-buildout-${{ matrix.plone-version }}-${{ matrix.python-version }}
+          restore-keys: |
+            ${{ runner.os }}-buildout-
+      - name: setup buildout cache
+        run: |
+            mkdir -p ~/buildout-cache/{eggs,downloads}
+            mkdir ~/.buildout
+            echo "[buildout]" > $HOME/.buildout/default.cfg
+            echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
+            echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
+      - name: bootstrap buildout
+        run: |
+          python -m venv venv
+          ./venv/bin/pip install -r requirements.txt
+          ./venv/bin/pip install black[d]
+          ./venv/bin/buildout bootstrap
+          ls -al
+      - name: buildout
+        run: |
+          bin/buildout -t 10 -N
+      - name: build
+        run: |
+          make build
+      - name: test
+        run: |
+            make test
+      - uses: actions/setup-python@v2
+        if: failure()
+        with:
+          python-version: 2.7
+      - name: createcoverage
+        run: |
+            export DISPLAY=:99.0
+            chromedriver --url-base=/wd/hub &
+            sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+            sleep 3
+            bin/createcoverage -t '--all'
+            # bin/createcoverage
+            bin/coverage json -i
+      - name: Coveralls
+        uses: AndreMiras/coveralls-python-action@develop
+        with:
+          parallel: true
+          flag-name: ${{ matrix.plone-version }}-${{ matrix.python-version }}
+
+  coveralls_finish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: AndreMiras/coveralls-python-action@develop
+      with:
+        parallel-finished: true
+
+

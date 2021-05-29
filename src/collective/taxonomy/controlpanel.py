@@ -30,9 +30,7 @@ logger = logging.getLogger("taxonomy.controlpanel")
 
 
 class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
-    """ A controlpanel for managing taxonomies
-
-    """
+    """A controlpanel for managing taxonomies"""
 
     id = "TaxonomySettings"
     label = _("Taxonomy settings")
