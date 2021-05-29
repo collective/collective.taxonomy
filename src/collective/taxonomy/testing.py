@@ -15,6 +15,7 @@ FIXTURE = PloneWithPackageLayer(
     additional_z2_products=["Products.DateRecurringIndex"],
 )
 
+
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,), name="TaxonomyFixture:Integration"
 )

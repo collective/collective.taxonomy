@@ -6,12 +6,7 @@ from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
-from plone.schemaeditor.utils import FieldAddedEvent
-from plone.schemaeditor.utils import IEditableSchema
-from zope import schema
 from zope.component import queryUtility
-from zope.event import notify
-from zope.lifecycleevent import ObjectAddedEvent
 import unittest
 
 
@@ -50,8 +45,7 @@ class TestIndexer(unittest.TestCase):
 
         self.document.taxonomy_test = []
         self.document.reindexObject()
-        query = {}
-        query["taxonomy_test"] = "1"
+        query = {'taxonomy_test': '1'}
         self.assertEqual(len(portal_catalog(query)), 0)
 
         taxo_val = taxonomy["en"][u"\u241fInformation Science\u241fChronology"]

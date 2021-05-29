@@ -27,3 +27,4 @@ share/
 include/
 lib/
 share/
+pyvenv.cfg
