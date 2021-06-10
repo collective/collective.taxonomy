@@ -106,3 +106,28 @@ class TestIndexer(unittest.TestCase):
                 ("5", {"title": u"Information Science \xbb Sport"}),
             ],
         )
+
+    def test_index_single_select(self):
+        portal_catalog = api.portal.get_tool("portal_catalog")
+        utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
+        taxonomy = utility.data
+        taxonomy_test = schema.Set(
+            title=u"taxonomy_test",
+            description=u"taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(vocabulary=u"collective.taxonomy.taxonomies"),
+        )
+        portal_types = api.portal.get_tool("portal_types")
+        fti = portal_types.get("Document")
+        document_schema = fti.lookupSchema()
+        schemaeditor = IEditableSchema(document_schema)
+        schemaeditor.addField(taxonomy_test, name="taxonomy_test")
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
+        taxo_val = taxonomy["en"][u"\u241fInformation Science\u241fCars"]
+        self.document.taxonomy_test = taxo_val
+        self.document.reindexObject()
+        self.assertEqual(len(portal_catalog({'taxonomy_test': '5'})), 0)
+        self.assertEqual(len(portal_catalog({'taxonomy_test': '55'})), 1)
+        # clean up
+        schemaeditor.removeField("taxonomy_test")
