@@ -127,7 +127,7 @@ class TestIndexer(unittest.TestCase):
         taxo_val = taxonomy["en"][u"\u241fInformation Science\u241fCars"]
         self.document.taxonomy_test = taxo_val
         self.document.reindexObject()
-        self.assertEqual(len(portal_catalog({'taxonomy_test': '5'})), 0)
-        self.assertEqual(len(portal_catalog({'taxonomy_test': '55'})), 1)
+        self.assertEqual(len(portal_catalog({"taxonomy_test": "5"})), 0)
+        self.assertEqual(len(portal_catalog({"taxonomy_test": "55"})), 1)
         # clean up
         schemaeditor.removeField("taxonomy_test")
