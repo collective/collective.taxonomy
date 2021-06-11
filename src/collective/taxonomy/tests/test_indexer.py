@@ -104,6 +104,7 @@ class TestIndexer(unittest.TestCase):
                 ("2", {"title": u"Information Science \xbb Book Collecting"}),
                 ("3", {"title": u"Information Science \xbb Chronology"}),
                 ("5", {"title": u"Information Science \xbb Sport"}),
+                ("55", {"title": u"Information Science \xbb Cars"}),
             ],
         )
 
