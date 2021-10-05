@@ -3,6 +3,7 @@ import { defineMessages, injectIntl } from 'react-intl';
 
 import AddNodeButton from '../containers/AddNodeButton';
 import EditableValues from '../containers/EditableValues';
+import EditableIds from '../containers/EditableIds';
 import RemoveNodeButton from '../containers/RemoveNodeButton';
 import MoveDownButton from '../containers/MoveDownButton';
 import MoveUpButton from '../containers/MoveUpButton';
@@ -32,6 +33,7 @@ const Leaf = ({ id, index, intl, language, parentId, title }) => (
     </AddNodeButton>
     <MoveDownButton id={id} index={index} parentId={parentId} />
     <MoveUpButton id={id} index={index} parentId={parentId} />
+    <EditableIds id={id} selectedLanguage={language} />
   </div>
 );
 

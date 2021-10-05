@@ -3,6 +3,7 @@ import TreeView from 'react-treeview';
 
 import SubTree from '../containers/SubTree';
 import EditableValues from '../containers/EditableValues';
+import EditableIds from '../containers/EditableIds';
 import AddNodeButton from '../containers/AddNodeButton';
 import RemoveNodeButton from '../containers/RemoveNodeButton';
 import MoveDownButton from '../containers/MoveDownButton';
@@ -17,6 +18,7 @@ const Node = ({ id, index, language, parentId, subnodes }) => {
       <RemoveNodeButton id={id} index={index} parentId={parentId} />
       <MoveDownButton id={id} index={index} parentId={parentId} />
       <MoveUpButton id={id} index={index} parentId={parentId} />
+      <EditableIds id={id} selectedLanguage={language} />
     </span>
   );
   return (
