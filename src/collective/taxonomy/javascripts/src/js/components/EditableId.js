@@ -21,7 +21,7 @@ class CustomReactPencil extends ReactPencil {
 }
 
 const EditableId = ({
-  editTranslation,
+  editIdentifier,
   hidden,
   id,
   intl,
@@ -31,18 +31,18 @@ const EditableId = ({
     {hidden ? null : (
       <CustomReactPencil
         language={language}
-        name={`${id}-${language}`}
+        name={`${id}`}
         value={`${id}`}
         placeholder={intl.formatMessage(messages.emptyNodePlaceholder)}
         pencil
-        onEditDone={(name, newValue) => editTranslation(id, language, newValue)}
+        onEditDone={(name, newValue) => editIdentifier(id, language, newValue)}
       />
     )}
   </span>
 );
 
 EditableId.propTypes = {
-  editTranslation: PropTypes.func.isRequired,
+  editIdentifier: PropTypes.func.isRequired,
   hidden: PropTypes.bool,
   id: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,

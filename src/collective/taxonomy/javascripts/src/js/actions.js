@@ -21,6 +21,10 @@ export function editTranslation(id, language, value) {
   return { type: constants.EDIT_TRANSLATION, id, language, value };
 }
 
+export function editIdentifier(id, language, value) {
+  return { type: constants.EDIT_IDENTIFIER, id, language, value };
+}
+
 export function saveTreeWithData(nodes, rootId, languages) {
   // post tree to plone view
   return {

@@ -8,6 +8,7 @@ import {
   MOVE_DOWN,
   MOVE_UP,
   EDIT_TRANSLATION,
+  EDIT_IDENTIFIER,
   SAVE_TREE_PENDING,
   SAVE_TREE_FULFILLED,
   SAVE_TREE_REJECTED,
@@ -97,6 +98,18 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
         dirty: true,
         nodes: update(state.nodes, {
           [action.id]: { translations: { [language]: { $set: action.value } } }
+        })
+      };
+    }
+    case EDIT_IDENTIFIER: {
+      // const language = action.language;
+      // debugger;
+      console.log(action);
+      console.log(state);
+      return {
+        dirty: true,
+        nodes: update(state.nodes, {
+          [action.id]: { key: { $set: action.value } }
         })
       };
     }
