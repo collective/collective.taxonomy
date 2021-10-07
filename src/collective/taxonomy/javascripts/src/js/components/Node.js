@@ -18,7 +18,7 @@ const Node = ({ id, index, language, parentId, subnodes }) => {
       <RemoveNodeButton id={id} index={index} parentId={parentId} />
       <MoveDownButton id={id} index={index} parentId={parentId} />
       <MoveUpButton id={id} index={index} parentId={parentId} />
-      <EditableIds id={id} selectedLanguage={language} />
+      <EditableIds id={id} index={index} parentId={parentId} selectedLanguage={language} />
     </span>
   );
   return (

@@ -33,7 +33,7 @@ const Leaf = ({ id, index, intl, language, parentId, title }) => (
     </AddNodeButton>
     <MoveDownButton id={id} index={index} parentId={parentId} />
     <MoveUpButton id={id} index={index} parentId={parentId} />
-    <EditableIds id={id} selectedLanguage={language} />
+    <EditableIds id={id} index={index} parentId={parentId} selectedLanguage={language} />
   </div>
 );
 

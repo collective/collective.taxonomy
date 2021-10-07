@@ -24,6 +24,8 @@ const EditableId = ({
   editIdentifier,
   hidden,
   id,
+  index,
+  parentId,
   intl,
   language
 }) => (
@@ -35,7 +37,7 @@ const EditableId = ({
         value={`${id}`}
         placeholder={intl.formatMessage(messages.emptyNodePlaceholder)}
         pencil
-        onEditDone={(name, newValue) => editIdentifier(id, language, newValue)}
+        onEditDone={(name, newValue) => editIdentifier(id, index, parentId, language, newValue)}
       />
     )}
   </span>
@@ -45,6 +47,8 @@ EditableId.propTypes = {
   editIdentifier: PropTypes.func.isRequired,
   hidden: PropTypes.bool,
   id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  parentId: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired
 };
