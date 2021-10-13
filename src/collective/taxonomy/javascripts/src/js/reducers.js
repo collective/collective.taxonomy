@@ -102,15 +102,18 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
       };
     }
     case EDIT_IDENTIFIER: {
-      // const language = action.language;
-      // debugger;
-      console.log(action);
-      console.log(state);
+      const newKey = action.value;
+      const parentId = action.parentId;
+      let copiedNode = state.nodes[action.id];
+      let newNodes = removeNode(state.nodes, action);
+
+      newNodes = addNode(newNodes, parentId, newKey)
+      newNodes[newKey]['translations'] = copiedNode['translations']
+      newNodes[newKey]['subnodes'] = copiedNode['subnodes']
+
       return {
         dirty: true,
-        nodes: update(state.nodes, {
-          [action.id]: { key: { $set: action.value } }
-        })
+        nodes: newNodes
       };
     }
     case SAVE_TREE_FULFILLED:
