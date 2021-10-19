@@ -3,10 +3,10 @@ import ReactPencil from 'react-pencil';
 import { defineMessages, injectIntl } from 'react-intl';
 
 const messages = defineMessages({
-  emptyNodePlaceholder: {
-    id: 'emptyNodePlaceholder',
-    description: 'Placeholder for new nodes',
-    defaultMessage: 'Insert value here'
+  editIdentifierLabel: {
+    id: 'editIdentifierLabel',
+    description: 'Edit identifier',
+    defaultMessage: 'Edit node identifier'
   }
 });
 
@@ -35,7 +35,7 @@ const EditableId = ({
         language={language}
         name={`${id}`}
         value={`${id}`}
-        placeholder={intl.formatMessage(messages.emptyNodePlaceholder)}
+        placeholder={intl.formatMessage(messages.editIdentifierLabel)}
         pencil
         onEditDone={(name, newValue) => editIdentifier(id, index, parentId, language, newValue)}
       />

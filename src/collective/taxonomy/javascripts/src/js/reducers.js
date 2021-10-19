@@ -107,9 +107,15 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
       let copiedNode = state.nodes[action.id];
       let newNodes = removeNode(state.nodes, action);
 
-      newNodes = addNode(newNodes, parentId, newKey)
-      newNodes[newKey]['translations'] = copiedNode['translations']
-      newNodes[newKey]['subnodes'] = copiedNode['subnodes']
+      // no changes made if same id
+      if (newKey in state.nodes) return {
+        ...state,
+        dirty: false
+      };;
+
+      newNodes = addNode(newNodes, parentId, newKey);
+      newNodes[newKey]['translations'] = copiedNode['translations'];
+      newNodes[newKey]['subnodes'] = copiedNode['subnodes'];
 
       return {
         dirty: true,
