@@ -37,7 +37,9 @@ const EditableId = ({
         value={`${id}`}
         placeholder={intl.formatMessage(messages.editIdentifierLabel)}
         pencil
-        onEditDone={(name, newValue) => editIdentifier(id, index, parentId, language, newValue)}
+        onEditDone={(name, newValue) =>
+          editIdentifier(id, index, parentId, language, newValue)
+        }
       />
     )}
   </span>

@@ -22,7 +22,14 @@ export function editTranslation(id, language, value) {
 }
 
 export function editIdentifier(id, index, parentId, language, value) {
-  return { type: constants.EDIT_IDENTIFIER, id, index, parentId, language, value };
+  return {
+    type: constants.EDIT_IDENTIFIER,
+    id,
+    index,
+    parentId,
+    language,
+    value
+  };
 }
 
 export function saveTreeWithData(nodes, rootId, languages) {
