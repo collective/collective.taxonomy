@@ -62,7 +62,7 @@ setup(
             'plone.testing',
             'plone.app.testing',
             'plone.app.contenttypes',
-            'Products.contentmigration',
+            'Products.contentmigration<=2.2.1',
             'plone.app.robotframework[debug]',
         ]
     },
