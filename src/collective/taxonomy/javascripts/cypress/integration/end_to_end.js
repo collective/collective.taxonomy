@@ -55,7 +55,7 @@ context('Navigation', () => {
     cy.get('#form-buttons-edit_data_taxonomy').click();
     cy.get('.tree-view_children > button').click();
 
-    cy.get('.input-field > input').type('Museums');
+    cy.get('.input-field > input').first().type('Museums');
     cy.get('button[title="Add a term inside this node"]:last').click();
     cy.get('.input-field > input:last').type('Netherlands');
     cy.get('button[title="Add a node at the same level"]:last').click();
