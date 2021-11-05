@@ -12,18 +12,21 @@ import MoveUpButton from '../containers/MoveUpButton';
 const Node = ({ id, index, language, parentId, subnodes }) => {
   const nodeLabel = (
     <span>
+      <sup className="super-text">Title</sup>
       <EditableValues id={id} selectedLanguage={language} />
       &nbsp;&nbsp;&nbsp;
-      <AddNodeButton id={id} index={index} parentId={parentId} />
-      <RemoveNodeButton id={id} index={index} parentId={parentId} />
-      <MoveDownButton id={id} index={index} parentId={parentId} />
-      <MoveUpButton id={id} index={index} parentId={parentId} />
+      <sup className="super-text">Id</sup>
       <EditableIds
         id={id}
         index={index}
         parentId={parentId}
         selectedLanguage={language}
       />
+      &nbsp;&nbsp;&nbsp;
+      <AddNodeButton id={id} index={index} parentId={parentId} />
+      <RemoveNodeButton id={id} index={index} parentId={parentId} />
+      <MoveDownButton id={id} index={index} parentId={parentId} />
+      <MoveUpButton id={id} index={index} parentId={parentId} />
     </span>
   );
   return (

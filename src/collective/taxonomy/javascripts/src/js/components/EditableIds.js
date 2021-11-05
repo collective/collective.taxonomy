@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import EditableId from '../containers/EditableId';
 
 const EditableIds = ({ id, index, parentId, selectedLanguage, languages }) => (
-  <div style={{ display: 'inline' }}>
+  <div style={{ display: 'inline' }} className="editable-divs">
     {languages.map(language => (
       <EditableId
         key={`${id}-${language}`}

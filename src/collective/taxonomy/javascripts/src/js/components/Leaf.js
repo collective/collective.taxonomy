@@ -18,7 +18,16 @@ const messages = defineMessages({
 
 const Leaf = ({ id, index, intl, language, parentId, title }) => (
   <div className="info">
+    <sup className="super-text">Title</sup>
     <EditableValues id={id} selectedLanguage={language} />
+    &nbsp;&nbsp;&nbsp;
+    <sup className="super-text">Id</sup>
+    <EditableIds
+      id={id}
+      index={index}
+      parentId={parentId}
+      selectedLanguage={language}
+    />
     &nbsp;&nbsp;&nbsp;
     <AddNodeButton index={index} parentId={parentId} />
     &nbsp;
@@ -33,12 +42,6 @@ const Leaf = ({ id, index, intl, language, parentId, title }) => (
     </AddNodeButton>
     <MoveDownButton id={id} index={index} parentId={parentId} />
     <MoveUpButton id={id} index={index} parentId={parentId} />
-    <EditableIds
-      id={id}
-      index={index}
-      parentId={parentId}
-      selectedLanguage={language}
-    />
   </div>
 );
 
