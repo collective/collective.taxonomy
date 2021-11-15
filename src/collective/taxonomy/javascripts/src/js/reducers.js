@@ -110,7 +110,7 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
       if (newKey in state.nodes)
         return {
           ...state,
-          dirty: false,
+          dirty: false
         };
 
       let newNodes = removeNode(state.nodes, action);
