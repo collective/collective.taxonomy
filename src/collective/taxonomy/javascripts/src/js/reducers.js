@@ -70,7 +70,10 @@ function moveUp(nodes, action) {
   });
 }
 
-export function tree(state = { nodes: {}, dirty: false, duplicated: false }, action) {
+export function tree(
+  state = { nodes: {}, dirty: false, duplicated: false },
+  action
+) {
   switch (action.type) {
     case ADD_NODE:
       return {
@@ -156,7 +159,12 @@ export function languages(state = { en: 'English' }, action) {
   return state;
 }
 
-const defaultState = { isPending: false, status: '', message: '', duplicated: false };
+const defaultState = {
+  isPending: false,
+  status: '',
+  message: '',
+  duplicated: false
+};
 
 export function saveTree(state = defaultState, action) {
   switch (action.type) {

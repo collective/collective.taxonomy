@@ -94,7 +94,11 @@ class App extends Component {
 
           <div style={{ clear: 'both' }} />
 
-          <FormControls dirty={dirty} duplicated={duplicated} saveTree={saveTree} />
+          <FormControls
+            dirty={dirty}
+            duplicated={duplicated}
+            saveTree={saveTree}
+          />
         </div>
       </div>
     );
