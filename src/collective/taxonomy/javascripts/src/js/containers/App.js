@@ -5,11 +5,12 @@ import App from '../components/App';
 
 const mapStateToProps = ({
   defaultLanguage,
-  tree: { dirty },
+  tree: { dirty, duplicated },
   saveTree: { isPending, message, status }
 }) => ({
   defaultLanguage,
   dirty,
+  duplicated,
   isPending,
   message,
   status

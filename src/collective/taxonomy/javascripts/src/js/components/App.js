@@ -14,6 +14,13 @@ const messages = defineMessages({
     defaultMessage:
       'Changes have been made but you have to click on submit ' +
       'button to save these changes.'
+  },
+  duplicatedId: {
+    id: 'duplicatedId',
+    description: 'Duplicated Id warning message.',
+    defaultMessage:
+      'Duplicated Id present, use unique ids in order to ' +
+      'save these changes.'
   }
 });
 
@@ -36,6 +43,7 @@ class App extends Component {
     const {
       defaultLanguage,
       dirty,
+      duplicated,
       intl,
       isPending,
       message,
@@ -49,6 +57,13 @@ class App extends Component {
         {isPending ? <Spinner imageURL={`${portalURL}/spinner.gif`} /> : null}
 
         {status ? <MessageBox status={status} message={message} /> : null}
+
+        {duplicated ? (
+          <MessageBox
+            status="error"
+            message={intl.formatMessage(messages.duplicatedId)}
+          />
+        ) : null}
 
         {dirty ? (
           <MessageBox
@@ -79,7 +94,7 @@ class App extends Component {
 
           <div style={{ clear: 'both' }} />
 
-          <FormControls dirty={dirty} saveTree={saveTree} />
+          <FormControls dirty={dirty} duplicated={duplicated} saveTree={saveTree} />
         </div>
       </div>
     );
@@ -89,6 +104,7 @@ class App extends Component {
 App.propTypes = {
   defaultLanguage: PropTypes.string.isRequired,
   dirty: PropTypes.bool.isRequired,
+  duplicated: PropTypes.bool.isRequired,
   intl: PropTypes.object.isRequired,
   isPending: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,

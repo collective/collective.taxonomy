@@ -17,6 +17,7 @@ const messages = defineMessages({
 class FormControls extends Component {
   static propTypes = {
     dirty: PropTypes.bool.isRequired,
+    duplicated: PropTypes.bool.isRequired,
     intl: PropTypes.object.isRequired,
     saveTree: PropTypes.func.isRequired
   };
@@ -38,7 +39,7 @@ class FormControls extends Component {
   }
 
   render() {
-    const { dirty, intl } = this.props;
+    const { dirty, duplicated, intl } = this.props;
     return (
       <div className="formControls">
         <input
