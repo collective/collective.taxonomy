@@ -6,3 +6,5 @@ include buildout.cfg
 recursive-include images *.gif
 graft src
 global-exclude *.pyc
+global-exclude cypress.json
+global-exclude cypress/**/*
