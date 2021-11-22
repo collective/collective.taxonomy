@@ -5,6 +5,7 @@ Changes
 ------------------
 
 - Wrap strings in list while indexing to correctly index single-select taxonomies. [adrianschulz] (#108)
+- Plone 6 / pip install ready [avoinea] (#114)
 
 
 2.1.0 (2021-05-27)
