@@ -53,7 +53,6 @@ setup(
         'plone.supermodel',
         'plone.api >= 1.5',
         'plone.app.registry',
-        'plone.app.dexterity',
         'lxml',
         'six >= 1.12',
     ],

@@ -12,6 +12,7 @@
   <i18n:registerTranslations directory="locales" />
 
   <include package="plone.app.registry" />
+  <include package="plone.supermodel" />
 
   <genericsetup:registerProfile
       name="default"
