@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.1.1 (unreleased)
+2.1.1 (2021-11-23)
 ------------------
 
 - Wrap strings in list while indexing to correctly index single-select taxonomies. [adrianschulz] (#108)
