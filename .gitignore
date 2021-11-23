@@ -28,3 +28,4 @@ share/
 include/
 lib/
 share/
+pip-selfcheck.json
