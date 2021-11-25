@@ -44,6 +44,7 @@ class App extends Component {
       defaultLanguage,
       dirty,
       duplicated,
+      duplicatedNode,
       intl,
       isPending,
       message,
@@ -86,10 +87,19 @@ class App extends Component {
             onChange={this.handleToggleViewTree}
           />
 
-          <TaxonomyTree defaultLanguage={defaultLanguage} />
+          <TaxonomyTree
+            defaultLanguage={defaultLanguage}
+            duplicated={duplicated}
+            duplicatedNode={duplicatedNode}
+          />
 
           {this.state.viewTreeShown ? (
-            <TaxonomyTree defaultLanguage={defaultLanguage} editable={false} />
+            <TaxonomyTree
+              defaultLanguage={defaultLanguage}
+              editable={false}
+              duplicated={duplicated}
+              duplicatedNode={duplicatedNode}
+            />
           ) : null}
 
           <div style={{ clear: 'both' }} />
@@ -109,6 +119,7 @@ App.propTypes = {
   defaultLanguage: PropTypes.string.isRequired,
   dirty: PropTypes.bool.isRequired,
   duplicated: PropTypes.bool.isRequired,
+  duplicatedNode: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,
   isPending: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,

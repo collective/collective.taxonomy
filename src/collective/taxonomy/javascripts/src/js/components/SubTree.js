@@ -3,7 +3,15 @@ import React, { PropTypes } from 'react';
 import Leaf from './Leaf';
 import Node from './Node';
 
-const SubTree = ({ id, index, language, subnodes, title, parentId }) =>
+const SubTree = ({
+  duplicatedNode,
+  id,
+  index,
+  language,
+  subnodes,
+  title,
+  parentId
+}) =>
   subnodes.length > 0 ? (
     <Node
       id={id}
@@ -12,6 +20,7 @@ const SubTree = ({ id, index, language, subnodes, title, parentId }) =>
       parentId={parentId}
       subnodes={subnodes}
       title={title}
+      duplicatedNode={duplicatedNode}
     />
   ) : (
     <Leaf
@@ -20,10 +29,12 @@ const SubTree = ({ id, index, language, subnodes, title, parentId }) =>
       language={language}
       parentId={parentId}
       title={title}
+      duplicatedNode={duplicatedNode}
     />
   );
 
 SubTree.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,

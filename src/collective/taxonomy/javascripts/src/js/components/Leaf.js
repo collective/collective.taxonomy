@@ -16,7 +16,15 @@ const messages = defineMessages({
   }
 });
 
-const Leaf = ({ id, index, intl, language, parentId, title }) => (
+const Leaf = ({
+  duplicatedNode,
+  id,
+  index,
+  intl,
+  language,
+  parentId,
+  title
+}) => (
   <div className="info">
     <sup className="super-text">Title</sup>
     <EditableValues id={id} selectedLanguage={language} />
@@ -27,6 +35,7 @@ const Leaf = ({ id, index, intl, language, parentId, title }) => (
       index={index}
       parentId={parentId}
       selectedLanguage={language}
+      duplicatedNode={duplicatedNode}
     />
     &nbsp;&nbsp;&nbsp;
     <AddNodeButton index={index} parentId={parentId} />
@@ -46,6 +55,7 @@ const Leaf = ({ id, index, intl, language, parentId, title }) => (
 );
 
 Leaf.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   intl: PropTypes.object.isRequired,

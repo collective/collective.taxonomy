@@ -20,6 +20,7 @@ const initialState = {
   tree: {
     dirty: false,
     duplicated: false,
+    duplicatedNode: '',
     nodes: data.entities.nodes
   },
   defaultLanguage: rootNode.default_language,

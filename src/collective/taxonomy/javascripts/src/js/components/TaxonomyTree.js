@@ -5,12 +5,14 @@ import LanguageSelector from '../containers/LanguageSelector';
 
 class TaxonomyTree extends Component {
   static propTypes = {
+    duplicatedNode: PropTypes.string.isRequired,
     defaultLanguage: PropTypes.string.isRequired,
     editable: PropTypes.bool
   };
 
   static defaultProps = {
-    editable: true
+    editable: true,
+    duplicatedNode: ''
   };
 
   constructor({ defaultLanguage }) {
@@ -30,13 +32,18 @@ class TaxonomyTree extends Component {
 
   render() {
     const { editable } = this.props;
+    const { duplicatedNode } = this.props;
     return (
       <div className="taxonomy-tree">
         <LanguageSelector
           onChange={this.handleSelectLanguage}
           selectedLanguage={this.state.language}
         />
-        <Tree language={this.state.language} editable={editable} />
+        <Tree
+          language={this.state.language}
+          editable={editable}
+          duplicatedNode={duplicatedNode}
+        />
       </div>
     );
   }

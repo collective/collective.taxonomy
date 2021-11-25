@@ -9,7 +9,7 @@ import RemoveNodeButton from '../containers/RemoveNodeButton';
 import MoveDownButton from '../containers/MoveDownButton';
 import MoveUpButton from '../containers/MoveUpButton';
 
-const Node = ({ id, index, language, parentId, subnodes }) => {
+const Node = ({ duplicatedNode, id, index, language, parentId, subnodes }) => {
   const nodeLabel = (
     <span>
       <sup className="super-text">Title</sup>
@@ -21,6 +21,7 @@ const Node = ({ id, index, language, parentId, subnodes }) => {
         index={index}
         parentId={parentId}
         selectedLanguage={language}
+        duplicatedNode={duplicatedNode}
       />
       &nbsp;&nbsp;&nbsp;
       <AddNodeButton id={id} index={index} parentId={parentId} />
@@ -45,6 +46,7 @@ const Node = ({ id, index, language, parentId, subnodes }) => {
 };
 
 Node.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,

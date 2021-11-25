@@ -2,7 +2,14 @@ import React, { PropTypes } from 'react';
 
 import EditableId from '../containers/EditableId';
 
-const EditableIds = ({ id, index, parentId, selectedLanguage, languages }) => (
+const EditableIds = ({
+  duplicatedNode,
+  id,
+  index,
+  parentId,
+  selectedLanguage,
+  languages
+}) => (
   <div style={{ display: 'inline' }} className="editable-divs">
     {languages.map(language => (
       <EditableId
@@ -18,6 +25,7 @@ const EditableIds = ({ id, index, parentId, selectedLanguage, languages }) => (
 );
 
 EditableIds.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   parentId: PropTypes.string.isRequired,

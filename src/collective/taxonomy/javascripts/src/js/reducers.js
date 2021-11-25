@@ -71,7 +71,7 @@ function moveUp(nodes, action) {
 }
 
 export function tree(
-  state = { nodes: {}, dirty: false, duplicated: false },
+  state = { nodes: {}, dirty: false, duplicated: false, duplicatedNode: '' },
   action
 ) {
   switch (action.type) {
@@ -97,6 +97,7 @@ export function tree(
       };
     case EDIT_TRANSLATION: {
       const language = action.language;
+
       return {
         dirty: true,
         nodes: update(state.nodes, {
@@ -114,7 +115,8 @@ export function tree(
         return {
           ...state,
           dirty: false,
-          duplicated: true
+          duplicated: true,
+          duplicatedNode: newKey
         };
 
       let newNodes = removeNode(state.nodes, action);
@@ -125,7 +127,8 @@ export function tree(
       return {
         dirty: true,
         nodes: newNodes,
-        duplicated: false
+        duplicated: false,
+        duplicatedNode: state.duplicatedNode
       };
     }
     case SAVE_TREE_FULFILLED:
@@ -163,7 +166,8 @@ const defaultState = {
   isPending: false,
   status: '',
   message: '',
-  duplicated: false
+  duplicated: false,
+  duplicatedNode: ''
 };
 
 export function saveTree(state = defaultState, action) {
