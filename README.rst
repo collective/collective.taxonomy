@@ -1,14 +1,12 @@
 Taxonomy Vocabularies
 =====================
 
-|CI| |Coverage| |Workflows|
+|CI| |Coverage|
 
 .. |CI| image:: https://github.com/collective/collective.taxonomy/workflows/CI/badge.svg
    :target: https://github.com/collective/collective.taxonomy/actions
 .. |Coverage| image:: https://coveralls.io/repos/github/collective/collective.taxonomy/badge.svg
    :target: https://coveralls.io/github/collective/collective.taxonomy
-.. |Workflows| image:: http://github-actions.40ants.com/collective/collective.taxonomy/matrix.svg
-   :target: https://github.com/collective/collective.taxonomy/actions
 
 
 Create, edit and use hierarchical taxonomies in `Plone`_.
@@ -227,6 +225,7 @@ Plone Version Compatibility
 
 collective.taxonomy version `2.x`
 
+* Plone 6.0 (py3)
 * Plone 5.2 (py2/py3)
 * Plone 5.1
 * Plone 5.0
@@ -244,23 +243,6 @@ How can I import an existing ``ATVocabularyManager`` vocabulary?
 
   Use the script provided in this `gist <https://gist.github.com/3826155>`_. Just
   remember to edit the vocabIdentifier and vocabName.
-
-
-Tests status
-============
-
-This add-on is tested using Travis CI. The current status of the add-on is:
-
-.. image:: https://img.shields.io/travis/collective/collective.taxonomy/master.svg
-    :alt: Travis CI badge
-    :target: https://travis-ci.org/collective/collective.taxonomy
-
-.. image:: https://coveralls.io/repos/collective/collective.taxonomy/badge.png?branch=master
-    :alt: Coveralls badge
-    :target: https://coveralls.io/r/collective/collective.taxonomy
-
-.. image:: http://img.shields.io/pypi/v/collective.taxonomy.svg
-    :target: https://pypi.org/project/collective.taxonomy
 
 
 Contribute
@@ -295,6 +277,8 @@ Contributors
 - Cédric Messiant <cedric.messiant@gmail.com>
 
 - Leonardo J. Caballero G. <leonardocaballero@gmail.com>
+
+- Peter Mathis <peter.mathis@kombinat.at>
 
 
 Existing work

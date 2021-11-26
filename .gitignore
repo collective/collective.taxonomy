@@ -2,6 +2,7 @@
 *.egg-info
 *.mo
 *.py[co]
+*.mp4
 .coverage
 .installed.cfg
 .mr.developer.cfg
@@ -27,3 +28,4 @@ share/
 include/
 lib/
 share/
+pip-selfcheck.json
