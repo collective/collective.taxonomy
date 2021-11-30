@@ -7,7 +7,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 from plone.restapi.testing import RelativeSession
-from plone.testing.z2 import Browser
 from transaction import commit
 
 import unittest

@@ -1,8 +1,4 @@
-""" Control Panel RestAPI endpoint
-"""
-from collective.taxonomy.interfaces import ITaxonomy
-from zope.i18n.interfaces import ITranslationDomain
-from zope.schema.interfaces import IVocabularyFactory
+# -*- coding: utf-8 -*-
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import IBrowserLayer
 from collective.taxonomy.interfaces import ITaxonomyControlPanel
@@ -87,7 +83,7 @@ class TaxonomyControlPanel(RegistryConfigletPanel):
         return self.get(names=names)
 
     def get(self, names=[]):
-        name = names and [0] or None
+        # name = names and [0] or None
 
         if IPloneRestapiLayer.providedBy(self.request):
             noLongerProvides(self.request, IPloneRestapiLayer)

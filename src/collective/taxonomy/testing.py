@@ -7,7 +7,6 @@ from plone.testing import z2
 from plone.restapi.testing import PloneRestApiDXLayer
 
 import collective.taxonomy
-import plone.restapi
 
 
 FIXTURE = PloneWithPackageLayer(
