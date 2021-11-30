@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
-from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy import generated
 from collective.taxonomy import LEGACY_PATH_SEPARATOR
 from collective.taxonomy import NODE
@@ -19,10 +18,8 @@ from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 from zope.globalrequest import getRequest
-from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import implementer
 from zope.lifecycleevent import modified
-from zope.schema.interfaces import IVocabularyFactory
 
 import logging
 
@@ -338,32 +335,3 @@ class Taxonomy(SimpleItem):
         if self.version is None:
             safeWrite(self, getRequest())
             self.version = PersistentDict()
-
-
-def remove_taxonomy(name):
-    """
-    Unregister a taxonomy
-    """
-    portal = api.portal.get()
-    sm = portal.getSiteManager()
-    utility = sm.queryUtility(ITaxonomy, name=name)
-    if utility is None:
-        return {
-            "error": _(
-                "taxonomy_not_found", default=u'Taxonomy "{}" not found'.format(name)
-            )
-        }
-    try:
-        utility.unregisterBehavior()
-
-        sm.unregisterUtility(utility, ITaxonomy, name=name)
-        sm.unregisterUtility(utility, IVocabularyFactory, name=name)
-        sm.unregisterUtility(utility, ITranslationDomain, name=name)
-    except Exception as e:
-        logger.exception(e)
-        return {
-            "error": _(
-                "taxonomy_unregister_error",
-                default=u'Error deleting Taxonomy "{}".'.format(name),
-            )
-        }

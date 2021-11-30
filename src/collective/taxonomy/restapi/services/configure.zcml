@@ -3,10 +3,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     >
 
-  <!-- Taxonomy Controlpanel -->
-  <adapter
-      factory=".controlpanel.TaxonomyControlPanel"
-      provides="collective.taxonomy.interfaces.ITaxonomyControlPanel"
-      name="taxonomy"
-      />
+  <include package=".controlpanel" />
+  <include package=".taxonomy" />
+
 </configure>
