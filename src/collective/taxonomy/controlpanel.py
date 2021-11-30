@@ -170,14 +170,13 @@ class TaxonomyAddForm(form.AddForm):
         return data
 
     def add(self, data):
-        if "import_file" not in data:
-            raise ValueError("Import file is not in form")
-
+        # if "import_file" not in data:
+        #     raise ValueError("Import file is not in form")
         taxonomy = registerTaxonomy(
             self.context,
             name=data["taxonomy"],
             title=data["field_title"],
-            description=data["field_description"],
+            description=data.get("field_description", ""),
             default_language=data["default_language"],
         )
 
@@ -191,7 +190,8 @@ class TaxonomyAddForm(form.AddForm):
             del data["import_file"]
 
         del data["taxonomy"]
-        del data["import_file_purge"]
+        if "import_file_purge" in data:
+            del data["import_file_purge"]
 
         taxonomy.registerBehavior(**data)
         api.portal.show_message(_(u"Taxonomy imported."), request=self.request)

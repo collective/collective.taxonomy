@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.1.1.dev0'
+version = "2.1.1.dev0"
 
 
 def read(*pathnames):
@@ -12,14 +12,16 @@ def read(*pathnames):
 
 
 setup(
-    name='collective.taxonomy',
+    name="collective.taxonomy",
     version=version,
     description="Create, edit and use hierarchical taxonomies in Plone!",
-    url='https://pypi.org/project/collective.taxonomy/',
-    long_description='\n'.join([
-        read('README.rst'),
-        read('CHANGES.rst'),
-    ]),
+    url="https://pypi.org/project/collective.taxonomy/",
+    long_description="\n".join(
+        [
+            read("README.rst"),
+            read("CHANGES.rst"),
+        ]
+    ),
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
@@ -36,35 +38,36 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.7",
     ],
-    keywords='plone taxonomy dexterity',
-    author='Bo Simonsen and Malthe Borch',
-    author_email='bo@headnet.dk',
+    keywords="plone taxonomy dexterity",
+    author="Bo Simonsen and Malthe Borch",
+    author_email="bo@headnet.dk",
     license="GPLv2+",
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
-    namespace_packages=['collective'],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
+    namespace_packages=["collective"],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'setuptools',
-        'plone.supermodel',
-        'plone.api >= 1.5',
-        'plone.app.registry',
-        'plone.app.dexterity',
-        'lxml',
-        'six >= 1.12',
+        "setuptools",
+        "plone.supermodel",
+        "plone.api >= 1.5",
+        "plone.app.registry",
+        "plone.app.dexterity",
+        "lxml",
+        "six >= 1.12",
     ],
     extras_require={
-        'dev': [
-            'zest.releaser[recommended]',
+        "dev": [
+            "zest.releaser[recommended]",
         ],
-        'test': [
-            'plone.testing',
-            'plone.app.testing',
-            'plone.app.contenttypes',
+        "test": [
+            "plone.testing",
+            "plone.app.testing",
+            "plone.app.contenttypes",
             'Products.contentmigration;python_version<="2.7"',
-            'plone.app.robotframework[debug]',
-        ]
+            "plone.app.robotframework[debug]",
+            "collective.MockMailHost",
+        ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]

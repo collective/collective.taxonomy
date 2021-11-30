@@ -21,7 +21,7 @@ class TaxonomySerializer(object):
         site = portal.get()
         util = self.context
         results = {
-            "@id": "{}/@taxonomy-data/{}".format(site.absolute_url(), util.name),
+            "@id": "{}/@taxonomy/{}".format(site.absolute_url(), util.name),
             "name": util.name,
             "title": util.title,
             "count": dict(util.count),
