@@ -1,25 +1,29 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
 
   <genericsetup:upgradeSteps
-     profile="collective.taxonomy:default"
-     source="0.2"
-     destination="0.3">
+      profile="collective.taxonomy:default"
+      source="0.2"
+      destination="0.3"
+      >
     <genericsetup:upgradeStep
-       handler=".upgradesteps.reactivateSearchable"
-       title="Reactivate searchable for every taxonomy"
-       description=""
-       />
+        title="Reactivate searchable for every taxonomy"
+        description=""
+        handler=".upgradesteps.reactivateSearchable"
+        />
   </genericsetup:upgradeSteps>
   <genericsetup:upgradeSteps
-     profile="collective.taxonomy:default"
-     source="1004"
-     destination="1005">
+      profile="collective.taxonomy:default"
+      source="1004"
+      destination="1005"
+      >
     <genericsetup:upgradeStep
-       handler=".upgradesteps.fix_metadata"
-       title="Fixes taxonomy metadata"
-       description=""
-       />
+        title="Fixes taxonomy metadata"
+        description=""
+        handler=".upgradesteps.fix_metadata"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>

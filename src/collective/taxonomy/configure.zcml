@@ -1,13 +1,14 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:z3c="http://namespaces.zope.org/z3c"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="collective.taxonomy">
+    i18n_domain="collective.taxonomy"
+    >
 
   <includeDependencies package="." />
 
@@ -19,17 +20,17 @@
   <genericsetup:registerProfile
       name="default"
       title="collective.taxonomy"
-      directory="profiles/default"
       description="Registers control panel and default settings."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
       title="collective.taxonomy uninstall"
-      directory="profiles/uninstall"
       description="Uninstall profile for collective.taxonomy."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
       post_handler=".setuphandlers.uninstall"
       />
 
@@ -37,7 +38,8 @@
       name="collective.taxonomy"
       title="Manage the taxonomy tool"
       description="Import taxonomies from VDEX-format."
-      handler=".exportimport.importTaxonomy">
+      handler=".exportimport.importTaxonomy"
+      >
   </genericsetup:importStep>
 
   <genericsetup:exportStep
@@ -83,14 +85,15 @@
       name="taxonomy"
       for="*"
       class=".browser.TaxonomyView"
-      permission="zope.Public"
       allowed_interface=".interfaces.ITaxonomyView"
+      permission="zope.Public"
       />
 
   <adapter
-      name="taxonomy"
-      for="* *"
       factory=".browser.TaxonomyTraverser"
+      for="*
+           *"
+      name="taxonomy"
       />
 
   <browser:resourceDirectory
@@ -129,26 +132,27 @@
       />
 
   <adapter
-      zcml:condition="installed collective.collectionfilter"
       factory=".collectionfilter.groupby_modifier"
-      name="modifier_1" />
+      name="modifier_1"
+      zcml:condition="installed collective.collectionfilter"
+      />
 
   <utility
       factory=".vocabulary.TaxonomyVocabulary"
-      name="collective.taxonomy.taxonomies"
       provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.taxonomy.taxonomies"
       />
 
   <utility
       factory=".vocabulary.PermissionsVocabulary"
-      name="collective.taxonomy.permissions"
       provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.taxonomy.permissions"
       />
 
   <utility
       factory=".vocabulary.LanguagesVocabulary"
-      name="collective.taxonomy.languages"
       provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.taxonomy.languages"
       />
 
   <include file="widget.zcml" />
