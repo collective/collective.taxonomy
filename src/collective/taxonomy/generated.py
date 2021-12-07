@@ -12,7 +12,7 @@ try:
     from plone.dexterity.synchronize import synchronized
 except ImportError:
     # Plone 5
-    from plone.syncronize.decorator import synchronized
+    from plone.synchronize.decorator import synchronized
 
 
 class Wrapper(object):
