@@ -29,3 +29,5 @@ include/
 lib/
 share/
 pip-selfcheck.json
+pyvenv.cfg
+lib64
