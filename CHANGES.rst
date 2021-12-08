@@ -4,8 +4,10 @@ Changes
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Implemented possibility to change the IDs. [Petchesi-Iulian] (#113)
+- Added contraints to not allow duplicate IDs. [Petchesi-Iulian] (#113)
+- Improved the editing interface. [Petchesi-Iulian] (#113)
+- Updated the documentation and tutorial. [Petchesi-Iulian] (#113)
 
 2.1.1 (2021-11-23)
 ------------------
