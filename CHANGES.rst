@@ -8,6 +8,8 @@ Changes
 - Added contraints to not allow duplicate IDs. [Petchesi-Iulian] (#113)
 - Improved the editing interface. [Petchesi-Iulian] (#113)
 - Updated the documentation and tutorial. [Petchesi-Iulian] (#113)
+- Refactor import of synchronized decorator [1letter] (#120)
+
 
 2.1.1 (2021-11-23)
 ------------------

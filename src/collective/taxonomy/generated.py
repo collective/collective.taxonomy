@@ -1,14 +1,18 @@
 # generated interfaces.
 
 import sys
-
 from threading import RLock
 
+from plone.behavior.interfaces import IBehavior
+from plone.supermodel.model import Schema, SchemaClass
 from zope.component.hooks import getSite
 
-from plone.supermodel.model import SchemaClass, Schema
-from plone.behavior.interfaces import IBehavior
-from plone.synchronize import synchronized
+try:
+    # Plone 6
+    from plone.dexterity.synchronize import synchronized
+except ImportError:
+    # Plone 5
+    from plone.synchronize.decorator import synchronized
 
 
 class Wrapper(object):
