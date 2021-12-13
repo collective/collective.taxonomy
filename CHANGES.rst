@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.1.2 (unreleased)
+2.2.0 (2021-12-13)
 ------------------
 
 - Refactor import of synchronized decorator [1letter] (#120)
