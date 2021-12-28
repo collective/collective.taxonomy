@@ -4,9 +4,9 @@ import TreeView from 'react-treeview';
 import EditableTree from './EditableTree';
 import ReadOnlySubTree from '../containers/ReadOnlySubTree';
 
-const Tree = ({ editable, ...rest }) => {
+const Tree = ({ editable, duplicatedNode, ...rest }) => {
   if (editable) {
-    return <EditableTree {...rest} />;
+    return <EditableTree duplicatedNode={duplicatedNode} {...rest} />;
   }
 
   return (

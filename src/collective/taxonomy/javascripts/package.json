@@ -58,6 +58,7 @@
     "webpack-hot-middleware": "^2.2.0"
   },
   "dependencies": {
+    "har-validator": "5.1.5",
     "normalizr": "^2.1.0",
     "react": "^15.1.0",
     "react-addons-update": "^15.1.0",

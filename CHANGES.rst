@@ -10,6 +10,10 @@ Changes
 2.2.0 (2021-12-13)
 ------------------
 
+- Implemented possibility to change the IDs. [Petchesi-Iulian] (#113)
+- Added contraints to not allow duplicate IDs. [Petchesi-Iulian] (#113)
+- Improved the editing interface. [Petchesi-Iulian] (#113)
+- Updated the documentation and tutorial. [Petchesi-Iulian] (#113)
 - Refactor import of synchronized decorator [1letter] (#120)
 
 

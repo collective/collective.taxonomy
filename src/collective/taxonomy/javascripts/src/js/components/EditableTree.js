@@ -4,7 +4,13 @@ import TreeView from 'react-treeview';
 import AddNodeButton from '../containers/AddNodeButton';
 import SubTree from '../containers/SubTree';
 
-const EditableTree = ({ language, rootId, subnodes, title }) => (
+const EditableTree = ({
+  duplicatedNode,
+  language,
+  rootId,
+  subnodes,
+  title
+}) => (
   <TreeView nodeLabel={title}>
     {subnodes.length === 0 ? (
       <AddNodeButton
@@ -23,12 +29,14 @@ const EditableTree = ({ language, rootId, subnodes, title }) => (
         parentId={rootId}
         index={idx}
         language={language}
+        duplicatedNode={duplicatedNode}
       />
     ))}
   </TreeView>
 );
 
 EditableTree.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   rootId: PropTypes.string.isRequired,
   subnodes: PropTypes.array.isRequired,

@@ -26,6 +26,8 @@ The editor allow you to edit a tree structure, what allow us to create a complex
 ![Edit taxonomy data 002](./img/edit-taxonomy-data-002.png "edit-taxonomy-data-002")
 ![Edit taxonomy data 003](./img/edit-taxonomy-data-003.png "edit-taxonomy-data-003")
 
+The Id (identifier) needs to be unique for each node, it is automatically generated when adding a new node.
+
 This is the final result of our categories, hit "Submit" when you have the same.
 ![Edit taxonomy data 004](./img/edit-taxonomy-data-004.png "edit-taxonomy-data-004")
 

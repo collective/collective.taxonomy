@@ -1,24 +1,36 @@
 import React, { PropTypes } from 'react';
 
-import EditableValue from '../containers/EditableValue';
+import EditableId from '../containers/EditableId';
 
-const EditableValues = ({ id, selectedLanguage, languages }) => (
+const EditableIds = ({
+  duplicatedNode,
+  id,
+  index,
+  parentId,
+  selectedLanguage,
+  languages
+}) => (
   <div style={{ display: 'inline' }} className="editable-divs">
     {languages.map(language => (
-      <EditableValue
+      <EditableId
         key={`${id}-${language}`}
         id={id}
         language={language}
         hidden={language !== selectedLanguage}
+        index={index}
+        parentId={parentId}
       />
     ))}
   </div>
 );
 
-EditableValues.propTypes = {
+EditableIds.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  parentId: PropTypes.string.isRequired,
   languages: PropTypes.array.isRequired,
   selectedLanguage: PropTypes.string.isRequired
 };
 
-export default EditableValues;
+export default EditableIds;

@@ -96,3 +96,51 @@ input[type="text"] {
 .tree-view_item, div.info {
     height: 35px;
 }
+
+.info {
+  border: 1px dotted #D2D2D2;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  padding-bottom: 0.5em;
+  padding-top: 1.3em;
+  box-sizing: content-box;
+}
+
+.super-text {
+  opacity: 0.3;
+  /*display: inline-block;*/
+  vertical-align: top;
+  font-size: smaller;
+  float: left;
+}
+
+.info > button {
+  float: right;
+}
+
+.tree-view_item > span > button {
+  float: right;
+}
+
+.tree-view_item {
+  /* immediate child of .tree-view, for styling convenience */
+  border: 1px dotted #D2D2D2;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  padding-bottom: 0.5em;
+  padding-top: 1.3em;
+  box-sizing: content-box;
+}
+
+.taxonomy-tree > .tree-view > .tree-view_item {
+  /*border: none;*/
+  padding: unset;
+  box-sizing: unset;
+}
+
+.editable-divs {
+  float: left;
+  padding: 0.2em 0 0 0;
+}
