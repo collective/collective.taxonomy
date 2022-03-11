@@ -10,7 +10,6 @@
     i18n_domain="collective.taxonomy"
     >
 
-  <includeDependencies package="." />
 
   <i18n:registerTranslations directory="locales" />
 

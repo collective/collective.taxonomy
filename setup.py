@@ -53,6 +53,7 @@ setup(
         "plone.api >= 1.5",
         "plone.app.registry",
         "plone.app.dexterity",
+        "plone.synchronize",
         "lxml",
         "six >= 1.12",
     ],
