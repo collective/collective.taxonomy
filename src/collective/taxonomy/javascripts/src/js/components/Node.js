@@ -3,15 +3,26 @@ import TreeView from 'react-treeview';
 
 import SubTree from '../containers/SubTree';
 import EditableValues from '../containers/EditableValues';
+import EditableIds from '../containers/EditableIds';
 import AddNodeButton from '../containers/AddNodeButton';
 import RemoveNodeButton from '../containers/RemoveNodeButton';
 import MoveDownButton from '../containers/MoveDownButton';
 import MoveUpButton from '../containers/MoveUpButton';
 
-const Node = ({ id, index, language, parentId, subnodes }) => {
+const Node = ({ duplicatedNode, id, index, language, parentId, subnodes }) => {
   const nodeLabel = (
     <span>
+      <sup className="super-text">Title</sup>
       <EditableValues id={id} selectedLanguage={language} />
+      &nbsp;&nbsp;&nbsp;
+      <sup className="super-text">Id</sup>
+      <EditableIds
+        id={id}
+        index={index}
+        parentId={parentId}
+        selectedLanguage={language}
+        duplicatedNode={duplicatedNode}
+      />
       &nbsp;&nbsp;&nbsp;
       <AddNodeButton id={id} index={index} parentId={parentId} />
       <RemoveNodeButton id={id} index={index} parentId={parentId} />
@@ -35,6 +46,7 @@ const Node = ({ id, index, language, parentId, subnodes }) => {
 };
 
 Node.propTypes = {
+  duplicatedNode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,

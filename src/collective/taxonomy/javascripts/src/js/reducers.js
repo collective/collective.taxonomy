@@ -8,6 +8,7 @@ import {
   MOVE_DOWN,
   MOVE_UP,
   EDIT_TRANSLATION,
+  EDIT_IDENTIFIER,
   SAVE_TREE_PENDING,
   SAVE_TREE_FULFILLED,
   SAVE_TREE_REJECTED,
@@ -69,7 +70,10 @@ function moveUp(nodes, action) {
   });
 }
 
-export function tree(state = { nodes: {}, dirty: false }, action) {
+export function tree(
+  state = { nodes: {}, dirty: false, duplicated: false, duplicatedNode: '' },
+  action
+) {
   switch (action.type) {
     case ADD_NODE:
       return {
@@ -93,11 +97,38 @@ export function tree(state = { nodes: {}, dirty: false }, action) {
       };
     case EDIT_TRANSLATION: {
       const language = action.language;
+
       return {
         dirty: true,
         nodes: update(state.nodes, {
           [action.id]: { translations: { [language]: { $set: action.value } } }
         })
+      };
+    }
+    case EDIT_IDENTIFIER: {
+      const newKey = action.value;
+      const parentId = action.parentId;
+      let copiedNode = state.nodes[action.id];
+
+      // no changes made if same id
+      if (newKey in state.nodes)
+        return {
+          ...state,
+          dirty: false,
+          duplicated: true,
+          duplicatedNode: newKey
+        };
+
+      let newNodes = removeNode(state.nodes, action);
+      newNodes = addNode(newNodes, parentId, newKey);
+      newNodes[newKey]['translations'] = copiedNode['translations'];
+      newNodes[newKey]['subnodes'] = copiedNode['subnodes'];
+
+      return {
+        dirty: true,
+        nodes: newNodes,
+        duplicated: false,
+        duplicatedNode: state.duplicatedNode
       };
     }
     case SAVE_TREE_FULFILLED:
@@ -131,7 +162,13 @@ export function languages(state = { en: 'English' }, action) {
   return state;
 }
 
-const defaultState = { isPending: false, status: '', message: '' };
+const defaultState = {
+  isPending: false,
+  status: '',
+  message: '',
+  duplicated: false,
+  duplicatedNode: ''
+};
 
 export function saveTree(state = defaultState, action) {
   switch (action.type) {

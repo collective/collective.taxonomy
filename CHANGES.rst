@@ -1,10 +1,27 @@
 Changes
 =======
 
-2.1.1 (unreleased)
+2.2.1 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.2.0 (2021-12-13)
+------------------
+
+- Implemented possibility to change the IDs. [Petchesi-Iulian] (#113)
+- Added contraints to not allow duplicate IDs. [Petchesi-Iulian] (#113)
+- Improved the editing interface. [Petchesi-Iulian] (#113)
+- Updated the documentation and tutorial. [Petchesi-Iulian] (#113)
+- Refactor import of synchronized decorator [1letter] (#120)
+
+
+2.1.1 (2021-11-23)
 ------------------
 
 - Wrap strings in list while indexing to correctly index single-select taxonomies. [adrianschulz] (#108)
+- Plone 6 / pip install ready [avoinea] (#114)
 
 
 2.1.0 (2021-05-27)
