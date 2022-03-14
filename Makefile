@@ -65,7 +65,7 @@ start-cypress:  ## Start Cypress
 	bin/instance stop
 
 .PHONY: Test
-test: code-format-check code-analysis test-backend test-frontend test-cypress  ## Test
+test: code-format-check test-backend test-frontend test-cypress  ## Test
 
 .PHONY: Code Format Check
 code-format-check: code-format-check-backend code-format-check-frontend  ## Code Format Check
@@ -90,12 +90,6 @@ code-format-backend:
 code-format-frontend:
 	@echo "$(GREEN)==> Run Javascript code format$(RESET)"
 	cd src/collective/taxonomy/javascripts && yarn prettier:fix
-
-code-analysis:
-	@echo "$(green)==> Run static code analysis$(reset)"
-ifeq ("$(NOT_TRAVIS_OR_PYTHON3_PLONE52)", "true")
-	bin/code-analysis
-endif
 
 test-backend:
 	@echo "$(GREEN)==> Run Backend Tests$(RESET)"
