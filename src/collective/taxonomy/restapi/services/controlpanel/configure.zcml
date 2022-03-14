@@ -7,6 +7,6 @@
   <adapter
       factory=".controlpanel.TaxonomyControlPanel"
       provides="collective.taxonomy.interfaces.ITaxonomyControlPanel"
-      name="taxonomy"
+      name="taxonomies"
       />
 </configure>
