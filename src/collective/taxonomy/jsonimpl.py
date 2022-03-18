@@ -103,8 +103,7 @@ class ImportJson(BrowserView):
     def __call__(self):
         request = self.request
         if request.method == "POST":
-            request.stdin.seek(0)
-            data = json.loads(request.stdin.read())
+            data = json.loads(request.get("BODY", ""))
             taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"])
             tree = data["tree"]
             languages = data["languages"]

@@ -4,7 +4,8 @@ Changes
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix taxonomy data edition when using Gunicorn WSGI (#123)
+  [laulaz]
 
 
 2.2.0 (2021-12-13)
