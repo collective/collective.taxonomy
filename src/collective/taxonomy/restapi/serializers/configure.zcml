@@ -3,8 +3,6 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     >
 
-  <adapter factory=".controlpanel.TaxonomyControlpanelSerializeToJson" />
-
   <adapter factory=".taxonomy.TaxonomySerializer" />
 
 </configure>
