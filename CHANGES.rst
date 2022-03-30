@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.2.1 (unreleased)
+2.2.1 (2022-03-30)
 ------------------
 
 - Fix taxonomy data edition when using Gunicorn WSGI (#123)
