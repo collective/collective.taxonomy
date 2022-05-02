@@ -15,8 +15,18 @@ from zope.publisher.interfaces import IPublishTraverse
 class TaxonomyPatch(Service):
     """Patch a taxonomy"""
 
+    taxonomy_id = None
+
+    def publishTraverse(self, request, name):  # noqa
+        """Traverse"""
+        if name:
+            self.taxonomy_id = name
+        return self
+
     def reply(self):
         """Reply"""
+        if not self.taxonomy_id:
+            raise Exception("No taxonomy name provided")
 
         data = json_body(self.request)
 
