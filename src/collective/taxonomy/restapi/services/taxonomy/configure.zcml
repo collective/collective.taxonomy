@@ -36,24 +36,12 @@
       permission="cmf.ManagePortal"
       name="@taxonomy"
       />
-  <!-- <plone:service
-      method="PATCH"
-      factory=".update.TypesUpdate"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      permission="plone.app.controlpanel.Overview"
-      name="@types"
-      />
-
-
-
-
-
+ 
   <plone:service
-      method="PUT"
-      factory=".put.TypesPut"
+      method="PATCH"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      permission="plone.app.controlpanel.Overview"
-      name="@types"
-      /> -->
-
+      factory=".update.TaxonomyPatch"
+      permission="cmf.ManagePortal"
+      name="@taxonomy"
+    />
 </configure>
