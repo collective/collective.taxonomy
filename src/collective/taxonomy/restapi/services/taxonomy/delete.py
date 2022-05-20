@@ -7,7 +7,7 @@ from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.interfaces import IVocabularyFactory
-
+from collective.taxonomy.restapi.utils import get_all_taxonomies
 
 @implementer(IPublishTraverse)
 class TaxonomyDelete(Service):
@@ -45,4 +45,4 @@ class TaxonomyDelete(Service):
         sm.unregisterUtility(utility, IVocabularyFactory, name=name)
         sm.unregisterUtility(utility, ITranslationDomain, name=name)
 
-        return self.reply_no_content()
+        return get_all_taxonomies()
