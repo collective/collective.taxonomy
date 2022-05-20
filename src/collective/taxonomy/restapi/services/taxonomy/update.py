@@ -89,10 +89,10 @@ class TaxonomyPatch(Service):
 
             taxonomy.update(language, data_for_taxonomy, True)
 
-        serializer = getMultiAdapter((taxonomy, self.request), ISerializeToJson)
-        res = serializer(full_objects=True)
+        # serializer = getMultiAdapter((taxonomy, self.request), ISerializeToJson)
+        # res = serializer(full_objects=True)
 
         # from pprint import pprint
         # pprint(res)
 
-        return res
+        return self.reply_no_content()
