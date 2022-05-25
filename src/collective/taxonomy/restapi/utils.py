@@ -10,7 +10,7 @@ def get_all_taxonomies():
     request = getRequest()
     utils = list(getUtilitiesFor(ITaxonomy))
     return [
-        getMultiAdapter((util, request), ISerializeToJson)(full_objects=True)
+        getMultiAdapter((util, request), ISerializeToJson)(full_objects=False)
         for (_name, util) in utils
     ]
 
