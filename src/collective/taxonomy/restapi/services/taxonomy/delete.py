@@ -45,4 +45,4 @@ class TaxonomyDelete(Service):
         sm.unregisterUtility(utility, IVocabularyFactory, name=name)
         sm.unregisterUtility(utility, ITranslationDomain, name=name)
 
-        return get_all_taxonomies()
+        return self.reply_no_content()

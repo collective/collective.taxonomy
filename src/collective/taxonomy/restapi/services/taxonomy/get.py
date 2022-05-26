@@ -27,7 +27,7 @@ class TaxonomyGet(Service, TreeExport):
 
     def reply(self):
         if not self.params:
-            return get_all_taxonomies()
+            return get_all_taxonomies(full_objects=False)
         if len(self.params) == 1:
             # taxonomy = get_taxonomy_by_name(name=self.params[0])
             taxonomy = self.get_data()
