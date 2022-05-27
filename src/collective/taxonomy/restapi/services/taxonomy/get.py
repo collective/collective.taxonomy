@@ -70,7 +70,9 @@ class TaxonomyGet(Service, TreeExport):
             translations[langstringnode.get("language")] = langstringnode.text
 
         item["translations"] = translations
-        item["title"] = translations["en"] or translations["en-gb"]
+        item["title"] = list(translations.values())[
+            0
+        ]  # todo:support for translated titles
         item["children"] = []
         terms = root.findall("term")
         if terms:

@@ -24,6 +24,7 @@ class TaxonomySerializer(object):
             "@id": "{}/@taxonomy/{}".format(site.absolute_url(), util.name),
             "name": util.name,
             "title": util.title,
+            "default_language": util.default_language,
             "count": dict(util.count),
         }
 
