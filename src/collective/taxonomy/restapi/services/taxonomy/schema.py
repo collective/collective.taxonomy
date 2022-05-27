@@ -18,5 +18,5 @@ class TaxonomyGetSchema(Service):
             self.request,
             form=form,
         )
-        # Determine required fields
+        # To-do: determine field defaults by serializing to volto schema
         return json_compatible(json_schema)

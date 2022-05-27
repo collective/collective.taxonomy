@@ -111,13 +111,13 @@ class ITaxonomyForm(Interface):
     is_required = schema.Bool(
         title=_("Required"),
         description=_("Check this box if you want the field to be required"),
-        required=True,
+        required=False,
     )
 
     is_single_select = schema.Bool(
         title=_("Single select"),
         description=_("Check this box if you want the field to be mono-valued"),
-        required=True,
+        required=False,
     )
 
     write_permission = schema.Choice(
