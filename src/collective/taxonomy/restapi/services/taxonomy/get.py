@@ -5,6 +5,7 @@ from zope.publisher.interfaces import IPublishTraverse
 from collective.taxonomy.restapi.utils import get_taxonomy_by_name
 from collective.taxonomy.restapi.utils import get_all_taxonomies
 from zope.component import queryUtility
+from plone.api import portal
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import TreeExport
 from lxml import etree
@@ -42,6 +43,7 @@ class TaxonomyGet(Service, TreeExport):
 
     def get_data(self):
         """Get json data."""
+        site = portal.get()
         root = etree.Element("vdex")
         try:
             root = self.buildTree(root)
@@ -52,6 +54,8 @@ class TaxonomyGet(Service, TreeExport):
             "key": "0",
             "name": self.taxonomy.name,
             "title": self.taxonomy.title,
+            "description": self.taxonomy.description,
+            "@id": "{}/@taxonomy/{}".format(site.absolute_url(), self.taxonomy.name),
             "tree": [],
             "default_language": self.taxonomy.default_language,
         }

@@ -51,7 +51,7 @@ class TaxonomyPatch(Service):
 
         data = json_body(self.request)
 
-        name = data.get("name")
+        name = data.get("taxonomy")
 
         if name is None:
             raise Exception("No taxonomy name provided")
@@ -78,16 +78,21 @@ class TaxonomyPatch(Service):
         #                 item["token"],
         #             ]
         #         )
-        tree = data["tree"]
-        languages = data["languages"]
-        for language in languages:
-            if language not in taxonomy.data:
-                taxonomy.data[language] = OOBTree()
 
-        for language in taxonomy.data.keys():
-            data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
+        tree = data.get("tree", [])
+        languages = data.get("languages", [data.get("default_language", "en")])
+        if len(tree):
+            for language in languages:
+                if language not in taxonomy.data:
+                    taxonomy.data[language] = OOBTree()
 
-            taxonomy.update(language, data_for_taxonomy, True)
+            for language in taxonomy.data.keys():
+                data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
+
+                taxonomy.update(language, data_for_taxonomy, True)
+        else:
+            del data["taxonomy"]
+            taxonomy.updateBehavior(**data)
 
         # serializer = getMultiAdapter((taxonomy, self.request), ISerializeToJson)
         # res = serializer(full_objects=True)
