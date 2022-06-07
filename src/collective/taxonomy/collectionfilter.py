@@ -15,7 +15,7 @@ def resolve_title(token, index_name):
     shortname = None
     taxonomy_name = None
     for tax in taxonomies:
-        shortname = tax[len("collective.taxonomy.") :]
+        shortname = tax[len("collective.taxonomy."):]
         if not index_name.endswith(shortname):
             continue
         taxonomy_name = tax

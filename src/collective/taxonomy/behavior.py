@@ -124,7 +124,7 @@ class TaxonomyBehavior(Persistent):
             "operations",
             Record(
                 field.List(value_type=field.TextLine()),
-                [u"plone.app.querystring.operation.selection.is"],
+                ["plone.app.querystring.operation.selection.is"],
             ),
         )
         add(

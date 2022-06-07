@@ -56,7 +56,9 @@ class TaxonomyPost(Service):
         taxonomy.registerBehavior(**form_data)
 
         self.request.response.setStatus(201)
-        return get_taxonomy_by_name(name=getattr(taxonomy, "name", ""),full_objects=False)
+        return get_taxonomy_by_name(
+            name=getattr(taxonomy, "name", ""), full_objects=False
+        )
 
     def validate_data(self):
         schema = ITaxonomyForm

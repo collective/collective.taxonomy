@@ -143,7 +143,7 @@ class ImportJson(BrowserView):
         for item in parsed_data:
             new_key = item["key"]
             title = item["translations"].get(language, "")
-            new_path = u"{}{}".format(path, title)
+            new_path = "{}{}".format(path, title)
             result.append(
                 (
                     new_path,
@@ -152,7 +152,7 @@ class ImportJson(BrowserView):
             )
             subnodes = item.get("subnodes", [])
             if subnodes:
-                new_path = u"{}{}".format(new_path, PATH_SEPARATOR)
+                new_path = "{}{}".format(new_path, PATH_SEPARATOR)
                 result.extend(
                     self.generate_data_for_taxonomy(subnodes, language, new_path)
                 )

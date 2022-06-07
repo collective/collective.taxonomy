@@ -22,9 +22,9 @@ class TestTaxonomyTraverser(unittest.TestCase):
 
         keys, labels = zip(*view())
 
-        self.assertIn(u"Information Science", labels)
+        self.assertIn("Information Science", labels)
 
         keys, labels = zip(*view(target_language="de"))
 
-        self.assertIn(u"Informatik", labels)
-        self.assertNotIn(u"Information Science", labels)
+        self.assertIn("Informatik", labels)
+        self.assertNotIn("Information Science", labels)

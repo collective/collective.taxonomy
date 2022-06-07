@@ -131,7 +131,7 @@ class Taxonomy(SimpleItem):
 
         new_args["name"] = self.getGeneratedName()
         new_args["title"] = self.title
-        new_args["description"] = kwargs.get("field_description", u"")
+        new_args["description"] = kwargs.get("field_description", "")
         new_args["field_description"] = new_args["description"]
 
         behavior = TaxonomyBehavior(**new_args)

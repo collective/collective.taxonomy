@@ -7,7 +7,7 @@ from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.interfaces import IVocabularyFactory
-from collective.taxonomy.restapi.utils import get_all_taxonomies
+
 
 @implementer(IPublishTraverse)
 class TaxonomyDelete(Service):
@@ -27,7 +27,7 @@ class TaxonomyDelete(Service):
             raise BadRequest(
                 _(
                     "delete_taxonomies_no_taxonomies",
-                    default=u"You need to provide a taxonomy to delete.",
+                    default="You need to provide a taxonomy to delete.",
                 )
             )
         if len(self.params) > 1:

@@ -4,9 +4,8 @@ from BTrees.OOBTree import OOBTree
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.interfaces import ITaxonomy
 from plone.restapi.deserializer import json_body
-from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
-from zope.component import getMultiAdapter, queryUtility
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 

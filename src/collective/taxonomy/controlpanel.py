@@ -51,13 +51,13 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         self.actions["export"].addClass("context")
 
     @button.buttonAndHandler(
-        _(u"label_add_taxonomy", default="Add"), name="add-taxonomy"
+        _("label_add_taxonomy", default="Add"), name="add-taxonomy"
     )
     def handle_add_taxonomy_action(self, action):
         self.request.RESPONSE.redirect(self.context.portal_url() + "/@@taxonomy-add")
 
     @button.buttonAndHandler(
-        _(u"label_edit_taxonomy", default="Edit"), name="edit-taxonomy"
+        _("label_edit_taxonomy", default="Edit"), name="edit-taxonomy"
     )
     def handle_edit_taxonomy_action(self, action):
         data, errors = self.extractData()
@@ -69,11 +69,11 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
             )
         else:
             api.portal.show_message(
-                _(u"Please select one taxonomy."), request=self.request
+                _("Please select one taxonomy."), request=self.request
             )
 
     @button.buttonAndHandler(
-        _(u"label_edit_data_taxonomy", default="Edit taxonomy data"),
+        _("label_edit_data_taxonomy", default="Edit taxonomy data"),
         name="edit_data_taxonomy",
     )
     def handle_edit_taxonomy_data_action(self, action):
@@ -86,11 +86,11 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
             )
         else:
             api.portal.show_message(
-                _(u"Please select one taxonomy."), request=self.request
+                _("Please select one taxonomy."), request=self.request
             )
 
     @button.buttonAndHandler(
-        _(u"label_delete_taxonomy", default="Delete taxonomy"), name="delete-taxonomy"
+        _("label_delete_taxonomy", default="Delete taxonomy"), name="delete-taxonomy"
     )
     def handle_delete_taxonomy_action(self, action):
         data, errors = self.extractData()
@@ -105,17 +105,17 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
                 sm.unregisterUtility(utility, IVocabularyFactory, name=item)
                 sm.unregisterUtility(utility, ITranslationDomain, name=item)
 
-                api.portal.show_message(_(u"Taxonomy deleted."), request=self.request)
+                api.portal.show_message(_("Taxonomy deleted."), request=self.request)
         else:
             api.portal.show_message(
-                _(u"Please select at least one taxonomy."), request=self.request
+                _("Please select at least one taxonomy."), request=self.request
             )
 
         return self.request.RESPONSE.redirect(
             self.context.portal_url() + "/@@taxonomy-settings"
         )
 
-    @button.buttonAndHandler(_(u"label_export", default="Export"), name="export")
+    @button.buttonAndHandler(_("label_export", default="Export"), name="export")
     def handle_export_action(self, action):
         data, errors = self.extractData()
         taxonomies = data.get("taxonomies", [])
@@ -194,7 +194,7 @@ class TaxonomyAddForm(form.AddForm):
             del data["import_file_purge"]
 
         taxonomy.registerBehavior(**data)
-        api.portal.show_message(_(u"Taxonomy imported."), request=self.request)
+        api.portal.show_message(_("Taxonomy imported."), request=self.request)
 
         return self.request.RESPONSE.redirect(
             self.context.portal_url() + "/@@taxonomy-settings"
@@ -214,9 +214,9 @@ class TaxonomyAddForm(form.AddForm):
             # mark only as finished if we get the new object
             self._finishedAdd = True
 
-    @button.buttonAndHandler(_(u"Cancel"), name="cancel")
+    @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
-        api.portal.show_message(_(u"Add cancelled"), request=self.request)
+        api.portal.show_message(_("Add cancelled"), request=self.request)
         self.request.response.redirect(
             "{0}/@@taxonomy-settings".format(self.context.absolute_url())
         )
@@ -234,7 +234,7 @@ class TaxonomyEditForm(form.EditForm):
     def getContent(self):
         return TaxonomyEditFormAdapter(self.context)
 
-    @button.buttonAndHandler(_(u"Save"), name="save")
+    @button.buttonAndHandler(_("Save"), name="save")
     def handleApply(self, action):
         data, errors = self.extractData()
 
@@ -254,14 +254,14 @@ class TaxonomyEditForm(form.EditForm):
             del data["taxonomy"]
             utility.updateBehavior(**data)
 
-            api.portal.show_message(_(u"Changes saved"), request=self.request)
+            api.portal.show_message(_("Changes saved"), request=self.request)
         self.request.response.redirect(
             "{0}/@@taxonomy-settings".format(self.context.absolute_url())
         )
 
-    @button.buttonAndHandler(_(u"Cancel"), name="cancel")
+    @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
-        api.portal.show_message(_(u"Edit cancelled"), request=self.request)
+        api.portal.show_message(_("Edit cancelled"), request=self.request)
         self.request.response.redirect(
             "{0}/@@taxonomy-settings".format(self.context.absolute_url())
         )

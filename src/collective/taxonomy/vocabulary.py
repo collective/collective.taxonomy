@@ -196,7 +196,7 @@ class LanguagesVocabulary(object):
         portal = api.portal.get()
         terms = []
         portal_state = queryMultiAdapter(
-            (portal, portal.REQUEST), name=u"plone_portal_state"
+            (portal, portal.REQUEST), name="plone_portal_state"
         )
         languages = portal_state.locale().displayNames.languages
         for token, value in sorted(languages.items()):

@@ -2,7 +2,6 @@
 from plone.restapi.services import Service
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-from collective.taxonomy.restapi.utils import get_taxonomy_by_name
 from collective.taxonomy.restapi.utils import get_all_taxonomies
 from zope.component import queryUtility
 from plone.api import portal
