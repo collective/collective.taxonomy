@@ -31,27 +31,27 @@ class TestControlPanelRestapi(unittest.TestCase):
         commit()
 
     def test_controlpanel_is_listed(self):
-        response = self.api_session.get("/@controlpanels")
+        response = self.api_session.get("/@taxonomy")
 
         titles = [x.get("title") for x in response.json()]
-        self.assertIn("Taxonomies", titles)
+        self.assertIn("Test vocabulary", titles)
 
     def test_route_exists(self):
-        response = self.api_session.get("/@controlpanels/taxonomy")
+        response = self.api_session.get("/@taxonomy")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers.get("Content-Type"), "application/json")
 
-    def test_route_return_schema(self):
-        response = self.api_session.get("/@controlpanels/taxonomy")
+    # def test_route_return_schema(self):
+    #     response = self.api_session.get("/@taxonomy")
 
-        self.assertIn("schema", response.json())
+    #     self.assertIn("schema", response.json())
 
     def test_default_values_loaded(self):
-        response = self.api_session.get("/@controlpanels/taxonomy")
+        response = self.api_session.get("/@taxonomy")
         res = response.json()
 
-        self.assertEqual(len(res["items"]), 1)
-        self.assertEqual(res["items"][0]["name"], "collective.taxonomy.test")
-        self.assertEqual(res["items"][0]["title"], "Test vocabulary")
-        self.assertEqual(res["items"][0]["count"], {"da": 4, "de": 1, "en": 5, "ru": 1})
+        self.assertEqual(len(res), 1)
+        self.assertEqual(res[0]["name"], "collective.taxonomy.test")
+        self.assertEqual(res[0]["title"], "Test vocabulary")
+        self.assertEqual(res[0]["count"], {"da": 4, "de": 1, "en": 5, "ru": 1})

@@ -50,7 +50,7 @@ class TestTaxonomyEndpoint(unittest.TestCase):
 
         self.assertEqual(res["name"], "collective.taxonomy.test")
         self.assertEqual(res["title"], "Test vocabulary")
-        self.assertEqual(res["count"], {"da": 4, "de": 1, "en": 5, "ru": 1})
+        self.assertEqual(res["default_language"], "da")
 
     def test_add_validation_fields(self):
         response = self.api_session.post(
@@ -85,7 +85,7 @@ class TestTaxonomyEndpoint(unittest.TestCase):
                 "default_language": "en",
             },
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 201)
 
         response = self.api_session.post(
             "/@taxonomy",
@@ -96,7 +96,7 @@ class TestTaxonomyEndpoint(unittest.TestCase):
                 "is_required": False,
             },
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 201)
 
         response = self.api_session.post(
             "/@taxonomy",
@@ -163,3 +163,13 @@ class TestTaxonomyEndpoint(unittest.TestCase):
         taxonomy_response = self.api_session.get("/@taxonomy").json()
         self.assertEqual(len(taxonomy_response), 1)
         self.assertEqual(taxonomy_response[0]["title"], "new taxonomy")
+
+    def test_get_AddTaxonomy_Schema(self):
+        schema_response = self.api_session.get("/@taxonomySchema")
+        response = schema_response.json()
+        self.assertEqual(schema_response.status_code, 200)
+        self.assertEqual(len(response["fieldsets"]), 1)
+        fields = [x.get("fields") for x in response["fieldsets"]]
+        self.assertIn("field_title", fields[0])
+        self.assertIn("taxonomy", fields[0])
+        self.assertNotEquals(response["properties"], {})
