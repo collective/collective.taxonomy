@@ -4,7 +4,7 @@ Changes
 2.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed 'Required' and 'Single select' option being compulsory [JeffersonBledsoe] (#131)
 
 
 2.2.1 (2022-03-30)
