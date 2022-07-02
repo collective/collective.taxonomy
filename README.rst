@@ -285,7 +285,7 @@ Existing work
 =============
 
 In 2010, Rok Garbas <rok@garbas.si> reimplemented and extended prior
-work by `Seantis <http://www.seantis.ch/>`_ and released
+work by `Seantis <https://www.seantis.ch/>`_ and released
 `collective.vdexvocabulary
 <https://pypi.org/project/collective.vdexvocabulary>`_. This
 package allows you to configure and populate vocabulary components
