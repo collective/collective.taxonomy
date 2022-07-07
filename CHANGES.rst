@@ -4,6 +4,10 @@ Changes
 2.2.2 (unreleased)
 ------------------
 
+- Use new 'Manage taxonomies' permission for taxonomies configlet (#134)
+  Permission is by default assigned to Manager and Site Administrator roles.
+  [laulaz]
+
 - Fixed 'Required' and 'Single select' option being compulsory [JeffersonBledsoe] (#131)
 
 
