@@ -26,8 +26,8 @@
      source="1005"
      destination="1006">
     <genericsetup:upgradeStep
-       handler=".upgradesteps.use_new_configlet_permission"
-       title="Use new 'Manage taxonomies' permission for configlet"
+       handler=".upgradesteps.update_configlet_properties"
+       title="Use new 'Manage taxonomies' permission / update icon for configlet"
        description=""
        />
   </genericsetup:upgradeSteps>

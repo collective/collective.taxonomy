@@ -10,6 +10,9 @@ Changes
 2.2.2 (2022-07-12)
 ------------------
 
+- Fix configlet icon for Plone 6 (#135)
+  [laulaz]
+
 - Use new 'Manage taxonomies' permission for taxonomies configlet (#134)
   Permission is by default assigned to Manager and Site Administrator roles.
   [laulaz]
