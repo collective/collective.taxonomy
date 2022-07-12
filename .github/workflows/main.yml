@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         config:
         # [Python version, tox env]
