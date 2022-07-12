@@ -59,4 +59,10 @@ def update_configlet_properties(tool):
     for action in pc._actions:
         if action.id == "taxonomies":
             action.permissions = ("Manage taxonomies",)
+
+
+def update_configlet_icon(tool):
+    pc = api.portal.get_tool("portal_controlpanel")
+    for action in pc._actions:
+        if action.id == "taxonomies":
             action.icon_expr = Expression("string:puzzle")
