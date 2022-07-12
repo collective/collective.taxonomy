@@ -1,5 +1,4 @@
-from collective.collectionfilter.interfaces import (IGroupByCriteria,
-                                                    IGroupByModifier)
+from collective.collectionfilter.interfaces import IGroupByCriteria, IGroupByModifier
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from zope.component import adapter, queryUtility

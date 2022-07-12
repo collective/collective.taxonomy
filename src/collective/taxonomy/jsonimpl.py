@@ -5,8 +5,7 @@ import os
 from BTrees.OOBTree import OOBTree
 from lxml import etree
 from plone import api
-from plone.app.vocabularies.language import \
-    AvailableContentLanguageVocabularyFactory
+from plone.app.vocabularies.language import AvailableContentLanguageVocabularyFactory
 from Products.Five.browser import BrowserView
 from zope.component import queryUtility
 from zope.i18n import translate

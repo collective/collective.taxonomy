@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
-from plone.app.testing import (FunctionalTesting, IntegrationTesting,
-                               PloneWithPackageLayer)
+from plone.app.testing import (
+    FunctionalTesting,
+    IntegrationTesting,
+    PloneWithPackageLayer,
+)
 from plone.testing import z2
 
 import collective.taxonomy

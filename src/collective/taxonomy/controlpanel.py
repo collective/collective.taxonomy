@@ -21,8 +21,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.interfaces import (ITaxonomy, ITaxonomyForm,
-                                            ITaxonomySettings)
+from collective.taxonomy.interfaces import ITaxonomy, ITaxonomyForm, ITaxonomySettings
 
 logger = logging.getLogger("taxonomy.controlpanel")
 

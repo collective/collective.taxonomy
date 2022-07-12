@@ -16,8 +16,13 @@ from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.lifecycleevent import modified
 
-from collective.taxonomy import (LEGACY_PATH_SEPARATOR, NODE, PATH_SEPARATOR,
-                                 PRETTY_PATH_SEPARATOR, generated)
+from collective.taxonomy import (
+    LEGACY_PATH_SEPARATOR,
+    NODE,
+    PATH_SEPARATOR,
+    PRETTY_PATH_SEPARATOR,
+    generated,
+)
 from collective.taxonomy.behavior import TaxonomyBehavior
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vocabulary import Vocabulary

@@ -4,8 +4,11 @@ import logging
 import pkg_resources
 from persistent import Persistent
 from plone import api
-from plone.autoform.interfaces import (WIDGETS_KEY, WRITE_PERMISSIONS_KEY,
-                                       IFormFieldProvider)
+from plone.autoform.interfaces import (
+    WIDGETS_KEY,
+    WRITE_PERMISSIONS_KEY,
+    IFormFieldProvider,
+)
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
@@ -145,9 +148,9 @@ class TaxonomyBehavior(Persistent):
             catalog.addIndex(self.field_name, idx_object)
         except CatalogError:
             logging.info(
-                "Index {0} already exists, we hope it is proper configured".format(  # noqa: E501
+                "Index {0} already exists, we hope it is proper configured".format(
                     self.field_name
-                )
+                )  # noqa: E501
             )
 
     def addMetadata(self):
@@ -156,8 +159,8 @@ class TaxonomyBehavior(Persistent):
             catalog.addColumn(self.field_name)
         except CatalogError:
             logging.info(
-                "Column {0} already exists".format(self.field_name)  # noqa: E501
-            )
+                "Column {0} already exists".format(self.field_name)
+            )  # noqa: E501
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):
