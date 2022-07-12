@@ -45,14 +45,3 @@ def fix_metadata(tool):
             order = data.pop("#ORDER", None)
             if order is not None:
                 utility.order[lang] = order
-
-
-def use_new_configlet_permission(tool):
-    tool.runImportStepFromProfile(
-        "profile-collective.taxonomy:default",
-        "rolemap",
-    )
-    pc = api.portal.get_tool("portal_controlpanel")
-    for action in pc._actions:
-        if action.id == "taxonomies":
-            action.permissions = ("Manage taxonomies",)
