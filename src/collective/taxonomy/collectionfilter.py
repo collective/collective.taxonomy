@@ -1,12 +1,13 @@
-from collective.collectionfilter.interfaces import IGroupByCriteria, IGroupByModifier
-from collective.taxonomy import PATH_SEPARATOR, PRETTY_PATH_SEPARATOR, utility
-from collective.taxonomy.interfaces import ITaxonomy
+from collective.collectionfilter.interfaces import (IGroupByCriteria,
+                                                    IGroupByModifier)
 from plone import api
 from plone.behavior.interfaces import IBehavior
-from zope.component import adapter
+from zope.component import adapter, queryUtility
 from zope.component.hooks import getSite
-from zope.component import queryUtility
 from zope.interface import implementer
+
+from collective.taxonomy import PATH_SEPARATOR, PRETTY_PATH_SEPARATOR, utility
+from collective.taxonomy.interfaces import ITaxonomy
 
 
 def resolve_title(token, index_name):

@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
+import collections
+import logging
+
+import six
 from Acquisition import aq_parent
 from plone import api
-from plone.indexer.interfaces import IIndexer
 from plone.dexterity.interfaces import IDexterityContent
-
+from plone.indexer.interfaces import IIndexer
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import adapts
 from zope.interface import implementer
 
 from collective.taxonomy.interfaces import ITaxonomy
-
-import collections
-import logging
-import six
-
 
 logger = logging.getLogger("collective.taxonomy")
 

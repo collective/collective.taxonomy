@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
-from plone.app.testing import FunctionalTesting
-from plone.app.testing import IntegrationTesting
-from plone.app.testing import PloneWithPackageLayer
+from plone.app.testing import (FunctionalTesting, IntegrationTesting,
+                               PloneWithPackageLayer)
 from plone.testing import z2
-import collective.taxonomy
 
+import collective.taxonomy
 
 FIXTURE = PloneWithPackageLayer(
     name="TAXONOMY_FIXTURE",

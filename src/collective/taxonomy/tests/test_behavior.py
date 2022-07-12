@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.testing import INTEGRATION_TESTING
+import unittest
+
+from plone import api
 from plone.app.querystring.interfaces import IQueryField
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
-from plone import api
 from plone.indexer.interfaces import IIndexer
 from plone.registry.interfaces import IRegistry
 from Products.ZCatalog.interfaces import IZCatalog
-from zope.component.hooks import getSiteManager
 from zope.component import queryUtility
+from zope.component.hooks import getSiteManager
 
-import unittest
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.testing import INTEGRATION_TESTING
 
 
 class TestBehaviorRegistration(unittest.TestCase):

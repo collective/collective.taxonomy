@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
+import unittest
+
+from plone import api
+from plone.app.testing import TEST_USER_ID, setRoles
 from Products.CMFCore.utils import getToolByName
 
 from collective.taxonomy.testing import INTEGRATION_TESTING
-from plone import api
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
-
-import unittest
 
 no_get_installer = False
 
@@ -43,8 +42,9 @@ class TestSetup(unittest.TestCase):
 
     def test_browserlayer(self):
         """Test that IBrowserLayer is registered."""
-        from collective.taxonomy.interfaces import IBrowserLayer
         from plone.browserlayer import utils
+
+        from collective.taxonomy.interfaces import IBrowserLayer
 
         self.assertIn(IBrowserLayer, utils.registered_layers())
 
@@ -67,8 +67,9 @@ class TestUninstall(unittest.TestCase):
 
     def test_browserlayer_removed(self):
         """Test that IBrowserLayer is removed."""
-        from collective.taxonomy.interfaces import IBrowserLayer
         from plone.browserlayer import utils
+
+        from collective.taxonomy.interfaces import IBrowserLayer
 
         self.assertNotIn(IBrowserLayer, utils.registered_layers())
 

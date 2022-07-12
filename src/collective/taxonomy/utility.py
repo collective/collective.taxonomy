@@ -1,19 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from copy import copy
 
 from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
-from collective.taxonomy import LEGACY_PATH_SEPARATOR
-from collective.taxonomy import NODE
-from collective.taxonomy import PATH_SEPARATOR
-from collective.taxonomy import PRETTY_PATH_SEPARATOR
-from collective.taxonomy import generated
-from collective.taxonomy.behavior import TaxonomyBehavior
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.vocabulary import Vocabulary
-from copy import copy
 from persistent.dict import PersistentDict
 from plone import api
 from plone.behavior.interfaces import IBehavior
@@ -23,6 +15,12 @@ from plone.memoize import ram
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.lifecycleevent import modified
+
+from collective.taxonomy import (LEGACY_PATH_SEPARATOR, NODE, PATH_SEPARATOR,
+                                 PRETTY_PATH_SEPARATOR, generated)
+from collective.taxonomy.behavior import TaxonomyBehavior
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vocabulary import Vocabulary
 
 try:
     from plone.protect.auto import safeWrite
@@ -132,7 +130,7 @@ class Taxonomy(SimpleItem):
 
         new_args["name"] = self.getGeneratedName()
         new_args["title"] = self.title
-        new_args["description"] = kwargs.get("field_description", u"")
+        new_args["description"] = kwargs.get("field_description", "")
         new_args["field_description"] = new_args["description"]
 
         behavior = TaxonomyBehavior(**new_args)

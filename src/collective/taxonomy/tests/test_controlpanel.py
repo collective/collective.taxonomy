@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.testing import FUNCTIONAL_TESTING
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import applyProfile
-from plone.app.testing.interfaces import SITE_OWNER_NAME
-from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 import unittest
-from transaction import commit
+
+from plone import api
+from plone.app.testing import TEST_USER_ID, applyProfile, setRoles
+from plone.app.testing.interfaces import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
 from plone.testing.z2 import Browser
+from transaction import commit
+
+from collective.taxonomy.testing import FUNCTIONAL_TESTING
 
 
 class TestControlPanel(unittest.TestCase):

@@ -1,7 +1,9 @@
 from logging import getLogger
+
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from Products.CMFCore.Expression import Expression
+
 from .interfaces import ITaxonomy
 
 log = getLogger("collective.taxonomy:upgrades")

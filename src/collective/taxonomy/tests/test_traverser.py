@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.testing import INTEGRATION_TESTING
-from collective.taxonomy.browser import VocabularyTuplesView
-from collective.taxonomy.vocabulary import Vocabulary
-
 import unittest
+
+from collective.taxonomy.browser import VocabularyTuplesView
+from collective.taxonomy.testing import INTEGRATION_TESTING
+from collective.taxonomy.vocabulary import Vocabulary
 
 
 class TestTaxonomyTraverser(unittest.TestCase):
@@ -22,9 +22,9 @@ class TestTaxonomyTraverser(unittest.TestCase):
 
         keys, labels = zip(*view())
 
-        self.assertIn(u"Information Science", labels)
+        self.assertIn("Information Science", labels)
 
         keys, labels = zip(*view(target_language="de"))
 
-        self.assertIn(u"Informatik", labels)
-        self.assertNotIn(u"Information Science", labels)
+        self.assertIn("Informatik", labels)
+        self.assertNotIn("Information Science", labels)

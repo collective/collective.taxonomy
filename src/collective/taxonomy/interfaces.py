@@ -2,10 +2,9 @@
 
 from plone import api
 from plone.namedfile.field import NamedBlobFile
-
-from zope.interface import Interface
-from zope.i18n.interfaces import ITranslationDomain
 from zope import schema
+from zope.i18n.interfaces import ITranslationDomain
+from zope.interface import Interface
 from zope.schema.interfaces import IVocabularyFactory
 
 from .i18n import CollectiveTaxonomyMessageFactory as _
@@ -48,11 +47,11 @@ class ITaxonomySettings(Interface):
     """Schema for controlpanel settings"""
 
     taxonomies = schema.List(
-        title=_(u"Taxonomies"),
+        title=_("Taxonomies"),
         value_type=schema.Choice(
             description=_(
-                u"help_taxonomies",
-                default=u"Select the taxonomies you desire to modify",
+                "help_taxonomies",
+                default="Select the taxonomies you desire to modify",
             ),
             required=False,
             vocabulary="collective.taxonomy.taxonomies",
@@ -65,84 +64,84 @@ class ITaxonomySettings(Interface):
 def taxonomyDefaultValue():
     taxonomy = api.portal.get().REQUEST.get("form.widgets.taxonomy")
     if not taxonomy:
-        return u""
+        return ""
     return taxonomy
 
 
 class ITaxonomyForm(Interface):
 
     taxonomy = schema.TextLine(
-        title=_(u"Taxonomy"),
+        title=_("Taxonomy"),
         description=_("The taxonomy identifier"),
         required=True,
         defaultFactory=taxonomyDefaultValue,
     )
 
     field_title = schema.TextLine(
-        title=_(u"Title"),
+        title=_("Title"),
         description=_("Will be used for the field title as well"),
         required=True,
     )
 
     field_description = schema.Text(
-        title=_(u"Description"),
+        title=_("Description"),
         description=_("Will be used for the field description as well"),
         required=False,
     )
 
     default_language = schema.Choice(
-        title=_(u"Default language"),
+        title=_("Default language"),
         vocabulary="plone.app.vocabularies.AvailableContentLanguages",
         required=True,
         defaultFactory=api.portal.get_current_language,
     )
 
     import_file = NamedBlobFile(
-        title=_(u"Upload VDEX xml file"), description=_(u" "), required=False
+        title=_("Upload VDEX xml file"), description=_(" "), required=False
     )
 
     import_file_purge = schema.Bool(
-        title=_(u"Purge entries on upload"),
+        title=_("Purge entries on upload"),
         description=_(
-            u"Check this box if you want to purge all entries " u"when uploading."
+            "Check this box if you want to purge all entries " "when uploading."
         ),
         required=False,
     )
 
     is_required = schema.Bool(
-        title=_(u"Required"),
-        description=_(u"Check this box if you want the field to be required"),
+        title=_("Required"),
+        description=_("Check this box if you want the field to be required"),
         required=False,
     )
 
     is_single_select = schema.Bool(
-        title=_(u"Single select"),
-        description=_(u"Check this box if you want the field to be mono-valued"),
+        title=_("Single select"),
+        description=_("Check this box if you want the field to be mono-valued"),
         required=False,
     )
 
     write_permission = schema.Choice(
-        title=_(u"Write permission"),
-        description=_(u"Write permission for the field"),
+        title=_("Write permission"),
+        description=_("Write permission for the field"),
         required=False,
         vocabulary="collective.taxonomy.permissions",
     )
 
     field_prefix = schema.ASCIILine(
-        title=_(u"Field prefix"),
-        description=_(u"Prefix used for behavior indexer."),
+        title=_("Field prefix"),
+        description=_("Prefix used for behavior indexer."),
         default="taxonomy_",
         required=False,
     )
 
     taxonomy_fieldset = schema.TextLine(
-        title=_(u"Fieldset"),
+        title=_("Fieldset"),
         description=_(
-            u"Fieldset for the taxonomy behavior field. "
-            u"Example: 'categorization'. Use 'default' for "
-            u"the first fieldset."
+            "Fieldset for the taxonomy behavior field. "
+            "Example: 'categorization'. Use 'default' for "
+            "the first fieldset."
         ),
-        default=u"categorization",
+        default="categorization",
         required=False,
     )
 
