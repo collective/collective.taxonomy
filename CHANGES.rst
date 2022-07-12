@@ -4,7 +4,8 @@ Changes
 2.3.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove configlet upgradestep (this is for Plone 6 only)
+  [petschki]
 
 
 2.2.2 (2022-07-12)
