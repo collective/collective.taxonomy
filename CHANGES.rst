@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.2.2 (unreleased)
+2.2.2 (2022-07-12)
 ------------------
 
 - Use new 'Manage taxonomies' permission for taxonomies configlet (#134)
