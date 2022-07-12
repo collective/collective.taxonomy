@@ -15,7 +15,7 @@
         icon_expr="string:$portal_url/product_icon.png"
         visible="True"
         i18n:attributes="title">
-      <permission>Manage portal</permission>
+      <permission>Manage taxonomies</permission>
     </configlet>
 
 </object>

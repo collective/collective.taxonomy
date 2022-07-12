@@ -32,6 +32,13 @@ class TestControlPanel(unittest.TestCase):
         )
         commit()
 
+    def test_configlet_permission(self):
+        permission = "Manage taxonomies"
+        roles = self.portal.rolesOfPermission(permission)
+        roles = [r["name"] for r in roles if r["selected"]]
+        expected = ["Manager", "Site Administrator"]
+        self.assertListEqual(roles, expected)
+
     def test_add_vocabulary(self):
         self.browser.open(self.portal.absolute_url() + "/@@taxonomy-settings")
         self.assertIn('id="TaxonomySettings"', self.browser.contents)

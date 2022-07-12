@@ -3,6 +3,7 @@
 
   <include file="configure.zcml" />
   <include package="plone.app.contenttypes" />
+  <include package="plone.app.querystring" />
 
   <genericsetup:registerProfile
       name="examples"

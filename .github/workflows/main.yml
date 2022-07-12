@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         config:
         # [Python version, tox env]
@@ -19,9 +20,6 @@ jobs:
         - ["3.6",   "plone52-py36"]
         - ["3.7",   "plone52-py37"]
         - ["3.8",   "plone52-py38"]
-        - ["3.7",   "plone60-py37"]
-        - ["3.8",   "plone60-py38"]
-        - ["3.9",   "plone60-py39"]
     runs-on: ubuntu-latest
     name: ${{ matrix.config[1] }}
     steps:
