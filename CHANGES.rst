@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.0.0 (unreleased)
+2.3.0 (unreleased)
 ------------------
 
 - Nothing changed yet.
