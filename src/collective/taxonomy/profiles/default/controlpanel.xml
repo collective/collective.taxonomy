@@ -12,7 +12,7 @@
         category="Products"
         condition_expr=""
         url_expr="string:${portal_url}/@@taxonomy-settings"
-        icon_expr="string:$portal_url/product_icon.png"
+        icon_expr="string:puzzle"
         visible="True"
         i18n:attributes="title">
       <permission>Manage taxonomies</permission>

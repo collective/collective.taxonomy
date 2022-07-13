@@ -68,7 +68,7 @@ class App extends Component {
 
         {dirty ? (
           <MessageBox
-            status="error"
+            status="warning"
             message={intl.formatMessage(messages.changesMade)}
           />
         ) : null}

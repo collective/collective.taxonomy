@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from zope.component import queryUtility
+
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.testing import INTEGRATION_TESTING
-from zope.component import queryUtility
 
 
 class TestUtility(unittest.TestCase):
@@ -14,5 +15,5 @@ class TestUtility(unittest.TestCase):
         self.assertIsNotNone(taxonomy)
 
         tree = taxonomy.makeVocabulary("en").makeTree()
-        self.assertIn(u"Information Science", tree)
-        self.assertEqual(len(tree[u"Information Science"]), 4)
+        self.assertIn("Information Science", tree)
+        self.assertEqual(len(tree["Information Science"]), 4)

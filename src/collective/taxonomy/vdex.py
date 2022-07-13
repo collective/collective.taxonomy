@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
-from collective.taxonomy import PATH_SEPARATOR
+
 from lxml import etree
 from plone.supermodel.utils import indent
+
+from collective.taxonomy import PATH_SEPARATOR
 
 LANG_SEPARATOR = "|"
 

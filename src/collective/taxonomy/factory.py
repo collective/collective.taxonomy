@@ -1,5 +1,4 @@
 from plone.i18n.normalizer.interfaces import IIDNormalizer
-
 from zope.component import getUtility, queryUtility
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory

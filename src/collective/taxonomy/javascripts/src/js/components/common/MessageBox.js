@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const MessageBox = ({ message, status }) => (
-  <dl className={`portalMessage ${status}`}>
+  <dl className={`portalMessage ${status} alert alert-${status === 'error' ? 'danger' : status}`}>
     <dt>{status}</dt>
     <dd>{message}</dd>
   </dl>

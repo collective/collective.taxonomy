@@ -31,3 +31,5 @@ share/
 pip-selfcheck.json
 pyvenv.cfg
 lib64
+.make-sentinels/
+*-mxdev.txt

@@ -1,35 +1,34 @@
 # -*- coding: utf-8 -*-
 import logging
 
+import pkg_resources
+from persistent import Persistent
+from plone import api
+from plone.autoform.interfaces import (
+    WIDGETS_KEY,
+    WRITE_PERMISSIONS_KEY,
+    IFormFieldProvider,
+)
+from plone.behavior.interfaces import IBehavior
+from plone.dexterity.interfaces import IDexterityContent
+from plone.indexer.interfaces import IIndexer
+from plone.registry import Record, field
+from plone.registry.interfaces import IRegistry
+from plone.supermodel.interfaces import FIELDSETS_KEY
+from plone.supermodel.model import Fieldset, Schema, SchemaClass
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
 from Products.ZCatalog.Catalog import CatalogError
 from Products.ZCatalog.interfaces import IZCatalog
-from collective.taxonomy import generated
-from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.indexer import TaxonomyIndexer
-from persistent import Persistent
-from plone import api
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.autoform.interfaces import WIDGETS_KEY
-from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
-from plone.behavior.interfaces import IBehavior
-from plone.dexterity.interfaces import IDexterityContent
-from plone.indexer.interfaces import IIndexer
-from plone.registry import Record
-from plone.registry import field
-from plone.registry.interfaces import IRegistry
-from plone.supermodel.interfaces import FIELDSETS_KEY
-from plone.supermodel.model import Fieldset
-from plone.supermodel.model import Schema
-from plone.supermodel.model import SchemaClass
 from zope import schema
 from zope.component import getUtility
 from zope.component.hooks import getSite
-from zope.interface import alsoProvides
-from zope.interface import implementer
-import pkg_resources
+from zope.interface import alsoProvides, implementer
+
+from collective.taxonomy import generated
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
+from collective.taxonomy.indexer import TaxonomyIndexer
 
 try:
     pkg_resources.get_distribution("plone.app.multilingual")
@@ -124,7 +123,7 @@ class TaxonomyBehavior(Persistent):
             "operations",
             Record(
                 field.List(value_type=field.TextLine()),
-                [u"plone.app.querystring.operation.selection.is"],
+                ["plone.app.querystring.operation.selection.is"],
             ),
         )
         add(
@@ -149,9 +148,9 @@ class TaxonomyBehavior(Persistent):
             catalog.addIndex(self.field_name, idx_object)
         except CatalogError:
             logging.info(
-                "Index {0} already exists, we hope it is proper configured".format(  # noqa: E501
+                "Index {0} already exists, we hope it is proper configured".format(
                     self.field_name
-                )
+                )  # noqa: E501
             )
 
     def addMetadata(self):
@@ -160,8 +159,8 @@ class TaxonomyBehavior(Persistent):
             catalog.addColumn(self.field_name)
         except CatalogError:
             logging.info(
-                "Column {0} already exists".format(self.field_name)  # noqa: E501
-            )
+                "Column {0} already exists".format(self.field_name)
+            )  # noqa: E501
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):

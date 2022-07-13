@@ -223,9 +223,12 @@ into *Transifex.net* service with all world Plone translators community.
 Plone Version Compatibility
 ===========================
 
-collective.taxonomy version `2.x`
+collective.taxonomy version `3.x`
 
 * Plone 6.0 (py3)
+
+collective.taxonomy version `2.x`
+
 * Plone 5.2 (py2/py3)
 * Plone 5.1
 * Plone 5.0

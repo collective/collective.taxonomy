@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.testing import INTEGRATION_TESTING
-from collective.taxonomy.interfaces import ITaxonomy
+import unittest
+
 from plone import api
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_ID, setRoles
 from plone.registry.interfaces import IRegistry
-from plone.schemaeditor.utils import FieldAddedEvent
-from plone.schemaeditor.utils import IEditableSchema
+from plone.schemaeditor.utils import FieldAddedEvent, IEditableSchema
 from zope import schema
 from zope.component import queryUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
-import unittest
+
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.testing import INTEGRATION_TESTING
 
 
 class TestIndexer(unittest.TestCase):
@@ -32,10 +32,10 @@ class TestIndexer(unittest.TestCase):
         utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         taxonomy = utility.data
         taxonomy_test = schema.Set(
-            title=u"taxonomy_test",
-            description=u"taxonomy description schema",
+            title="taxonomy_test",
+            description="taxonomy description schema",
             required=False,
-            value_type=schema.Choice(vocabulary=u"collective.taxonomy.taxonomies"),
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
         )
         portal_types = api.portal.get_tool("portal_types")
         fti = portal_types.get("Document")
@@ -54,7 +54,7 @@ class TestIndexer(unittest.TestCase):
         query["taxonomy_test"] = "1"
         self.assertEqual(len(portal_catalog(query)), 0)
 
-        taxo_val = taxonomy["en"][u"\u241fInformation Science\u241fChronology"]
+        taxo_val = taxonomy["en"]["\u241fInformation Science\u241fChronology"]
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog(query)), 1)
@@ -73,10 +73,10 @@ class TestIndexer(unittest.TestCase):
         utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         taxonomy = utility.data
         taxonomy_test = schema.Set(
-            title=u"taxonomy_test",
-            description=u"taxonomy description schema",
+            title="taxonomy_test",
+            description="taxonomy description schema",
             required=False,
-            value_type=schema.Choice(vocabulary=u"collective.taxonomy.taxonomies"),
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
         )
         portal_types = api.portal.get_tool("portal_types")
         fti = portal_types.get("Document")
@@ -87,7 +87,7 @@ class TestIndexer(unittest.TestCase):
         notify(FieldAddedEvent(fti, taxonomy_test))
         query = {}
         query["taxonomy_test"] = "5"
-        taxo_val = taxonomy["en"][u"\u241fInformation Science\u241fSport"]
+        taxo_val = taxonomy["en"]["\u241fInformation Science\u241fSport"]
         self.document.taxonomy_test = [taxo_val]
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog(query)), 1)
@@ -100,11 +100,11 @@ class TestIndexer(unittest.TestCase):
         self.assertEqual(
             sorted(config["indexes"]["taxonomy_test"]["values"].items()),
             [
-                ("1", {"title": u"Information Science"}),
-                ("2", {"title": u"Information Science \xbb Book Collecting"}),
-                ("3", {"title": u"Information Science \xbb Chronology"}),
-                ("5", {"title": u"Information Science \xbb Sport"}),
-                ("55", {"title": u"Information Science \xbb Cars"}),
+                ("1", {"title": "Information Science"}),
+                ("2", {"title": "Information Science \xbb Book Collecting"}),
+                ("3", {"title": "Information Science \xbb Chronology"}),
+                ("5", {"title": "Information Science \xbb Sport"}),
+                ("55", {"title": "Information Science \xbb Cars"}),
             ],
         )
 
@@ -113,10 +113,10 @@ class TestIndexer(unittest.TestCase):
         utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         taxonomy = utility.data
         taxonomy_test = schema.Set(
-            title=u"taxonomy_test",
-            description=u"taxonomy description schema",
+            title="taxonomy_test",
+            description="taxonomy description schema",
             required=False,
-            value_type=schema.Choice(vocabulary=u"collective.taxonomy.taxonomies"),
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
         )
         portal_types = api.portal.get_tool("portal_types")
         fti = portal_types.get("Document")
@@ -125,7 +125,7 @@ class TestIndexer(unittest.TestCase):
         schemaeditor.addField(taxonomy_test, name="taxonomy_test")
         notify(ObjectAddedEvent(taxonomy_test, document_schema))
         notify(FieldAddedEvent(fti, taxonomy_test))
-        taxo_val = taxonomy["en"][u"\u241fInformation Science\u241fCars"]
+        taxo_val = taxonomy["en"]["\u241fInformation Science\u241fCars"]
         self.document.taxonomy_test = taxo_val
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog({"taxonomy_test": "5"})), 0)

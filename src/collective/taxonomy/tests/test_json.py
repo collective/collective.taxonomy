@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.testing import INTEGRATION_TESTING
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
+import json
+import unittest
+
+import six
+from plone.app.testing import TEST_USER_ID, setRoles
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
-import json
-import six
-import unittest
+from collective.taxonomy.testing import INTEGRATION_TESTING
 
 
 class TestJson(unittest.TestCase):
@@ -28,60 +28,60 @@ class TestJson(unittest.TestCase):
         input_data = [
             {
                 "key": "animals",
-                "translations": {"fr": u"Animaux", "en": u"Animals"},
+                "translations": {"fr": "Animaux", "en": "Animals"},
                 "subnodes": [],
             },
             {
                 "key": "plants",
-                "translations": {"fr": u"Végétaux", "en": u"Plants"},
+                "translations": {"fr": "Végétaux", "en": "Plants"},
                 "subnodes": [],
             },
         ]
         output = import_json_view.generate_data_for_taxonomy(input_data, "fr")
         self.assertEqual(
-            output, [(u"\u241fAnimaux", "animals"), (u"\u241fVégétaux", "plants")]
+            output, [("\u241fAnimaux", "animals"), ("\u241fVégétaux", "plants")]
         )
 
         input_data[0]["subnodes"] = [
             {
                 "key": "birds",
-                "translations": {"fr": u"Oiseaux", "en": u"Birds"},
+                "translations": {"fr": "Oiseaux", "en": "Birds"},
                 "subnodes": [
                     {
                         "key": "eagles",
-                        "translations": {"fr": u"Aigles", "en": u"Eagles"},
+                        "translations": {"fr": "Aigles", "en": "Eagles"},
                         "subnodes": [],
                     },
                     {
                         "key": "penguins",
-                        "translations": {"fr": u"Manchots", "en": u"Penguins"},
+                        "translations": {"fr": "Manchots", "en": "Penguins"},
                         "subnodes": [],
                     },
                 ],
             },
             {
                 "key": "mammals",
-                "translations": {"fr": u"Mammifères", "en": u"Mammals"},
+                "translations": {"fr": "Mammifères", "en": "Mammals"},
                 "subnodes": [
                     {
                         "key": "cows",
-                        "translations": {"fr": u"Vaches", "en": u"Cows"},
+                        "translations": {"fr": "Vaches", "en": "Cows"},
                         "subnodes": [],
                     },
                     {
                         "key": "lions",
-                        "translations": {"fr": u"Lions", "en": u"Lions"},
+                        "translations": {"fr": "Lions", "en": "Lions"},
                         "subnodes": [],
                     },
                 ],
             },
             {
                 "key": "reptiles",
-                "translations": {"fr": u"Reptiles", "en": u"Reptiles"},
+                "translations": {"fr": "Reptiles", "en": "Reptiles"},
                 "subnodes": [
                     {
                         "key": "pythons",
-                        "translations": {"fr": u"Pythons", "en": u"Pythons"},
+                        "translations": {"fr": "Pythons", "en": "Pythons"},
                         "subnodes": [],
                     },
                 ],
@@ -91,16 +91,16 @@ class TestJson(unittest.TestCase):
         self.assertEqual(
             output,
             [
-                (u"\u241fAnimaux", "animals"),
-                (u"\u241fAnimaux\u241fOiseaux", "birds"),
-                (u"\u241fAnimaux\u241fOiseaux\u241fAigles", "eagles"),
-                (u"\u241fAnimaux\u241fOiseaux\u241fManchots", "penguins"),
-                (u"\u241fAnimaux\u241fMammifères", "mammals"),
-                (u"\u241fAnimaux\u241fMammifères\u241fVaches", "cows"),
-                (u"\u241fAnimaux\u241fMammifères\u241fLions", "lions"),
-                (u"\u241fAnimaux\u241fReptiles", "reptiles"),
-                (u"\u241fAnimaux\u241fReptiles\u241fPythons", "pythons"),
-                (u"\u241fVégétaux", "plants"),
+                ("\u241fAnimaux", "animals"),
+                ("\u241fAnimaux\u241fOiseaux", "birds"),
+                ("\u241fAnimaux\u241fOiseaux\u241fAigles", "eagles"),
+                ("\u241fAnimaux\u241fOiseaux\u241fManchots", "penguins"),
+                ("\u241fAnimaux\u241fMammifères", "mammals"),
+                ("\u241fAnimaux\u241fMammifères\u241fVaches", "cows"),
+                ("\u241fAnimaux\u241fMammifères\u241fLions", "lions"),
+                ("\u241fAnimaux\u241fReptiles", "reptiles"),
+                ("\u241fAnimaux\u241fReptiles\u241fPythons", "pythons"),
+                ("\u241fVégétaux", "plants"),
             ],
         )
 

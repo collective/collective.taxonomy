@@ -1,6 +1,9 @@
 from logging import getLogger
+
 from plone import api
 from plone.behavior.interfaces import IBehavior
+from Products.CMFCore.Expression import Expression
+
 from .interfaces import ITaxonomy
 
 log = getLogger("collective.taxonomy:upgrades")
@@ -47,7 +50,7 @@ def fix_metadata(tool):
                 utility.order[lang] = order
 
 
-def use_new_configlet_permission(tool):
+def update_configlet_properties(tool):
     tool.runImportStepFromProfile(
         "profile-collective.taxonomy:default",
         "rolemap",
@@ -56,3 +59,10 @@ def use_new_configlet_permission(tool):
     for action in pc._actions:
         if action.id == "taxonomies":
             action.permissions = ("Manage taxonomies",)
+
+
+def update_configlet_icon(tool):
+    pc = api.portal.get_tool("portal_controlpanel")
+    for action in pc._actions:
+        if action.id == "taxonomies":
+            action.icon_expr = Expression("string:puzzle")
