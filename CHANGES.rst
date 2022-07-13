@@ -7,6 +7,8 @@ Changes
 - Fix configlet icon for Plone 6 (#135)
   [laulaz]
 
+- update markup in `edittaxonomydata.js` to Bootstrap 5
+  [petschki]
 
 2.2.2 (2022-07-12)
 ------------------
