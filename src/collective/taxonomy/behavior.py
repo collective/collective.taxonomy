@@ -83,6 +83,7 @@ class TaxonomyBehavior(Persistent):
             "group",
             "operations",
             "vocabulary",
+            "fetch_vocabulary",
             "sortable",
             "description",
         ):
@@ -129,6 +130,7 @@ class TaxonomyBehavior(Persistent):
         add(
             "vocabulary", Record(field.TextLine(), safe_unicode(self.vocabulary_name))
         )  # noqa: E501
+        add("fetch_vocabulary", Record(field.Bool(), True))
         add("sortable", Record(field.Bool(), False))
         add("description", Record(field.Text(), safe_unicode("")))
 

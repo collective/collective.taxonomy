@@ -4,7 +4,9 @@ Changes
 3.0.0a2 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Add mising `fetch_vocabulary` record for IQueryField
+  This was introduced in plone.app.querystring 1.5.0
+  [laulaz]
 
 
 3.0.0a1 (2022-07-13)
