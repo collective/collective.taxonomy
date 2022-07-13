@@ -1,8 +1,8 @@
 Changes
 =======
 
-3.0.0 (unreleased)
-------------------
+3.0.0a1 (2022-07-13)
+--------------------
 
 - Fix configlet icon for Plone 6 (#135)
   [laulaz]
