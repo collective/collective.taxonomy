@@ -24,10 +24,6 @@ class CollectiveTaxonomyLayer(PloneSandboxLayer):
 
         self.loadZCML(package=plone.app.dexterity)
 
-        import plone.restapi
-
-        self.loadZCML(package=plone.restapi)
-
         self.loadZCML(package=collective.taxonomy)
         self.loadZCML("testing.zcml", package=collective.taxonomy)
 
