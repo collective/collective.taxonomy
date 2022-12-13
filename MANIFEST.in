@@ -20,3 +20,4 @@ global-exclude *.pyc
 global-exclude *.yarn-integrity
 global-exclude cypress.json
 global-exclude cypress/**/*
+exclude *-mxdev.txt
