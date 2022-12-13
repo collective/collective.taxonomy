@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import unittest
-
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone import api
 from plone.app.querystring.interfaces import IQueryField
 from plone.behavior.interfaces import IBehavior
@@ -11,8 +11,7 @@ from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import queryUtility
 from zope.component.hooks import getSiteManager
 
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.testing import INTEGRATION_TESTING
+import unittest
 
 
 class TestBehaviorRegistration(unittest.TestCase):

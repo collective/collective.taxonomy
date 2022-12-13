@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
-import collections
-import logging
-
-import six
 from Acquisition import aq_parent
+from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.ZCatalog.interfaces import IZCatalog
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 
-from collective.taxonomy.interfaces import ITaxonomy
+import collections
+import logging
+import six
+
 
 logger = logging.getLogger("collective.taxonomy")
 
@@ -73,11 +72,10 @@ class TaxonomyIndexerWrapper(object):
         return result
 
 
+@adapter(IDexterityContent, IZCatalog)
 @implementer(IIndexer)
 class TaxonomyIndexer(object):
     __name__ = "TaxonomyIndexer"
-
-    adapts(IDexterityContent, IZCatalog)
 
     def __init__(self, field_name, utility_name):
         self.field_name = field_name

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 from collective.taxonomy.browser import VocabularyTuplesView
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from collective.taxonomy.vocabulary import Vocabulary
+
+import unittest
 
 
 class TestTaxonomyTraverser(unittest.TestCase):

@@ -1,3 +1,4 @@
+from collective.taxonomy.interfaces import ITaxonomy
 from Products.Five.browser import BrowserView
 from zope.component import getSiteManager
 from zope.i18n import translate
@@ -5,8 +6,6 @@ from zope.interface import implementer_only
 from zope.publisher.interfaces import NotFound
 from zope.schema.interfaces import IVocabularyFactory
 from zope.traversing.interfaces import ITraversable
-
-from collective.taxonomy.interfaces import ITaxonomy
 
 
 class TaxonomyView(BrowserView):

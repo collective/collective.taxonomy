@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-from io import BytesIO, StringIO
-
-import six
+from collective.taxonomy.factory import registerTaxonomy
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.vdex import ExportVdex
+from collective.taxonomy.vdex import ImportVdex
+from io import BytesIO
+from io import StringIO
 from lxml.etree import fromstring
 from plone.behavior.interfaces import IBehavior
 from six.moves import configparser
 
-from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.interfaces import ITaxonomy
-from collective.taxonomy.vdex import ExportVdex, ImportVdex
+import six
 
 
 def parseConfigFile(data):

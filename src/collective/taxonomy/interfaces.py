@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from .i18n import CollectiveTaxonomyMessageFactory as _
 from plone import api
 from plone.namedfile.field import NamedBlobFile
 from zope import schema
 from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import Interface
 from zope.schema.interfaces import IVocabularyFactory
-
-from .i18n import CollectiveTaxonomyMessageFactory as _
 
 
 class ITaxonomySelectWidget(Interface):

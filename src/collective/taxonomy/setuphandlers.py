@@ -1,9 +1,8 @@
 # -*- conding: utf-8 -*-
+from collective.taxonomy.interfaces import ITaxonomy
 from zope.component.hooks import getSite
 from zope.i18n.interfaces import ITranslationDomain
 from zope.schema.interfaces import IVocabularyFactory
-
-from collective.taxonomy.interfaces import ITaxonomy
 
 
 def uninstall(context):
