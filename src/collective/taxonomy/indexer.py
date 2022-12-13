@@ -1,4 +1,5 @@
 from Acquisition import aq_parent
+from collections.abc import Iterable
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.dexterity.interfaces import IDexterityContent
@@ -8,10 +9,8 @@ from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import adapter
 from zope.interface import implementer
 
-import collections
 import logging
 import six
-
 
 logger = logging.getLogger("collective.taxonomy")
 
@@ -43,7 +42,7 @@ class TaxonomyIndexerWrapper(object):
 
         found = []
         stored_element = getattr(self.context, self.field_name)
-        if not isinstance(stored_element, collections.Iterable) or isinstance(
+        if not isinstance(stored_element, Iterable) or isinstance(
             stored_element, six.string_types
         ):
             stored_element = [stored_element]
