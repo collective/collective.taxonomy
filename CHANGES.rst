@@ -1,8 +1,8 @@
 Changes
 =======
 
-3.0.0a2 (unreleased)
---------------------
+3.0.0 (2022-12-13)
+------------------
 
 - Fix deprecated `collections.Iterable` in `TaxonomyIndexerWrapper`. This got
   removed since python 3.10. Importing `collections.abc.Iterable` now.
