@@ -44,7 +44,7 @@ class FormControls extends Component {
       <div className="formControls">
         <input
           id="form-buttons-save"
-          className="context submit-widget button-field"
+          className="btn btn-primary"
           type="submit"
           value={intl.formatMessage(messages.submitLabel)}
           disabled={!dirty ? 'disabled' : null}
@@ -53,7 +53,7 @@ class FormControls extends Component {
         &nbsp;
         <input
           id="form-buttons-cancel"
-          className="standalone submit-widget button-field"
+          className="btn btn-secondary"
           onClick={this.handleBack}
           type="submit"
           value={intl.formatMessage(messages.backToSettingsLabel)}

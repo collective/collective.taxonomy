@@ -11,7 +11,7 @@ const LanguageSelector = ({ languages, onChange, selectedLanguage }) => (
       />
     </label>
     &nbsp;
-    <select value={selectedLanguage} onChange={onChange}>
+    <select value={selectedLanguage} onChange={onChange} className="form-select">
       {Object.keys(languages).map(lang => (
         <option key={lang} value={lang}>
           {languages[lang]}
