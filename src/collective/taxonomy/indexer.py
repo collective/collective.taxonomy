@@ -12,6 +12,7 @@ from zope.interface import implementer
 import logging
 import six
 
+
 logger = logging.getLogger("collective.taxonomy")
 
 
