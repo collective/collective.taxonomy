@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import json
-import unittest
-
-import six
-from plone.app.testing import TEST_USER_ID, setRoles
+from collective.taxonomy.testing import INTEGRATION_TESTING
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
-from collective.taxonomy.testing import INTEGRATION_TESTING
+import json
+import six
+import unittest
 
 
 class TestJson(unittest.TestCase):

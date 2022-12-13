@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
-import zipfile
-
+from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
+from collective.taxonomy.factory import registerTaxonomy
+from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
+from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.interfaces import ITaxonomyForm
+from collective.taxonomy.interfaces import ITaxonomySettings
 from plone import api
 from plone.app.registry.browser import controlpanel
 from plone.behavior.interfaces import IBehavior
@@ -9,7 +12,9 @@ from plone.memoize import view
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser import BrowserView
 from six import BytesIO
-from z3c.form import button, field, form
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.interfaces import HIDDEN_MODE
 from zExceptions import NotFound
@@ -18,10 +23,9 @@ from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
-from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
-from collective.taxonomy.factory import registerTaxonomy
-from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
-from collective.taxonomy.interfaces import ITaxonomy, ITaxonomyForm, ITaxonomySettings
+import logging
+import zipfile
+
 
 logger = logging.getLogger("taxonomy.controlpanel")
 

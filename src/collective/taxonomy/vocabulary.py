@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
-
+from collective.taxonomy import LEGACY_PATH_SEPARATOR
+from collective.taxonomy import NODE
+from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy.i18n import _pmf
+from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from zope.component import queryMultiAdapter
 from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 from zope.interface import implementer
-from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.interfaces import IVocabularyTokenized
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 from zope.security.interfaces import IPermission
-
-from collective.taxonomy import LEGACY_PATH_SEPARATOR, NODE, PATH_SEPARATOR
-from collective.taxonomy.i18n import _pmf
-from collective.taxonomy.interfaces import ITaxonomy
 
 
 class Node(OrderedDict):

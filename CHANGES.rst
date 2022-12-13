@@ -8,6 +8,8 @@ Changes
   This was introduced in plone.app.querystring 1.5.0
   [laulaz]
 
+- more markup updates to Bootstrap 5.
+  [petschki]
 
 3.0.0a1 (2022-07-13)
 --------------------
