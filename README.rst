@@ -1,12 +1,10 @@
 Taxonomy Vocabularies
 =====================
 
-|CI| |Coverage|
+|CI|
 
-.. |CI| image:: https://github.com/collective/collective.taxonomy/workflows/CI/badge.svg
+.. |CI| image:: https://github.com/collective/collective.taxonomy/actions/workflows/main.yml/badge.svg
    :target: https://github.com/collective/collective.taxonomy/actions
-.. |Coverage| image:: https://coveralls.io/repos/github/collective/collective.taxonomy/badge.svg
-   :target: https://coveralls.io/github/collective/collective.taxonomy
 
 
 Create, edit and use hierarchical taxonomies in `Plone`_.
