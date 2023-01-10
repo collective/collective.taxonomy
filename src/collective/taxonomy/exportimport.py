@@ -57,6 +57,7 @@ def importTaxonomy(context):
                     "default_language",
                     "write_permission",
                     "taxonomy_fieldset",
+                    "field_prefix",
                 ]:
                     try:
                         result[name] = config.get("taxonomy", name)
@@ -101,9 +102,10 @@ def exportTaxonomy(context):
                 "field_description",
                 "write_permission",
                 "taxonomy_fieldset",
+                "field_prefix",
             ]:
                 value = getattr(behavior, name, None)
-                if value:
+                if value is not None:
                     config.set("taxonomy", name, six.ensure_text(value))
 
             for name in ["is_single_select", "is_required"]:
