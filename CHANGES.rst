@@ -4,7 +4,8 @@ Changes
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- export/import of field_prefix value.
+  [eikichi18]
 
 
 3.0.0 (2022-12-13)
