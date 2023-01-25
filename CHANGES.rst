@@ -4,6 +4,9 @@ Changes
 3.0.1 (unreleased)
 ------------------
 
+- check for the field presence in `TaxonomyIndexerWrapper` more consistent.
+  [mamico]
+
 - export/import of field_prefix value.
   [eikichi18]
 

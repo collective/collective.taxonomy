@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Acquisition import aq_parent
 from collections.abc import Iterable
 from collective.taxonomy.interfaces import ITaxonomy
@@ -24,10 +25,8 @@ class TaxonomyIndexerWrapper(object):
         self.utility_name = utility_name
 
     def __call__(self):
-        # Dirty hack to ensure that it is not an item in a
-        # folder
-
-        if self.field_name not in self.context.__dict__:
+        # field needs to be defined in the context, not by acquisition or containment
+        if not hasattr(aq_base(self.context), self.field_name):
             return []
 
         sm = self.context.portal_url.getSiteManager()
