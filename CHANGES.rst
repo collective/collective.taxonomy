@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.0.1 (unreleased)
+3.0.1 (2023-02-02)
 ------------------
 
 - export/import of field_prefix value.
