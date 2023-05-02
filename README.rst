@@ -1,12 +1,10 @@
 Taxonomy Vocabularies
 =====================
 
-|CI| |Coverage|
+|CI|
 
-.. |CI| image:: https://github.com/collective/collective.taxonomy/workflows/CI/badge.svg
+.. |CI| image:: https://github.com/collective/collective.taxonomy/actions/workflows/main.yml/badge.svg
    :target: https://github.com/collective/collective.taxonomy/actions
-.. |Coverage| image:: https://coveralls.io/repos/github/collective/collective.taxonomy/badge.svg
-   :target: https://coveralls.io/github/collective/collective.taxonomy
 
 
 Create, edit and use hierarchical taxonomies in `Plone`_.
@@ -223,9 +221,12 @@ into *Transifex.net* service with all world Plone translators community.
 Plone Version Compatibility
 ===========================
 
-collective.taxonomy version `2.x`
+collective.taxonomy version `3.x`
 
 * Plone 6.0 (py3)
+
+collective.taxonomy version `2.x`
+
 * Plone 5.2 (py2/py3)
 * Plone 5.1
 * Plone 5.0
@@ -285,7 +286,7 @@ Existing work
 =============
 
 In 2010, Rok Garbas <rok@garbas.si> reimplemented and extended prior
-work by `Seantis <http://www.seantis.ch/>`_ and released
+work by `Seantis <https://www.seantis.ch/>`_ and released
 `collective.vdexvocabulary
 <https://pypi.org/project/collective.vdexvocabulary>`_. This
 package allows you to configure and populate vocabulary components

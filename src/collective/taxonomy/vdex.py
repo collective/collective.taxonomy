@@ -4,6 +4,7 @@ from collective.taxonomy import PATH_SEPARATOR
 from lxml import etree
 from plone.supermodel.utils import indent
 
+
 LANG_SEPARATOR = "|"
 
 

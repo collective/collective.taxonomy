@@ -1,11 +1,10 @@
-from plone.i18n.normalizer.interfaces import IIDNormalizer
-
-from zope.component import getUtility, queryUtility
-from zope.i18n.interfaces import ITranslationDomain
-from zope.schema.interfaces import IVocabularyFactory
-
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.utility import Taxonomy
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+from zope.component import getUtility
+from zope.component import queryUtility
+from zope.i18n.interfaces import ITranslationDomain
+from zope.schema.interfaces import IVocabularyFactory
 
 
 def registerTaxonomy(context, name, title, default_language, description=""):

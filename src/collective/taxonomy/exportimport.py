@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-import six
-
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
 from collective.taxonomy.vdex import ImportVdex
-from io import StringIO
 from io import BytesIO
+from io import StringIO
 from lxml.etree import fromstring
 from plone.behavior.interfaces import IBehavior
 from six.moves import configparser
+
+import six
 
 
 def parseConfigFile(data):
@@ -57,6 +57,7 @@ def importTaxonomy(context):
                     "default_language",
                     "write_permission",
                     "taxonomy_fieldset",
+                    "field_prefix",
                 ]:
                     try:
                         result[name] = config.get("taxonomy", name)
@@ -101,9 +102,10 @@ def exportTaxonomy(context):
                 "field_description",
                 "write_permission",
                 "taxonomy_fieldset",
+                "field_prefix",
             ]:
                 value = getattr(behavior, name, None)
-                if value:
+                if value is not None:
                     config.set("taxonomy", name, six.ensure_text(value))
 
             for name in ["is_single_select", "is_required"]:

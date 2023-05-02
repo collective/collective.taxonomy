@@ -3,8 +3,21 @@ include *.rst
 include *.txt
 include .coveragerc
 include buildout.cfg
+include *.yaml
+include Makefile
+include mx.ini
 recursive-include images *.gif
+recursive-include docs *.GPL
+recursive-include docs *.bugfix
+recursive-include docs *.gif
+recursive-include docs *.md
+recursive-include docs *.png
+recursive-include docs *.rst
+prune src/collective/taxonomy/javascripts/node_modules/**/*
 graft src
+exclude src/collective/taxonomy/javascripts/build/messages/src/js/components/*.json
 global-exclude *.pyc
+global-exclude *.yarn-integrity
 global-exclude cypress.json
 global-exclude cypress/**/*
+exclude *-mxdev.txt

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import zope.component
-import zope.interface
-import zope.schema.interfaces
-
 from collective.taxonomy.interfaces import ITaxonomySelectWidget
 from plone.memoize import ram
 from z3c.form import interfaces
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.widget import FieldWidget
+
+import zope.component
+import zope.interface
+import zope.schema.interfaces
 
 
 def _items_cachekey(fun, self):

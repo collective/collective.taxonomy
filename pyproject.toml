@@ -1,0 +1,8 @@
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+force_alphabetical_sort = "True"
+force_single_line = "True"
+lines_after_imports = "2"

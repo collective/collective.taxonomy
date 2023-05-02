@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone import api
+from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import applyProfile
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
-import unittest
-from transaction import commit
 from plone.testing.z2 import Browser
+from transaction import commit
+
+import unittest
 
 
 class TestControlPanel(unittest.TestCase):
@@ -31,6 +32,13 @@ class TestControlPanel(unittest.TestCase):
             "Basic {0}:{1}".format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD),
         )
         commit()
+
+    def test_configlet_permission(self):
+        permission = "Manage taxonomies"
+        roles = self.portal.rolesOfPermission(permission)
+        roles = [r["name"] for r in roles if r["selected"]]
+        expected = ["Manager", "Site Administrator"]
+        self.assertListEqual(roles, expected)
 
     def test_add_vocabulary(self):
         self.browser.open(self.portal.absolute_url() + "/@@taxonomy-settings")

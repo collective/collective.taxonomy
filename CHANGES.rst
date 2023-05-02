@@ -1,8 +1,48 @@
 Changes
 =======
 
-2.2.2 (unreleased)
+3.0.2 (unreleased)
 ------------------
+
+- Nothing changed yet.
+
+
+3.0.1 (2023-02-02)
+------------------
+
+- export/import of field_prefix value.
+  [eikichi18]
+
+
+3.0.0 (2022-12-13)
+------------------
+
+- Fix deprecated `collections.Iterable` in `TaxonomyIndexerWrapper`. This got
+  removed since python 3.10. Importing `collections.abc.Iterable` now.
+  [petschki]
+
+- Add mising `fetch_vocabulary` record for IQueryField
+  This was introduced in plone.app.querystring 1.5.0
+  [laulaz]
+
+- more markup updates to Bootstrap 5.
+  [petschki]
+
+3.0.0a1 (2022-07-13)
+--------------------
+
+- Fix configlet icon for Plone 6 (#135)
+  [laulaz]
+
+- update markup in `edittaxonomydata.js` to Bootstrap 5
+  [petschki]
+
+2.2.2 (2022-07-12)
+------------------
+
+- Use new 'Manage taxonomies' permission for taxonomies configlet (#134)
+  Permission is by default assigned to Manager and Site Administrator roles.
+  [laulaz]
 
 - Fixed 'Required' and 'Single select' option being compulsory [JeffersonBledsoe] (#131)
 

@@ -1,51 +1,40 @@
-name: CI
+name: Test Collective Taxonomy
 
 on:
-  push:
-    branches-ignore:
-      - "master"
-      - "releases/**"
-  # Allow to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  push
+
 jobs:
   build:
-    strategy:
-      matrix:
-        config:
-        # [Python version, tox env]
-        - ["2.7",   "plone50-py27"]
-        - ["2.7",   "plone51-py27"]
-        - ["2.7",   "plone52-py27"]
-        - ["3.6",   "plone52-py36"]
-        - ["3.7",   "plone52-py37"]
-        - ["3.8",   "plone52-py38"]
-        - ["3.7",   "plone60-py37"]
-        - ["3.8",   "plone60-py38"]
-        - ["3.9",   "plone60-py39"]
     runs-on: ubuntu-latest
-    name: ${{ matrix.config[1] }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+        plone:
+          - "6.0-dev"
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Install lxml dev libraries
-      # Needed to avoid error on Plone 5.0.
-      # Error: Please make sure the libxml2 and libxslt development packages are installed.
-      run: sudo apt-get install libxml2-dev libxslt1-dev
-      if: matrix.config[1] == 'plone50-py27'
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.config[0] }}
-    - name: Pip cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.config[0] }}-${{ hashFiles('setup.*', 'tox.ini') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-${{ matrix.config[0] }}-
-          ${{ runner.os }}-pip-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install tox
-    - name: Test
-      run: tox -e ${{ matrix.config[1] }}
+      - uses: actions/checkout@v2
+
+      - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
+        id: setup
+        uses: plone/setup-plone@v1.0.0
+        with:
+          python-version: ${{ matrix.python }}
+          plone-version: ${{ matrix.plone }}
+
+      - name: Install package
+        run: |
+          make install
+
+      - name: Run Lint
+        run: |
+          make lint
+
+      - name: Run tests
+        run: |
+          make test-ignore-warnings

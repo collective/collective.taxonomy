@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.2.2.dev0'
+version = "3.0.2.dev0"
 
 
 def read(*pathnames):
@@ -26,21 +26,16 @@ setup(
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 5.0",
-        "Framework :: Plone :: 5.1",
-        "Framework :: Plone :: 5.2",
         "Framework :: Plone :: 6.0",
         "Framework :: Plone :: Addon",
         "Framework :: Zope",
-        "Framework :: Zope :: 2",
-        "Framework :: Zope :: 4",
         "Framework :: Zope :: 5",
         "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     keywords="plone taxonomy dexterity",
     author="Bo Simonsen and Malthe Borch",
@@ -51,6 +46,7 @@ setup(
     namespace_packages=["collective"],
     include_package_data=True,
     zip_safe=False,
+    python_requires=">=3.8",
     install_requires=[
         "setuptools",
         "plone.supermodel",
@@ -59,7 +55,7 @@ setup(
         "plone.app.dexterity",
         "plone.synchronize",
         "lxml",
-        'six >= 1.12',
+        "six >= 1.12",
     ],
     extras_require={
         "dev": [
@@ -69,9 +65,8 @@ setup(
             "plone.testing",
             "plone.app.testing",
             "plone.app.contenttypes",
-            'Products.contentmigration;python_version<="2.7"',
+            "plone.app.querystring",
             "plone.app.robotframework[debug]",
-            "collective.MockMailHost",
         ],
     },
     entry_points="""

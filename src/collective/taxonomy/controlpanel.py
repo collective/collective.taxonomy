@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
-import zipfile
-
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.Five.browser import BrowserView
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
@@ -14,6 +9,8 @@ from plone import api
 from plone.app.registry.browser import controlpanel
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import view
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.Five.browser import BrowserView
 from six import BytesIO
 from z3c.form import button
 from z3c.form import field
@@ -25,6 +22,10 @@ from zope.component import adapter
 from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
+
+import logging
+import zipfile
+
 
 logger = logging.getLogger("taxonomy.controlpanel")
 

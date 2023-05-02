@@ -19,6 +19,9 @@
 
   <include package="plone.supermodel" />
 
+  <permission id="collective.taxonomy.ManageTaxonomies"
+              title="Manage taxonomies" />
+
   <genericsetup:registerProfile
       name="default"
       title="collective.taxonomy"
@@ -55,7 +58,7 @@
       name="taxonomy-settings"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomySettingsControlPanel"
-      permission="cmf.ManagePortal"
+      permission="collective.taxonomy.ManageTaxonomies"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -63,7 +66,7 @@
       name="taxonomy-add"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomyAddForm"
-      permission="cmf.ManagePortal"
+      permission="collective.taxonomy.ManageTaxonomies"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -71,7 +74,7 @@
       name="taxonomy-edit"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomyEditForm"
-      permission="cmf.ManagePortal"
+      permission="collective.taxonomy.ManageTaxonomies"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -79,7 +82,7 @@
       name="taxonomy-export"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".controlpanel.TaxonomyExport"
-      permission="cmf.ManagePortal"
+      permission="collective.taxonomy.ManageTaxonomies"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -121,7 +124,7 @@
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".jsonimpl.EditTaxonomyData"
       template="edit_taxonomy_data.pt"
-      permission="cmf.ManagePortal"
+      permission="collective.taxonomy.ManageTaxonomies"
       layer=".interfaces.IBrowserLayer"
       />
 
@@ -129,7 +132,7 @@
       name="taxonomy-import"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".jsonimpl.ImportJson"
-      permission="cmf.ManagePortal"
+      permission="collective.taxonomy.ManageTaxonomies"
       layer=".interfaces.IBrowserLayer"
       />
 

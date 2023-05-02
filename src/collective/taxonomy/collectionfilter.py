@@ -1,4 +1,8 @@
-from collective.collectionfilter.interfaces import IGroupByCriteria, IGroupByModifier
+from collective.collectionfilter.interfaces import IGroupByCriteria
+from collective.collectionfilter.interfaces import IGroupByModifier
+from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy import PRETTY_PATH_SEPARATOR
+from collective.taxonomy import utility
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.behavior.interfaces import IBehavior
@@ -15,7 +19,7 @@ def resolve_title(token, index_name):
     shortname = None
     taxonomy_name = None
     for tax in taxonomies:
-        shortname = tax[len("collective.taxonomy."):]
+        shortname = tax[len("collective.taxonomy.") :]
         if not index_name.endswith(shortname):
             continue
         taxonomy_name = tax

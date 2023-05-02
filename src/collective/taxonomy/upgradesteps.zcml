@@ -25,5 +25,25 @@
         handler=".upgradesteps.fix_metadata"
         />
   </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+     profile="collective.taxonomy:default"
+     source="1005"
+     destination="1006">
+    <genericsetup:upgradeStep
+       handler=".upgradesteps.update_configlet_properties"
+       title="Use new 'Manage taxonomies' permission"
+       description=""
+       />
+  </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+     profile="collective.taxonomy:default"
+     source="1006"
+     destination="2000">
+    <genericsetup:upgradeStep
+       handler=".upgradesteps.update_configlet_icon"
+       title="Use new icon for configlet"
+       description=""
+       />
+  </genericsetup:upgradeSteps>
 
 </configure>

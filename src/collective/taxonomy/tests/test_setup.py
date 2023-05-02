@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from Products.CMFCore.utils import getToolByName
-
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.utils import getToolByName
 
 import unittest
+
 
 no_get_installer = False
 
