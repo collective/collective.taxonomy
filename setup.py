@@ -67,6 +67,7 @@ setup(
             "plone.app.contenttypes",
             "plone.app.querystring",
             "plone.app.robotframework[debug]",
+            "plone.restapi"
         ],
     },
     entry_points="""

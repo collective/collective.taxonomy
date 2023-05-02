@@ -70,8 +70,6 @@ class TestIndexer(unittest.TestCase):
         portal_types = api.portal.get_tool("portal_types")
         fti = portal_types.get("Document")
         document_schema = fti.lookupSchema()
-        schemaeditor = IEditableSchema(document_schema)
-        schemaeditor.addField(taxonomy_test, name="taxonomy_test")
         notify(ObjectAddedEvent(taxonomy_test, document_schema))
         notify(FieldAddedEvent(fti, taxonomy_test))
 
@@ -109,8 +107,6 @@ class TestIndexer(unittest.TestCase):
         portal_types = api.portal.get_tool("portal_types")
         fti = portal_types.get("Document")
         document_schema = fti.lookupSchema()
-        schemaeditor = IEditableSchema(document_schema)
-        schemaeditor.addField(taxonomy_test, name="taxonomy_test")
         notify(ObjectAddedEvent(taxonomy_test, document_schema))
         notify(FieldAddedEvent(fti, taxonomy_test))
         query = {}
@@ -147,8 +143,6 @@ class TestIndexer(unittest.TestCase):
         portal_types = api.portal.get_tool("portal_types")
         fti = portal_types.get("Document")
         document_schema = fti.lookupSchema()
-        schemaeditor = IEditableSchema(document_schema)
-        schemaeditor.addField(taxonomy_test, name="taxonomy_test")
         notify(ObjectAddedEvent(taxonomy_test, document_schema))
         notify(FieldAddedEvent(fti, taxonomy_test))
         taxo_val = taxonomy["en"]["\u241fInformation Science\u241fCars"]

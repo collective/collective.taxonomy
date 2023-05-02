@@ -46,25 +46,3 @@ ROBOT_TESTING = FunctionalTesting(
     ),
     name="CollectiveTaxonomy:Acceptance",
 )
-
-
-class CollectiveTaxonomyRestApiLayer(PloneWithPackageLayer, PloneRestApiDXLayer):
-    """ """
-
-
-API_FIXTURE = CollectiveTaxonomyRestApiLayer(
-    name="TAXONOMY_API_FIXTURE",
-    zcml_package=collective.taxonomy,
-    zcml_filename="testing.zcml",
-    gs_profile_id="collective.taxonomy:examples",
-    additional_z2_products=(["Products.DateRecurringIndex", "plone.restapi"]),
-)
-API_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(API_FIXTURE,),
-    name="CollectiveTaxonomyRestApiLayer:Integration",
-)
-
-API_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(API_FIXTURE, z2.ZSERVER_FIXTURE),
-    name="CollectiveTaxonomyRestApiLayer:Functional",
-)
