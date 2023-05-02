@@ -5,7 +5,8 @@ from collective.taxonomy.interfaces import ITaxonomy
 from plone.api import portal
 from plone.restapi.interfaces import ISerializeToJson
 from zope.component import adapter
-from zope.interface import Interface, implementer
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(ISerializeToJson)
@@ -31,7 +32,7 @@ class TaxonomySerializer(object):
         if full_objects:
             results["data"] = {}
             results["order"] = {}
-            for (lang, langdata) in util.data.items():
+            for lang, langdata in util.data.items():
                 # keys = [langdata.keys()[x] for x in order]
                 results["data"][lang] = [
                     {

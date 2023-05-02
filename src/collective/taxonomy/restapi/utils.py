@@ -18,7 +18,7 @@ def get_all_taxonomies(full_objects=True):
 def get_taxonomy_by_name(name, full_objects=True):
     request = getRequest()
     utils = list(getUtilitiesFor(ITaxonomy))
-    for (_name, util) in utils:
+    for _name, util in utils:
         if _name == name:
             return getMultiAdapter((util, request), ISerializeToJson)(
                 full_objects=full_objects

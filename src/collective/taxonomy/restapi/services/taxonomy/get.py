@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from plone.restapi.services import Service
-from zope.interface import implementer
-from zope.publisher.interfaces import IPublishTraverse
-from collective.taxonomy.restapi.utils import get_all_taxonomies
-from zope.component import queryUtility
-from plone.api import portal
 from collective.taxonomy.interfaces import ITaxonomy
+from collective.taxonomy.restapi.utils import get_all_taxonomies
 from collective.taxonomy.vdex import TreeExport
 from lxml import etree
+from plone.api import portal
+from plone.restapi.services import Service
+from zope.component import queryUtility
+from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 
 
 @implementer(IPublishTraverse)

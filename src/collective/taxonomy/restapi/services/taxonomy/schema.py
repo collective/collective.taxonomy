@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from plone.restapi.services import Service
 from collective.taxonomy.interfaces import ITaxonomyForm
 from plone.restapi.serializer.controlpanels import get_jsonschema_for_controlpanel
+from plone.restapi.serializer.converters import json_compatible
+from plone.restapi.services import Service
 from plone.restapi.types.utils import create_form
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-from plone.restapi.serializer.converters import json_compatible
 
 
 @implementer(IPublishTraverse)

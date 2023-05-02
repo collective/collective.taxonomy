@@ -23,6 +23,7 @@ from zope.lifecycleevent import modified
 
 import logging
 
+
 try:
     from plone.protect.auto import safeWrite
 except ImportError:
