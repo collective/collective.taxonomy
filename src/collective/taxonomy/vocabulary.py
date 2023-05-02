@@ -177,7 +177,7 @@ class PermissionsVocabulary(object):
         result = []
         sm = getSite().getSiteManager()
 
-        for (permission, permission_object) in sm.getUtilitiesFor(IPermission):
+        for permission, permission_object in sm.getUtilitiesFor(IPermission):
             result.append(
                 SimpleTerm(
                     value=permission_object.id, title=_pmf(permission_object.title)

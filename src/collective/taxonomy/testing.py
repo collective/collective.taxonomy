@@ -11,7 +11,6 @@ import collective.taxonomy
 
 
 class CollectiveTaxonomyLayer(PloneSandboxLayer):
-
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):

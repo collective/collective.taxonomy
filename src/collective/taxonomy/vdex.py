@@ -99,7 +99,7 @@ class TreeExport(object):
             captionnode = etree.Element("caption")
             translations = sorted(table[identifier].items())
 
-            for (language, langstring) in translations:
+            for language, langstring in translations:
                 langstringnode = etree.Element("langstring")
                 langstringnode.text = langstring
                 langstringnode.attrib["language"] = (
