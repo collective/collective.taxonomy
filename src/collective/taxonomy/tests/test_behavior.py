@@ -15,7 +15,6 @@ import unittest
 
 
 class TestBehaviorRegistration(unittest.TestCase):
-
     layer = INTEGRATION_TESTING
 
     def test_register_behavior(self):

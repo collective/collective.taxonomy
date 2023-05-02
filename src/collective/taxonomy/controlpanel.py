@@ -160,7 +160,6 @@ class TaxonomyExport(BrowserView):
 
 
 class TaxonomyAddForm(form.AddForm):
-
     fields = field.Fields(ITaxonomyForm)
 
     def updateWidgets(self):
@@ -271,7 +270,6 @@ class TaxonomyEditForm(form.EditForm):
 @adapter(IPloneSiteRoot)
 @implementer(ITaxonomyForm)
 class TaxonomyEditFormAdapter(object):
-
     purge = False
 
     def __init__(self, context):

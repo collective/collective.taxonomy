@@ -68,7 +68,6 @@ def taxonomyDefaultValue():
 
 
 class ITaxonomyForm(Interface):
-
     taxonomy = schema.TextLine(
         title=_("Taxonomy"),
         description=_("The taxonomy identifier"),

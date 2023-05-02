@@ -1,11 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <object name="portal_controlpanel">
 
-    <configlet
-        title="Taxonomies"
-        action_id="taxonomies"
-        appId="collective.taxonomy"
-        category="Products"
-        remove="true" />
+  <configlet action_id="taxonomies"
+             appId="collective.taxonomy"
+             category="Products"
+             remove="true"
+             title="Taxonomies"
+  />
 
 </object>

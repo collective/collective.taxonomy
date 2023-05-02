@@ -48,8 +48,8 @@ class TaxonomyIndexerWrapper(object):
         ):
             stored_element = [stored_element]
 
-        for (language, data) in utility.data.items():
-            for (identifier, path) in utility.inverted_data[language].items():
+        for language, data in utility.data.items():
+            for identifier, path in utility.inverted_data[language].items():
                 if identifier in stored_element:
                     found.append(
                         (
@@ -64,8 +64,8 @@ class TaxonomyIndexerWrapper(object):
             lang = utility.default_language
 
         result = []
-        for (key, value) in utility.inverted_data[lang].items():
-            for (found_identifier, found_language, found_path) in found:
+        for key, value in utility.inverted_data[lang].items():
+            for found_identifier, found_language, found_path in found:
                 if found_path.startswith(value) and key not in result:
                     result.append(key)
 

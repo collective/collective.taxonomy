@@ -10,7 +10,6 @@
     i18n_domain="collective.taxonomy"
     >
 
-
   <i18n:registerTranslations directory="locales" />
 
   <include package="plone.app.registry" />
@@ -19,8 +18,10 @@
 
   <include package="plone.supermodel" />
 
-  <permission id="collective.taxonomy.ManageTaxonomies"
-              title="Manage taxonomies" />
+  <permission
+      id="collective.taxonomy.ManageTaxonomies"
+      title="Manage taxonomies"
+      />
 
   <genericsetup:registerProfile
       name="default"
@@ -45,7 +46,7 @@
       description="Import taxonomies from VDEX-format."
       handler=".exportimport.importTaxonomy"
       >
-  </genericsetup:importStep>
+</genericsetup:importStep>
 
   <genericsetup:exportStep
       name="collective.taxonomy"

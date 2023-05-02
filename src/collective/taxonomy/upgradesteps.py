@@ -13,7 +13,7 @@ def reactivateSearchable(tool):
     tool = tool.aq_parent
     sm = tool.getSiteManager()
     utilities = sm.getUtilitiesFor(IBehavior)
-    for (utility_name, utility) in utilities:
+    for utility_name, utility in utilities:
         if utility_name.startswith("collective.taxonomy.generated."):
             utility.deactivateSearchable()
             utility.activateSearchable()
@@ -33,7 +33,7 @@ def fix_metadata(tool):
     tool = tool.aq_parent
     sm = tool.getSiteManager()
     utilities = sm.getUtilitiesFor(ITaxonomy)
-    for (utility_name, utility) in utilities:
+    for utility_name, utility in utilities:
         utility._fixup()
         for lang, data in utility.data.items():
             version = data.pop("#VERSION", None)
