@@ -1,21 +1,21 @@
-<?xml version="1.0"?>
-<object
-    name="portal_controlpanel"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="collective.taxonomy"
-    purge="False">
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        name="portal_controlpanel"
+        purge="False"
+        i18n:domain="collective.taxonomy"
+>
 
-    <configlet
-        title="Taxonomies"
-        action_id="taxonomies"
-        appId="collective.taxonomy"
-        category="Products"
-        condition_expr=""
-        url_expr="string:${portal_url}/@@taxonomy-settings"
-        icon_expr="string:puzzle"
-        visible="True"
-        i18n:attributes="title">
-      <permission>Manage taxonomies</permission>
-    </configlet>
+  <configlet action_id="taxonomies"
+             appId="collective.taxonomy"
+             category="Products"
+             condition_expr=""
+             icon_expr="string:puzzle"
+             title="Taxonomies"
+             url_expr="string:${portal_url}/@@taxonomy-settings"
+             visible="True"
+             i18n:attributes="title"
+  >
+    <permission>Manage taxonomies</permission>
+  </configlet>
 
 </object>

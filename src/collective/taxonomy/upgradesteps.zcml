@@ -1,45 +1,51 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
 
   <genericsetup:upgradeSteps
-     profile="collective.taxonomy:default"
-     source="0.2"
-     destination="0.3">
+      profile="collective.taxonomy:default"
+      source="0.2"
+      destination="0.3"
+      >
     <genericsetup:upgradeStep
-       handler=".upgradesteps.reactivateSearchable"
-       title="Reactivate searchable for every taxonomy"
-       description=""
-       />
+        title="Reactivate searchable for every taxonomy"
+        description=""
+        handler=".upgradesteps.reactivateSearchable"
+        />
   </genericsetup:upgradeSteps>
   <genericsetup:upgradeSteps
-     profile="collective.taxonomy:default"
-     source="1004"
-     destination="1005">
+      profile="collective.taxonomy:default"
+      source="1004"
+      destination="1005"
+      >
     <genericsetup:upgradeStep
-       handler=".upgradesteps.fix_metadata"
-       title="Fixes taxonomy metadata"
-       description=""
-       />
+        title="Fixes taxonomy metadata"
+        description=""
+        handler=".upgradesteps.fix_metadata"
+        />
   </genericsetup:upgradeSteps>
   <genericsetup:upgradeSteps
-     profile="collective.taxonomy:default"
-     source="1005"
-     destination="1006">
+      profile="collective.taxonomy:default"
+      source="1005"
+      destination="1006"
+      >
     <genericsetup:upgradeStep
-       handler=".upgradesteps.update_configlet_properties"
-       title="Use new 'Manage taxonomies' permission"
-       description=""
-       />
+        title="Use new 'Manage taxonomies' permission"
+        description=""
+        handler=".upgradesteps.update_configlet_properties"
+        />
   </genericsetup:upgradeSteps>
   <genericsetup:upgradeSteps
-     profile="collective.taxonomy:default"
-     source="1006"
-     destination="2000">
+      profile="collective.taxonomy:default"
+      source="1006"
+      destination="2000"
+      >
     <genericsetup:upgradeStep
-       handler=".upgradesteps.update_configlet_icon"
-       title="Use new icon for configlet"
-       description=""
-       />
+        title="Use new icon for configlet"
+        description=""
+        handler=".upgradesteps.update_configlet_icon"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>
