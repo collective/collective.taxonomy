@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from collective.taxonomy.testing import API_FUNCTIONAL_TESTING
+from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -14,7 +14,7 @@ import unittest
 class TestTaxonomyEndpoint(unittest.TestCase):
     """Test JSON views."""
 
-    layer = API_FUNCTIONAL_TESTING
+    layer = FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]
