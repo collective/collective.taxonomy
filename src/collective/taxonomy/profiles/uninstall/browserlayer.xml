@@ -1,4 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layers>
-  <layer name="collective.taxonomy" interface="collective.taxonomy.interfaces.IBrowserLayer" remove="true" />
+  <layer interface="collective.taxonomy.interfaces.IBrowserLayer"
+         name="collective.taxonomy"
+         remove="true"
+  />
 </layers>

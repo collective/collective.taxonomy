@@ -78,9 +78,9 @@ class Taxonomy(SimpleItem):
     @ram.cache(lambda method, self: (self.name, self.data._p_mtime))
     def inverted_data(self):
         inv_data = {}
-        for (language, elements) in self.data.items():
+        for language, elements in self.data.items():
             inv_data[language] = {}
-            for (path, identifier) in elements.items():
+            for path, identifier in elements.items():
                 inv_data[language][identifier] = path
         return inv_data
 
@@ -146,7 +146,7 @@ class Taxonomy(SimpleItem):
     def cleanupFTI(self):
         """Cleanup the FTIs"""
         generated_name = self.getGeneratedName()
-        for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
+        for name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
             if generated_name in fti.behaviors:
                 fti.behaviors = [
                     behavior for behavior in fti.behaviors if behavior != generated_name
@@ -169,7 +169,7 @@ class Taxonomy(SimpleItem):
 
         delattr(generated, short_name)
 
-        for (name, fti) in self.sm.getUtilitiesFor(IDexterityFTI):
+        for name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ""))
 
@@ -296,7 +296,6 @@ class Taxonomy(SimpleItem):
         default_plural=None,
         number=None,
     ):
-
         if target_language is None or target_language not in self.inverted_data:
             target_language = str(api.portal.get_current_language())
 

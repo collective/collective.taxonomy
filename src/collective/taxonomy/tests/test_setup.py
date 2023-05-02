@@ -50,7 +50,6 @@ class TestSetup(unittest.TestCase):
 
 
 class TestUninstall(unittest.TestCase):
-
     layer = INTEGRATION_TESTING
 
     def setUp(self):

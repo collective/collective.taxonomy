@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <metadata>
- <dependencies>
-  <dependency>profile-plone.app.contenttypes:default</dependency>
-  <dependency>profile-collective.taxonomy:default</dependency>
- </dependencies>
+  <dependencies>
+    <dependency>profile-plone.app.contenttypes:default</dependency>
+    <dependency>profile-collective.taxonomy:default</dependency>
+  </dependencies>
 </metadata>

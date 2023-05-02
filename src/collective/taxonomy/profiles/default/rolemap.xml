@@ -1,9 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rolemap>
   <permissions>
-    <permission name="Manage taxonomies" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
+    <permission acquire="True"
+                name="Manage taxonomies"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
     </permission>
   </permissions>
 </rolemap>
