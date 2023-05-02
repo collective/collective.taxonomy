@@ -5,6 +5,7 @@
 *.mp4
 .coverage
 .installed.cfg
+.installed.txt
 .mr.developer.cfg
 .python-version
 local.cfg
@@ -15,6 +16,7 @@ dist
 downloads
 eggs
 htmlcov/
+instance/
 local.cfg
 parts
 var
