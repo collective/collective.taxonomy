@@ -21,18 +21,16 @@ class TestTaxonomyEndpoint(unittest.TestCase):
         self.portal_url = self.portal.absolute_url()
 
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.api_session = RelativeSession(self.portal_url)
+        self.api_session = RelativeSession(self.portal_url, test=self)
         self.api_session.headers.update({"Accept": "application/json"})
         self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
 
         self.portal.portal_workflow.setDefaultChain("simple_publication_workflow")
         applyProfile(self.portal, "plone.app.contenttypes:plone-content")
-
         commit()
 
     def test_route_exists(self):
         response = self.api_session.get("/@taxonomy")
-
         self.assertEqual(response.status_code, 200)
 
     def test_get_without_parameters_return_all_taxonomies(self):
