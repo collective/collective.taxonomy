@@ -272,8 +272,8 @@ class TaxonomyEditForm(form.EditForm):
 class TaxonomyEditFormAdapter(object):
     purge = False
 
-    def __init__(self, context):
-        taxonomy = context.REQUEST.get("form.widgets.taxonomy")
+    def __init__(self, context, name=None):
+        taxonomy = context.REQUEST.get("form.widgets.taxonomy") or name
         if taxonomy is None:
             return
 

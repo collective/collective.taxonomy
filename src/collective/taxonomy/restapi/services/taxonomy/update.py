@@ -2,6 +2,7 @@
 """
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy.controlpanel import TaxonomyEditFormAdapter
 from collective.taxonomy.interfaces import ITaxonomy
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
@@ -15,9 +16,11 @@ class TaxonomyPatch(Service):
     """Patch a taxonomy"""
 
     taxonomy_id = None
+    request = None
 
     def publishTraverse(self, request, name):  # noqa
         """Traverse"""
+        self.request = request
         if name:
             self.taxonomy_id = name
         return self
@@ -90,6 +93,11 @@ class TaxonomyPatch(Service):
 
                 taxonomy.update(language, data_for_taxonomy, True)
         else:
+            set_fields = TaxonomyEditFormAdapter(self.context, name)
+            # adapter.handleApply(self, action='')
+            for key in data:
+                setattr(set_fields, key, data[key])
+
             del data["taxonomy"]
             taxonomy.updateBehavior(**data)
 
