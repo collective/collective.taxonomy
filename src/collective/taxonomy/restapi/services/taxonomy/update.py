@@ -81,9 +81,9 @@ class TaxonomyPatch(Service):
         #             ]
         #         )
 
-        tree = data.get("tree", [])
         languages = data.get("languages", [data.get("default_language", "en")])
-        if len(tree):
+        if "tree" in data:
+            tree = data.get("tree", [])
             for language in languages:
                 if language not in taxonomy.data:
                     taxonomy.data[language] = OOBTree()
