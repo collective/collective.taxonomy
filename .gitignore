@@ -35,3 +35,5 @@ pyvenv.cfg
 lib64
 .make-sentinels/
 *-mxdev.txt
+/venv
+/.vscode/settings.json
