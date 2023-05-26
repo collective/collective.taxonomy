@@ -6,6 +6,7 @@ Changes
 
 - Integrate taxonomies into Collection tabular view, display values are now resolved
   [MrTango]
+- Restapi endpoints support [cekk, nileshgulia1]
 
 
 3.0.1 (2023-02-02)
