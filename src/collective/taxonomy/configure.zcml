@@ -13,6 +13,9 @@
   <i18n:registerTranslations directory="locales" />
 
   <include package="plone.app.registry" />
+  <include package=".restapi" />
+ 
+
   <include package="plone.supermodel" />
 
   <permission

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
 from .i18n import CollectiveTaxonomyMessageFactory as _
 from plone import api
 from plone.namedfile.field import NamedBlobFile
+from plone.restapi.controlpanels.interfaces import IControlpanel
 from zope import schema
 from zope.i18n.interfaces import ITranslationDomain
 from zope.interface import Interface
@@ -150,3 +150,7 @@ class ITaxonomyView(Interface):
 
     def translate(self, msgid, domain, target_language):
         """ """
+
+
+class ITaxonomyControlPanel(IControlpanel):
+    """Taxonomy Control panel"""

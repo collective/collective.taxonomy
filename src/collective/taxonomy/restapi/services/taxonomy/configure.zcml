@@ -1,0 +1,47 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
+
+  <plone:service
+      method="GET"
+      accept="application/json,application/schema+json"
+      factory=".get.TaxonomyGet"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope2.View"
+      name="@taxonomy"
+      />
+
+ <plone:service
+      method="GET"
+      accept="application/json"
+      factory=".schema.TaxonomyGetSchema"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope2.View"
+      name="@taxonomySchema"
+      />
+
+  <plone:service
+      method="POST"
+      factory=".add.TaxonomyPost"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="cmf.ManagePortal"
+      name="@taxonomy"
+      />
+
+  <plone:service
+      method="DELETE"
+      factory=".delete.TaxonomyDelete"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="cmf.ManagePortal"
+      name="@taxonomy"
+      />
+ 
+  <plone:service
+      method="PATCH"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      factory=".update.TaxonomyPatch"
+      permission="cmf.ManagePortal"
+      name="@taxonomy"
+    />
+</configure>

@@ -3,7 +3,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-version = '3.0.2.dev0'
+version = "3.0.2.dev0"
 
 
 def read(*pathnames):
@@ -12,14 +12,16 @@ def read(*pathnames):
 
 
 setup(
-    name='collective.taxonomy',
+    name="collective.taxonomy",
     version=version,
     description="Create, edit and use hierarchical taxonomies in Plone!",
-    url='https://pypi.org/project/collective.taxonomy/',
-    long_description='\n'.join([
-        read('README.rst'),
-        read('CHANGES.rst'),
-    ]),
+    url="https://pypi.org/project/collective.taxonomy/",
+    long_description="\n".join(
+        [
+            read("README.rst"),
+            read("CHANGES.rst"),
+        ]
+    ),
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
@@ -35,35 +37,38 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
     ],
-    keywords='plone taxonomy dexterity',
-    author='Bo Simonsen and Malthe Borch',
-    author_email='bo@headnet.dk',
+    keywords="plone taxonomy dexterity",
+    author="Bo Simonsen and Malthe Borch",
+    author_email="bo@headnet.dk",
     license="GPLv2+",
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
-    namespace_packages=['collective'],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
+    namespace_packages=["collective"],
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.8",
     install_requires=[
-        'setuptools',
-        'plone.supermodel',
-        'plone.api >= 1.5',
-        'plone.app.registry',
-        'lxml',
-        'six >= 1.12',
+        "setuptools",
+        "plone.supermodel",
+        "plone.api >= 1.5",
+        "plone.app.registry",
+        "plone.app.dexterity",
+        "plone.synchronize",
+        "lxml",
+        "six >= 1.12",
     ],
     extras_require={
-        'dev': [
-            'zest.releaser[recommended]',
+        "dev": [
+            "zest.releaser[recommended]",
         ],
-        'test': [
-            'plone.testing',
-            'plone.app.testing',
-            'plone.app.contenttypes',
-            'plone.app.querystring',
-            'plone.app.robotframework[debug]',
-        ]
+        "test": [
+            "plone.testing",
+            "plone.app.testing",
+            "plone.app.contenttypes",
+            "plone.app.querystring",
+            "plone.app.robotframework[debug]",
+            "plone.restapi"
+        ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]

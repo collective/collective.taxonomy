@@ -5,6 +5,8 @@
 *.mp4
 .coverage
 .installed.cfg
+.DS_Store
+.vscode/
 .installed.txt
 .mr.developer.cfg
 .python-version

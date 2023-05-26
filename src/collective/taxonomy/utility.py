@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import generated

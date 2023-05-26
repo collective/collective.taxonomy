@@ -61,6 +61,18 @@ class TestIndexer(unittest.TestCase):
         portal_catalog = api.portal.get_tool("portal_catalog")
         utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         taxonomy = utility.data
+        taxonomy_test = schema.Set(
+            title="taxonomy_test",
+            description="taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
+        )
+        portal_types = api.portal.get_tool("portal_types")
+        fti = portal_types.get("Document")
+        document_schema = fti.lookupSchema()
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
+
         index = portal_catalog.Indexes["taxonomy_test"]
         self.assertEqual(index.numObjects(), 0)
 
@@ -86,6 +98,17 @@ class TestIndexer(unittest.TestCase):
         portal_catalog = api.portal.get_tool("portal_catalog")
         utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         taxonomy = utility.data
+        taxonomy_test = schema.Set(
+            title="taxonomy_test",
+            description="taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
+        )
+        portal_types = api.portal.get_tool("portal_types")
+        fti = portal_types.get("Document")
+        document_schema = fti.lookupSchema()
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
         query = {}
         query["taxonomy_test"] = "5"
         taxo_val = taxonomy["en"]["\u241fInformation Science\u241fSport"]
@@ -111,6 +134,17 @@ class TestIndexer(unittest.TestCase):
         portal_catalog = api.portal.get_tool("portal_catalog")
         utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
         taxonomy = utility.data
+        taxonomy_test = schema.Set(
+            title="taxonomy_test",
+            description="taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
+        )
+        portal_types = api.portal.get_tool("portal_types")
+        fti = portal_types.get("Document")
+        document_schema = fti.lookupSchema()
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
         taxo_val = taxonomy["en"]["\u241fInformation Science\u241fCars"]
         self.document.taxonomy_test = taxo_val
         self.document.reindexObject()
