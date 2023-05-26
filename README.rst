@@ -206,14 +206,21 @@ This package also supports endpoints for basic CRUD operations that can be consu
 
 The API consumer can create, read, and delete taxonomies.
 
++----------+---------------------+----------------------------------------+ 
 | Verb     | URL                 | Action                                 |
-| -------- | ------------------  | -------------------------------------- |
++==========+=====================+========================================+
 | `POST`   | `/@taxonomy`        | Add taxonomy with specific data        |
++----------+---------------------+----------------------------------------+
 | `GET`    | `/@taxonomy`        | List all taxonomies                    |
++----------+---------------------+----------------------------------------+ 
 | `GET`    | `/@taxonomy/{name}` | Get taxonomy data                      |
++----------+---------------------+----------------------------------------+ 
 | `DELETE` | `/@taxonomy/{name}` | Remove one or more taxonomies          |
++----------+---------------------+----------------------------------------+ 
 | `PATCH`  | `/@taxonomy/{name}` | Update taxonomy data                   |
++----------+---------------------+----------------------------------------+ 
 | `GET`    | `/@taxonomySchema`  | Get current taxonomy schema            |
++----------+---------------------+----------------------------------------+
 
 Translations
 ------------
