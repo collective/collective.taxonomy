@@ -95,6 +95,17 @@
       permission="zope.Public"
       />
 
+  <browser:page
+      name="tabular_view"
+      template="listing_tabular.pt"
+      menu="plone_displayviews"
+      title="Tabular view"
+      for="plone.app.contenttypes.behaviors.collection.ISyndicatableCollection"
+      class=".browser.TaxonomyCollectionView"
+      permission="zope2.View"
+      layer=".interfaces.IBrowserLayer"
+      />
+
   <adapter
       factory=".browser.TaxonomyTraverser"
       for="*
