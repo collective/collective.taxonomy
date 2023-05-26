@@ -1,8 +1,8 @@
 Changes
 =======
 
-3.0.2 (unreleased)
-------------------
+3.1 (2023-05-26)
+----------------
 
 - Integrate taxonomies into Collection tabular view, display values are now resolved
   [MrTango]
