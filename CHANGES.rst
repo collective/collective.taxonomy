@@ -4,7 +4,8 @@ Changes
 3.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix missing plone.app.contentmenu zcml dependency for plone_displayviews menu
+  [laulaz]
 
 
 3.1 (2023-05-26)
