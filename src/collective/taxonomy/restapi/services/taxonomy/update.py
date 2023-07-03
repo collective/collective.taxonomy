@@ -28,7 +28,7 @@ class TaxonomyPatch(Service):
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
         result = []
         for item in parsed_data:
-            translations = item.get('translations', {})
+            translations = item.get("translations", {})
             new_key = item["key"]
             title = item["title"]
             if language in translations:
@@ -44,8 +44,7 @@ class TaxonomyPatch(Service):
             if subnodes:
                 new_path = "{}{}".format(new_path, PATH_SEPARATOR)
                 result.extend(
-                    self.generate_data_for_taxonomy(
-                        subnodes, language, new_path)
+                    self.generate_data_for_taxonomy(subnodes, language, new_path)
                 )
 
         return result
@@ -93,8 +92,7 @@ class TaxonomyPatch(Service):
                     taxonomy.data[language] = OOBTree()
 
             for language in taxonomy.data.keys():
-                data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree, language)
+                data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
 
                 taxonomy.update(language, data_for_taxonomy, True)
         else:
