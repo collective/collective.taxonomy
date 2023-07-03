@@ -28,8 +28,11 @@ class TaxonomyPatch(Service):
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
         result = []
         for item in parsed_data:
+            translations = item.get("translations", {})
             new_key = item["key"]
             title = item["title"]
+            if language in translations:
+                title = translations[language]
             new_path = "{}{}".format(path, title)
             result.append(
                 (
