@@ -39,8 +39,6 @@ class App extends Component {
     });
   }
 
-  console.log('hereee')
-
   render() {
     const {
       defaultLanguage,
