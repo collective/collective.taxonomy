@@ -45,7 +45,7 @@ class TaxonomyPost(Service):
 
         if "import_file" in form_data:
             if form_data["import_file"]:
-                import_file = form_data["import_file"].form_data
+                import_file = form_data["import_file"].data
                 adapter.importDocument(taxonomy, import_file)
             del form_data["import_file"]
 
@@ -90,9 +90,11 @@ class TaxonomyPost(Service):
                     # Validate required etc
                     field.validate(value)
                 except ValueError as e:
-                    errors.append({"message": str(e), "field": name, "error": e})
+                    errors.append(
+                        {"message": str(e), "field": name, "error": e})
                 except ValidationError as e:
-                    errors.append({"message": e.doc(), "field": name, "error": e})
+                    errors.append(
+                        {"message": e.doc(), "field": name, "error": e})
                 else:
                     form_data[name] = value
 
