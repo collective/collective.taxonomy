@@ -90,11 +90,9 @@ class TaxonomyPost(Service):
                     # Validate required etc
                     field.validate(value)
                 except ValueError as e:
-                    errors.append(
-                        {"message": str(e), "field": name, "error": e})
+                    errors.append({"message": str(e), "field": name, "error": e})
                 except ValidationError as e:
-                    errors.append(
-                        {"message": e.doc(), "field": name, "error": e})
+                    errors.append({"message": e.doc(), "field": name, "error": e})
                 else:
                     form_data[name] = value
 
