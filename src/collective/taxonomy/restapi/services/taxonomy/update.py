@@ -52,7 +52,6 @@ class TaxonomyPatch(Service):
                 result.extend(
                     self.generate_data_for_taxonomy(subnodes, language, new_path)
                 )
-
         return result
 
     def reply(self):
