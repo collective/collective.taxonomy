@@ -60,7 +60,12 @@ class TaxonomyPatch(Service):
             raise Exception("No taxonomy name provided")
 
         data = json_body(self.request)
-        name = self.taxonomy_id
+
+        name = data.get("taxonomy")
+
+        if name is None:
+            raise Exception("No taxonomy name provided")
+
         languages = data.get("languages", [data.get("default_language", "en")])
         taxonomy = queryUtility(ITaxonomy, name=name)
 
