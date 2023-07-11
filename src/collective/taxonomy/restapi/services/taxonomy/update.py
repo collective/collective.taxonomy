@@ -60,7 +60,6 @@ class TaxonomyPatch(Service):
             raise Exception("No taxonomy name provided")
 
         data = json_body(self.request)
-
         name = data.get("taxonomy")
 
         if name is None:
