@@ -45,7 +45,7 @@ class TaxonomyPost(Service):
 
         if "import_file" in form_data:
             if form_data["import_file"]:
-                import_file = form_data["import_file"].form_data
+                import_file = form_data["import_file"].data
                 adapter.importDocument(taxonomy, import_file)
             del form_data["import_file"]
 

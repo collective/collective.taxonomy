@@ -303,10 +303,15 @@ class TaxonomyEditFormAdapter(object):
             self.__dict__["purge"] = value
             return
 
+        if attr == "taxonomy_fieldset":
+            self.__dict__["utility"].fieldset = value
+            return
+
         if attr == "field_prefix":
             self.__dict__["behavior"].removeIndex()
             setattr(self.__dict__["behavior"], attr, value or "")
             self.__dict__["behavior"].addIndex()
+            self.__dict__["utility"].prefix = value
             return
 
         if attr == "import_file" and value is not None:

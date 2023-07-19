@@ -48,12 +48,13 @@ class TaxonomyGet(Service, TreeExport):
             root = self.buildTree(root)
         except ValueError:
             root = None
-
         result = {
             "key": "0",
             "name": self.taxonomy.name,
             "title": self.taxonomy.title,
             "description": self.taxonomy.description,
+            "fieldset": getattr(self.taxonomy, "fieldset", "categorization"),
+            "prefix": getattr(self.taxonomy, "prefix", "taxonomy_"),
             "@id": "{}/@taxonomy/{}".format(site.absolute_url(), self.taxonomy.name),
             "tree": [],
             "default_language": self.taxonomy.default_language,
@@ -61,7 +62,6 @@ class TaxonomyGet(Service, TreeExport):
         if root is not None:
             for term in root.findall("term"):
                 result["tree"].append(self.generate_json(term))
-
         return result
 
     def generate_json(self, root):
