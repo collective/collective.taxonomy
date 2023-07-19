@@ -19,6 +19,9 @@ Changes
 3.0.1 (2023-02-02)
 ------------------
 
+- check for the field presence in `TaxonomyIndexerWrapper` more consistent.
+  [mamico]
+
 - export/import of field_prefix value.
   [eikichi18]
 

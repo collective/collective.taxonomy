@@ -28,7 +28,9 @@ class TestIndexer(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.portal.invokeFactory("Document", "doc1", title="Doc", language="en")
+        self.portal.invokeFactory("Folder", "fold1", title="Fold", language="en")
         self.document = self.portal.doc1
+        self.folder = self.portal.fold1
 
         # add computed taxonomy field to Document schema
         self.taxonomy_test = schema.Set(
@@ -150,3 +152,23 @@ class TestIndexer(unittest.TestCase):
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog({"taxonomy_test": "5"})), 0)
         self.assertEqual(len(portal_catalog({"taxonomy_test": "55"})), 1)
+
+    def test_indexer_with_property(self):
+        portal_catalog = api.portal.get_tool("portal_catalog")
+        utility = queryUtility(ITaxonomy, name="collective.taxonomy.test")
+        taxonomy = utility.data
+        index = portal_catalog.Indexes["taxonomy_test"]
+        self.assertEqual(index.numObjects(), 0)
+
+        # overrides field with a property method.
+        # XXX: this is a trick: generally the property will be defined in the
+        # class, but here we do it in the test.
+        taxo_val = taxonomy["en"]["\u241fInformation Science\u241fBook Collecting"]
+        self.folder.__class__.taxonomy_test = property(lambda self: taxo_val)
+
+        self.folder.reindexObject()
+        query = {}
+        query["taxonomy_test"] = "2"
+        self.assertEqual(len(portal_catalog(query)), 1)
+        index = portal_catalog.Indexes["taxonomy_test"]
+        self.assertEqual(index.numObjects(), 1)
