@@ -73,7 +73,7 @@ msgstr "Conjunto de campo"
 
 #: ./interfaces.py:152
 msgid "Fieldset for the taxonomy behavior field. Example: 'categorization'. Use 'default' for the first fieldset."
-msgstr "Conjunto de campos para el campo de comportamiento de taxonomía. Ejemplo: 'categorización'. Use 'predeterminado' para el primer conjunto de campos."
+msgstr "Conjunto de campos para el campo de comportamiento de taxonomía. Ejemplo: 'categorization'. Use 'default' para el primer conjunto de campos. Nota: se deben utilizar los nombres originales de los conjuntos de campos, no los nombres traducidos que aparecen en las pestañas."
 
 #: ./controlpanel.py:107
 msgid "Please select at least one taxonomy."
