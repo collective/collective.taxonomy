@@ -1,11 +1,14 @@
 Changes
 =======
 
-3.2 (unreleased)
-----------------
+3.1.1 (unreleased)
+------------------
 
 - Fix missing plone.app.contentmenu zcml dependency for plone_displayviews menu
   [laulaz]
+
+- Update JS dependencies.
+  [petschki]
 
 
 3.1 (2023-05-26)
