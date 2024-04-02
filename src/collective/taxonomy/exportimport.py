@@ -5,10 +5,10 @@ from collective.taxonomy.vdex import ImportVdex
 from io import BytesIO
 from io import StringIO
 from lxml.etree import fromstring
+from plone.base.utils import safe_text
 from plone.behavior.interfaces import IBehavior
 
 import configparser
-import six
 
 
 def parseConfigFile(data):
@@ -94,7 +94,7 @@ def exportTaxonomy(context):
             for name in ["title", "description", "default_language"]:
                 value = getattr(taxonomy, name, None)
                 if value:
-                    config.set("taxonomy", name, six.ensure_text(value))
+                    config.set("taxonomy", name, safe_text(value))
 
             for name in [
                 "field_title",
@@ -105,7 +105,7 @@ def exportTaxonomy(context):
             ]:
                 value = getattr(behavior, name, None)
                 if value is not None:
-                    config.set("taxonomy", name, six.ensure_text(value))
+                    config.set("taxonomy", name, safe_text(value))
 
             for name in ["is_single_select", "is_required"]:
                 value = getattr(behavior, name, None)

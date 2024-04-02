@@ -7,9 +7,9 @@ from collective.taxonomy.interfaces import ITaxonomySettings
 from io import BytesIO
 from plone import api
 from plone.app.registry.browser import controlpanel
+from plone.base.interfaces import IPloneSiteRoot
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import view
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser import BrowserView
 from z3c.form import button
 from z3c.form import field

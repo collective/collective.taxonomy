@@ -2,8 +2,8 @@ from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.app.contenttypes.browser.collection import CollectionView
 from plone.app.vocabularies.metadatafields import get_field_label
+from plone.base.utils import safe_callable
 from plone.behavior.interfaces import IBehavior
-from Products.CMFPlone.utils import safe_callable
 from Products.Five.browser import BrowserView
 from zope.component import getSiteManager
 from zope.component import queryUtility

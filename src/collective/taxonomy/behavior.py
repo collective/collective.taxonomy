@@ -6,6 +6,7 @@ from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
+from plone.base.utils import safe_text
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
@@ -17,7 +18,6 @@ from plone.supermodel.model import Fieldset
 from plone.supermodel.model import Schema
 from plone.supermodel.model import SchemaClass
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from Products.PluginIndexes.KeywordIndex.KeywordIndex import KeywordIndex
 from Products.ZCatalog.Catalog import CatalogError
 from Products.ZCatalog.interfaces import IZCatalog
@@ -118,9 +118,9 @@ class TaxonomyBehavior(Persistent):
         def add(name, value):
             registry.records[prefix + "." + name] = value
 
-        add("title", Record(field.TextLine(), safe_unicode(self.field_title)))
+        add("title", Record(field.TextLine(), safe_text(self.field_title)))
         add("enabled", Record(field.Bool(), True))
-        add("group", Record(field.TextLine(), safe_unicode("Taxonomy")))
+        add("group", Record(field.TextLine(), safe_text("Taxonomy")))
         add(
             "operations",
             Record(
@@ -129,11 +129,11 @@ class TaxonomyBehavior(Persistent):
             ),
         )
         add(
-            "vocabulary", Record(field.TextLine(), safe_unicode(self.vocabulary_name))
+            "vocabulary", Record(field.TextLine(), safe_text(self.vocabulary_name))
         )  # noqa: E501
         add("fetch_vocabulary", Record(field.Bool(), True))
         add("sortable", Record(field.Bool(), False))
-        add("description", Record(field.Text(), safe_unicode("")))
+        add("description", Record(field.Text(), safe_text("")))
 
     def addIndex(self):
         context = getSite()
@@ -194,15 +194,15 @@ class TaxonomyBehavior(Persistent):
 
         if hasattr(self, "is_single_select") and self.is_single_select:
             select_field = schema.Choice(
-                title=_(safe_unicode(self.field_title)),
-                description=_(safe_unicode(self.field_description)),
+                title=_(safe_text(self.field_title)),
+                description=_(safe_text(self.field_description)),
                 required=self.is_required,
                 vocabulary=self.vocabulary_name,
             )
         else:
             select_field = schema.List(
-                title=_(safe_unicode(self.field_title)),
-                description=_(safe_unicode(self.field_description)),
+                title=_(safe_text(self.field_title)),
+                description=_(safe_text(self.field_description)),
                 required=self.is_required,
                 min_length=self.is_required and 1 or 0,
                 value_type=schema.Choice(

@@ -7,7 +7,7 @@
       method="GET"
       accept="application/json,application/schema+json"
       factory=".get.TaxonomyGet"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       permission="zope2.View"
       name="@taxonomy"
       />
@@ -16,7 +16,7 @@
       method="GET"
       accept="application/json"
       factory=".schema.TaxonomyGetSchema"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       permission="zope2.View"
       name="@taxonomySchema"
       />
@@ -24,7 +24,7 @@
   <plone:service
       method="POST"
       factory=".add.TaxonomyPost"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       permission="cmf.ManagePortal"
       name="@taxonomy"
       />
@@ -32,7 +32,7 @@
   <plone:service
       method="DELETE"
       factory=".delete.TaxonomyDelete"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       permission="cmf.ManagePortal"
       name="@taxonomy"
       />
@@ -40,7 +40,7 @@
   <plone:service
       method="PATCH"
       factory=".update.TaxonomyPatch"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       permission="cmf.ManagePortal"
       name="@taxonomy"
       />

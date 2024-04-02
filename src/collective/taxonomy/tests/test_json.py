@@ -5,7 +5,6 @@ from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
 import json
-import six
 import unittest
 
 
@@ -103,7 +102,6 @@ class TestJson(unittest.TestCase):
         )
 
 
-@unittest.skipIf(six.PY2, "Those tests run just for Python 3")
 class TestEditDataJson(unittest.TestCase):
     """Test Edit Data JSON view."""
 

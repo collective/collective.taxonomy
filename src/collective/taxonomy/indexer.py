@@ -3,15 +3,14 @@ from Acquisition import aq_parent
 from collections.abc import Iterable
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
+from plone.base.interfaces import IPloneSiteRoot
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import adapter
 from zope.interface import implementer
 
 import logging
-import six
 
 
 logger = logging.getLogger("collective.taxonomy")
