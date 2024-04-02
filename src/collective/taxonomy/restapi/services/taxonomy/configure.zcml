@@ -12,7 +12,7 @@
       name="@taxonomy"
       />
 
- <plone:service
+  <plone:service
       method="GET"
       accept="application/json"
       factory=".schema.TaxonomyGetSchema"
@@ -36,12 +36,12 @@
       permission="cmf.ManagePortal"
       name="@taxonomy"
       />
- 
+
   <plone:service
       method="PATCH"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       factory=".update.TaxonomyPatch"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       permission="cmf.ManagePortal"
       name="@taxonomy"
-    />
+      />
 </configure>
