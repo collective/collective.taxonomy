@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone.app.testing import applyProfile
 from plone.app.testing import setRoles

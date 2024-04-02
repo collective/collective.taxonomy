@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
@@ -170,4 +169,4 @@ class TestTaxonomyEndpoint(unittest.TestCase):
         fields = [x.get("fields") for x in response["fieldsets"]]
         self.assertIn("field_title", fields[0])
         self.assertIn("taxonomy", fields[0])
-        self.assertNotEquals(response["properties"], {})
+        self.assertNotEqual(response["properties"], {})

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy import generated
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.indexer import TaxonomyIndexer
@@ -107,7 +106,7 @@ class TaxonomyBehavior(Persistent):
             catalog.delIndex(self.field_name)
         except CatalogError:
             logging.info(
-                "Could not delete index {0} .. something is not right.".format(
+                "Could not delete index {} .. something is not right.".format(
                     self.field_name
                 )
             )
@@ -152,7 +151,7 @@ class TaxonomyBehavior(Persistent):
             catalog.addIndex(self.field_name, idx_object)
         except CatalogError:
             logging.info(
-                "Index {0} already exists, we hope it is proper configured".format(
+                "Index {} already exists, we hope it is proper configured".format(
                     self.field_name
                 )  # noqa: E501
             )
@@ -163,7 +162,7 @@ class TaxonomyBehavior(Persistent):
             catalog.addColumn(self.field_name)
         except CatalogError:
             logging.info(
-                "Column {0} already exists".format(self.field_name)
+                "Column {} already exists".format(self.field_name)
             )  # noqa: E501
 
     def unregisterInterface(self):

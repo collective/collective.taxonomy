@@ -8,7 +8,7 @@ from zope.component.hooks import getSite
 import sys
 
 
-class Wrapper(object):
+class Wrapper:
     __name__ = __name__
 
     lock = RLock()

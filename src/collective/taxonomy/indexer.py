@@ -17,7 +17,7 @@ import six
 logger = logging.getLogger("collective.taxonomy")
 
 
-class TaxonomyIndexerWrapper(object):
+class TaxonomyIndexerWrapper:
     def __init__(self, field_name, utility_name, context, catalog):
         self.context = context
         self.catalog = catalog
@@ -42,9 +42,7 @@ class TaxonomyIndexerWrapper(object):
 
         found = []
         stored_element = getattr(self.context, self.field_name)
-        if not isinstance(stored_element, Iterable) or isinstance(
-            stored_element, six.string_types
-        ):
+        if not isinstance(stored_element, Iterable) or isinstance(stored_element, str):
             stored_element = [stored_element]
 
         for language, data in utility.data.items():
@@ -73,7 +71,7 @@ class TaxonomyIndexerWrapper(object):
 
 @adapter(IDexterityContent, IZCatalog)
 @implementer(IIndexer)
-class TaxonomyIndexer(object):
+class TaxonomyIndexer:
     __name__ = "TaxonomyIndexer"
 
     def __init__(self, field_name, utility_name):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -16,7 +15,7 @@ class TestJson(unittest.TestCase):
     layer = INTEGRATION_TESTING
 
     def setUp(self):
-        super(TestJson, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -111,7 +110,7 @@ class TestEditDataJson(unittest.TestCase):
     layer = INTEGRATION_TESTING
 
     def setUp(self):
-        super(TestEditDataJson, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])

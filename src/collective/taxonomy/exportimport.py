@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
@@ -7,8 +6,8 @@ from io import BytesIO
 from io import StringIO
 from lxml.etree import fromstring
 from plone.behavior.interfaces import IBehavior
-from six.moves import configparser
 
+import configparser
 import six
 
 
@@ -113,10 +112,7 @@ def exportTaxonomy(context):
                 if value:
                     config.set("taxonomy", name, str(value).lower())
 
-            if six.PY3:
-                filehandle = StringIO()
-            else:
-                filehandle = BytesIO()
+            filehandle = StringIO()
             config.write(filehandle)
             context.writeDataFile(
                 "taxonomies/" + short_name + ".cfg", filehandle.getvalue(), "text/plain"
@@ -124,7 +120,7 @@ def exportTaxonomy(context):
             context.writeDataFile("taxonomies/" + short_name + ".xml", body, "text/xml")
 
 
-class TaxonomyImportExportAdapter(object):
+class TaxonomyImportExportAdapter:
     IMSVDEX_NS = "http://www.imsglobal.org/xsd/imsvdex_v1p0"
 
     def __init__(self, context):

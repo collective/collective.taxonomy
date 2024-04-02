@@ -12,7 +12,7 @@ from zope.interface import Interface
 
 @implementer(ISerializeToJson)
 @adapter(ITaxonomy, Interface)
-class TaxonomySerializer(object):
+class TaxonomySerializer:
     """Taxnomy serializer"""
 
     def __init__(self, context, request):

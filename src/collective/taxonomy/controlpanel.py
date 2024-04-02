@@ -1,17 +1,16 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.exportimport import TaxonomyImportExportAdapter
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.interfaces import ITaxonomyForm
 from collective.taxonomy.interfaces import ITaxonomySettings
+from io import BytesIO
 from plone import api
 from plone.app.registry.browser import controlpanel
 from plone.behavior.interfaces import IBehavior
 from plone.memoize import view
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser import BrowserView
-from six import BytesIO
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
@@ -40,7 +39,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
     description = _("Taxonomy settings")
 
     def updateFields(self):
-        super(TaxonomySettingsControlPanelForm, self).updateFields()
+        super().updateFields()
         self.fields["taxonomies"].widgetFactory = CheckBoxFieldWidget
 
     def updateActions(self):
@@ -64,7 +63,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         data, errors = self.extractData()
         if len(data.get("taxonomies", [])) > 0:
             self.request.RESPONSE.redirect(
-                "{0}/@@taxonomy-edit?form.widgets.taxonomy={1}".format(
+                "{}/@@taxonomy-edit?form.widgets.taxonomy={}".format(
                     self.context.portal_url(), data.get("taxonomies")[0]
                 )
             )
@@ -81,7 +80,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         data, errors = self.extractData()
         if len(data.get("taxonomies", [])) > 0:
             self.request.RESPONSE.redirect(
-                "{0}/@@taxonomy-edit-data?taxonomy={1}".format(
+                "{}/@@taxonomy-edit-data?taxonomy={}".format(
                     self.context.portal_url(), data.get("taxonomies")[0]
                 )
             )
@@ -123,7 +122,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
 
         if len(taxonomies) > 0:
             return self.request.RESPONSE.redirect(
-                "{0}/@@taxonomy-export?taxonomies={1}".format(
+                "{}/@@taxonomy-export?taxonomies={}".format(
                     self.context.portal_url(), ",".join(taxonomies)
                 )
             )  # noqa
@@ -218,7 +217,7 @@ class TaxonomyAddForm(form.AddForm):
     def handleCancel(self, action):
         api.portal.show_message(_("Add cancelled"), request=self.request)
         self.request.response.redirect(
-            "{0}/@@taxonomy-settings".format(self.context.absolute_url())
+            "{}/@@taxonomy-settings".format(self.context.absolute_url())
         )
 
 
@@ -256,20 +255,20 @@ class TaxonomyEditForm(form.EditForm):
 
             api.portal.show_message(_("Changes saved"), request=self.request)
         self.request.response.redirect(
-            "{0}/@@taxonomy-settings".format(self.context.absolute_url())
+            "{}/@@taxonomy-settings".format(self.context.absolute_url())
         )
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
         api.portal.show_message(_("Edit cancelled"), request=self.request)
         self.request.response.redirect(
-            "{0}/@@taxonomy-settings".format(self.context.absolute_url())
+            "{}/@@taxonomy-settings".format(self.context.absolute_url())
         )
 
 
 @adapter(IPloneSiteRoot)
 @implementer(ITaxonomyForm)
-class TaxonomyEditFormAdapter(object):
+class TaxonomyEditFormAdapter:
     purge = False
 
     def __init__(self, context, name=None):

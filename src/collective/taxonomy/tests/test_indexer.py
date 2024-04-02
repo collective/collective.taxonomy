@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone import api

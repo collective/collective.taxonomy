@@ -53,7 +53,7 @@ class TaxonomyView(BrowserView):
 
 class VocabularyTuplesView(BrowserView):
     def __init__(self, context, request, vocabulary):
-        super(VocabularyTuplesView, self).__init__(context, request)
+        super().__init__(context, request)
         self.vocabulary = vocabulary
 
     def __call__(self, target_language=None):

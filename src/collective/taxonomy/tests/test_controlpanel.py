@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone import api
 from plone.app.testing import applyProfile
@@ -29,7 +28,7 @@ class TestControlPanel(unittest.TestCase):
         self.browser.handleErrors = False
         self.browser.addHeader(
             "Authorization",
-            "Basic {0}:{1}".format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD),
+            "Basic {}:{}".format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD),
         )
         commit()
 

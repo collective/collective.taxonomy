@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.interfaces import ITaxonomySelectWidget
 from plone.memoize import ram
 from z3c.form import interfaces
@@ -14,7 +13,7 @@ def _items_cachekey(fun, self):
     # try to get modified time of taxonomy utility
     try:
         mtime = self.terms.terms.data._p_mtime
-        key = "{0}-{1}".format(self.field.__name__, mtime)
+        key = "{}-{}".format(self.field.__name__, mtime)
         return key
     except AttributeError:
         # XXX: this happens with newly created taxonomies
@@ -31,7 +30,7 @@ class TaxonomySelectWidget(OrderedSelectWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(TaxonomySelectWidget, self).update()
+        super().update()
         self.items = self._get_items()
         self.selectedItems = [
             self.getItem(self.terms.getTermByToken(token), count)
