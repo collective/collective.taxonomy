@@ -97,7 +97,6 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
 
 class ImportJson(BrowserView):
-
     """Update taxonomy using json data."""
 
     def __call__(self):

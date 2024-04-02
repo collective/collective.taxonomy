@@ -19,7 +19,6 @@ import unittest
 
 
 class TestIndexer(unittest.TestCase):
-
     """Test JSON views."""
 
     layer = INTEGRATION_TESTING

@@ -11,7 +11,6 @@ import unittest
 
 
 class TestJson(unittest.TestCase):
-
     """Test JSON views."""
 
     layer = INTEGRATION_TESTING
@@ -107,7 +106,6 @@ class TestJson(unittest.TestCase):
 
 @unittest.skipIf(six.PY2, "Those tests run just for Python 3")
 class TestEditDataJson(unittest.TestCase):
-
     """Test Edit Data JSON view."""
 
     layer = INTEGRATION_TESTING
