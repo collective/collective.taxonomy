@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
-
+          additional-eggs: 'setuptools'
       - name: Install package
         run: |
           make install
