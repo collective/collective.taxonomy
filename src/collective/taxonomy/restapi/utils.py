@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.interfaces import ITaxonomy
 from plone.restapi.interfaces import ISerializeToJson
 from zope.component import getMultiAdapter

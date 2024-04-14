@@ -1,5 +1,6 @@
 """ RestAPI Taxonomy serializer
 """
+
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.interfaces import ITaxonomy
 from plone.api import portal
@@ -11,7 +12,7 @@ from zope.interface import Interface
 
 @implementer(ISerializeToJson)
 @adapter(ITaxonomy, Interface)
-class TaxonomySerializer(object):
+class TaxonomySerializer:
     """Taxnomy serializer"""
 
     def __init__(self, context, request):

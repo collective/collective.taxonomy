@@ -3,21 +3,20 @@ from Acquisition import aq_parent
 from collections.abc import Iterable
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
+from plone.base.interfaces import IPloneSiteRoot
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.interfaces import IIndexer
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import adapter
 from zope.interface import implementer
 
 import logging
-import six
 
 
 logger = logging.getLogger("collective.taxonomy")
 
 
-class TaxonomyIndexerWrapper(object):
+class TaxonomyIndexerWrapper:
     def __init__(self, field_name, utility_name, context, catalog):
         self.context = context
         self.catalog = catalog
@@ -42,9 +41,7 @@ class TaxonomyIndexerWrapper(object):
 
         found = []
         stored_element = getattr(self.context, self.field_name)
-        if not isinstance(stored_element, Iterable) or isinstance(
-            stored_element, six.string_types
-        ):
+        if not isinstance(stored_element, Iterable) or isinstance(stored_element, str):
             stored_element = [stored_element]
 
         for language, data in utility.data.items():
@@ -73,7 +70,7 @@ class TaxonomyIndexerWrapper(object):
 
 @adapter(IDexterityContent, IZCatalog)
 @implementer(IIndexer)
-class TaxonomyIndexer(object):
+class TaxonomyIndexer:
     __name__ = "TaxonomyIndexer"
 
     def __init__(self, field_name, utility_name):

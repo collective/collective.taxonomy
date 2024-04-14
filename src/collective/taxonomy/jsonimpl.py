@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
@@ -97,7 +96,6 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
 
 class ImportJson(BrowserView):
-
     """Update taxonomy using json data."""
 
     def __call__(self):

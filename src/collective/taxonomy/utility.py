@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from BTrees.IOBTree import IOBTree
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import generated
@@ -267,7 +266,7 @@ class Taxonomy(SimpleItem):
         seen = set()
         for key, value in items:
             if key in seen:
-                logger.warning("Duplicate key entry: %r" % (key,))
+                logger.warning("Duplicate key entry: {!r}".format(key))
 
             seen.add(key)
             update = key in tree

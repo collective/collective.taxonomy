@@ -49,13 +49,13 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
+        "plone.base",
         "plone.supermodel",
         "plone.api >= 1.5",
         "plone.app.registry",
         "plone.app.dexterity",
         "plone.synchronize",
         "lxml",
-        "six >= 1.12",
     ],
     extras_require={
         "dev": [

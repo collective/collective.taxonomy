@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.interfaces import ITaxonomyForm
 from plone.restapi.serializer.controlpanels import get_jsonschema_for_controlpanel
 from plone.restapi.serializer.converters import json_compatible

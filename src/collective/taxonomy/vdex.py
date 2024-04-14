@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import OrderedDict
 from collective.taxonomy import PATH_SEPARATOR
 from lxml import etree
@@ -8,7 +7,7 @@ from plone.supermodel.utils import indent
 LANG_SEPARATOR = "|"
 
 
-class ImportVdex(object):
+class ImportVdex:
     """Helper class for import"""
 
     def __init__(self, tree, ns):
@@ -42,7 +41,7 @@ class ImportVdex(object):
         for node in tree.findall("./{%s}term" % self.ns):
             identifier = node.find("./{%s}termIdentifier" % self.ns)
             langstrings = node.findall(
-                "./{%s}caption/{%s}langstring" % (self.ns, self.ns)
+                "./{{{}}}caption/{{{}}}langstring".format(self.ns, self.ns)
             )
             for i in langstrings:
                 if not parent_language or parent_language == i.attrib["language"]:
@@ -62,7 +61,7 @@ class ImportVdex(object):
         return result
 
 
-class TreeExport(object):
+class TreeExport:
     def __init__(self, taxonomy):
         self.taxonomy = taxonomy
 

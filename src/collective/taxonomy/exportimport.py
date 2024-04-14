@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
@@ -6,10 +5,10 @@ from collective.taxonomy.vdex import ImportVdex
 from io import BytesIO
 from io import StringIO
 from lxml.etree import fromstring
+from plone.base.utils import safe_text
 from plone.behavior.interfaces import IBehavior
-from six.moves import configparser
 
-import six
+import configparser
 
 
 def parseConfigFile(data):
@@ -95,7 +94,7 @@ def exportTaxonomy(context):
             for name in ["title", "description", "default_language"]:
                 value = getattr(taxonomy, name, None)
                 if value:
-                    config.set("taxonomy", name, six.ensure_text(value))
+                    config.set("taxonomy", name, safe_text(value))
 
             for name in [
                 "field_title",
@@ -106,17 +105,14 @@ def exportTaxonomy(context):
             ]:
                 value = getattr(behavior, name, None)
                 if value is not None:
-                    config.set("taxonomy", name, six.ensure_text(value))
+                    config.set("taxonomy", name, safe_text(value))
 
             for name in ["is_single_select", "is_required"]:
                 value = getattr(behavior, name, None)
                 if value:
                     config.set("taxonomy", name, str(value).lower())
 
-            if six.PY3:
-                filehandle = StringIO()
-            else:
-                filehandle = BytesIO()
+            filehandle = StringIO()
             config.write(filehandle)
             context.writeDataFile(
                 "taxonomies/" + short_name + ".cfg", filehandle.getvalue(), "text/plain"
@@ -124,7 +120,7 @@ def exportTaxonomy(context):
             context.writeDataFile("taxonomies/" + short_name + ".xml", body, "text/xml")
 
 
-class TaxonomyImportExportAdapter(object):
+class TaxonomyImportExportAdapter:
     IMSVDEX_NS = "http://www.imsglobal.org/xsd/imsvdex_v1p0"
 
     def __init__(self, context):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.interfaces import IBrowserLayer
 from collective.taxonomy.interfaces import ITaxonomyControlPanel

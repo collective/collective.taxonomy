@@ -1,30 +1,13 @@
-# -*- coding: utf-8 -*-
 """Setup tests for this package."""
+
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.base.utils import get_installer
 from Products.CMFCore.utils import getToolByName
 
 import unittest
-
-
-no_get_installer = False
-
-try:
-    from Products.CMFPlone.utils import get_installer
-except Exception:
-    # Quick shim for 5.1 api change
-
-    class get_installer(object):
-        def __init__(self, portal, request):
-            self.installer = getToolByName(portal, "portal_quickinstaller")
-
-        def is_product_installed(self, name):
-            return self.installer.isProductInstalled(name)
-
-        def uninstall_product(self, name):
-            return self.installer.uninstallProducts([name])
 
 
 class TestSetup(unittest.TestCase):

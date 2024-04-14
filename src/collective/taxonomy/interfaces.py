@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .i18n import CollectiveTaxonomyMessageFactory as _
 from plone import api
 from plone.namedfile.field import NamedBlobFile

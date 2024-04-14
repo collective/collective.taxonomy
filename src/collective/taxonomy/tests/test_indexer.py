@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone import api
@@ -19,7 +18,6 @@ import unittest
 
 
 class TestIndexer(unittest.TestCase):
-
     """Test JSON views."""
 
     layer = INTEGRATION_TESTING

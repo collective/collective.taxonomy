@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -6,18 +5,16 @@ from plone.app.testing.helpers import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 
 import json
-import six
 import unittest
 
 
 class TestJson(unittest.TestCase):
-
     """Test JSON views."""
 
     layer = INTEGRATION_TESTING
 
     def setUp(self):
-        super(TestJson, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -105,15 +102,13 @@ class TestJson(unittest.TestCase):
         )
 
 
-@unittest.skipIf(six.PY2, "Those tests run just for Python 3")
 class TestEditDataJson(unittest.TestCase):
-
     """Test Edit Data JSON view."""
 
     layer = INTEGRATION_TESTING
 
     def setUp(self):
-        super(TestEditDataJson, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
