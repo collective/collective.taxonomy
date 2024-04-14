@@ -1,0 +1,1 @@
+Replace configparser.readfp with readfile for Python 3.12 compatibility [@fredvd]
