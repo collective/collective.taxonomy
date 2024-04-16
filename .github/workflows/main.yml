@@ -28,6 +28,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
+          setuptools-version: 69.5.1
           additional-eggs: 'setuptools'
       - name: Install package
         run: |
