@@ -24,12 +24,10 @@ jobs:
 
       - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
         id: setup
-        uses: plone/setup-plone@v2.0.0
+        uses: plone/setup-plone@maurits-fixes
         with:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
-          setuptools-version: 69.5.1
-          additional-eggs: 'setuptools'
       - name: Install package
         run: |
           make install
