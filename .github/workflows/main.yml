@@ -29,6 +29,8 @@ jobs:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
           setuptools-version: 66.1.0
+          additional-packages: zest.releaser
+          additional-eggs: zest.pocompile
       - name: Install package
         run: |
           make install
