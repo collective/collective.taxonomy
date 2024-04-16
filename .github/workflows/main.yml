@@ -28,6 +28,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
+          setuptools-version: 66.1.0
       - name: Install package
         run: |
           make install
