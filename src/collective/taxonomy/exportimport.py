@@ -17,7 +17,7 @@ def parseConfigFile(data):
     except Exception as exception:
         raise exception
 
-    config.readfp(StringIO(data.decode("utf-8")))
+    config.read_file(StringIO(data.decode("utf-8")))
     return config
 
 
