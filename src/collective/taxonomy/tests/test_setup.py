@@ -5,7 +5,6 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.base.utils import get_installer
-from Products.CMFCore.utils import getToolByName
 
 import unittest
 

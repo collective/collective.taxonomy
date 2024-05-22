@@ -40,7 +40,7 @@ class TaxonomyPatch(Service):
             title = item["title"]
             if language in translations:
                 title = translations[language]
-            new_path = "{}{}".format(path, title)
+            new_path = f"{path}{title}"
             result.append(
                 (
                     new_path,
@@ -49,7 +49,7 @@ class TaxonomyPatch(Service):
             )
             subnodes = item.get("children", [])
             if subnodes:
-                new_path = "{}{}".format(new_path, PATH_SEPARATOR)
+                new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
                     self.generate_data_for_taxonomy(subnodes, language, new_path)
                 )
@@ -70,7 +70,7 @@ class TaxonomyPatch(Service):
         taxonomy = queryUtility(ITaxonomy, name=name)
 
         if taxonomy is None:
-            raise Exception("No taxonomy found for this name: {}".format(name))
+            raise Exception(f"No taxonomy found for this name: {name}")
 
         if "tree" in data:
             tree = data.get("tree", [])
@@ -91,7 +91,7 @@ class TaxonomyPatch(Service):
                     continue
                 value = data.get(field_name, None)
                 if value is None and field.required:
-                    raise Exception("Field {} is required".format(field_name))
+                    raise Exception(f"Field {field_name} is required")
                 if value is not None:
                     deserializer = queryMultiAdapter(
                         (field, self.context, self.request), IFieldDeserializer

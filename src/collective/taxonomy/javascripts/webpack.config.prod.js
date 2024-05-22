@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  devtool: '#cheap-module-source-map', // http://webpack.github.io/docs/configuration.html#devtool
+  devtool: 'cheap-module-source-map', // https://webpack.js.org/configuration/devtool
   entry: {
     edittaxonomydata: ['./src/js/index'],
   },
@@ -11,8 +11,8 @@ module.exports = {
     filename: '[name].js',
   },
   plugins: [
-    new webpack.IgnorePlugin(/^(buffertools)$/), // unwanted "deeper" dependency
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.IgnorePlugin(/^(buffertools)$/),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
@@ -29,7 +29,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel'],
+      loaders: ['babel-loader'],
       exclude: /node_modules/,
       include: path.join(__dirname, 'src'),
     }]

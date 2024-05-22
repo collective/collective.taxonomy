@@ -10,6 +10,8 @@ Changes
 - Update JS dependencies.
   [petschki]
 
+- config with ``plone/meta``.
+  [petschki]
 
 3.1 (2023-05-26)
 ----------------
@@ -36,7 +38,7 @@ Changes
   removed since python 3.10. Importing `collections.abc.Iterable` now.
   [petschki]
 
-- Add mising `fetch_vocabulary` record for IQueryField
+- Add missing `fetch_vocabulary` record for IQueryField
   This was introduced in plone.app.querystring 1.5.0
   [laulaz]
 
@@ -68,7 +70,7 @@ Changes
 - Fix taxonomy data edition when using Gunicorn WSGI (#123)
   [laulaz]
 - Implemented possibility to change the IDs. [Petchesi-Iulian] (#113)
-- Added contraints to not allow duplicate IDs. [Petchesi-Iulian] (#113)
+- Added constraints to not allow duplicate IDs. [Petchesi-Iulian] (#113)
 - Improved the editing interface. [Petchesi-Iulian] (#113)
 - Updated the documentation and tutorial. [Petchesi-Iulian] (#113)
 
@@ -126,7 +128,7 @@ Changes
 2.0.0 (2019-11-25)
 ------------------
 
-- add uninstall handler to cleanup persistent utilites and generated behaviors
+- add uninstall handler to cleanup persistent utilities and generated behaviors
   [petschki]
 
 - Fix GenericSetup import/export in python3
@@ -138,7 +140,7 @@ Changes
 - Make generated behaviors language independent
   [agitator]
 
-- export selected taxonomies as ZIPed folder with XML files
+- export selected taxonomies as zipped folder with XML files
   [petschki]
 
 - Python 3 compatibility
@@ -334,7 +336,7 @@ Changes
 
 Bugfix release
 
-- Fixed problem with registration of search citeria in collections, the previous
+- Fixed problem with registration of search criteria in collections, the previous
   registration broke export feature of plone.app.registry. Upgrade step has been
   added so please upgrade.
   [bosim]

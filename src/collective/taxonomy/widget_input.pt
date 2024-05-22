@@ -1,8 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      tal:omit-tag="">
-<script type="text/javascript">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag=""
+>
+  <script type="text/javascript">
 /*  <![CDATA[ */
 function moveItems(from, to)
   {
@@ -20,7 +21,7 @@ function moveItems(from, to)
     while (src.selectedIndex > -1)
       if (src.options[src.selectedIndex].selected)
         {
-        // create a new virtal object with values of item to copy
+        // create a new virtual object with values of item to copy
         temp = new Option(src.options[src.selectedIndex].text,
                       src.options[src.selectedIndex].value);
         // append virtual object to targe
@@ -140,97 +141,140 @@ function selectionError() {
 }
 
 /* ]]> */
-</script>
+  </script>
 
-<table border="0" class="ordered-selection-field">
-  <tr>
-    <td>
-      <select id="from" name="from" class=""  multiple="" size="5" style="width: 100%"
-          tal:attributes="id string:${view/id}-from;
-                          name string:${view/name}.from;
-                          class view/klass;
-                          Xstyle view/style;
-                          title view/title;
-                          lang view/lang;
-                          onclick view/onclick;
-                          ondblclick view/ondblclick;
-                          onmousedown view/onmousedown;
-                          onmouseup view/onmouseup;
-                          onmouseover view/onmouseover;
-                          onmousemove view/onmousemove;
-                          onmouseout view/onmouseout;
-                          onkeypress view/onkeypress;
-                          onkeydown view/onkeydown;
-                          onkeyup view/onkeyup;
-                          disabled view/disabled;
-                          tabindex view/tabindex;
-                          onfocus view/onfocus;
-                          onblur view/onblur;
-                          onchange view/onchange;
-                          multiple view/multiple;
-                          size view/size">
-        <option tal:repeat="entry view/notselectedItems"
-                tal:attributes="value entry/value"
-                tal:content="nocall:entry/content" i18n:translate=""/>
-      </select>
-    </td>
-  </tr>
-  <tr>
-    <td style="text-align: center; padding-top: 5px; padding-bottom: 5px;">
-      <button onclick="javascript:to2from()"
-              name="to2fromButton" type="button" value="&uarr;"
-              tal:attributes="onClick string:javascript:to2from('${view/id}')"
-          >&uarr;</button>
-      <button onclick="javascript:from2to()"
-              name="from2toButton" type="button" value="&darr;"
-              tal:attributes="onClick string:javascript:from2to('${view/id}')"
-          >&darr;</button>
-    </td>
-  </tr>
-  <tr>
-    <td style="text-align: right">
-      <select id="to" name="to" class="" multiple="" size="5" style="width: 100%"
-          tal:attributes="id string:${view/id}-to;
-                          name string:${view/name}.to;
-                          class view/klass;
-                          Xstyle view/style;
-                          title view/title;
-                          lang view/lang;
-                          onclick view/onclick;
-                          ondblclick view/ondblclick;
-                          onmousedown view/onmousedown;
-                          onmouseup view/onmouseup;
-                          onmouseover view/onmouseover;
-                          onmousemove view/onmousemove;
-                          onmouseout view/onmouseout;
-                          onkeypress view/onkeypress;
-                          onkeydown view/onkeydown;
-                          onkeyup view/onkeyup;
-                          disabled view/disabled;
-                          tabindex view/tabindex;
-                          onfocus view/onfocus;
-                          onblur view/onblur;
-                          onchange view/onchange;
-                          multiple view/multiple;
-                          size view/size">
-        <option tal:repeat="entry view/selectedItems"
-                tal:attributes="value entry/value"
-                tal:content="nocall:entry/content" i18n:translate=""/>
-      </select>
-      <input name="foo-empty-marker" type="hidden"
-        tal:attributes="name string:${view/name}-empty-marker"/>
-      <span id="toDataContainer"
-            tal:attributes="id string:${view/id}-toDataContainer">
-        <script type="text/javascript" tal:content="string:
-          copyDataForSubmit('${view/id}');">
+  <table class="ordered-selection-field"
+         border="0"
+  >
+    <tr>
+      <td>
+        <select class=""
+                id="from"
+                multiple
+                name="from"
+                size="5"
+                style="width: 100%"
+                tal:attributes="
+                  id string:${view/id}-from;
+                  name string:${view/name}.from;
+                  class view/klass;
+                  Xstyle view/style;
+                  title view/title;
+                  lang view/lang;
+                  onclick view/onclick;
+                  ondblclick view/ondblclick;
+                  onmousedown view/onmousedown;
+                  onmouseup view/onmouseup;
+                  onmouseover view/onmouseover;
+                  onmousemove view/onmousemove;
+                  onmouseout view/onmouseout;
+                  onkeypress view/onkeypress;
+                  onkeydown view/onkeydown;
+                  onkeyup view/onkeyup;
+                  disabled view/disabled;
+                  tabindex view/tabindex;
+                  onfocus view/onfocus;
+                  onblur view/onblur;
+                  onchange view/onchange;
+                  multiple view/multiple;
+                  size view/size;
+                "
+        >
+          <option tal:repeat="entry view/notselectedItems"
+                  tal:content="nocall:entry/content"
+                  tal:attributes="
+                    value entry/value;
+                  "
+                  i18n:translate=""
+          ></option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center; padding-top: 5px; padding-bottom: 5px;">
+        <button name="to2fromButton"
+                onclick="javascript:to2from()"
+                type="button"
+                value="&uarr;"
+                tal:attributes="
+                  onClick string:javascript:to2from('${view/id}');
+                "
+        >&uarr;</button>
+        <button name="from2toButton"
+                onclick="javascript:from2to()"
+                type="button"
+                value="&darr;"
+                tal:attributes="
+                  onClick string:javascript:from2to('${view/id}');
+                "
+        >&darr;</button>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">
+        <select class=""
+                id="to"
+                multiple
+                name="to"
+                size="5"
+                style="width: 100%"
+                tal:attributes="
+                  id string:${view/id}-to;
+                  name string:${view/name}.to;
+                  class view/klass;
+                  Xstyle view/style;
+                  title view/title;
+                  lang view/lang;
+                  onclick view/onclick;
+                  ondblclick view/ondblclick;
+                  onmousedown view/onmousedown;
+                  onmouseup view/onmouseup;
+                  onmouseover view/onmouseover;
+                  onmousemove view/onmousemove;
+                  onmouseout view/onmouseout;
+                  onkeypress view/onkeypress;
+                  onkeydown view/onkeydown;
+                  onkeyup view/onkeyup;
+                  disabled view/disabled;
+                  tabindex view/tabindex;
+                  onfocus view/onfocus;
+                  onblur view/onblur;
+                  onchange view/onchange;
+                  multiple view/multiple;
+                  size view/size;
+                "
+        >
+          <option tal:repeat="entry view/selectedItems"
+                  tal:content="nocall:entry/content"
+                  tal:attributes="
+                    value entry/value;
+                  "
+                  i18n:translate=""
+          ></option>
+        </select>
+        <input name="foo-empty-marker"
+               type="hidden"
+               tal:attributes="
+                 name string:${view/name}-empty-marker;
+               "
+        />
+        <span id="toDataContainer"
+              tal:attributes="
+                id string:${view/id}-toDataContainer;
+              "
+        >
+          <script type="text/javascript"
+                  tal:content="string:
+          copyDataForSubmit('${view/id}');"
+          >
           /*  <![CDATA[ */
           // initial copying of field "field.to" --> "field"
           copyDataForSubmit("<i tal:replace="${view/id}"/>");
           /* ]]> */
-        </script>
-      </span>
+          </script>
+        </span>
 
-    </td>
-  </tr>
-</table>
+      </td>
+    </tr>
+  </table>
 </html>

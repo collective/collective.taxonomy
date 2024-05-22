@@ -13,7 +13,7 @@ from zope.interface import Interface
 @implementer(ISerializeToJson)
 @adapter(ITaxonomy, Interface)
 class TaxonomySerializer:
-    """Taxnomy serializer"""
+    """Taxonomy serializer"""
 
     def __init__(self, context, request):
         self.context = context
@@ -23,7 +23,7 @@ class TaxonomySerializer:
         site = portal.get()
         util = self.context
         results = {
-            "@id": "{}/@taxonomy/{}".format(site.absolute_url(), util.name),
+            "@id": f"{site.absolute_url()}/@taxonomy/{util.name}",
             "name": util.name,
             "title": util.title,
             "default_language": util.default_language,

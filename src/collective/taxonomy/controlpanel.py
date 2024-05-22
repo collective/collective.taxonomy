@@ -217,7 +217,7 @@ class TaxonomyAddForm(form.AddForm):
     def handleCancel(self, action):
         api.portal.show_message(_("Add cancelled"), request=self.request)
         self.request.response.redirect(
-            "{}/@@taxonomy-settings".format(self.context.absolute_url())
+            f"{self.context.absolute_url()}/@@taxonomy-settings"
         )
 
 
@@ -255,14 +255,14 @@ class TaxonomyEditForm(form.EditForm):
 
             api.portal.show_message(_("Changes saved"), request=self.request)
         self.request.response.redirect(
-            "{}/@@taxonomy-settings".format(self.context.absolute_url())
+            f"{self.context.absolute_url()}/@@taxonomy-settings"
         )
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
         api.portal.show_message(_("Edit cancelled"), request=self.request)
         self.request.response.redirect(
-            "{}/@@taxonomy-settings".format(self.context.absolute_url())
+            f"{self.context.absolute_url()}/@@taxonomy-settings"
         )
 
 

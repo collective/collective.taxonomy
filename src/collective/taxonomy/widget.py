@@ -13,7 +13,7 @@ def _items_cachekey(fun, self):
     # try to get modified time of taxonomy utility
     try:
         mtime = self.terms.terms.data._p_mtime
-        key = "{}-{}".format(self.field.__name__, mtime)
+        key = f"{self.field.__name__}-{mtime}"
         return key
     except AttributeError:
         # XXX: this happens with newly created taxonomies

@@ -1,14 +1,12 @@
-import os
-
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
+
 version = "3.2.dev0"
-
-
-def read(*pathnames):
-    with open(os.path.join(os.path.dirname(__file__), *pathnames)) as fh:
-        return fh.read()
+long_description = (
+    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
+)
 
 
 setup(
@@ -16,17 +14,13 @@ setup(
     version=version,
     description="Create, edit and use hierarchical taxonomies in Plone!",
     url="https://pypi.org/project/collective.taxonomy/",
-    long_description="\n".join(
-        [
-            read("README.rst"),
-            read("CHANGES.rst"),
-        ]
-    ),
+    long_description=long_description,
     classifiers=[
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: 6.1",
         "Framework :: Plone :: Addon",
         "Framework :: Zope",
         "Framework :: Zope :: 5",
@@ -54,7 +48,6 @@ setup(
         "plone.api >= 1.5",
         "plone.app.registry",
         "plone.app.dexterity",
-        "plone.synchronize",
         "lxml",
     ],
     extras_require={
@@ -62,12 +55,19 @@ setup(
             "zest.releaser[recommended]",
         ],
         "test": [
-            "plone.testing",
-            "plone.app.testing",
+            "collective.MockMailHost",
+            "mock",
+            "plone.api",
+            "plone.app.caching",
             "plone.app.contenttypes",
+            "plone.app.contenttypes[test]",
+            "plone.app.iterate",
             "plone.app.querystring",
             "plone.app.robotframework[debug]",
-            "plone.restapi"
+            "plone.app.testing",
+            "plone.restapi",
+            "plone.testing",
+            "requests",
         ],
     },
     entry_points="""

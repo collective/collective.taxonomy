@@ -41,7 +41,7 @@ class ImportVdex:
         for node in tree.findall("./{%s}term" % self.ns):
             identifier = node.find("./{%s}termIdentifier" % self.ns)
             langstrings = node.findall(
-                "./{{{}}}caption/{{{}}}langstring".format(self.ns, self.ns)
+                f"./{{{self.ns}}}caption/{{{self.ns}}}langstring"
             )
             for i in langstrings:
                 if not parent_language or parent_language == i.attrib["language"]:
