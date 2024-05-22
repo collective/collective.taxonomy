@@ -7,3 +7,11 @@ commit-id = "721299ce"
 
 [pyproject]
 codespell_skip = "*.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,*.lock,*.json"
+
+[github]
+jobs = [
+    "qa",
+    "test",
+    "release_ready",
+    "circular",
+    ]

@@ -1,10 +1,10 @@
+exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt
 include *.py
 include *.rst
 include *.txt
 include .coveragerc
 include buildout.cfg
 include *.yaml
-include Makefile
 include mx.ini
 recursive-include images *.gif
 recursive-include docs *.GPL
@@ -20,4 +20,4 @@ global-exclude *.pyc
 global-exclude *.yarn-integrity
 global-exclude cypress.json
 global-exclude cypress/**/*
-exclude *-mxdev.txt
+global-exclude node_modules/**
