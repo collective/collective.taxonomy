@@ -10,6 +10,8 @@ Changes
 - Update JS dependencies.
   [petschki]
 
+- config with ``plone/meta``.
+  [petschki]
 
 3.1 (2023-05-26)
 ----------------
