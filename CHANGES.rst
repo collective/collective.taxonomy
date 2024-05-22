@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.1.1 (unreleased)
+3.1.1 (2024-05-22)
 ------------------
 
 - Fix missing plone.app.contentmenu zcml dependency for plone_displayviews menu
