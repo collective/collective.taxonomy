@@ -74,7 +74,7 @@ class TaxonomyPost(Service):
                 errors.append(
                     {
                         "field": field.__name__,
-                        "message": ("{} is a required field.".format(field.title),),
+                        "message": (f"{field.title} is a required field.",),
                     }
                 )
                 continue

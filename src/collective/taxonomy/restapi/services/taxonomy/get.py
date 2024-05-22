@@ -54,7 +54,7 @@ class TaxonomyGet(Service, TreeExport):
             "description": self.taxonomy.description,
             "fieldset": getattr(self.taxonomy, "fieldset", "categorization"),
             "prefix": getattr(self.taxonomy, "prefix", "taxonomy_"),
-            "@id": "{}/@taxonomy/{}".format(site.absolute_url(), self.taxonomy.name),
+            "@id": f"{site.absolute_url()}/@taxonomy/{self.taxonomy.name}",
             "tree": [],
             "default_language": self.taxonomy.default_language,
         }

@@ -1,8 +1,5 @@
 from collective.collectionfilter.interfaces import IGroupByCriteria
 from collective.collectionfilter.interfaces import IGroupByModifier
-from collective.taxonomy import PATH_SEPARATOR
-from collective.taxonomy import PRETTY_PATH_SEPARATOR
-from collective.taxonomy import utility
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.behavior.interfaces import IBehavior
@@ -41,7 +38,7 @@ def groupby_modifier(groupby):
         behavior = sm.queryUtility(IBehavior, name=taxonomy[1].getGeneratedName())
         taxonomy_field_prefix = behavior.field_prefix
         taxonomy_shortname = taxonomy[1].getShortName()
-        taxonomy_index_name = "{}{}".format(taxonomy_field_prefix, taxonomy_shortname)
+        taxonomy_index_name = f"{taxonomy_field_prefix}{taxonomy_shortname}"
         groupby._groupby[taxonomy_index_name] = {
             "index": taxonomy_index_name,
             "metadata": taxonomy_index_name,

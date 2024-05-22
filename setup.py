@@ -1,7 +1,8 @@
-import os
-
 from setuptools import find_packages
 from setuptools import setup
+
+import os
+
 
 version = "3.2.dev0"
 
@@ -27,6 +28,7 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: 6.1",
         "Framework :: Plone :: Addon",
         "Framework :: Zope",
         "Framework :: Zope :: 5",
@@ -67,7 +69,7 @@ setup(
             "plone.app.contenttypes",
             "plone.app.querystring",
             "plone.app.robotframework[debug]",
-            "plone.restapi"
+            "plone.restapi",
         ],
     },
     entry_points="""

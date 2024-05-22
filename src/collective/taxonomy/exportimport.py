@@ -2,7 +2,6 @@ from collective.taxonomy.factory import registerTaxonomy
 from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.vdex import ExportVdex
 from collective.taxonomy.vdex import ImportVdex
-from io import BytesIO
 from io import StringIO
 from lxml.etree import fromstring
 from plone.base.utils import safe_text

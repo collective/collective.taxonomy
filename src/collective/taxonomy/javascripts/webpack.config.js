@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  devtool: '#cheap-module-eval-source-map', // http://webpack.github.io/docs/configuration.html#devtool
+  devtool: 'eval-cheap-module-source-map', // https://webpack.js.org/configuration/devtool
   entry: {
     edittaxonomydata: ['webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
     './src/js/index'],
@@ -13,17 +13,17 @@ module.exports = {
     publicPath: 'http://localhost:3000/static/'
   },
   plugins: [
-    new webpack.IgnorePlugin(/^(buffertools)$/), // unwanted "deeper" dependency
+    new webpack.IgnorePlugin(/^(buffertools)$/),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel'],
+      loaders: ['babel-loader'],
       exclude: /node_modules/,
       include: path.join(__dirname, 'src'),
     }]

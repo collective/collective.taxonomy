@@ -28,7 +28,7 @@ class TestControlPanel(unittest.TestCase):
         self.browser.handleErrors = False
         self.browser.addHeader(
             "Authorization",
-            "Basic {}:{}".format(SITE_OWNER_NAME, SITE_OWNER_PASSWORD),
+            f"Basic {SITE_OWNER_NAME}:{SITE_OWNER_PASSWORD}",
         )
         commit()
 

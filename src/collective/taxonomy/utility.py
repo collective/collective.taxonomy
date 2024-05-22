@@ -266,7 +266,7 @@ class Taxonomy(SimpleItem):
         seen = set()
         for key, value in items:
             if key in seen:
-                logger.warning("Duplicate key entry: {!r}".format(key))
+                logger.warning(f"Duplicate key entry: {key!r}")
 
             seen.add(key)
             update = key in tree

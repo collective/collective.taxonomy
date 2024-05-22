@@ -161,9 +161,7 @@ class TaxonomyBehavior(Persistent):
         try:
             catalog.addColumn(self.field_name)
         except CatalogError:
-            logging.info(
-                "Column {} already exists".format(self.field_name)
-            )  # noqa: E501
+            logging.info(f"Column {self.field_name} already exists")  # noqa: E501
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):

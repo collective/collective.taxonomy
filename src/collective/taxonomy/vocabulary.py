@@ -66,7 +66,7 @@ class Vocabulary:
         element only.
         """
 
-        if type(input_identifier) == list:
+        if isinstance(input_identifier, list):
             raise LookupError("Expected string, not list")
 
         return SimpleTerm(

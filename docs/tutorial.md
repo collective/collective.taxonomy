@@ -214,5 +214,5 @@ Click in the button "Save Changes":
 In the [Portfolio Folder](http://localhost:8080/Plone/portfolio), enable the view:
 ![Add portfolio view 003](./img/add-portfolio-view-003.png "add-portfolio-view-003")
 
-The result is somethig like this:
+The result is something like this:
 ![Add portfolio view 004](./img/add-portfolio-view-004.png "add-portfolio-view-004")

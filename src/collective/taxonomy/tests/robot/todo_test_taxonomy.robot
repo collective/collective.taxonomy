@@ -41,7 +41,7 @@ ${BROWSER}  chrome
 *** Test Cases ***************************************************************
 
 Scenario: As a manager I can add a taxonomy
-  Given a loged in manager
+  Given a logged in manager
    When I search for 'Colorless Green Ideas'
    Then the search returns '1' results
     and the search results should include 'Colorless Green Ideas'
@@ -62,7 +62,7 @@ TestTeardown
 
 # Given
 
-a loged in manager
+a logged in manager
   Enable autologin as  Manager
 
 
