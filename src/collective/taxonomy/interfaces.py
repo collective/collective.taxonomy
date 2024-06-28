@@ -93,9 +93,7 @@ class ITaxonomyForm(Interface):
         defaultFactory=api.portal.get_current_language,
     )
 
-    import_file = NamedBlobFile(
-        title=_("Upload VDEX xml file"), required=False
-    )
+    import_file = NamedBlobFile(title=_("Upload VDEX xml file"), required=False)
 
     import_file_purge = schema.Bool(
         title=_("Purge entries on upload"),
