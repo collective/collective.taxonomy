@@ -1,208 +1,210 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2024-06-28 13:17+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: Bo Simonsen <bo@headnet.dk>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2020-06-08 12:00+0100\n"
+"Last-Translator: Mauro Amico <mauro.amico@gmail.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: da\n"
-"Language-Name: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: it\n"
+"Language-Name: Italian\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: collective.taxonomy\n"
+"Language: it\n"
 
 #: ./controlpanel.py:205
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: ./controlpanel.py:218
 msgid "Add cancelled"
-msgstr ""
+msgstr "Aggiunta annullata"
 
 #: ./controlpanel.py:216
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: ./controlpanel.py:256
 msgid "Changes saved"
-msgstr ""
+msgstr "Modifiche salvate"
 
 #: ./interfaces.py:116
 msgid "Check this box if you want the field to be mono-valued"
-msgstr ""
+msgstr "Seleziona questa casella se vuoi che il campo sia a valore unico"
 
 #: ./interfaces.py:110
 msgid "Check this box if you want the field to be required"
-msgstr ""
+msgstr "Seleziona questa casella se vuoi che il campo sia obbligatorio"
 
 #: ./interfaces.py:102
 msgid "Check this box if you want to purge all entries when uploading."
-msgstr "Vælg dette, hvis taksonomien skal indlæses forfra ved upload."
+msgstr "Seleziona questa casella se vuoi eliminare tutte le voci durante il caricamento."
 
 #: ./interfaces.py:90
 msgid "Default language"
-msgstr ""
+msgstr "Lingua predefinita"
 
 #: ./interfaces.py:84
 msgid "Description"
-msgstr ""
+msgstr "Descrizione"
 
 #: ./controlpanel.py:263
 msgid "Edit cancelled"
-msgstr ""
+msgstr "Modifica annullata"
 
 #: ./interfaces.py:128
 msgid "Field prefix"
-msgstr ""
+msgstr "Prefisso del campo"
 
 #: ./interfaces.py:135
 msgid "Fieldset"
-msgstr ""
+msgstr "Gruppo di campi"
 
 #: ./interfaces.py:136
 msgid "Fieldset for the taxonomy behavior field. Example: 'categorization'. Use 'default' for the first fieldset."
-msgstr ""
+msgstr "Gruppo di campi per il campo di comportamento della tassonomia. Esempio: 'categorizzazione'. Usa 'default' per il primo gruppo di campi."
 
 #: ./controlpanel.py:111
 msgid "Please select at least one taxonomy."
-msgstr ""
+msgstr "Seleziona almeno una tassonomia."
 
 #: ./controlpanel.py:72
 msgid "Please select one taxonomy."
-msgstr ""
+msgstr "Seleziona una tassonomia."
 
 #: ./interfaces.py:129
 msgid "Prefix used for behavior indexer."
-msgstr ""
+msgstr "Prefisso usato per l'indicizzatore del comportamento."
 
 #: ./interfaces.py:101
 msgid "Purge entries on upload"
-msgstr "Slet indhold ved upload"
+msgstr "Elimina le voci durante il caricamento"
 
 #: ./configure.zcml:33
 msgid "Registers control panel and default settings."
-msgstr ""
+msgstr "Registra il pannello di controllo e le impostazioni predefinite."
 
 #: ./interfaces.py:109
 msgid "Required"
-msgstr ""
+msgstr "Obbligatorio"
 
 #: ./controlpanel.py:236
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 #: ./interfaces.py:115
 msgid "Single select"
-msgstr ""
+msgstr "Selezione singola"
 
 #: ./configure.zcml:108
 msgid "Tabular view"
-msgstr ""
+msgstr "Visualizzazione tabellare"
 
 #: ./interfaces.py:48
 #: ./profiles/default/controlpanel.xml
 msgid "Taxonomies"
-msgstr "Taxonomier"
+msgstr "Tassonomie"
 
 #: ./interfaces.py:71
 msgid "Taxonomy"
-msgstr ""
+msgstr "Tassonomia"
 
 #: ./controlpanel.py:108
 msgid "Taxonomy deleted."
-msgstr "Taxonomi er nu slettet."
+msgstr "Tassonomia eliminata."
 
 #: ./controlpanel.py:196
 msgid "Taxonomy imported."
-msgstr "Taxonomi importeret."
+msgstr "Tassonomia importata."
 
 #: ./controlpanel.py:36
 #: ./restapi/services/controlpanel/controlpanel.py:21
 msgid "Taxonomy settings"
-msgstr "Taxonomi indstillinger"
+msgstr "Impostazioni della tassonomia"
 
 #: ./interfaces.py:72
 msgid "The taxonomy identifier"
-msgstr ""
+msgstr "L'identificatore della tassonomia"
 
 #: ./jsonimpl.py:134
 msgid "There seems to have been an error."
-msgstr ""
+msgstr "Si è verificato un errore."
 
 #: ./interfaces.py:78
 msgid "Title"
-msgstr ""
+msgstr "Titolo"
 
 #: ./configure.zcml:42
 msgid "Uninstall profile for collective.taxonomy."
-msgstr ""
+msgstr "Disinstalla profilo per collective.taxonomy."
 
 #: ./interfaces.py:97
 msgid "Upload VDEX xml file"
-msgstr "Upload VDEX xml fil"
+msgstr "Carica il file xml VDEX"
 
 #: ./interfaces.py:85
 msgid "Will be used for the field description as well"
-msgstr ""
+msgstr "Sarà utilizzato anche per la descrizione del campo"
 
 #: ./interfaces.py:79
 msgid "Will be used for the field title as well"
-msgstr ""
+msgstr "Sarà utilizzato anche per il titolo del campo"
 
 #: ./interfaces.py:121
 msgid "Write permission"
-msgstr ""
+msgstr "Permessi di scrittura"
 
 #: ./interfaces.py:122
 msgid "Write permission for the field"
-msgstr ""
+msgstr "Permessi di scrittura per il campo"
 
 #: ./jsonimpl.py:125
 msgid "Your taxonomy has been saved with success."
-msgstr ""
+msgstr "La tassonomia è stata salvata con successo."
 
 #: ./configure.zcml:33
 msgid "collective.taxonomy"
-msgstr ""
+msgstr "collective.taxonomy"
 
 #: ./configure.zcml:42
 msgid "collective.taxonomy uninstall"
-msgstr ""
+msgstr "Disinstalla collective.taxonomy"
 
 #. Default: "You need to provide a taxonomy to delete."
 #: ./restapi/services/taxonomy/delete.py:27
 msgid "delete_taxonomies_no_taxonomies"
-msgstr ""
+msgstr "È necessario fornire una tassonomia da eliminare."
 
 #. Default: "Select the taxonomies you desire to modify"
 #: ./interfaces.py:50
+#, fuzzy
 msgid "help_taxonomies"
-msgstr ""
+msgstr "Seleziona le tassonomie che desideri modificare"
 
 #. Default: "Add"
 #: ./controlpanel.py:54
 msgid "label_add_taxonomy"
-msgstr ""
+msgstr "Aggiungi tassonomia"
 
 #. Default: "Delete taxonomy"
 #: ./controlpanel.py:93
 msgid "label_delete_taxonomy"
-msgstr ""
+msgstr "Elimina tassonomia"
 
 #. Default: "Edit taxonomy data"
 #: ./controlpanel.py:76
 msgid "label_edit_data_taxonomy"
-msgstr ""
+msgstr "Modifica dati tassonomia"
 
 #. Default: "Edit"
 #: ./controlpanel.py:60
 msgid "label_edit_taxonomy"
-msgstr ""
+msgstr "Modifica tassonomia"
 
 #. Default: "Export"
 #: ./controlpanel.py:118
 msgid "label_export"
-msgstr "Eksportér"
+msgstr "Esporta"

@@ -94,7 +94,7 @@ class ITaxonomyForm(Interface):
     )
 
     import_file = NamedBlobFile(
-        title=_("Upload VDEX xml file"), description=_(" "), required=False
+        title=_("Upload VDEX xml file"), required=False
     )
 
     import_file_purge = schema.Bool(
