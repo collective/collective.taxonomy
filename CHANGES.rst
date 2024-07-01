@@ -4,8 +4,8 @@ Changes
 3.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added Italian translation
+  [mamico]
 
 3.1.1 (2024-05-22)
 ------------------
