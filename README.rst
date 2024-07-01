@@ -167,8 +167,8 @@ While making changes to these files you can:
   1. change to directory ``resources/``
   2. run ``make serve``
 
-This start a webpack development server at ``localhost:3000`` and serves the JS
-files live.
+This starts a webpack development server at ``localhost:3000`` and
+serves the JS files.
 
 Now start your Plone instance with
 
@@ -181,6 +181,7 @@ and the taxonomy controlpanel will use the files served from the webpack server.
 When you have finished your changes run:
 
 ::
+
     make test
     make build
 
