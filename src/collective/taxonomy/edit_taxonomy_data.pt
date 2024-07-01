@@ -10,19 +10,19 @@
       <link rel="stylesheet"
             type="text/css"
             tal:attributes="
-              href string:$portal_url/++resource++taxonomy.icons/css/taxonomy.css;
+              href string:$portal_url/++resource++taxonomy/icons/css/taxonomy.css;
             "
       />
       <link rel="stylesheet"
             type="text/css"
             tal:attributes="
-              href string:$portal_url/++resource++taxonomy/css/react-treeview.css;
+              href string:$portal_url/++resource++taxonomy/js/css/react-treeview.css;
             "
       />
       <link rel="stylesheet"
             type="text/css"
             tal:attributes="
-              href string:$portal_url/++resource++collective.taxonomy.css;
+              href string:$portal_url/++resource++taxonomy/css/collective.taxonomy.css;
             "
       />
     </metal:block>

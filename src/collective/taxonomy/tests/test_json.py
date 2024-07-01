@@ -169,5 +169,5 @@ class TestEditDataJson(unittest.TestCase):
     def test_get_resource_url(self):
         url = self.view.get_resource_url()
         self.assertEqual(
-            "http://nohost/plone/++resource++taxonomy/edittaxonomydata.js", url
+            "http://nohost/plone/++resource++taxonomy/js/edittaxonomydata.js", url
         )

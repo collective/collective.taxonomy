@@ -35,7 +35,7 @@
     "chai-spies": "*",
     "cypress": "^4.3.0",
     "eslint": "^6.6.0",
-    "eslint-config-airbnb": "^9.0.1",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.1.1",
@@ -66,5 +66,9 @@
     "redux-thunk": "^2.1.0",
     "uid": "0.0.2",
     "whatwg-fetch": "^1.0.0"
+  },
+  "volta": {
+    "node": "18.20.3",
+    "yarn": "1.22.22"
   }
 }
