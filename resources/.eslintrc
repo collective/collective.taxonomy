@@ -1,15 +1,11 @@
 {
-  "extends": "airbnb",
+  "extends": ["eslint:recommended"],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
     "jquery": true,
     "mocha": true
-  },
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true,
   },
   "rules": {
     "array-bracket-spacing": [2, "never"],
@@ -34,6 +30,6 @@
   ],
   "globals": {
     "__DEV__" : true,
-    "expect": true,
+    "expect": true
   }
 }

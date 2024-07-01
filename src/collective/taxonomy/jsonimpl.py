@@ -90,7 +90,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         if node_env == "development" and api.env.debug_mode():
             return "http://localhost:3000/static/edittaxonomydata.js"
         else:
-            return "{}/++resource++taxonomy/edittaxonomydata.js".format(
+            return "{}/++resource++taxonomy/js/edittaxonomydata.js".format(
                 api.portal.get().absolute_url()
             )
 

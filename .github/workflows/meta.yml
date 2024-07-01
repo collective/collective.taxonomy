@@ -30,8 +30,6 @@ jobs:
     uses: plone/meta/.github/workflows/test.yml@main
   release_ready:
     uses: plone/meta/.github/workflows/release_ready.yml@main
-  circular:
-    uses: plone/meta/.github/workflows/circular.yml@main
 
 ##
 # To modify the list of default jobs being created add in .meta.toml:

@@ -1,11 +1,15 @@
-exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt
+exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt *.yaml *.ini
+global-exclude *.pyc
+global-exclude *.yarn-integrity
+global-exclude cypress.json
+global-exclude cypress/**/*
+global-exclude node_modules/**
+global-exclude resources/**
 include *.py
 include *.rst
 include *.txt
 include .coveragerc
 include buildout.cfg
-include *.yaml
-include mx.ini
 recursive-include images *.gif
 recursive-include docs *.GPL
 recursive-include docs *.bugfix
@@ -13,11 +17,4 @@ recursive-include docs *.gif
 recursive-include docs *.md
 recursive-include docs *.png
 recursive-include docs *.rst
-prune src/collective/taxonomy/javascripts/node_modules/**/*
 graft src
-exclude src/collective/taxonomy/javascripts/build/messages/src/js/components/*.json
-global-exclude *.pyc
-global-exclude *.yarn-integrity
-global-exclude cypress.json
-global-exclude cypress/**/*
-global-exclude node_modules/**
