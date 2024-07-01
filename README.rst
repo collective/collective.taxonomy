@@ -160,13 +160,32 @@ The languages allowed for the taxonomies are the languages defined in ``portal_l
 Development
 ===========
 
-Run the app, run ``npm start`` in the ``javascripts`` directory.
-To make Plone use the development code, you need the ``NODE_ENV`` environment
-variable to be set to ``development``:
+All JS development resources are in the directory ``resources/js``.
+
+While making changes to these files you can:
+
+  1. change to directory ``resources/``
+  2. run ``make serve``
+
+This start a webpack development server at ``localhost:3000`` and serves the JS
+files live.
+
+Now start your Plone instance with
 
 ::
 
     NODE_ENV=development bin/instance fg
+
+and the taxonomy controlpanel will use the files served from the webpack server.
+
+When you have finished your changes run:
+
+::
+    make test
+    make build
+
+this will build the resources and save it in ``src/collective/taxonomy/static/js``.
+
 
 
 i18n

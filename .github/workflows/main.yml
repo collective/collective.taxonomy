@@ -41,3 +41,7 @@ jobs:
       - name: Run tests
         run: |
           make test-ignore-warnings
+
+      - name: Run Javascript Tests
+        run: |
+          cd resources; make test
