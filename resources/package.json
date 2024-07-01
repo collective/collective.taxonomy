@@ -49,7 +49,7 @@
     "redux-devtools-log-monitor": "^1.0.11",
     "webpack": "^3.12.0",
     "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.25.4"
+    "webpack-hot-middleware": "^2.26.1"
   },
   "dependencies": {
     "har-validator": "5.1.5",
