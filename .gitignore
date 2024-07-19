@@ -36,6 +36,7 @@ parts/
 pyvenv.cfg
 var/
 local.cfg
+.python-version
 
 # mxdev
 /instance/
