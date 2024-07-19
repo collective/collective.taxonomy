@@ -62,7 +62,9 @@ class TaxonomyIndexerWrapper:
         result = []
         for key, value in utility.inverted_data[lang].items():
             for found_identifier, found_language, found_path in found:
-                if found_path.startswith(value) and key not in result:
+                value_split = value.split("\u241f")
+                found_split = found_path.split("\u241f")[: len(value_split)]
+                if found_split == value_split and key not in result:
                     result.append(key)
 
         return result

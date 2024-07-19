@@ -14,4 +14,4 @@ class TestUtility(unittest.TestCase):
 
         tree = taxonomy.makeVocabulary("en").makeTree()
         self.assertIn("Information Science", tree)
-        self.assertEqual(len(tree["Information Science"]), 4)
+        self.assertEqual(len(tree["Information Science"]), 5)
