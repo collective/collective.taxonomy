@@ -150,8 +150,10 @@ class TestIndexer(unittest.TestCase):
         self.document.taxonomy_test = taxo_val
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog({"taxonomy_test": "5"})), 0)
-        self.assertEqual(len(portal_catalog({"taxonomy_test": "55"})), 0)  # not Cars ...
-        self.assertEqual(len(portal_catalog({"taxonomy_test": "56"})), 1)  # ... but Carson
+        # not Cars ...
+        self.assertEqual(len(portal_catalog({"taxonomy_test": "55"})), 0)
+        # ... but Carson
+        self.assertEqual(len(portal_catalog({"taxonomy_test": "56"})), 1)
 
     def test_indexer_with_property(self):
         portal_catalog = api.portal.get_tool("portal_catalog")
