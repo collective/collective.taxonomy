@@ -1,6 +1,7 @@
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from collections.abc import Iterable
+from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.base.interfaces import IPloneSiteRoot
@@ -62,7 +63,9 @@ class TaxonomyIndexerWrapper:
         result = []
         for key, value in utility.inverted_data[lang].items():
             for found_identifier, found_language, found_path in found:
-                if found_path.startswith(value) and key not in result:
+                value_split = value.split(PATH_SEPARATOR)
+                found_split = found_path.split(PATH_SEPARATOR)[: len(value_split)]
+                if found_split == value_split and key not in result:
                     result.append(key)
 
         return result

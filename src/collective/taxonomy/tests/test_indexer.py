@@ -127,6 +127,7 @@ class TestIndexer(unittest.TestCase):
                 ("3", {"title": "Information Science \xbb Chronology"}),
                 ("5", {"title": "Information Science \xbb Sport"}),
                 ("55", {"title": "Information Science \xbb Cars"}),
+                ("56", {"title": "Information Science \xbb Carson"}),
             ],
         )
 
@@ -145,11 +146,14 @@ class TestIndexer(unittest.TestCase):
         document_schema = fti.lookupSchema()
         notify(ObjectAddedEvent(taxonomy_test, document_schema))
         notify(FieldAddedEvent(fti, taxonomy_test))
-        taxo_val = taxonomy["en"]["\u241fInformation Science\u241fCars"]
+        taxo_val = taxonomy["en"]["\u241fInformation Science\u241fCarson"]
         self.document.taxonomy_test = taxo_val
         self.document.reindexObject()
         self.assertEqual(len(portal_catalog({"taxonomy_test": "5"})), 0)
-        self.assertEqual(len(portal_catalog({"taxonomy_test": "55"})), 1)
+        # not Cars ...
+        self.assertEqual(len(portal_catalog({"taxonomy_test": "55"})), 0)
+        # ... but Carson
+        self.assertEqual(len(portal_catalog({"taxonomy_test": "56"})), 1)
 
     def test_indexer_with_property(self):
         portal_catalog = api.portal.get_tool("portal_catalog")

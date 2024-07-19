@@ -53,4 +53,4 @@ class TestControlPanelRestapi(unittest.TestCase):
         self.assertEqual(len(res), 1)
         self.assertEqual(res[0]["name"], "collective.taxonomy.test")
         self.assertEqual(res[0]["title"], "Test vocabulary")
-        self.assertEqual(res[0]["count"], {"da": 4, "de": 1, "en": 5, "ru": 1})
+        self.assertEqual(res[0]["count"], {"da": 4, "de": 1, "en": 6, "ru": 1})

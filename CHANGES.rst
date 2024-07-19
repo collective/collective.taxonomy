@@ -4,6 +4,9 @@ Changes
 3.1.2 (unreleased)
 ------------------
 
+- Fix keywords comparison
+  [mamico]
+
 - Added Italian translation
   [mamico]
 
