@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.1.2 (unreleased)
+3.1.2 (2024-07-21)
 ------------------
 
 - Fix keywords comparison
