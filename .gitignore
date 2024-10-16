@@ -46,7 +46,6 @@ local.cfg
 /venv/
 .installed.txt
 
-test_*
 forest.*
 
 ##

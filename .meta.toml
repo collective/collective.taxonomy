@@ -17,6 +17,5 @@ jobs = [
 
 [gitignore]
 extra_lines = """
-test_*
 forest.*
 """
