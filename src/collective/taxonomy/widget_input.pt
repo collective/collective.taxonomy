@@ -150,7 +150,6 @@ function selectionError() {
       <td>
         <select class=""
                 id="from"
-                multiple
                 name="from"
                 size="5"
                 style="width: 100%"
