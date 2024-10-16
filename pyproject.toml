@@ -35,7 +35,7 @@ target-version = ["py38"]
 ##
 
 [tool.codespell]
-ignore-words-list = "discreet,"
+ignore-words-list = "discreet,assertin,"
 skip = "*.po,*.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,*.lock,*.json"
 ##
 # Add extra configuration options in .meta.toml:
@@ -83,6 +83,7 @@ Zope = [
   'Products.CMFCore', 'Products.CMFDynamicViewFTI',
 ]
 python-dateutil = ['dateutil']
+pytest-plone = ['pytest', 'zope.pytestlayer', 'plone.testing', 'plone.app.testing']
 
 ##
 # Add extra configuration options in .meta.toml:
