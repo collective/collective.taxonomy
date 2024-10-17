@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.1.3 (unreleased)
+3.1.3 (2024-10-17)
 ------------------
 
 - Fix wrong rendered boolean attribute "multiple" in orderedselect widget
