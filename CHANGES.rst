@@ -4,18 +4,11 @@ Changes
 3.1.3 (unreleased)
 ------------------
 
-Breaking changes:
+- Fix wrong rendered boolean attribute "multiple" in orderedselect widget
+  [1letter]
 
-- *add item here*
-
-New features:
-
-- *add item here*
-
-Bug fixes:
-
-- *add item here*
-
+- refactor JS resources and update README for better developer experience
+  [petschki
 
 3.1.2 (2024-07-21)
 ------------------
