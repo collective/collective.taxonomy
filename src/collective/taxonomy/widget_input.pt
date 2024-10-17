@@ -213,7 +213,6 @@ function selectionError() {
       <td style="text-align: right">
         <select class=""
                 id="to"
-                multiple
                 name="to"
                 size="5"
                 style="width: 100%"
