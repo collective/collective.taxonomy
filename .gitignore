@@ -36,7 +36,6 @@ parts/
 pyvenv.cfg
 var/
 local.cfg
-.python-version
 
 # mxdev
 /instance/
@@ -47,8 +46,6 @@ local.cfg
 /venv/
 .installed.txt
 
-robot_*
-test_*
 forest.*
 
 ##
