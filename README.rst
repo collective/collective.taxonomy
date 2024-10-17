@@ -265,6 +265,7 @@ Plone Version Compatibility
 
 collective.taxonomy version `3.x`
 
+* Plone 6.1 (py3)
 * Plone 6.0 (py3)
 
 collective.taxonomy version `2.x`
