@@ -116,19 +116,7 @@
 
   <browser:resourceDirectory
       name="taxonomy"
-      directory="javascripts/build"
-      layer=".interfaces.IBrowserLayer"
-      />
-
-  <browser:resourceDirectory
-      name="taxonomy.icons"
-      directory="icons"
-      layer=".interfaces.IBrowserLayer"
-      />
-
-  <browser:resource
-      name="collective.taxonomy.css"
-      file="collective.taxonomy.css"
+      directory="static"
       layer=".interfaces.IBrowserLayer"
       />
 
