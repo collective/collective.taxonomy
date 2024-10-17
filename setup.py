@@ -55,7 +55,6 @@ setup(
             "zest.releaser[recommended]",
         ],
         "test": [
-            "collective.MockMailHost",
             "mock",
             "plone.api",
             "plone.app.caching",
@@ -65,7 +64,7 @@ setup(
             "plone.app.querystring",
             "plone.app.robotframework[debug]",
             "plone.app.testing",
-            "plone.restapi",
+            "plone.restapi[test]",
             "plone.testing",
             "requests",
         ],

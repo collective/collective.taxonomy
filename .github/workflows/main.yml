@@ -12,12 +12,21 @@ jobs:
       matrix:
         python:
           - "3.8"
-          - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
         plone:
           - "6.0-latest"
+          - "6.1-latest"
+        exclude:
+          - python: "3.10"
+            plone: "6.0-latest"
+          - python: "3.12"
+            plone: "6.0-latest"
+          - python: "3.8"
+            plone: "6.1-latest"
+          - python: "3.11"
+            plone: "6.1-latest"
 
     steps:
       - uses: actions/checkout@v4
@@ -28,8 +37,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
-          setuptools-version: 69.5.1
-          additional-eggs: 'setuptools'
       - name: Install package
         run: |
           make install
