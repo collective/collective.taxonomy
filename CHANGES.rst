@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.1.4 (unreleased)
+3.1.4 (2024-10-24)
 ------------------
 
 - Fix collectionfilter modifier when index names ended with the same string.
