@@ -4,7 +4,8 @@ Changes
 3.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix collectionfilter modifier when index names ended with the same string.
+  [petschki]
 
 
 3.1.3 (2024-10-17)
@@ -14,7 +15,7 @@ Changes
   [1letter]
 
 - refactor JS resources and update README for better developer experience
-  [petschki
+  [petschki]
 
 3.1.2 (2024-07-21)
 ------------------

@@ -4,29 +4,27 @@ from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from zope.component import adapter
-from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
 
-def resolve_title(token, index_name):
-    sm = getSite().getSiteManager()
-    utilities = sm.getUtilitiesFor(ITaxonomy)
-    taxonomies = [uname for uname, util in utilities]
-    shortname = None
-    taxonomy_name = None
-    for tax in taxonomies:
-        shortname = tax[len("collective.taxonomy.") :]
-        if not index_name.endswith(shortname):
-            continue
-        taxonomy_name = tax
-    if not shortname or not taxonomy_name:
-        return token
-    taxonomy = queryUtility(ITaxonomy, name=taxonomy_name)
-    lang = api.portal.get_current_language()
-    lang = lang in taxonomy.inverted_data and lang or taxonomy.default_language
-    term = taxonomy.translate(token, target_language=lang)
-    return term
+class TaxonomyLabel:
+    taxonomy = None
+
+    def __init__(self, taxonomy):
+        self.taxonomy = taxonomy
+
+    def display(self, token, *args, **kw):
+        if self.taxonomy is None:
+            return token
+        lang = api.portal.get_current_language()
+        lang = (
+            lang in self.taxonomy.inverted_data
+            and lang
+            or self.taxonomy.default_language
+        )
+        term = self.taxonomy.translate(token, target_language=lang)
+        return term
 
 
 @implementer(IGroupByModifier)
@@ -34,13 +32,14 @@ def resolve_title(token, index_name):
 def groupby_modifier(groupby):
     sm = getSite().getSiteManager()
     utilities = sm.getUtilitiesFor(ITaxonomy)
-    for taxonomy in utilities:
-        behavior = sm.queryUtility(IBehavior, name=taxonomy[1].getGeneratedName())
+    for uname, util in utilities:
+        behavior = sm.queryUtility(IBehavior, name=util.getGeneratedName())
         taxonomy_field_prefix = behavior.field_prefix
-        taxonomy_shortname = taxonomy[1].getShortName()
+        taxonomy_shortname = util.getShortName()
         taxonomy_index_name = f"{taxonomy_field_prefix}{taxonomy_shortname}"
+        taxonomy_label = TaxonomyLabel(util)
         groupby._groupby[taxonomy_index_name] = {
             "index": taxonomy_index_name,
             "metadata": taxonomy_index_name,
-            "display_modifier": lambda it, idx: resolve_title(it, idx),
+            "display_modifier": taxonomy_label.display,
         }
