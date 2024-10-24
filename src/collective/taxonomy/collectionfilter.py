@@ -18,7 +18,11 @@ class TaxonomyLabel:
         if self.taxonomy is None:
             return token
         lang = api.portal.get_current_language()
-        lang = lang in self.taxonomy.inverted_data and lang or self.taxonomy.default_language
+        lang = (
+            lang in self.taxonomy.inverted_data
+            and lang
+            or self.taxonomy.default_language
+        )
         term = self.taxonomy.translate(token, target_language=lang)
         return term
 
