@@ -4,7 +4,8 @@ Changes
 3.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add fake former_dotted_names attribute to do not broke versioning when there are some taxonomies behaviors.
+  [cekk]
 
 
 3.1.4 (2024-10-24)
