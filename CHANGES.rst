@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.1.5 (unreleased)
+3.1.5 (2024-11-05)
 ------------------
 
 - Add fake former_dotted_names attribute to do not broke versioning when there are some taxonomies behaviors.
