@@ -187,6 +187,13 @@ class TaxonomyBehavior(Persistent):
     def marker(self):
         return getattr(generated, self.short_name)
 
+    @property
+    def former_dotted_names(self):
+        """
+        This is needed to not broke versioning
+        """
+        return self.name
+
     def generateInterface(self):
         logger.debug("generating interface for %s" % self.short_name)
 
