@@ -33,7 +33,6 @@ class EditTaxonomyData(TreeExport, BrowserView):
         item = {}
         item["key"] = root.find("termIdentifier").text
         captionnode = root.find("caption")
-
         translations = {}
         for langstringnode in captionnode.getchildren():
             translations[langstringnode.get("language")] = langstringnode.text
@@ -70,7 +69,6 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
-
         vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool("portal_languages")
         plone_selected_languages = language_tool.supported_langs
@@ -102,7 +100,6 @@ class ImportJson(BrowserView):
 
     def __call__(self):
         request = self.request
-
         if request.method == "POST":
 
             data = json.loads(request.get("BODY", ""))
