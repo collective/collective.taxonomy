@@ -62,6 +62,7 @@ class TaxonomyPatch(Service):
 
     def reply(self):
         """Reply"""
+
         if not self.taxonomy_id:
             raise Exception("No taxonomy name provided")
 
