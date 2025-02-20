@@ -1,5 +1,6 @@
 """ RestAPI PATCH
 """
+
 import json
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import PATH_SEPARATOR
@@ -61,7 +62,6 @@ class TaxonomyPatch(Service):
 
     def reply(self):
         """Reply"""
-
         if not self.taxonomy_id:
             raise Exception("No taxonomy name provided")
 
