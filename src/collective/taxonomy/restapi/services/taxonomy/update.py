@@ -1,6 +1,6 @@
 """ RestAPI PATCH
 """
-
+import json
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.controlpanel import TaxonomyEditFormAdapter
@@ -34,10 +34,14 @@ class TaxonomyPatch(Service):
 
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
         result = []
+        data = json.loads(self.request.get("BODY", ""))
+        taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"])
+        default_language = taxonomy.default_language
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
-            title = item["title"]
+            default_title = item["translations"].get(default_language, "")
+            title = item["translations"].get(language, "") or default_title
             if language in translations:
                 title = translations[language]
             new_path = f"{path}{title}"
@@ -57,6 +61,7 @@ class TaxonomyPatch(Service):
 
     def reply(self):
         """Reply"""
+
         if not self.taxonomy_id:
             raise Exception("No taxonomy name provided")
 
