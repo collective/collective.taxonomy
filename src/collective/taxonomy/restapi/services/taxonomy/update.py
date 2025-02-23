@@ -35,10 +35,13 @@ class TaxonomyPatch(Service):
         return self
 
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
+        body = self.request.get("BODY", "")
+        if not body.strip():  # Check if the body is empty or just whitespace
+            body = "{}"  # Default to an empty JSON object instead of an empty string
+        data = json.loads(body)
+        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy"))
+        default_language = taxonomy.default_language if taxonomy else None
         result = []
-        data = json.loads(self.request.get("BODY", ""))
-        taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"])
-        default_language = taxonomy.default_language
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
