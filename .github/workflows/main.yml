@@ -10,13 +10,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Plone 6.0 / py${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
+  build:
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ${{ fromJson( inputs.py-versions) }}
-        os: ["ubuntu-latest"]
+        python:
+          - "3.8"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+        plone:
+          - "6.0-latest"
+          - "6.1-latest"
+        exclude:
+          - python: "3.10"
+            plone: "6.0-latest"
+          - python: "3.12"
+            plone: "6.0-latest"
+          - python: "3.8"
+            plone: "6.1-latest"
+          - python: "3.11"
+            plone: "6.1-latest"
+
     steps:
       - uses: actions/checkout@v4
 
