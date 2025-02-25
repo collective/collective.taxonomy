@@ -4,8 +4,7 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.testing import z2
-from plone.testing import zope
+from plone.testing.zope import WSGI_SERVER_FIXTURE
 
 import collective.taxonomy
 
@@ -35,7 +34,7 @@ INTEGRATION_TESTING = IntegrationTesting(
 )
 
 FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(COLLECTIVE_TAXONOMY_FIXTURE, zope.WSGI_SERVER_FIXTURE),
+    bases=(COLLECTIVE_TAXONOMY_FIXTURE, WSGI_SERVER_FIXTURE),
     name="TaxonomyFixture:Functional",
 )
 
@@ -43,7 +42,7 @@ ROBOT_TESTING = FunctionalTesting(
     bases=(
         COLLECTIVE_TAXONOMY_FIXTURE,
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE,
+        WSGI_SERVER_FIXTURE,
     ),
     name="CollectiveTaxonomy:Acceptance",
 )
