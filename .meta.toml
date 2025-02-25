@@ -24,10 +24,3 @@ Scenario_
 test_environment_variables = """
     zope_i18n_compile_mo_files=True
 """
-
-
-[github]
-extra_lines = """
-  testjs:
-    uses: main.yml
-"""

@@ -64,8 +64,6 @@ jobs:
 # py_versions = "['3.12', '3.11']"
 ##
 
-  testjs:
-    uses: main.yml
 
 ##
 # Specify additional jobs in .meta.toml:
