@@ -1,3 +1,14 @@
+# Start a single robot test
+#
+# Start the server
+# WSGI_SERVER_HOST=localhost WSGI_SERVER_PORT=50003 robot-server collective.taxonomy.testing.ROBOT_TESTING
+#
+# Start the test
+# WSGI_SERVER_HOST=localhost WSGI_SERVER_PORT=50003 robot src/collective/taxonomy/tests/robot/test_taxonomy.robot
+#
+# the test run headless until you setting the `variable ${BROWSER}` to a none headless browser, see section `*** Variables ***`
+#
+
 *** Settings ***
 
 Resource    plone/app/robotframework/browser.robot
@@ -10,6 +21,8 @@ Test Teardown    Run keywords     Plone test teardown
 
 
 *** Variables ***
+
+# ${BROWSER}    chromium
 
 ${TITLE}    An edited page
 ${PAGE_ID}    an-edited-page
