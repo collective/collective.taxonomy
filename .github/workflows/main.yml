@@ -1,4 +1,4 @@
-name: Test Collective Taxonomy
+name: Test JS Collective Taxonomy
 
 on:
   push:
@@ -10,42 +10,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    name: Plone 6.0 / py${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
-        python:
-          - "3.8"
-          - "3.10"
-          - "3.11"
-          - "3.12"
-        plone:
-          - "6.0-latest"
-          - "6.1-latest"
-        exclude:
-          - python: "3.10"
-            plone: "6.0-latest"
-          - python: "3.12"
-            plone: "6.0-latest"
-          - python: "3.8"
-            plone: "6.1-latest"
-          - python: "3.11"
-            plone: "6.1-latest"
-
+        python-version: ${{ fromJson( inputs.py-versions) }}
+        os: ["ubuntu-latest"]
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
-        id: setup
-        uses: plone/setup-plone@v3.0.0
-        with:
-          python-version: ${{ matrix.python }}
-          plone-version: ${{ matrix.plone }}
-
-      - name: Run tests
-        run: |
-          tox
 
       - name: Run Javascript Tests
         run: |

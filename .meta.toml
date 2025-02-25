@@ -21,9 +21,13 @@ Scenario_
 """
 
 [tox]
-use_mxdev = false
-constraints_file = "https://dist.plone.org/release/6.1-latest/constraints.txt"
-constrain_package_deps = true
 test_environment_variables = """
     zope_i18n_compile_mo_files=True
+"""
+
+
+[github]
+extra_lines = """
+  testjs:
+    uses: main.yml
 """
