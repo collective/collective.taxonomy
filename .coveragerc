@@ -1,4 +1,6 @@
 [report]
+include =
+    src/collective/*
 omit =
     /home/*/.buildout/eggs/*
     /usr/*
@@ -7,3 +9,5 @@ omit =
     eggs/*
     parts/*
     /home/travis/virtualenv/*
+    */test*
+

@@ -1,4 +1,4 @@
-exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt *.yaml *.ini
+exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt *.yaml *.ini playwright-*.txt
 global-exclude *.pyc
 global-exclude *.yarn-integrity
 global-exclude cypress.json

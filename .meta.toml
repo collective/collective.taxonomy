@@ -1,22 +1,29 @@
 # Generated from:
-# https://github.com/plone/meta/tree/main/config/default
+# https://github.com/plone/meta/tree/main/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "4cf2df11"
+commit-id = "2.0.1.dev0"
 
 [pyproject]
 codespell_skip = "*.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,*.lock,*.json"
-
-[github]
-jobs = [
-    "qa",
-    "test",
-    "release_ready",
-    ]
+dependencies_ignores = "['zestreleaser.towncrier', 'zest.releaser', 'zest.pocompile', 'zope.testrunner', 'Products.Five', 'i18ndude', 'zope.i18nmessageid', 'Products.PluginIndexes','collective.MockMailHost', 'plone.app.iterate', 'requests']"
 
 [gitignore]
 extra_lines = """
 robot_*
 test_*
+playwright-log.txt
+log.html
+output.xml
+report.html
+Scenario_
+"""
+
+[tox]
+use_mxdev = false
+constraints_file = "https://dist.plone.org/release/6.1-latest/constraints.txt"
+constrain_package_deps = true
+test_environment_variables = """
+    zope_i18n_compile_mo_files=True
 """

@@ -12,7 +12,6 @@ default_context:
     wsgi_listen: localhost:8080
     initial_user_name: admin
     initial_user_password: admin
-    load_zcml:
-        package_includes: ['collective.taxonomy']
+    zcml_package_includes: "collective.taxonomy"
     db_storage: direct
     debug_mode: on
