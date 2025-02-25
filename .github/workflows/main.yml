@@ -43,13 +43,9 @@ jobs:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
 
-      - name: Install addon package, in editable mode, with pip
+      - name: Run tests
         run: |
-          pip install -e ".[test]"
-
-      - name: Run tests (located inside src)
-        run: |
-          zope-testrunner --auto-color --auto-progress --test-path src/
+          tox
 
       - name: Run Javascript Tests
         run: |
