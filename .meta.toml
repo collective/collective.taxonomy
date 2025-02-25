@@ -21,11 +21,8 @@ Scenario_
 """
 
 [tox]
-use_mxdev = true
-constrain_package_deps = true
+# use_mxdev = true
+# constrain_package_deps = true
 test_environment_variables = """
     zope_i18n_compile_mo_files=True
-"""
-config_lines = """
-test_matrix = { "6.1" = ["3.13", "3.10"], "6.0": ["3.13", "3.9"] }
 """
