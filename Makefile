@@ -257,7 +257,7 @@ FORMATTING: style
 .PHONY: lint-black
 lint-black: ${BLACK_SENTINEL}  ## lint code-style black (to Python files)
 	@echo "$(OK_COLOR)Lint black rules to code in ${ADDONFOLDER}/*$(NO_COLOR)"
-	@${PYBIN}black ${ADDONFOLDER}
+	@${PYBIN}black --check${ADDONFOLDER}
 
 .PHONY: lint-isort
 lint-isort: ${ISORT_SENTINEL} ## lint code-style isort (sorted imports in Python files)
