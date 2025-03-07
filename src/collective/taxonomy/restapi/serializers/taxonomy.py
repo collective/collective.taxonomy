@@ -1,4 +1,5 @@
-"""RestAPI Taxonomy serializer"""
+""" RestAPI Taxonomy serializer
+"""
 
 from collective.taxonomy import PATH_SEPARATOR
 from collective.taxonomy.interfaces import ITaxonomy
