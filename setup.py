@@ -41,7 +41,7 @@ setup(
     namespace_packages=["collective"],
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     install_requires=[
         "setuptools",
         "plone.base",
