@@ -176,8 +176,8 @@ class TestIndexer(unittest.TestCase):
         self.assertEqual(index.numObjects(), 1)
 
     def test_indexer_keeps_metadata_order(self):
-        """ test that the indexer gets the value in the catalog metadata
-            keeping the order of items added to the field.
+        """test that the indexer gets the value in the catalog metadata
+        keeping the order of items added to the field.
         """
 
         portal_catalog = api.portal.get_tool("portal_catalog")
@@ -199,15 +199,15 @@ class TestIndexer(unittest.TestCase):
         self.document.taxonomy_test = ["5", "3"]
         self.document.reindexObject()
 
-        brains = portal_catalog.searchResults(portal_type='Document', id=self.document.id)
+        brains = portal_catalog.searchResults(
+            portal_type="Document", id=self.document.id
+        )
 
         self.assertEqual(len(brains), 1)
         brain = brains[0]
         brain_taxonomy_test = brain.taxonomy_test
 
-        self.assertTrue(
-            len(self.document.taxonomy_test) <= len(brain_taxonomy_test)
-        )
+        self.assertTrue(len(self.document.taxonomy_test) <= len(brain_taxonomy_test))
 
         for value in self.document.taxonomy_test:
             self.assertIn(value, brain_taxonomy_test)
@@ -215,5 +215,7 @@ class TestIndexer(unittest.TestCase):
             # is the same or lower than the one in the brain
             # We test that can be lower, because the taxonomy indexer indexes
             # also any parent value of the taxonomy in the index and in the metadata
-            self.assertTrue(self.document.taxonomy_test.index(value) <= brain_taxonomy_test.index(value))
-
+            self.assertTrue(
+                self.document.taxonomy_test.index(value)
+                <= brain_taxonomy_test.index(value)
+            )
