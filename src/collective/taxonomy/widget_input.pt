@@ -7,105 +7,155 @@
           type="text/javascript"
   ></script>
 
-  <table border="0" class="ordered-selection-field"
-       tal:attributes="id view/id">
-  <tr>
-    <td>
-      <select id="from" name="from" class=""  multiple="" size="5"
-          tal:attributes="id string:${view/id}-from;
-                          name string:${view/name}.from;
-                          class view/klass;
-                          style view/style;
-                          title view/title;
-                          lang view/lang;
-                          onclick view/onclick;
-                          ondblclick view/ondblclick;
-                          onmousedown view/onmousedown;
-                          onmouseup view/onmouseup;
-                          onmouseover view/onmouseover;
-                          onmousemove view/onmousemove;
-                          onmouseout view/onmouseout;
-                          onkeypress view/onkeypress;
-                          onkeydown view/onkeydown;
-                          onkeyup view/onkeyup;
-                          disabled view/disabled;
-                          tabindex view/tabindex;
-                          onfocus view/onfocus;
-                          onblur view/onblur;
-                          onchange view/onchange;
-                          multiple view/multiple;
-                          size view/size">
-        <option tal:repeat="entry view/notselectedItems"
-                tal:attributes="value entry/value"
-                tal:content="nocall:entry/content" i18n:translate=""/>
-      </select>
-    </td>
-    <td>
-      <button onclick="javascript:from2to()"
-              name="from2toButton" type="button" value="&rarr;"
-              tal:attributes="onClick string:javascript:from2to('${view/id}')"
-          >&rarr;</button>
-      <br />
-      <button onclick="javascript:to2from()"
-              name="to2fromButton" type="button" value="&larr;"
-              tal:attributes="onClick string:javascript:to2from('${view/id}')"
-          >&larr;</button>
-    </td>
-    <td>
-      <select id="to" name="to" class="" multiple="" size="5"
-          tal:attributes="id string:${view/id}-to;
-                          name string:${view/name}.to;
-                          class view/klass;
-                          style view/style;
-                          title view/title;
-                          lang view/lang;
-                          onclick view/onclick;
-                          ondblclick view/ondblclick;
-                          onmousedown view/onmousedown;
-                          onmouseup view/onmouseup;
-                          onmouseover view/onmouseover;
-                          onmousemove view/onmousemove;
-                          onmouseout view/onmouseout;
-                          onkeypress view/onkeypress;
-                          onkeydown view/onkeydown;
-                          onkeyup view/onkeyup;
-                          disabled view/disabled;
-                          tabindex view/tabindex;
-                          onfocus view/onfocus;
-                          onblur view/onblur;
-                          onchange view/onchange;
-                          multiple view/multiple;
-                          size view/size">
-        <option tal:repeat="entry view/selectedItems"
-                tal:attributes="value entry/value"
-                tal:content="nocall:entry/content" i18n:translate=""/>
-      </select>
-      <input name="foo-empty-marker" type="hidden"
-        tal:attributes="name string:${view/name}-empty-marker"/>
-      <span id="toDataContainer" style="display: none"
-            tal:attributes="id string:${view/id}-toDataContainer">
-        <script type="text/javascript" tal:content="string:copyDataForSubmit('${view/id}');">
+  <table class="ordered-selection-field"
+         border="0"
+         tal:attributes="
+           id view/id;
+         "
+  >
+    <tr>
+      <td>
+        <select class=""
+                id="from"
+                multiple
+                name="from"
+                size="5"
+                tal:attributes="
+                  id string:${view/id}-from;
+                  name string:${view/name}.from;
+                  class view/klass;
+                  style view/style;
+                  title view/title;
+                  lang view/lang;
+                  onclick view/onclick;
+                  ondblclick view/ondblclick;
+                  onmousedown view/onmousedown;
+                  onmouseup view/onmouseup;
+                  onmouseover view/onmouseover;
+                  onmousemove view/onmousemove;
+                  onmouseout view/onmouseout;
+                  onkeypress view/onkeypress;
+                  onkeydown view/onkeydown;
+                  onkeyup view/onkeyup;
+                  disabled view/disabled;
+                  tabindex view/tabindex;
+                  onfocus view/onfocus;
+                  onblur view/onblur;
+                  onchange view/onchange;
+                  multiple view/multiple;
+                  size view/size;
+                "
+        >
+          <option tal:repeat="entry view/notselectedItems"
+                  tal:content="nocall:entry/content"
+                  tal:attributes="
+                    value entry/value;
+                  "
+                  i18n:translate=""
+          ></option>
+        </select>
+      </td>
+      <td>
+        <button name="from2toButton"
+                onclick="javascript:from2to()"
+                type="button"
+                value="&rarr;"
+                tal:attributes="
+                  onClick string:javascript:from2to('${view/id}');
+                "
+        >&rarr;</button>
+        <br />
+        <button name="to2fromButton"
+                onclick="javascript:to2from()"
+                type="button"
+                value="&larr;"
+                tal:attributes="
+                  onClick string:javascript:to2from('${view/id}');
+                "
+        >&larr;</button>
+      </td>
+      <td>
+        <select class=""
+                id="to"
+                multiple
+                name="to"
+                size="5"
+                tal:attributes="
+                  id string:${view/id}-to;
+                  name string:${view/name}.to;
+                  class view/klass;
+                  style view/style;
+                  title view/title;
+                  lang view/lang;
+                  onclick view/onclick;
+                  ondblclick view/ondblclick;
+                  onmousedown view/onmousedown;
+                  onmouseup view/onmouseup;
+                  onmouseover view/onmouseover;
+                  onmousemove view/onmousemove;
+                  onmouseout view/onmouseout;
+                  onkeypress view/onkeypress;
+                  onkeydown view/onkeydown;
+                  onkeyup view/onkeyup;
+                  disabled view/disabled;
+                  tabindex view/tabindex;
+                  onfocus view/onfocus;
+                  onblur view/onblur;
+                  onchange view/onchange;
+                  multiple view/multiple;
+                  size view/size;
+                "
+        >
+          <option tal:repeat="entry view/selectedItems"
+                  tal:content="nocall:entry/content"
+                  tal:attributes="
+                    value entry/value;
+                  "
+                  i18n:translate=""
+          ></option>
+        </select>
+        <input name="foo-empty-marker"
+               type="hidden"
+               tal:attributes="
+                 name string:${view/name}-empty-marker;
+               "
+        />
+        <span id="toDataContainer"
+              style="display: none"
+              tal:attributes="
+                id string:${view/id}-toDataContainer;
+              "
+        >
+          <script type="text/javascript"
+                  tal:content="string:copyDataForSubmit('${view/id}');"
+          >
           /*  <![CDATA[ */
           // initial copying of field "field.to" --> "field"
           copyDataForSubmit("<i tal:replace="${view/id}"/>");
           /* ]]> */
-        </script>
-      </span>
-    </td>
-    <td>
-      <button
-          onclick="javascript:moveUp()"
-          name="upButton" type="button" value="&uarr;"
-          tal:attributes="onClick string:javascript:moveUp('${view/id}')"
-          >&uarr;</button>
-      <br />
-      <button
-          onclick="javascript:moveDown()"
-          name="downButton" type="button" value="&darr;"
-          tal:attributes="onClick string:javascript:moveDown('${view/id}')"
-          >&darr;</button>
-    </td>
-  </tr>
-</table>
+          </script>
+        </span>
+      </td>
+      <td>
+        <button name="upButton"
+                onclick="javascript:moveUp()"
+                type="button"
+                value="&uarr;"
+                tal:attributes="
+                  onClick string:javascript:moveUp('${view/id}');
+                "
+        >&uarr;</button>
+        <br />
+        <button name="downButton"
+                onclick="javascript:moveDown()"
+                type="button"
+                value="&darr;"
+                tal:attributes="
+                  onClick string:javascript:moveDown('${view/id}');
+                "
+        >&darr;</button>
+      </td>
+    </tr>
+  </table>
 
 </html>
