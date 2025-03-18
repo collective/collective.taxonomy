@@ -4,14 +4,6 @@ Changes
 3.1.6 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Use `plone.app.z3cform.widgets.OrderedSelect` in Plone 6.1
