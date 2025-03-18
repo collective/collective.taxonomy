@@ -16,7 +16,8 @@ Bug fixes:
 
 - Use `plone.app.z3cform.widgets.OrderedSelect` in Plone 6.1
   [petschki]
-
+- Fix order of indexed values
+  [erral]
 
 3.1.5 (2024-11-05)
 ------------------
