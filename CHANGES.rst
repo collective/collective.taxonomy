@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Use `plone.app.z3cform.widgets.OrderedSelect` in Plone 6.1
+  [petschki]
 
 
 3.1.5 (2024-11-05)

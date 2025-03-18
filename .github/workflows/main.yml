@@ -1,4 +1,4 @@
-name: Test Collective Taxonomy
+name: Test Collective Taxonomy Javascripts
 
 on:
   push:
@@ -14,45 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        python:
-          - "3.8"
-          - "3.10"
-          - "3.11"
-          - "3.12"
-        plone:
-          - "6.0-latest"
-          - "6.1-latest"
-        exclude:
-          - python: "3.10"
-            plone: "6.0-latest"
-          - python: "3.12"
-            plone: "6.0-latest"
-          - python: "3.8"
-            plone: "6.1-latest"
-          - python: "3.11"
-            plone: "6.1-latest"
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
-        id: setup
-        uses: plone/setup-plone@v2.0.0
-        with:
-          python-version: ${{ matrix.python }}
-          plone-version: ${{ matrix.plone }}
-      - name: Install package
-        run: |
-          make install
-
-      - name: Run Lint
-        run: |
-          make lint
-
-      - name: Run tests
-        run: |
-          make test-ignore-warnings
 
       - name: Run Javascript Tests
         run: |
