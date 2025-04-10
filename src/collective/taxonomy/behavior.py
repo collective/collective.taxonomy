@@ -126,6 +126,7 @@ class TaxonomyBehavior(Persistent):
             Record(
                 field.List(value_type=field.TextLine()),
                 [
+                    "plone.app.querystring.operation.selection.is",
                     "plone.app.querystring.operation.selection.all",
                     "plone.app.querystring.operation.selection.any",
                     "plone.app.querystring.operation.selection.none",
