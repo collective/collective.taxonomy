@@ -47,5 +47,15 @@
         handler=".upgradesteps.update_configlet_icon"
         />
   </genericsetup:upgradeSteps>
-
+  <genericsetup:upgradeSteps
+      profile="collective.taxonomy:default"
+      source="2000"
+      destination="2001"
+      >
+    <genericsetup:upgradeStep
+        title="Update searchable for every taxonomy"
+        description="Fix operations for all/any/none queries."
+        handler=".upgradesteps.reactivateSearchable"
+        />
+  </genericsetup:upgradeSteps>
 </configure>
