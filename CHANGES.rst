@@ -4,7 +4,7 @@ Changes
 3.1.7 (unreleased)
 ------------------
 
-- Update querystring operations to enable any/all/none queryies for taxonomy indexes.
+- Update querystring operations to enable any/all/none queries for taxonomy indexes.
   [petschki]
 
 
