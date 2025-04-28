@@ -1,4 +1,5 @@
 from collective.taxonomy.interfaces import ITaxonomySelectWidget
+from plone import api
 from plone.memoize import ram
 from z3c.form import interfaces
 from z3c.form.widget import FieldWidget
@@ -19,7 +20,8 @@ def _items_cachekey(fun, self):
     # try to get modified time of taxonomy utility
     try:
         mtime = self.terms.terms.data._p_mtime
-        key = f"{self.field.__name__}-{mtime}"
+        lng = api.portal.get_current_language()
+        key = f"{self.field.__name__}-{lng}-{mtime}"
         return key
     except AttributeError:
         # XXX: this happens with newly created taxonomies
