@@ -4,7 +4,8 @@ Changes
 3.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update querystring operations to enable any/all/none queries for taxonomy indexes.
+  [petschki]
 
 
 3.1.6 (2025-03-18)
