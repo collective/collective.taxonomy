@@ -7,6 +7,8 @@ Changes
 - Update querystring operations to enable any/all/none queries for taxonomy indexes.
   [petschki]
 
+- fix available term labels cachekey to be translated correctly when switching languages.
+  [petschki]
 
 3.1.6 (2025-03-18)
 ------------------
