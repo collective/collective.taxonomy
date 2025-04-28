@@ -1,7 +1,7 @@
 Changes
 =======
 
-3.1.7 (unreleased)
+3.1.7 (2025-04-28)
 ------------------
 
 - Update querystring operations to enable any/all/none queries for taxonomy indexes.
