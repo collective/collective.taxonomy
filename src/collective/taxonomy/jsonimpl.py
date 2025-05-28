@@ -33,7 +33,6 @@ class EditTaxonomyData(TreeExport, BrowserView):
         item = {}
         item["key"] = root.find("termIdentifier").text
         captionnode = root.find("caption")
-
         translations = {}
         for langstringnode in captionnode.getchildren():
             translations[langstringnode.get("language")] = langstringnode.text
