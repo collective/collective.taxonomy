@@ -69,6 +69,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
+
         vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool("portal_languages")
         plone_selected_languages = language_tool.supported_langs
@@ -100,9 +101,11 @@ class ImportJson(BrowserView):
 
     def __call__(self):
         request = self.request
+
         if request.method == "POST":
+
             data = json.loads(request.get("BODY", ""))
-            taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"])
+            taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"] or "")
             tree = data["tree"]
             languages = data["languages"]
             for language in languages:
@@ -137,10 +140,17 @@ class ImportJson(BrowserView):
         )
 
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
+        body = self.request.get("BODY", "")
+        if not body.strip():  # Check if the body is empty or just whitespace
+            body = "{}"  # Default to an empty JSON object instead of an empty string
+        data = json.loads(body)
+        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy", ""))
+        default_language = taxonomy.default_language if taxonomy else None
         result = []
         for item in parsed_data:
             new_key = item["key"]
-            title = item["translations"].get(language, "")
+            default_title = item["translations"].get(default_language, "")
+            title = item["translations"].get(language, "") or default_title
             new_path = f"{path}{title}"
             result.append(
                 (
