@@ -45,10 +45,19 @@ class TaxonomyPatch(Service):
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
-            default_title = item["translations"].get(default_language, "")
-            title = item["translations"].get(language, "") or default_title
-            if language in translations:
-                title = translations[language]
+            
+            # Get title in current language, or fallback to default language
+            title = translations.get(language, "")
+            if not title and default_language:
+                default_title = translations.get(default_language, "")
+                if default_title:
+                    # To avoid duplicate paths when falling back, append the key to make it unique
+                    title = f"{default_title} ({new_key})"
+            
+            # Skip items without any usable title
+            if not title:
+                continue
+                
             new_path = f"{path}{title}"
             result.append(
                 (
