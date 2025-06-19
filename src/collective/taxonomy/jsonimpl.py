@@ -150,7 +150,7 @@ class ImportJson(BrowserView):
         for item in parsed_data:
             new_key = item["key"]
             translations = item.get("translations", {})
-            
+
             # Get title in current language, or fallback to default language
             title = translations.get(language, "")
             if not title and default_language:
@@ -158,11 +158,11 @@ class ImportJson(BrowserView):
                 if default_title:
                     # To avoid duplicate paths when falling back, append the key to make it unique
                     title = f"{default_title} ({new_key})"
-            
+
             # Skip items without any usable title
             if not title:
                 continue
-                
+
             new_path = f"{path}{title}"
             result.append(
                 (
