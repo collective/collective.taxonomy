@@ -140,28 +140,10 @@ class ImportJson(BrowserView):
         )
 
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
-        body = self.request.get("BODY", "")
-        if not body.strip():  # Check if the body is empty or just whitespace
-            body = "{}"  # Default to an empty JSON object instead of an empty string
-        data = json.loads(body)
-        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy", ""))
-        default_language = taxonomy.default_language if taxonomy else None
         result = []
         for item in parsed_data:
             new_key = item["key"]
-            translations = item.get("translations", {})
-
-            # Get title in current language, or fallback to default language
-            title = translations.get(language, "")
-            if not title and default_language:
-                default_title = translations.get(default_language, "")
-                if default_title:
-                    # To avoid duplicate paths when falling back, append the key to make it unique
-                    title = f"{default_title} ({new_key})"
-
-            # Skip items without any usable title
-            if not title:
-                continue
+            title = item["translations"].get(language, "")
 
             new_path = f"{path}{title}"
             result.append(
