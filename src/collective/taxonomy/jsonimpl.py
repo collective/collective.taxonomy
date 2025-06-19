@@ -144,7 +144,7 @@ class ImportJson(BrowserView):
         if not body.strip():  # Check if the body is empty or just whitespace
             body = "{}"  # Default to an empty JSON object instead of an empty string
         data = json.loads(body)
-        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy",""))
+        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy", ""))
         default_language = taxonomy.default_language if taxonomy else None
         result = []
         for item in parsed_data:
