@@ -16,6 +16,8 @@ from zope.publisher.interfaces import IPublishTraverse
 from zope.schema import getFields
 from zope.schema.interfaces import ValidationError
 
+import json
+
 
 @implementer(IPublishTraverse)
 class TaxonomyPatch(Service):
@@ -32,11 +34,18 @@ class TaxonomyPatch(Service):
         return self
 
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
+        body = self.request.get("BODY", "")
+        if not body.strip():  # Check if the body is empty or just whitespace
+            body = "{}"  # Default to an empty JSON object instead of an empty string
+        data = json.loads(body)
+        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy"))
+        default_language = taxonomy.default_language if taxonomy else None
         result = []
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
-            title = item["title"]
+            default_title = item["translations"].get(default_language, "")
+            title = item["translations"].get(language, "") or default_title
             if language in translations:
                 title = translations[language]
             new_path = f"{path}{title}"
@@ -56,6 +65,7 @@ class TaxonomyPatch(Service):
 
     def reply(self):
         """Reply"""
+
         if not self.taxonomy_id:
             raise Exception("No taxonomy name provided")
 
