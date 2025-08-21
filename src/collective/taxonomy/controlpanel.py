@@ -44,11 +44,10 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
 
     def updateActions(self):
         super(controlpanel.RegistryEditForm, self).updateActions()
-        self.actions["add-taxonomy"].addClass("context")
-        self.actions["edit-taxonomy"].addClass("context")
-        self.actions["edit_data_taxonomy"].addClass("context")
-        self.actions["delete-taxonomy"].addClass("context")
-        self.actions["export"].addClass("context")
+        self.actions["delete-taxonomy"].addClass("btn-danger")
+        self.actions["delete-taxonomy"].attributes[
+            "onclick"
+        ] = "javascript: return confirm(`${this.title}?`)"
 
     @button.buttonAndHandler(
         _("label_add_taxonomy", default="Add"), name="add-taxonomy"
