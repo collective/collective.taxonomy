@@ -4,8 +4,8 @@ Changes
 4.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+.
 
 3.1.7 (2025-04-28)
 ------------------
