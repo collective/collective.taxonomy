@@ -1,5 +1,4 @@
 from pathlib import Path
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -19,14 +18,12 @@ setup(
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 6.0",
-        "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
         "Framework :: Plone :: Addon",
         "Framework :: Zope",
         "Framework :: Zope :: 5",
         "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
@@ -36,14 +33,10 @@ setup(
     author="Bo Simonsen and Malthe Borch",
     author_email="bo@headnet.dk",
     license="GPLv2+",
-    packages=find_packages("src"),
-    package_dir={"": "src"},
-    namespace_packages=["collective"],
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     install_requires=[
-        "setuptools",
         "plone.base",
         "plone.supermodel",
         "plone.api >= 1.5",
