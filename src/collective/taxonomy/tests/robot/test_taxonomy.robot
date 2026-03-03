@@ -21,7 +21,8 @@ Scenario: As a manager I can add a taxonomy
   Given a logged in manager
     and an page type with a taxonomy
    When I edit the page
-    and I select multiple options
+    and I select option 'Information Science'
+    and I select option 'Information Science » Chronology'
    Then I see '2' selected options
 
    When I save the page
@@ -52,12 +53,17 @@ I edit the page
     Get Text    //body    contains    Edit Page
 
 I select multiple options
-    Select Options By    //select[@name="form.widgets.test.taxonomy_test.from"]    index    0    2
+    Focus    //select[@name="form.widgets.test.taxonomy_test.from"]
+    ${selected} =     Select Options By    //select[@name="form.widgets.test.taxonomy_test.from"]    index    1    2
     Click    //button[@name="from2toButton"]
 
 I save the page
     Click    //button[@name="form.buttons.save"]
     Wait For Condition    Text    //body    contains    Changes saved
+
+I select option '${label}'
+    Select Options By    //select[@name="form.widgets.test.taxonomy_test.from"]    label    ${label}
+    Click    //button[@name="from2toButton"]
 
 I deselect option '${label}'
     Select Options By    //select[@name="form.widgets.test.taxonomy_test.to"]    label    ${label}

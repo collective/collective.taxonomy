@@ -1,21 +1,30 @@
 Changes
 =======
 
-3.1.6 (unreleased)
+3.1.8 (unreleased)
 ------------------
 
-Breaking changes:
+- Nothing changed yet.
 
-- *add item here*
 
-New features:
+3.1.7 (2025-04-28)
+------------------
 
-- *add item here*
+- Update querystring operations to enable any/all/none queries for taxonomy indexes.
+  [petschki]
+
+- fix available term labels cachekey to be translated correctly when switching languages.
+  [petschki]
+
+3.1.6 (2025-03-18)
+------------------
 
 Bug fixes:
 
-- *add item here*
-
+- Use `plone.app.z3cform.widgets.OrderedSelect` in Plone 6.1
+  [petschki]
+- Fix order of indexed values
+  [erral]
 
 3.1.5 (2024-11-05)
 ------------------

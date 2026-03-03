@@ -1,5 +1,4 @@
-""" RestAPI PATCH
-"""
+"""RestAPI PATCH"""
 
 from BTrees.OOBTree import OOBTree
 from collective.taxonomy import PATH_SEPARATOR

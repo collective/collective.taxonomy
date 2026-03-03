@@ -174,3 +174,48 @@ class TestIndexer(unittest.TestCase):
         self.assertEqual(len(portal_catalog(query)), 1)
         index = portal_catalog.Indexes["taxonomy_test"]
         self.assertEqual(index.numObjects(), 1)
+
+    def test_indexer_keeps_metadata_order(self):
+        """test that the indexer gets the value in the catalog metadata
+        keeping the order of items added to the field.
+        """
+
+        portal_catalog = api.portal.get_tool("portal_catalog")
+        taxonomy_test = schema.Set(
+            title="taxonomy_test",
+            description="taxonomy description schema",
+            required=False,
+            value_type=schema.Choice(vocabulary="collective.taxonomy.taxonomies"),
+        )
+        portal_types = api.portal.get_tool("portal_types")
+        fti = portal_types.get("Document")
+        document_schema = fti.lookupSchema()
+        notify(ObjectAddedEvent(taxonomy_test, document_schema))
+        notify(FieldAddedEvent(fti, taxonomy_test))
+
+        # The order of 3 and 5 is lexicographic in the Taxonomy list (see nihms.xml)
+        # here we set them the other way around, because the user wants to show the
+        # selected taxonomies in that specific order
+        self.document.taxonomy_test = ["5", "3"]
+        self.document.reindexObject()
+
+        brains = portal_catalog.searchResults(
+            portal_type="Document", id=self.document.id
+        )
+
+        self.assertEqual(len(brains), 1)
+        brain = brains[0]
+        brain_taxonomy_test = brain.taxonomy_test
+
+        self.assertTrue(len(self.document.taxonomy_test) <= len(brain_taxonomy_test))
+
+        for value in self.document.taxonomy_test:
+            self.assertIn(value, brain_taxonomy_test)
+            # We test that the position of each taxonomy in the document
+            # is the same or lower than the one in the brain
+            # We test that can be lower, because the taxonomy indexer indexes
+            # also any parent value of the taxonomy in the index and in the metadata
+            self.assertTrue(
+                self.document.taxonomy_test.index(value)
+                <= brain_taxonomy_test.index(value)
+            )

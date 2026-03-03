@@ -1,7 +1,7 @@
 from collective.taxonomy.interfaces import ITaxonomySelectWidget
+from plone import api
 from plone.memoize import ram
 from z3c.form import interfaces
-from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.widget import FieldWidget
 
 import zope.component
@@ -9,11 +9,19 @@ import zope.interface
 import zope.schema.interfaces
 
 
+try:
+    # Plone 6.1
+    from plone.app.z3cform.widgets.orderedselect import OrderedSelectWidget
+except ImportError:
+    from z3c.form.browser.orderedselect import OrderedSelectWidget
+
+
 def _items_cachekey(fun, self):
     # try to get modified time of taxonomy utility
     try:
         mtime = self.terms.terms.data._p_mtime
-        key = f"{self.field.__name__}-{mtime}"
+        lng = api.portal.get_current_language()
+        key = f"{self.field.__name__}-{lng}-{mtime}"
         return key
     except AttributeError:
         # XXX: this happens with newly created taxonomies
