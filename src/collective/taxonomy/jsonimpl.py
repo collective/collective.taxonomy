@@ -145,7 +145,12 @@ class ImportJson(BrowserView):
             new_key = item["key"]
             translations = item.get("translations", {})
             default_title = translations.get(default_language, "")
-            title = translations.get(language, "") or default_title
+            # Keep compatibility with older payloads that only provide "title".
+            title = (
+                translations.get(language, "")
+                or default_title
+                or item.get("title", "")
+            )
             new_path = f"{path}{title}"
             result.append(
                 (

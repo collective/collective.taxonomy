@@ -39,7 +39,12 @@ class TaxonomyPatch(Service):
             translations = item.get("translations", {})
             new_key = item["key"]
             default_title = translations.get(default_language, "")
-            title = translations.get(language, "") or default_title
+            # Keep compatibility with older payloads that only provide "title".
+            title = (
+                translations.get(language, "")
+                or default_title
+                or item.get("title", "")
+            )
             new_path = f"{path}{title}"
             result.append(
                 (

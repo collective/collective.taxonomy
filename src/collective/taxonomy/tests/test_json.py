@@ -1,3 +1,4 @@
+from collective.taxonomy.restapi.services.taxonomy.update import TaxonomyPatch
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -98,6 +99,63 @@ class TestJson(unittest.TestCase):
                 ("\u241fAnimaux\u241fReptiles", "reptiles"),
                 ("\u241fAnimaux\u241fReptiles\u241fPythons", "pythons"),
                 ("\u241fVégétaux", "plants"),
+            ],
+        )
+
+    def test_generate_json_fallback_to_default_language_and_legacy_title(self):
+        login(self.portal, TEST_USER_NAME)
+        import_json_view = self.portal.restrictedTraverse("@@taxonomy-import")
+        input_data = [
+            {
+                "key": "animals",
+                "title": "Animals",
+                "translations": {"en": "Animals"},
+                "subnodes": [
+                    {
+                        "key": "birds",
+                        "title": "Birds",
+                        "translations": {},
+                        "subnodes": [],
+                    }
+                ],
+            }
+        ]
+
+        output = import_json_view.generate_data_for_taxonomy(input_data, "fr", "en")
+        self.assertEqual(
+            output,
+            [
+                ("\u241fAnimals", "animals"),
+                ("\u241fAnimals\u241fBirds", "birds"),
+            ],
+        )
+
+
+class TestTaxonomyPatchGenerateData(unittest.TestCase):
+    def test_generate_data_for_taxonomy_legacy_title_fallback(self):
+        view = TaxonomyPatch.__new__(TaxonomyPatch)
+        input_data = [
+            {
+                "key": "animals",
+                "title": "Animals",
+                "translations": {"en": "Animals"},
+                "children": [
+                    {
+                        "key": "birds",
+                        "title": "Birds",
+                        "translations": {},
+                        "children": [],
+                    }
+                ],
+            }
+        ]
+
+        output = view.generate_data_for_taxonomy(input_data, "fr", "en")
+        self.assertEqual(
+            output,
+            [
+                ("\u241fAnimals", "animals"),
+                ("\u241fAnimals\u241fBirds", "birds"),
             ],
         )
 
