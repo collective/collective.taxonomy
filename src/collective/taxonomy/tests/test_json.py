@@ -121,7 +121,9 @@ class TestJson(unittest.TestCase):
             }
         ]
 
-        output = import_json_view.generate_data_for_taxonomy(input_data, "fr", "en")
+        output = import_json_view.generate_data_for_taxonomy(
+            input_data, "fr", default_language="en"
+        )
         self.assertEqual(
             output,
             [
@@ -129,6 +131,20 @@ class TestJson(unittest.TestCase):
                 ("\u241fAnimals\u241fBirds", "birds"),
             ],
         )
+
+    def test_generate_json_keeps_positional_path_third_argument(self):
+        login(self.portal, TEST_USER_NAME)
+        import_json_view = self.portal.restrictedTraverse("@@taxonomy-import")
+        input_data = [
+            {
+                "key": "animals",
+                "translations": {"fr": "Animaux"},
+                "subnodes": [],
+            }
+        ]
+
+        output = import_json_view.generate_data_for_taxonomy(input_data, "fr", "|")
+        self.assertEqual(output, [("|Animaux", "animals")])
 
 
 class TestTaxonomyPatchGenerateData(unittest.TestCase):
@@ -150,7 +166,9 @@ class TestTaxonomyPatchGenerateData(unittest.TestCase):
             }
         ]
 
-        output = view.generate_data_for_taxonomy(input_data, "fr", "en")
+        output = view.generate_data_for_taxonomy(
+            input_data, "fr", default_language="en"
+        )
         self.assertEqual(
             output,
             [
@@ -158,6 +176,20 @@ class TestTaxonomyPatchGenerateData(unittest.TestCase):
                 ("\u241fAnimals\u241fBirds", "birds"),
             ],
         )
+
+    def test_generate_data_for_taxonomy_keeps_positional_path_third_argument(self):
+        view = TaxonomyPatch.__new__(TaxonomyPatch)
+        input_data = [
+            {
+                "key": "animals",
+                "title": "Animals",
+                "translations": {"fr": "Animaux"},
+                "children": [],
+            }
+        ]
+
+        output = view.generate_data_for_taxonomy(input_data, "fr", "|")
+        self.assertEqual(output, [("|Animaux", "animals")])
 
 
 class TestEditDataJson(unittest.TestCase):

@@ -112,7 +112,9 @@ class ImportJson(BrowserView):
 
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree["subnodes"], language, taxonomy.default_language
+                    tree["subnodes"],
+                    language,
+                    default_language=taxonomy.default_language,
                 )
 
                 # Update taxonomy and use 'clear' since we want to remain with
@@ -138,7 +140,7 @@ class ImportJson(BrowserView):
         )
 
     def generate_data_for_taxonomy(
-        self, parsed_data, language, default_language=None, path=PATH_SEPARATOR
+        self, parsed_data, language, path=PATH_SEPARATOR, default_language=None
     ):
         result = []
         for item in parsed_data:
@@ -161,7 +163,10 @@ class ImportJson(BrowserView):
                 new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
                     self.generate_data_for_taxonomy(
-                        subnodes, language, default_language, new_path
+                        subnodes,
+                        language,
+                        path=new_path,
+                        default_language=default_language,
                     )
                 )
 

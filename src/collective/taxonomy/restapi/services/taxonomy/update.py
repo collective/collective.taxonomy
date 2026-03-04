@@ -32,7 +32,7 @@ class TaxonomyPatch(Service):
         return self
 
     def generate_data_for_taxonomy(
-        self, parsed_data, language, default_language=None, path=PATH_SEPARATOR
+        self, parsed_data, language, path=PATH_SEPARATOR, default_language=None
     ):
         result = []
         for item in parsed_data:
@@ -55,7 +55,10 @@ class TaxonomyPatch(Service):
                 new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
                     self.generate_data_for_taxonomy(
-                        subnodes, language, default_language, new_path
+                        subnodes,
+                        language,
+                        path=new_path,
+                        default_language=default_language,
                     )
                 )
         return result
@@ -86,7 +89,7 @@ class TaxonomyPatch(Service):
 
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree, language, taxonomy.default_language
+                    tree, language, default_language=taxonomy.default_language
                 )
 
                 taxonomy.update(language, data_for_taxonomy, True)
