@@ -16,8 +16,6 @@ from zope.publisher.interfaces import IPublishTraverse
 from zope.schema import getFields
 from zope.schema.interfaces import ValidationError
 
-import json
-
 
 @implementer(IPublishTraverse)
 class TaxonomyPatch(Service):
@@ -33,21 +31,15 @@ class TaxonomyPatch(Service):
             self.taxonomy_id = name
         return self
 
-    def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
-        body = self.request.get("BODY", "")
-        if not body.strip():  # Check if the body is empty or just whitespace
-            body = "{}"  # Default to an empty JSON object instead of an empty string
-        data = json.loads(body)
-        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy"))
-        default_language = taxonomy.default_language if taxonomy else None
+    def generate_data_for_taxonomy(
+        self, parsed_data, language, default_language=None, path=PATH_SEPARATOR
+    ):
         result = []
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
-            default_title = item["translations"].get(default_language, "")
-            title = item["translations"].get(language, "") or default_title
-            if language in translations:
-                title = translations[language]
+            default_title = translations.get(default_language, "")
+            title = translations.get(language, "") or default_title
             new_path = f"{path}{title}"
             result.append(
                 (
@@ -59,7 +51,9 @@ class TaxonomyPatch(Service):
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
-                    self.generate_data_for_taxonomy(subnodes, language, new_path)
+                    self.generate_data_for_taxonomy(
+                        subnodes, language, default_language, new_path
+                    )
                 )
         return result
 
@@ -88,7 +82,9 @@ class TaxonomyPatch(Service):
                     taxonomy.data[language] = OOBTree()
 
             for language in taxonomy.data.keys():
-                data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
+                data_for_taxonomy = self.generate_data_for_taxonomy(
+                    tree, language, taxonomy.default_language
+                )
 
                 taxonomy.update(language, data_for_taxonomy, True)
         else:

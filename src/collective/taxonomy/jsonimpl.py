@@ -101,9 +101,7 @@ class ImportJson(BrowserView):
 
     def __call__(self):
         request = self.request
-
         if request.method == "POST":
-
             data = json.loads(request.get("BODY", ""))
             taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"] or "")
             tree = data["tree"]
@@ -114,7 +112,7 @@ class ImportJson(BrowserView):
 
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree["subnodes"], language
+                    tree["subnodes"], language, taxonomy.default_language
                 )
 
                 # Update taxonomy and use 'clear' since we want to remain with
@@ -139,18 +137,15 @@ class ImportJson(BrowserView):
             }
         )
 
-    def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
-        body = self.request.get("BODY", "")
-        if not body.strip():  # Check if the body is empty or just whitespace
-            body = "{}"  # Default to an empty JSON object instead of an empty string
-        data = json.loads(body)
-        taxonomy = queryUtility(ITaxonomy, name=data.get("taxonomy", ""))
-        default_language = taxonomy.default_language if taxonomy else None
+    def generate_data_for_taxonomy(
+        self, parsed_data, language, default_language=None, path=PATH_SEPARATOR
+    ):
         result = []
         for item in parsed_data:
             new_key = item["key"]
-            default_title = item["translations"].get(default_language, "")
-            title = item["translations"].get(language, "") or default_title
+            translations = item.get("translations", {})
+            default_title = translations.get(default_language, "")
+            title = translations.get(language, "") or default_title
             new_path = f"{path}{title}"
             result.append(
                 (
@@ -162,7 +157,9 @@ class ImportJson(BrowserView):
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
-                    self.generate_data_for_taxonomy(subnodes, language, new_path)
+                    self.generate_data_for_taxonomy(
+                        subnodes, language, default_language, new_path
+                    )
                 )
 
         return result
