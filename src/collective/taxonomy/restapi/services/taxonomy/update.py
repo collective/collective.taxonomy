@@ -38,7 +38,7 @@ class TaxonomyPatch(Service):
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
-            default_title = translations.get(default_language, "")
+            default_title = translations.get(default_language, "") if default_language else ""
             # Keep compatibility with older payloads that only provide "title".
             title = (
                 translations.get(language, "") or default_title or item.get("title", "")

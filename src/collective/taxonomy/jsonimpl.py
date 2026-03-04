@@ -103,7 +103,7 @@ class ImportJson(BrowserView):
         request = self.request
         if request.method == "POST":
             data = json.loads(request.get("BODY", ""))
-            taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"] or "")
+            taxonomy = queryUtility(ITaxonomy, name=data["taxonomy"])
             tree = data["tree"]
             languages = data["languages"]
             for language in languages:
@@ -146,7 +146,7 @@ class ImportJson(BrowserView):
         for item in parsed_data:
             new_key = item["key"]
             translations = item.get("translations", {})
-            default_title = translations.get(default_language, "")
+            default_title = translations.get(default_language, "") if default_language else ""
             # Keep compatibility with older payloads that only provide "title".
             title = (
                 translations.get(language, "") or default_title or item.get("title", "")
