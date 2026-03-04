@@ -56,6 +56,7 @@ setup(
             "zest.releaser[recommended]",
         ],
         "test": [
+            "collective.monkeypatcher",
             "mock",
             "plone.api",
             "plone.app.caching",
