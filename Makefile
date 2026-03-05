@@ -142,7 +142,8 @@ endif
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS} ${SENTINEL}
 	@echo "$(OK_COLOR)Install pip$(NO_COLOR)"
-	@${PYBIN}pip install -U "pip>=22.0.2" wheel setuptools
+	# mxdev 2.1.0 still imports pkg_resources (removed in setuptools>=81)
+	@${PYBIN}pip install -U "pip>=22.0.2" wheel "setuptools>=75.8.2,<81"
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
