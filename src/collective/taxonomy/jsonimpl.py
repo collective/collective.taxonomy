@@ -69,6 +69,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
 
     def get_languages_mapping(self):
         """Get mapping token/value for languages."""
+
         vocab = AvailableContentLanguageVocabularyFactory(self.context)
         language_tool = api.portal.get_tool("portal_languages")
         plone_selected_languages = language_tool.supported_langs
@@ -111,7 +112,9 @@ class ImportJson(BrowserView):
 
             for language in taxonomy.data.keys():
                 data_for_taxonomy = self.generate_data_for_taxonomy(
-                    tree["subnodes"], language
+                    tree["subnodes"],
+                    language,
+                    default_language=taxonomy.default_language,
                 )
 
                 # Update taxonomy and use 'clear' since we want to remain with
@@ -136,11 +139,20 @@ class ImportJson(BrowserView):
             }
         )
 
-    def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
+    def generate_data_for_taxonomy(
+        self, parsed_data, language, path=PATH_SEPARATOR, default_language=None
+    ):
         result = []
         for item in parsed_data:
             new_key = item["key"]
-            title = item["translations"].get(language, "")
+            translations = item.get("translations", {})
+            default_title = (
+                translations.get(default_language, "") if default_language else ""
+            )
+            # Keep compatibility with older payloads that only provide "title".
+            title = (
+                translations.get(language, "") or default_title or item.get("title", "")
+            )
             new_path = f"{path}{title}"
             result.append(
                 (
@@ -152,7 +164,12 @@ class ImportJson(BrowserView):
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
-                    self.generate_data_for_taxonomy(subnodes, language, new_path)
+                    self.generate_data_for_taxonomy(
+                        subnodes,
+                        language,
+                        path=new_path,
+                        default_language=default_language,
+                    )
                 )
 
         return result

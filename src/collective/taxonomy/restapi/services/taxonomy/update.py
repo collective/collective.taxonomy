@@ -31,14 +31,20 @@ class TaxonomyPatch(Service):
             self.taxonomy_id = name
         return self
 
-    def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
+    def generate_data_for_taxonomy(
+        self, parsed_data, language, path=PATH_SEPARATOR, default_language=None
+    ):
         result = []
         for item in parsed_data:
             translations = item.get("translations", {})
             new_key = item["key"]
-            title = item["title"]
-            if language in translations:
-                title = translations[language]
+            default_title = (
+                translations.get(default_language, "") if default_language else ""
+            )
+            # Keep compatibility with older payloads that only provide "title".
+            title = (
+                translations.get(language, "") or default_title or item.get("title", "")
+            )
             new_path = f"{path}{title}"
             result.append(
                 (
@@ -50,12 +56,18 @@ class TaxonomyPatch(Service):
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"
                 result.extend(
-                    self.generate_data_for_taxonomy(subnodes, language, new_path)
+                    self.generate_data_for_taxonomy(
+                        subnodes,
+                        language,
+                        path=new_path,
+                        default_language=default_language,
+                    )
                 )
         return result
 
     def reply(self):
         """Reply"""
+
         if not self.taxonomy_id:
             raise Exception("No taxonomy name provided")
 
@@ -78,7 +90,9 @@ class TaxonomyPatch(Service):
                     taxonomy.data[language] = OOBTree()
 
             for language in taxonomy.data.keys():
-                data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
+                data_for_taxonomy = self.generate_data_for_taxonomy(
+                    tree, language, default_language=taxonomy.default_language
+                )
 
                 taxonomy.update(language, data_for_taxonomy, True)
         else:

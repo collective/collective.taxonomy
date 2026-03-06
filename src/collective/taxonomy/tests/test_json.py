@@ -1,3 +1,4 @@
+from collective.taxonomy.restapi.services.taxonomy.update import TaxonomyPatch
 from collective.taxonomy.testing import INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -100,6 +101,95 @@ class TestJson(unittest.TestCase):
                 ("\u241fVégétaux", "plants"),
             ],
         )
+
+    def test_generate_json_fallback_to_default_language_and_legacy_title(self):
+        login(self.portal, TEST_USER_NAME)
+        import_json_view = self.portal.restrictedTraverse("@@taxonomy-import")
+        input_data = [
+            {
+                "key": "animals",
+                "title": "Animals",
+                "translations": {"en": "Animals"},
+                "subnodes": [
+                    {
+                        "key": "birds",
+                        "title": "Birds",
+                        "translations": {},
+                        "subnodes": [],
+                    }
+                ],
+            }
+        ]
+
+        output = import_json_view.generate_data_for_taxonomy(
+            input_data, "fr", default_language="en"
+        )
+        self.assertEqual(
+            output,
+            [
+                ("\u241fAnimals", "animals"),
+                ("\u241fAnimals\u241fBirds", "birds"),
+            ],
+        )
+
+    def test_generate_json_keeps_positional_path_third_argument(self):
+        login(self.portal, TEST_USER_NAME)
+        import_json_view = self.portal.restrictedTraverse("@@taxonomy-import")
+        input_data = [
+            {
+                "key": "animals",
+                "translations": {"fr": "Animaux"},
+                "subnodes": [],
+            }
+        ]
+
+        output = import_json_view.generate_data_for_taxonomy(input_data, "fr", "|")
+        self.assertEqual(output, [("|Animaux", "animals")])
+
+
+class TestTaxonomyPatchGenerateData(unittest.TestCase):
+    def test_generate_data_for_taxonomy_legacy_title_fallback(self):
+        view = TaxonomyPatch.__new__(TaxonomyPatch)
+        input_data = [
+            {
+                "key": "animals",
+                "title": "Animals",
+                "translations": {"en": "Animals"},
+                "children": [
+                    {
+                        "key": "birds",
+                        "title": "Birds",
+                        "translations": {},
+                        "children": [],
+                    }
+                ],
+            }
+        ]
+
+        output = view.generate_data_for_taxonomy(
+            input_data, "fr", default_language="en"
+        )
+        self.assertEqual(
+            output,
+            [
+                ("\u241fAnimals", "animals"),
+                ("\u241fAnimals\u241fBirds", "birds"),
+            ],
+        )
+
+    def test_generate_data_for_taxonomy_keeps_positional_path_third_argument(self):
+        view = TaxonomyPatch.__new__(TaxonomyPatch)
+        input_data = [
+            {
+                "key": "animals",
+                "title": "Animals",
+                "translations": {"fr": "Animaux"},
+                "children": [],
+            }
+        ]
+
+        output = view.generate_data_for_taxonomy(input_data, "fr", "|")
+        self.assertEqual(output, [("|Animaux", "animals")])
 
 
 class TestEditDataJson(unittest.TestCase):
