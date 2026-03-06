@@ -4,7 +4,8 @@ Changes
 3.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- If a language doesn't have a value for taxonomy use the default language value
+  [dobri1408]
 
 
 3.1.7 (2025-04-28)
