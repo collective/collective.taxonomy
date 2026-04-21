@@ -40,7 +40,7 @@
                        summary="Content listing"
                        tal:define="
                          thumb_scale_table view/get_thumb_scale_table;
-                         img_class python:'thumb-%s pull-right' % thumb_scale_table;
+                         img_class python:'thumb-%s float-end' % thumb_scale_table;
                          showicons  view/show_icons;
                        "
                        i18n:attributes="summary summary_content_listing;"
