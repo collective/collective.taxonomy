@@ -3,7 +3,6 @@ from collective.taxonomy import PATH_SEPARATOR
 from lxml import etree
 from plone.supermodel.utils import indent
 
-
 LANG_SEPARATOR = "|"
 
 
@@ -26,8 +25,8 @@ class ImportVdex:
     def processLanguage(self, results, language, path=("",)):
         result = []
         for element in results.keys():
-            (identifier, children) = results[element]
-            (lang, text) = element.split(LANG_SEPARATOR, 1)
+            identifier, children = results[element]
+            lang, text = element.split(LANG_SEPARATOR, 1)
             if lang == language:
                 extended_path = PATH_SEPARATOR.join(path)
                 extended_path = PATH_SEPARATOR.join((extended_path, text))

@@ -8,7 +8,6 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-
 try:
     # Plone 6.1
     from plone.app.z3cform.widgets.orderedselect import OrderedSelectWidget
