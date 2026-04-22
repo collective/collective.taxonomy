@@ -27,13 +27,12 @@ from zope.component.hooks import getSite
 from zope.interface import alsoProvides
 from zope.interface import implementer
 
+import importlib
 import logging
-import pkg_resources
-
 
 try:
-    pkg_resources.get_distribution("plone.app.multilingual")
-except pkg_resources.DistributionNotFound:
+    importlib.metadata.version("plone.app.multilingual")
+except importlib.metadata.PackageNotFoundError:
     HAS_PAM = False
 else:
     from plone.app.multilingual.dx.interfaces import ILanguageIndependentField

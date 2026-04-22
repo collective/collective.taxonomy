@@ -25,7 +25,6 @@ from zope.schema.interfaces import IVocabularyFactory
 import logging
 import zipfile
 
-
 logger = logging.getLogger("taxonomy.controlpanel")
 
 
