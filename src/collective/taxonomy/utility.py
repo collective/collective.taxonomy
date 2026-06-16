@@ -106,7 +106,10 @@ class Taxonomy(SimpleItem):
             return self.default_language
         else:
             # our best guess!
-            return self.data.keys()[0]
+            candidates = list(self.data.keys())
+            if len(candidates) > 0:
+                return candidates[0]
+            return 'en'
 
     def getLanguages(self):
         return tuple(self.data)
