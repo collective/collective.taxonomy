@@ -1,8 +1,10 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = () => {
-  const config = {
+  return {
+    mode: 'production',
     devtool: 'cheap-module-source-map', // https://webpack.js.org/configuration/devtool
     entry: {
       edittaxonomydata: ['./src/js/index'],
@@ -11,34 +13,24 @@ module.exports = () => {
       path: path.join(__dirname, '../src/collective/taxonomy/static/js'),
       filename: '[name].js',
     },
+    optimization: {
+      minimizer: [new TerserPlugin({ extractComments: false })],
+    },
     plugins: [
-      new webpack.IgnorePlugin(/^(buffertools)$/),
-      new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.IgnorePlugin({ resourceRegExp: /^(buffertools)$/ }),
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          screw_ie8: true,
-          warnings: false
-        }
-      })
     ],
     module: {
-      loaders: [{
-        test: /\.js$/,
-        loaders: ['babel-loader'],
-        exclude: /node_modules/,
-        include: path.join(__dirname, 'src'),
-      }]
-    }
-  };
-
-  console.log(JSON.stringify(config, null, 4));
-
-  return config;
-
+      rules: [
+        {
+          test: /\.js$/,
+          use: ['babel-loader'],
+          exclude: /node_modules/,
+          include: path.join(__dirname, 'src'),
+        },
+      ],
+    },
+  }
 }
