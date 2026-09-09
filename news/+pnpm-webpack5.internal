@@ -1,0 +1,1 @@
+Switch the ``resources/`` JS build from yarn to pnpm, upgrade webpack to 5 and Babel to 7, and refresh the build/test tooling (loaders, plugins, ESLint parser, Mocha). React and the runtime libraries stay on their current major versions.

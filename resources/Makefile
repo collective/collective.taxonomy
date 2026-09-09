@@ -1,29 +1,34 @@
 # Taxonomy JS Development
 
-YARN   ?= npx yarn
+PNPM   ?= pnpm
 
 
 .PHONY: install
-stamp-yarn install:
-	$(YARN) install
-	touch stamp-yarn
+stamp-pnpm install:
+	$(PNPM) install
+	touch stamp-pnpm
 
 
 .PHONY:
-build: stamp-yarn
-	$(YARN) run build
+build: stamp-pnpm
+	$(PNPM) run build
 
 
 .PHONY:
-serve: stamp-yarn
-	$(YARN) run start
+serve: stamp-pnpm
+	$(PNPM) run start
 
 
 .PHONY:
-test: stamp-yarn
-	$(YARN) run test
+test: stamp-pnpm
+	$(PNPM) run test
 
 
 .PHONY:
-lint: stamp-yarn
-	$(YARN) run lint
+lint: stamp-pnpm
+	$(PNPM) run lint
+
+
+.PHONY: clean
+clean:
+	rm -rf node_modules build stamp-pnpm cypress/screenshots pnpm-debug.log

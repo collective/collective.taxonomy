@@ -3,10 +3,10 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.8.0"
+commit-id = "2.9.0"
 
 [pyproject]
-codespell_skip = "*.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,*.lock,*.json"
+codespell_skip = "*.js,*.min.js,*.js.map,*.min.css.map,*.svg,*.lock,*.yaml,*.json"
 dependencies_ignores = "['zest.pocompile','zestreleaser.towncrier', 'zest.releaser', 'Products.PluginIndexes']"
 
 [tox]

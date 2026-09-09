@@ -160,7 +160,12 @@ The languages allowed for the taxonomies are the languages defined in ``portal_l
 Development
 ===========
 
-All JS development resources are in the directory ``resources/js``.
+All JS development resources are in the directory ``resources/``
+(the source code is in ``resources/src/js``).
+
+Dependencies are managed with `pnpm <https://pnpm.io/>`_ and the bundle is
+built with webpack 5. The ``make`` targets below take care of running
+``pnpm install`` for you, so you don't need to call ``pnpm`` directly.
 
 While making changes to these files you can:
 
@@ -215,7 +220,7 @@ Then, edit ``translations/index.js`` to add the language to the translations obj
         fr
     }
 
-You'll have to rebuild the js bundle: ``npm run build``
+You'll have to rebuild the js bundle: ``make build`` (or ``pnpm run build``)
 
 That's it!
 
