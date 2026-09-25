@@ -11,7 +11,11 @@ setup(
     name="collective.taxonomy",
     version=version,
     description="Create, edit and use hierarchical taxonomies in Plone!",
-    url="https://pypi.org/project/collective.taxonomy/",
+    project_urls={
+        "PyPI": "https://pypi.python.org/pypi/collective.taxonomy",
+        "Source": "https://github.com/collective/collective.taxonomy",
+        "Tracker": "https://github.com/collective/collective.taxonomy/issues",
+    },
     long_description=long_description,
     classifiers=[
         "Development Status :: 6 - Mature",
