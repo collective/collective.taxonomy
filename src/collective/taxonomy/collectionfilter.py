@@ -4,27 +4,39 @@ from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from zope.component import adapter
+from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
 
 class TaxonomyLabel:
-    taxonomy = None
+    """Display modifier for one taxonomy index.
+
+    Instances live in the process-wide IGroupByCriteria registry, so they must
+    not hold the persistent Taxonomy utility itself: it belongs to the ZODB
+    connection of the request that built the registry and raises
+    ConnectionStateError once that connection is closed. Keep the utility name
+    and look the utility up on every call.
+    """
+
+    name = None
 
     def __init__(self, taxonomy):
-        self.taxonomy = taxonomy
+        self.name = getattr(taxonomy, "name", None)
+
+    @property
+    def taxonomy(self):
+        if not self.name:
+            return None
+        return queryUtility(ITaxonomy, name=self.name)
 
     def display(self, token, *args, **kw):
-        if self.taxonomy is None:
+        taxonomy = self.taxonomy
+        if taxonomy is None:
             return token
         lang = api.portal.get_current_language()
-        lang = (
-            lang in self.taxonomy.inverted_data
-            and lang
-            or self.taxonomy.default_language
-        )
-        term = self.taxonomy.translate(token, target_language=lang)
-        return term
+        lang = lang in taxonomy.inverted_data and lang or taxonomy.default_language
+        return taxonomy.translate(token, target_language=lang)
 
 
 @implementer(IGroupByModifier)
