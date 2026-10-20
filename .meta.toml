@@ -3,7 +3,7 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.9.0"
+commit-id = "2.12.0"
 
 [pyproject]
 codespell_skip = "*.js,*.min.js,*.js.map,*.min.css.map,*.svg,*.lock,*.yaml,*.json"
