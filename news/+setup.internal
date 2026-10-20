@@ -1,0 +1,2 @@
+``setup.py``: SPDX ``license_expression`` instead of the deprecated ``license`` field and license classifier, ``project_urls`` instead of ``url`` (PR #191) -- pyroma 10/10 again after the plone/meta 2.12 hook bumps.
+[petschki]
