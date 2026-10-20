@@ -1,2 +1,0 @@
-Fix ``ConnectionStateError`` in collectionfilter portlets: ``TaxonomyLabel`` no longer keeps the persistent taxonomy utility of the request that built the groupby registry, it resolves the utility by name on every call.
-[petschki]

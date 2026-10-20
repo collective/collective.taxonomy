@@ -1,3 +1,30 @@
+4.0.0 (2026-10-20)
+------------------
+
+Breaking changes:
+
+
+- Plone 6.2 compatible release, compatibility with < 6.2 dropped. [1letter]
+  Make package ready for pip install method, PEP 420 native namespace.  [1letter]
+
+
+Bug fixes:
+
+
+- Fix ``ConnectionStateError`` in collectionfilter portlets: ``TaxonomyLabel`` no longer keeps the persistent taxonomy utility of the request that built the groupby registry, it resolves the utility by name on every call.
+  [petschki]
+
+
+Internal:
+
+
+- Migrate the Cypress end-to-end test in ``resources/`` from Cypress 4 (Intel-only binary, no longer starts on Apple Silicon) to 16: ``cypress.config.js``, ``cypress/e2e/`` + ``support/e2e.js`` layout, ``testIsolation: false`` instead of the removed ``Cookies.preserveOnce``, ``cy.selectFile`` instead of the custom upload command, ``pnpm e2e`` / ``pnpm e2e:open`` scripts. The scenario now runs against the new ``E2E_TESTING`` layer (``bin/robot-server collective.taxonomy.testing.E2E_TESTING``, workflow enabled) and in CI via ``.github/workflows/e2e.yml``.
+  [petschki]
+- Switch the ``resources/`` JS build from yarn to pnpm, upgrade webpack to 5 and Babel to 7, and refresh the build/test tooling (loaders, plugins, ESLint parser, Mocha). React and the runtime libraries stay on their current major versions.
+- ``setup.py``: SPDX ``license_expression`` instead of the deprecated ``license`` field and license classifier, ``project_urls`` instead of ``url`` (PR #191) -- pyroma 10/10 again after the plone/meta 2.12 hook bumps.
+  [petschki]
+
+
 Changes
 =======
 
