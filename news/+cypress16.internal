@@ -1,2 +1,0 @@
-Migrate the Cypress end-to-end test in ``resources/`` from Cypress 4 (Intel-only binary, no longer starts on Apple Silicon) to 16: ``cypress.config.js``, ``cypress/e2e/`` + ``support/e2e.js`` layout, ``testIsolation: false`` instead of the removed ``Cookies.preserveOnce``, ``cy.selectFile`` instead of the custom upload command, ``pnpm e2e`` / ``pnpm e2e:open`` scripts. The scenario now runs against the new ``E2E_TESTING`` layer (``bin/robot-server collective.taxonomy.testing.E2E_TESTING``, workflow enabled) and in CI via ``.github/workflows/e2e.yml``.
-[petschki]
