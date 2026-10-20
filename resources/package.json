@@ -12,9 +12,11 @@
     "test:watch": "NODE_ENV=test pnpm test -- --watch",
     "test:cov": "NODE_ENV=test c8 mocha --require @babel/register --require ./src/test/setup.js --recursive src/test/",
     "prettier": "prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "prettier:fix": "prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
+    "prettier:fix": "prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "e2e": "cypress run",
+    "e2e:open": "cypress open"
   },
-  "author": "Cédric Messiant",
+  "author": "C\u00e9dric Messiant",
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.33.2",
   "devDependencies": {
@@ -33,7 +35,7 @@
     "chai": "^3.5.0",
     "chai-equal-jsx": "^1.0.9",
     "chai-spies": "*",
-    "cypress": "^4.3.0",
+    "cypress": "^16.2.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
@@ -71,6 +73,8 @@
     "node": ">=18"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["cypress"]
+    "onlyBuiltDependencies": [
+      "cypress"
+    ]
   }
 }
