@@ -47,3 +47,30 @@ ROBOT_TESTING = FunctionalTesting(
     ),
     name="CollectiveTaxonomy:Acceptance",
 )
+
+
+class CollectiveTaxonomyE2ELayer(PloneSandboxLayer):
+    """Fixture for the Cypress end-to-end test in resources/.
+
+    Same as the robot fixture, plus the default workflow: the e2e scenario
+    publishes the content it creates, and plone.app.testing switches all
+    workflows off. Run it with
+    ``bin/robot-server collective.taxonomy.testing.E2E_TESTING``.
+    """
+
+    defaultBases = (COLLECTIVE_TAXONOMY_FIXTURE,)
+
+    def setUpPloneSite(self, portal):
+        portal.portal_workflow.setDefaultChain("simple_publication_workflow")
+
+
+COLLECTIVE_TAXONOMY_E2E_FIXTURE = CollectiveTaxonomyE2ELayer()
+
+E2E_TESTING = FunctionalTesting(
+    bases=(
+        COLLECTIVE_TAXONOMY_E2E_FIXTURE,
+        REMOTE_LIBRARY_BUNDLE_FIXTURE,
+        z2.ZSERVER_FIXTURE,
+    ),
+    name="CollectiveTaxonomy:E2E",
+)

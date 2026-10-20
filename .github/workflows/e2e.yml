@@ -1,0 +1,75 @@
+# Hand-maintained: plone/meta has no per-workflow extra_lines for
+# test-matrix.yml (its [github] extra_lines go into meta.yml as well).
+# Keep the action versions in sync with test-matrix.yml.
+name: End-to-end
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Cypress end-to-end (resources/)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Install uv + caching
+      uses: astral-sh/setup-uv@v10.3.0
+      with:
+        enable-cache: true
+        cache-dependency-glob: |
+          setup.*
+          tox.ini
+          pyproject.toml
+        python-version: "3.12"
+    - name: Build the test environment (provides robot-server)
+      run: |
+        uvx --with tox-uv tox -e py312-plone62 --notest
+        ls -l .tox/py312-plone62/bin/robot-server
+    - uses: pnpm/action-setup@v6
+      with:
+        package_json_file: resources/package.json
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        cache: pnpm
+        cache-dependency-path: resources/pnpm-lock.yaml
+    - name: Start the E2E fixture server (robot-server, background)
+      env:
+        ZSERVER_HOST: 127.0.0.1
+        ZSERVER_PORT: "55001"
+      run: |
+        # no --no-reload: plone.app.robotframework >= 3 dropped the reload option
+        .tox/py312-plone62/bin/robot-server collective.taxonomy.testing.E2E_TESTING > robot-server.log 2>&1 &
+    - name: Wait for the fixture server
+      # fails fast with the server log instead of a silent wait-on timeout
+      run: |
+        for i in $(seq 1 100); do
+          if curl -sf -o /dev/null http://127.0.0.1:55001/plone; then echo "up after $((i*3))s"; exit 0; fi
+          if ! pgrep -f robot-server > /dev/null; then echo "robot-server exited"; cat robot-server.log; exit 1; fi
+          sleep 3
+        done
+        echo "robot-server not reachable after 300s"; cat robot-server.log; exit 1
+    - name: Cypress against the E2E fixture
+      uses: cypress-io/github-action@v7
+      with:
+        working-directory: resources
+        install-command: pnpm install --frozen-lockfile
+      env:
+        CYPRESS_BASE_URL: http://127.0.0.1:55001/plone
+        CYPRESS_USER: admin
+        CYPRESS_PASSWORD: secret
+    - name: robot-server log
+      if: always()
+      run: tail -n 80 robot-server.log || true
+    - uses: actions/upload-artifact@v7
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: |
+          resources/cypress/screenshots
+          robot-server.log

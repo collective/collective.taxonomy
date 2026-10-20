@@ -74,7 +74,7 @@ target-version = ["py310"]
 
 [tool.codespell]
 ignore-words-list = "discreet,assertin,thet,"
-skip = "*.po,*.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,*.lock,*.json"
+skip = "*.po,*.js,*.min.js,*.js.map,*.min.css.map,*.svg,*.lock,*.yaml,*.json"
 ##
 # Add extra configuration options in .meta.toml:
 #  [pyproject]
@@ -132,6 +132,11 @@ ignore-packages = ['zest.pocompile','zestreleaser.towncrier', 'zest.releaser', '
 #    "gitpython = ['git']",
 #    "pygithub = ['github']",
 #  ]
+#
+# The Zope and Plone mappings above are included by default. For a package
+# used outside the Zope world they are noise, and can be turned off with:
+#  [pyproject]
+#  plone_mappings = false
 ##
 
 [tool.check-manifest]

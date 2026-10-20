@@ -1,3 +1,5 @@
-yarn-error.log
+pnpm-debug.log
 cypress/screenshots/
-stamp-yarn
+stamp-pnpm
+cypress/videos/
+cypress/downloads/
