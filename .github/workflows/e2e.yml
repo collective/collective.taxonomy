@@ -1,0 +1,62 @@
+# Hand-maintained: plone/meta has no per-workflow extra_lines for
+# test-matrix.yml (its [github] extra_lines go into meta.yml as well).
+# Keep the action versions in sync with test-matrix.yml.
+name: End-to-end
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Cypress end-to-end (resources/)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Install uv + caching
+      uses: astral-sh/setup-uv@v10.3.0
+      with:
+        enable-cache: true
+        cache-dependency-glob: |
+          setup.*
+          tox.ini
+          pyproject.toml
+        python-version: "3.12"
+    - name: Build the test environment (provides robot-server)
+      run: uvx --with tox-uv tox -e py312-plone62 --notest
+    - uses: pnpm/action-setup@v6
+      with:
+        package_json_file: resources/package.json
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        cache: pnpm
+        cache-dependency-path: resources/pnpm-lock.yaml
+    - name: Start the E2E fixture server (robot-server, background)
+      env:
+        ZSERVER_HOST: localhost
+        ZSERVER_PORT: "55001"
+      run: |
+        .tox/py312-plone62/bin/robot-server --no-reload collective.taxonomy.testing.E2E_TESTING > robot-server.log 2>&1 &
+    - name: Cypress against the E2E fixture
+      uses: cypress-io/github-action@v7
+      with:
+        working-directory: resources
+        install-command: pnpm install --frozen-lockfile
+        wait-on: http://localhost:55001/plone
+        wait-on-timeout: 240
+      env:
+        CYPRESS_BASE_URL: http://localhost:55001/plone
+        CYPRESS_USER: admin
+        CYPRESS_PASSWORD: secret
+    - uses: actions/upload-artifact@v7
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: |
+          resources/cypress/screenshots
+          robot-server.log
