@@ -9,6 +9,9 @@ from zope.publisher.interfaces import IPublishTraverse
 
 @implementer(IPublishTraverse)
 class TaxonomyGetSchema(Service):
+    # get_jsonschema_for_controlpanel reads the schema from this attribute.
+    schema = ITaxonomyForm
+
     def reply(self):
         form = create_form(self.context, self.request, ITaxonomyForm)
         json_schema = get_jsonschema_for_controlpanel(
