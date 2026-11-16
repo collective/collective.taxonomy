@@ -1,3 +1,13 @@
+4.1.0 (2026-11-16)
+------------------
+
+Bug fixes:
+
+
+- Fix the ``@taxonomySchema`` endpoint returning a 500 error with ``plone.restapi`` 10, which broke the "Add Taxonomy" form in Volto.
+  [sneridagh]
+
+
 4.0.0 (2026-10-20)
 ------------------
 
