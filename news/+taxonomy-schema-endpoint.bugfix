@@ -1,0 +1,2 @@
+Fix the ``@taxonomySchema`` endpoint returning a 500 error with ``plone.restapi`` 10, which broke the "Add Taxonomy" form in Volto.
+[sneridagh]
