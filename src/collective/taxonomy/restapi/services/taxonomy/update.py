@@ -73,6 +73,7 @@ class TaxonomyPatch(Service):
 
         if "tree" in data:
             tree = data.get("tree", [])
+            previous = taxonomy.termPaths()
             for language in languages:
                 if language not in taxonomy.data:
                     taxonomy.data[language] = OOBTree()
@@ -81,6 +82,8 @@ class TaxonomyPatch(Service):
                 data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
 
                 taxonomy.update(language, data_for_taxonomy, True)
+
+            taxonomy.reindexChangedTerms(previous)
         else:
             schema = ITaxonomyForm
             set_fields = TaxonomyEditFormAdapter(self.context, name)

@@ -2,6 +2,7 @@ from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.restapi.utils import get_all_taxonomies
 from collective.taxonomy.vdex import TreeExport
 from lxml import etree
+from plone import api
 from plone.api import portal
 from plone.restapi.services import Service
 from zope.component import queryUtility
@@ -61,6 +62,9 @@ class TaxonomyGet(Service, TreeExport):
         if root is not None:
             for term in root.findall("term"):
                 result["tree"].append(self.generate_json(term))
+        # The counts include private content, so only managers get them.
+        if api.user.has_permission("Manage portal", obj=site):
+            result["usage"] = self.taxonomy.termUsage()
         return result
 
     def generate_json(self, root):

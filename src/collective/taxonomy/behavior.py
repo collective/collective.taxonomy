@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from collective.taxonomy import generated
 from collective.taxonomy.i18n import CollectiveTaxonomyMessageFactory as _
 from collective.taxonomy.indexer import TaxonomyIndexer
@@ -166,6 +167,80 @@ class TaxonomyBehavior(Persistent):
             catalog.addColumn(self.field_name)
         except CatalogError:
             logging.info(f"Column {self.field_name} already exists")  # noqa: E501
+
+    def removeMetadata(self):
+        catalog = api.portal.get_tool(name="portal_catalog")
+        try:
+            catalog.delColumn(self.field_name)
+        except (CatalogError, ValueError):
+            logging.info(f"Column {self.field_name} does not exist")
+
+    def _objectsWithField(self):
+        """Content that may store a value for this behavior's field."""
+        portal = api.portal.get()
+        catalog = api.portal.get_tool(name="portal_catalog")
+        paths = {
+            brain.getPath()
+            for brain in catalog.unrestrictedSearchResults(
+                object_provides=self.interface.__identifier__
+            )
+        }
+        index = catalog._catalog.indexes.get(self.field_name)
+        if index is not None:
+            paths.update(catalog.getpath(rid) for rid in index.referencedObjects())
+        objects = []
+        for path in sorted(paths):
+            obj = portal.unrestrictedTraverse(path, None)
+            if obj is None:
+                continue
+            base = aq_base(obj)
+            # Load the object: the __dict__ of a ghost is empty.
+            getattr(base, "_p_activate", lambda: None)()
+            if self.field_name in base.__dict__:
+                objects.append(obj)
+        return objects
+
+    def changeFieldPrefix(self, prefix):
+        """Change the field prefix, and with it the field name.
+
+        The index, the metadata column, the querystring criterion and the
+        values stored on content all move to the new field name, so no
+        criterion is left pointing to an index that no longer exists.
+        Nothing happens when the prefix does not change, so saving the
+        settings does not empty the index.
+        """
+        prefix = prefix or ""
+        if prefix == (self.field_prefix or ""):
+            return
+
+        old_name = self.field_name
+        objects = self._objectsWithField()
+
+        self.deactivateSearchable()
+        self.removeIndex()
+        self.removeMetadata()
+
+        self.field_prefix = prefix
+        new_name = self.field_name
+
+        for obj in objects:
+            base = aq_base(obj)
+            setattr(base, new_name, base.__dict__[old_name])
+            delattr(base, old_name)
+
+        self.addIndex()
+        self.addMetadata()
+        self.activateSearchable()
+
+        for obj in objects:
+            obj.reindexObject(idxs=[new_name])
+
+        logging.info(
+            "Renamed taxonomy field %s to %s (%d items)",
+            old_name,
+            new_name,
+            len(objects),
+        )
 
     def unregisterInterface(self):
         if hasattr(generated, self.short_name):
