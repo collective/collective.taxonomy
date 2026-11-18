@@ -1,2 +1,0 @@
-Fix changing the field prefix of a taxonomy. The querystring criterion of the old field name was left behind, pointing to an index that no longer existed, so a listing using it returned all content. The index, metadata column, criterion and the values stored on content now all move to the new field name. Saving the settings with an unchanged prefix no longer empties the index.
-[sneridagh]

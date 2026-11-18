@@ -1,3 +1,24 @@
+4.1.1 (2026-11-18)
+------------------
+
+New features:
+
+
+- ``GET @taxonomy/<name>`` returns ``usage``, the number of content items per term (including the terms below it), for users with the "Manage portal" permission. This lets an editor warn before deleting a term that is in use.
+  [sneridagh]
+
+
+Bug fixes:
+
+
+- Fix changing the field prefix of a taxonomy. The querystring criterion of the old field name was left behind, pointing to an index that no longer existed, so a listing using it returned all content. The index, metadata column, criterion and the values stored on content now all move to the new field name. Saving the settings with an unchanged prefix no longer empties the index.
+  [sneridagh]
+- Reindex the content that uses a removed or moved term when a taxonomy tree is saved through ``@taxonomy``. Before, the index kept the old term and its old ancestors until the content was reindexed.
+  [sneridagh]
+- Store the description of a new taxonomy. It was dropped, so ``GET @taxonomy/<name>`` returned the description of the Plone site through acquisition, and the volto-taxonomy settings form saved that back. Taxonomies created before this fix now return an empty description instead of the site's.
+  [sneridagh]
+
+
 4.1.0 (2026-11-16)
 ------------------
 

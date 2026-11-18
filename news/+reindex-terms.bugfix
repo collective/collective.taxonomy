@@ -1,2 +1,0 @@
-Reindex the content that uses a removed or moved term when a taxonomy tree is saved through ``@taxonomy``. Before, the index kept the old term and its old ancestors until the content was reindexed.
-[sneridagh]
