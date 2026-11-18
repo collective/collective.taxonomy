@@ -43,6 +43,8 @@ else:
 
 logger = logging.getLogger("collective.taxonomy")
 
+TAXONOMY_SELECT_WIDGET = "collective.taxonomy.widget.TaxonomySelectFieldWidget"
+
 
 @implementer(IBehavior)
 class TaxonomyBehavior(Persistent):
@@ -269,7 +271,7 @@ class TaxonomyBehavior(Persistent):
         return self.name
 
     def generateInterface(self):
-        logger.debug("generating interface for %s" % self.short_name)
+        logger.debug(f"generating interface for {self.short_name}")
 
         if hasattr(self, "is_single_select") and self.is_single_select:
             select_field = schema.Choice(
@@ -314,9 +316,7 @@ class TaxonomyBehavior(Persistent):
         if hasattr(self, "is_single_select") and not self.is_single_select:
             schemaclass.setTaggedValue(
                 WIDGETS_KEY,
-                {
-                    self.field_name: "collective.taxonomy.widget.TaxonomySelectFieldWidget"
-                },
+                {self.field_name: TAXONOMY_SELECT_WIDGET},
             )
 
         alsoProvides(schemaclass, IFormFieldProvider)

@@ -8,6 +8,7 @@ from plone.base.utils import safe_text
 from plone.behavior.interfaces import IBehavior
 
 import configparser
+import contextlib
 
 
 def parseConfigFile(data):
@@ -39,10 +40,8 @@ def importTaxonomy(context):
             if body is not None:
                 result = {}
                 for name in ["name", "title", "description", "default_language"]:
-                    try:
+                    with contextlib.suppress(configparser.NoOptionError):
                         result[name] = config.get("taxonomy", name)
-                    except configparser.NoOptionError:
-                        pass
 
                 taxonomy = registerTaxonomy(context, **result)
                 importer = TaxonomyImportExportAdapter(context)
@@ -57,16 +56,12 @@ def importTaxonomy(context):
                     "taxonomy_fieldset",
                     "field_prefix",
                 ]:
-                    try:
+                    with contextlib.suppress(configparser.NoOptionError):
                         result[name] = config.get("taxonomy", name)
-                    except configparser.NoOptionError:
-                        pass
 
                 for name in ["is_single_select", "is_required"]:
-                    try:
+                    with contextlib.suppress(configparser.NoOptionError):
                         result[name] = config.get("taxonomy", name) == "true" and True
-                    except configparser.NoOptionError:
-                        pass
 
                 taxonomy.registerBehavior(**result)
 

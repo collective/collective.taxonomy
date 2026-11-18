@@ -60,7 +60,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         _("label_edit_taxonomy", default="Edit"), name="edit-taxonomy"
     )
     def handle_edit_taxonomy_action(self, action):
-        data, errors = self.extractData()
+        data, _errors = self.extractData()
         if len(data.get("taxonomies", [])) > 0:
             self.request.RESPONSE.redirect(
                 "{}/@@taxonomy-edit?form.widgets.taxonomy={}".format(
@@ -77,7 +77,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         name="edit_data_taxonomy",
     )
     def handle_edit_taxonomy_data_action(self, action):
-        data, errors = self.extractData()
+        data, _errors = self.extractData()
         if len(data.get("taxonomies", [])) > 0:
             self.request.RESPONSE.redirect(
                 "{}/@@taxonomy-edit-data?taxonomy={}".format(
@@ -93,7 +93,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
         _("label_delete_taxonomy", default="Delete taxonomy"), name="delete-taxonomy"
     )
     def handle_delete_taxonomy_action(self, action):
-        data, errors = self.extractData()
+        data, _errors = self.extractData()
         if len(data.get("taxonomies", [])) > 0:
             sm = self.context.getSiteManager()
 
@@ -117,7 +117,7 @@ class TaxonomySettingsControlPanelForm(controlpanel.RegistryEditForm):
 
     @button.buttonAndHandler(_("label_export", default="Export"), name="export")
     def handle_export_action(self, action):
-        data, errors = self.extractData()
+        data, _errors = self.extractData()
         taxonomies = data.get("taxonomies", [])
 
         if len(taxonomies) > 0:
@@ -148,7 +148,7 @@ class TaxonomyExport(BrowserView):
             if utility is None:
                 continue
             result = adapter.exportDocument(utility)
-            z_file.writestr("%s.xml" % taxonomy, result)
+            z_file.writestr(f"{taxonomy}.xml", result)
 
         z_file.close()
         self.request.RESPONSE.setHeader("Content-type", "application/x-zip-compressed")
@@ -315,9 +315,9 @@ class TaxonomyEditFormAdapter:
             import_file = value.data
             adapter = TaxonomyImportExportAdapter(self.__dict__["context"])
             purge = self.__dict__.get("purge", False)
+            taxonomy = self.__dict__["taxonomy"]
             logger.info(
-                "Importing document into '%s' (purge: %s)"
-                % (self.__dict__["taxonomy"], str(purge).lower())
+                f"Importing document into '{taxonomy}' (purge: {str(purge).lower()})"
             )
             adapter.importDocument(self.utility, import_file, purge)
         else:

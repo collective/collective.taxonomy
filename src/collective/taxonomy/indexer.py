@@ -24,7 +24,7 @@ class TaxonomyIndexerWrapper:
         self.field_name = field_name
         self.utility_name = utility_name
 
-    def __call__(self):
+    def __call__(self):  # noqa: C901
         # field needs to be defined in the context, not by acquisition or containment
         if not hasattr(aq_base(self.context), self.field_name):
             return []
@@ -60,7 +60,7 @@ class TaxonomyIndexerWrapper:
 
         result = []
 
-        for found_identifier, found_language, found_path in found:
+        for _found_identifier, _found_language, found_path in found:
             for key, value in utility.inverted_data[lang].items():
                 value_split = value.split(PATH_SEPARATOR)
                 found_split = found_path.split(PATH_SEPARATOR)[: len(value_split)]

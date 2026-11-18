@@ -18,13 +18,13 @@ import Missing
 
 
 class TaxonomyView(BrowserView):
-    def taxonomiesForContext(self, short_names=[]):
+    def taxonomiesForContext(self, short_names=()):
         results = []
 
         sm = getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
         for (
-            utility_name,
+            _utility_name,
             utility,
         ) in utilities:
             short_name = utility.getShortName()

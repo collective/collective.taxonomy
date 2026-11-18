@@ -44,7 +44,7 @@ class TaxonomyLabel:
 def groupby_modifier(groupby):
     sm = getSite().getSiteManager()
     utilities = sm.getUtilitiesFor(ITaxonomy)
-    for uname, util in utilities:
+    for _uname, util in utilities:
         behavior = sm.queryUtility(IBehavior, name=util.getGeneratedName())
         taxonomy_field_prefix = behavior.field_prefix
         taxonomy_shortname = util.getShortName()

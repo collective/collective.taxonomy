@@ -23,7 +23,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         utility_name = request.get("taxonomy", "")
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError("Taxonomy `%s` could not be found." % utility_name)
+            raise ValueError(f"Taxonomy `{utility_name}` could not be found.")
 
         self.taxonomy = taxonomy
 
@@ -74,8 +74,9 @@ class EditTaxonomyData(TreeExport, BrowserView):
             language: vocab.getTermByToken(language).title
             for language in plone_selected_languages
         }
-        # Add previous taxonomy translations that currently are not in Plone selected languages
-        for language in self.taxonomy.inverted_data.keys():
+        # Add previous taxonomy translations that currently are not in
+        # Plone selected languages
+        for language in self.taxonomy.inverted_data:
             if language in taxonomy_languages_translations:
                 continue
             term = vocab.getTermByToken(language)
@@ -88,7 +89,8 @@ class EditTaxonomyData(TreeExport, BrowserView):
         if node_env == "development" and api.env.debug_mode():
             return "http://localhost:3000/static/edittaxonomydata.js"
         else:
-            return f"{api.portal.get().absolute_url()}/++resource++taxonomy/js/edittaxonomydata.js"
+            portal_url = api.portal.get().absolute_url()
+            return f"{portal_url}/++resource++taxonomy/js/edittaxonomydata.js"
 
 
 class ImportJson(BrowserView):
@@ -105,7 +107,7 @@ class ImportJson(BrowserView):
                 if language not in taxonomy.data:
                     taxonomy.data[language] = OOBTree()
 
-            for language in taxonomy.data.keys():
+            for language in taxonomy.data:
                 data_for_taxonomy = self.generate_data_for_taxonomy(
                     tree["subnodes"], language
                 )

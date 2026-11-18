@@ -93,10 +93,7 @@ class Vocabulary:
 
         results = []
 
-        if tail_only:
-            mapping = {NODE: True}
-        else:
-            mapping = None
+        mapping = {NODE: True} if tail_only else None
 
         for path, identifier in self.iterEntries():
             term = SimpleTerm(
@@ -172,7 +169,7 @@ class PermissionsVocabulary:
         result = []
         sm = getSite().getSiteManager()
 
-        for permission, permission_object in sm.getUtilitiesFor(IPermission):
+        for _permission, permission_object in sm.getUtilitiesFor(IPermission):
             result.append(
                 SimpleTerm(
                     value=permission_object.id, title=_pmf(permission_object.title)

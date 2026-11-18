@@ -8,10 +8,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 
 def registerTaxonomy(context, name, title, default_language, description=""):
-    if hasattr(context, "getSite"):
-        site = context.getSite()
-    else:
-        site = context
+    site = context.getSite() if hasattr(context, "getSite") else context
 
     normalizer = getUtility(IIDNormalizer)
 
