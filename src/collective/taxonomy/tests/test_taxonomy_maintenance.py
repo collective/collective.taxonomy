@@ -1,6 +1,7 @@
 """Keep the catalog and the querystring criteria in sync when a taxonomy
 changes: its field prefix, or the terms of its tree."""
 
+from collective.taxonomy.interfaces import ITaxonomy
 from collective.taxonomy.testing import FUNCTIONAL_TESTING
 from plone import api
 from plone.app.testing import setRoles
@@ -10,6 +11,7 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 from plone.restapi.testing import RelativeSession
+from zope.component import queryUtility
 
 import transaction
 import unittest
@@ -193,3 +195,50 @@ class TestTaxonomyMaintenance(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertNotIn("usage", response.json())
+
+
+class TestTaxonomyDescription(unittest.TestCase):
+    """The taxonomy description is stored, and never acquired from the site."""
+
+    layer = FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.portal.manage_changeProperties(description="The site description")
+        self.api_session = RelativeSession(self.portal.absolute_url())
+        self.api_session.headers.update({"Accept": "application/json"})
+        self.api_session.auth = (SITE_OWNER_NAME, SITE_OWNER_PASSWORD)
+        transaction.commit()
+
+    def tearDown(self):
+        self.api_session.close()
+
+    def create(self, **data):
+        payload = {
+            "taxonomy": "space",
+            "field_title": "Space",
+            "default_language": "en",
+        }
+        payload.update(data)
+        response = self.api_session.post("/@taxonomy", json=payload)
+        self.assertEqual(response.status_code, 201, response.text)
+
+    def test_description_is_stored(self):
+        self.create(field_description="Planets and missions")
+
+        response = self.api_session.get(f"/@taxonomy/{NAME}")
+
+        self.assertEqual(response.json()["description"], "Planets and missions")
+
+    def test_missing_description_is_not_acquired_from_the_site(self):
+        self.create()
+        # Taxonomies created before the fix have no description attribute.
+        transaction.begin()
+        taxonomy = queryUtility(ITaxonomy, name=NAME)
+        taxonomy.__dict__.pop("description", None)
+        taxonomy._p_changed = True
+        transaction.commit()
+
+        response = self.api_session.get(f"/@taxonomy/{NAME}")
+
+        self.assertEqual(response.json()["description"], "")

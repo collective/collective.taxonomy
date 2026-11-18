@@ -21,6 +21,7 @@ def registerTaxonomy(context, name, title, default_language, description=""):
 
     if taxonomy is None:
         taxonomy = Taxonomy(utility_name, title, default_language)
+        taxonomy.description = description
         sm = site.getSiteManager()
         sm.registerUtility(taxonomy, ITaxonomy, name=utility_name)
         sm.registerUtility(taxonomy, IVocabularyFactory, name=utility_name)
@@ -28,5 +29,7 @@ def registerTaxonomy(context, name, title, default_language, description=""):
     else:
         taxonomy.title = title
         taxonomy.default_language = default_language
+        if description:
+            taxonomy.description = description
 
     return taxonomy

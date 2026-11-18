@@ -48,6 +48,9 @@ class Taxonomy(SimpleItem):
     order = None
     count = None
     version = None
+    # Taxonomies created before the description was stored have no
+    # attribute; without this default it is acquired from the site.
+    description = ""
 
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
