@@ -42,6 +42,14 @@ jobs:
       python-version: ${{ needs.config.outputs.python-version }}
       plone-version: ${{ needs.config.outputs.plone-version }}
 
+  acceptance:
+    name: "Acceptance tests"
+    uses: ./.github/workflows/acceptance.yml
+    needs:
+      - config
+    with:
+      python-version: ${{ needs.config.outputs.python-version }}
+
   report:
     name: "Final report"
     if: ${{ always() }}
@@ -51,6 +59,7 @@ jobs:
       - lint
       - test
       - coverage
+      - acceptance
     steps:
       - name: Report
         shell: bash
@@ -62,3 +71,4 @@ jobs:
           echo '| Lint | ${{ needs.lint.result }} |' >> $GITHUB_STEP_SUMMARY
           echo '| Test | ${{ needs.test.result }} |' >> $GITHUB_STEP_SUMMARY
           echo '| Coverage | ${{ needs.coverage.result }} |' >> $GITHUB_STEP_SUMMARY
+          echo '| Acceptance | ${{ needs.acceptance.result }} |' >> $GITHUB_STEP_SUMMARY

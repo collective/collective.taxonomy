@@ -135,6 +135,20 @@ test: $(VENV_FOLDER) ## run tests
 test-coverage: $(VENV_FOLDER) ## run tests with coverage
 	@$(BIN_FOLDER)/pytest --cov=collective.taxonomy --cov-report term-missing
 
+# Acceptance tests (Playwright, in resources/acceptance)
+.PHONY: acceptance-backend-start
+acceptance-backend-start: $(VENV_FOLDER) ## Start the Plone acceptance fixture on localhost:55001
+	@echo "$(GREEN)==> Start the acceptance backend$(RESET)"
+	@ZSERVER_HOST=127.0.0.1 ZSERVER_PORT=55001 $(BIN_FOLDER)/robot-server collective.taxonomy.testing.ACCEPTANCE_TESTING
+
+.PHONY: acceptance-test
+acceptance-test: ## Run the acceptance tests in interactive (UI) mode
+	$(MAKE) -C resources acceptance-test
+
+.PHONY: ci-acceptance-test
+ci-acceptance-test: ## Run the acceptance tests headless, as CI does
+	$(MAKE) -C resources ci-acceptance-test
+
 ## Add bobtemplates features (check bobtemplates.plone's documentation to get the list of available features)
 add: $(VENV_FOLDER)
 	@uvx plonecli add $(filter-out $@,$(MAKECMDGOALS))

@@ -71,7 +71,6 @@ test = [
     "pytest",
     "pytest-cov",
     "pytest-plone>=1.0.0a2",
-    "robotsuite",
 ]
 release = [
     "zest.releaser[recommended]",

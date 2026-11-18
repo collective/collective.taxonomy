@@ -1,5 +1,7 @@
 pnpm-debug.log
-cypress/screenshots/
 stamp-pnpm
-cypress/videos/
-cypress/downloads/
+# Playwright
+/acceptance/results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

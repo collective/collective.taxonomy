@@ -279,6 +279,18 @@ You'll have to rebuild the js bundle: `make build` (or `pnpm run build`)
 
 That's it!
 
+### Acceptance tests
+
+The acceptance tests use [Playwright](https://playwright.dev/) and live in `resources/acceptance`.
+They run against the Plone test fixture `collective.taxonomy.testing.ACCEPTANCE_TESTING`, started by `robot-server`, which also serves the Classic UI.
+
+```shell
+make acceptance-backend-start          # in its own terminal: the fixture on localhost:55001
+make -C resources install-acceptance   # once: download the Chromium build Playwright uses
+make acceptance-test                   # Playwright in UI mode
+make ci-acceptance-test                # headless, as CI runs it
+```
+
 ## Existing work
 
 In 2010, Rok Garbas <rok@garbas.si> reimplemented and extended prior work by [Seantis](https://www.seantis.ch/) and released [collective.vdexvocabulary](https://pypi.org/project/collective.vdexvocabulary). This package allows you to configure and populate vocabulary components from a VDEX-specification. The package supports flat vocabularies only, and support for multiple languages takes a different approach (vocabularies are returned in an already translated form). Note that vocabularies are loaded in a read-only mode, although it's been proposed that vocabularies might be edited through-the-web.

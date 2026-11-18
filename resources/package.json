@@ -13,8 +13,8 @@
     "test:cov": "NODE_ENV=test c8 mocha --require @babel/register --require ./src/test/setup.js --recursive src/test/",
     "prettier": "prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "prettier:fix": "prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "e2e": "cypress run",
-    "e2e:open": "cypress open"
+    "test:acceptance": "playwright test",
+    "test:acceptance:ui": "playwright test --ui"
   },
   "author": "C\u00e9dric Messiant",
   "license": "GPL-3.0",
@@ -28,6 +28,8 @@
     "@babel/preset-flow": "^7.29.7",
     "@babel/preset-react": "^7.25.9",
     "@babel/register": "^7.25.9",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^24.19.2",
     "babel-loader": "^9.2.1",
     "babel-plugin-react-intl": "^2.4.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
@@ -35,7 +37,6 @@
     "chai": "^3.5.0",
     "chai-equal-jsx": "^1.0.9",
     "chai-spies": "*",
-    "cypress": "^16.2.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
@@ -48,6 +49,7 @@
     "redux-devtools-dock-monitor": "^1.2.0",
     "redux-devtools-log-monitor": "^1.4.0",
     "terser-webpack-plugin": "^5.6.1",
+    "typescript": "^5.9.3",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-middleware": "^7.4.2",
@@ -71,10 +73,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "cypress"
-    ]
   }
 }
