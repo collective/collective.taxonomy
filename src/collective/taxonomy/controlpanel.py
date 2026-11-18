@@ -306,9 +306,7 @@ class TaxonomyEditFormAdapter:
             return
 
         if attr == "field_prefix":
-            self.__dict__["behavior"].removeIndex()
-            setattr(self.__dict__["behavior"], attr, value or "")
-            self.__dict__["behavior"].addIndex()
+            self.__dict__["behavior"].changeFieldPrefix(value)
             self.__dict__["utility"].prefix = value
             return
 

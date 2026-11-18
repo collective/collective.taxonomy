@@ -1,0 +1,2 @@
+Store the description of a new taxonomy. It was dropped, so ``GET @taxonomy/<name>`` returned the description of the Plone site through acquisition, and the volto-taxonomy settings form saved that back. Taxonomies created before this fix now return an empty description instead of the site's.
+[sneridagh]

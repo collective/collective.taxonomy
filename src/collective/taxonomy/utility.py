@@ -48,6 +48,9 @@ class Taxonomy(SimpleItem):
     order = None
     count = None
     version = None
+    # Taxonomies created before the description was stored have no
+    # attribute; without this default it is acquired from the site.
+    description = ""
 
     def __init__(self, name, title, default_language):
         self.data = PersistentDict()
@@ -72,7 +75,11 @@ class Taxonomy(SimpleItem):
         return self.makeVocabulary(language)
 
     @property
-    @ram.cache(lambda method, self: (self.name, self.data._p_mtime))
+    # _p_changed is part of the key so that a tree changed in the current
+    # transaction is not served from the cache of the committed tree.
+    @ram.cache(
+        lambda method, self: (self.name, self.data._p_mtime, self.data._p_changed)
+    )
     def inverted_data(self):
         inv_data = {}
         for language, elements in self.data.items():
@@ -156,19 +163,78 @@ class Taxonomy(SimpleItem):
 
         utility = self.sm.queryUtility(IBehavior, name=behavior_name)
         if utility:
-            utility.deactivateSearchable()
-            utility.activateSearchable()
+            if "field_prefix" in kwargs:
+                # Renames the index, the criterion and the stored values.
+                utility.changeFieldPrefix(kwargs.pop("field_prefix"))
             if "field_title" in kwargs:
                 utility.title = kwargs.pop("field_title")
 
             for k, v in kwargs.items():
                 setattr(utility, k, v)
 
+            # Register the criterion again, after all changes are applied.
+            utility.deactivateSearchable()
+            utility.activateSearchable()
+
         delattr(generated, short_name)
 
         for name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ""))
+
+    def termPaths(self):
+        """A copy of the path of every term, per language."""
+        return {language: dict(paths) for language, paths in self.inverted_data.items()}
+
+    def termUsage(self):
+        """Number of content items per term key.
+
+        The index holds each term and all its ancestors, so the count of a
+        term includes content that uses any term below it.
+        """
+        behavior = self.sm.queryUtility(IBehavior, name=self.getGeneratedName())
+        if behavior is None:
+            return {}
+        catalog = api.portal.get_tool("portal_catalog")
+        index = catalog._catalog.indexes.get(behavior.field_name)
+        if index is None:
+            return {}
+        return dict(index.uniqueValues(withLengths=True))
+
+    def reindexChangedTerms(self, previous):
+        """Reindex content that uses a term that was removed or moved.
+
+        `previous` is the result of `termPaths()` from before the change.
+        The index holds each term and all its ancestors, so content using a
+        removed or moved term would otherwise be found under wrong terms
+        until it is reindexed.
+        """
+        current = self.inverted_data
+        changed = set()
+        for language, paths in previous.items():
+            new_paths = current.get(language, {})
+            for key, path in paths.items():
+                if new_paths.get(key) != path:
+                    changed.add(key)
+        if not changed:
+            return
+
+        behavior = self.sm.queryUtility(IBehavior, name=self.getGeneratedName())
+        if behavior is None:
+            return
+        catalog = api.portal.get_tool("portal_catalog")
+        index_name = behavior.field_name
+        if index_name not in catalog.indexes():
+            return
+
+        brains = catalog.unrestrictedSearchResults(
+            **{index_name: {"query": sorted(changed), "operator": "or"}}
+        )
+        for brain in brains:
+            brain._unrestrictedGetObject().reindexObject(idxs=[index_name])
+        logger.info(
+            "Reindexed %d items after changing taxonomy %s", len(brains), self.name
+        )
 
     def unregisterBehavior(self):
         behavior_name = self.getGeneratedName()
