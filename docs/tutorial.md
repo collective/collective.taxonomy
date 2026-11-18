@@ -83,14 +83,13 @@ from zope.schema.interfaces import IVocabularyFactory
 
 
 class Portfolio(BrowserView):
-
     """Portfolio view."""
 
     def _setup(self):
-        self.filter_id = self.request.form.get('filter-id', None)
+        self.filter_id = self.request.form.get("filter-id", None)
         vocabulary = queryUtility(
             IVocabularyFactory,
-            name='collective.taxonomy.category',
+            name="collective.taxonomy.category",
         )
         language = vocabulary.getCurrentLanguage(self.request)
         self.data = vocabulary.data[language]
@@ -98,22 +97,22 @@ class Portfolio(BrowserView):
     def filters(self):
         return [
             {
-                'id': k,
-                'level': k.count('␟'),
-                'title': k.rsplit('␟', 1)[1],
-                'class': 'selected' if k == self.filter_id else None,
+                "id": k,
+                "level": k.count("␟"),
+                "title": k.rsplit("␟", 1)[1],
+                "class": "selected" if k == self.filter_id else None,
             }
             for k in dict(self.data).keys()
-            if (self.filter_id is None and k.count('␟') == 1) or
-            self.filter_id == k.rsplit('␟', 1)[0]
+            if (self.filter_id is None and k.count("␟") == 1)
+            or self.filter_id == k.rsplit("␟", 1)[0]
         ]
 
     def results(self):
         query = {
-            'object_provides': 'collective.taxonomy.generated.category',
+            "object_provides": "collective.taxonomy.generated.category",
         }
         if self.filter_id is not None:
-            query['taxonomy_category'] = self.data[self.filter_id]
+            query["taxonomy_category"] = self.data[self.filter_id]
         return api.content.find(**query)
 
     def __call__(self):

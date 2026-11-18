@@ -48,7 +48,7 @@ class TaxonomyView(BrowserView):
         utility = sm.queryUtility(ITaxonomy, name=domain)
         return utility.translate(
             msgid, context=self.context, target_language=target_language
-        )  # noqa: E501
+        )
 
 
 class VocabularyTuplesView(BrowserView):
@@ -157,6 +157,6 @@ class TaxonomyCollectionView(CollectionView):
         if not taxonomy:
             return value
         lang = api.portal.get_current_language()
-        lang = lang in taxonomy.data and lang or taxonomy.default_language
+        lang = (lang in taxonomy.data and lang) or taxonomy.default_language
         translated_terms = [taxonomy.translate(v, target_language=lang) for v in value]
         return ", ".join(translated_terms)

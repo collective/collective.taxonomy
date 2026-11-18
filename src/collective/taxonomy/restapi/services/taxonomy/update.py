@@ -24,7 +24,7 @@ class TaxonomyPatch(Service):
     taxonomy_id = None
     request = None
 
-    def publishTraverse(self, request, name):  # noqa
+    def publishTraverse(self, request, name):
         """Traverse"""
         self.request = request
         if name:
@@ -40,12 +40,10 @@ class TaxonomyPatch(Service):
             if language in translations:
                 title = translations[language]
             new_path = f"{path}{title}"
-            result.append(
-                (
-                    new_path,
-                    new_key,
-                )
-            )
+            result.append((
+                new_path,
+                new_key,
+            ))
             subnodes = item.get("children", [])
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"
@@ -105,13 +103,13 @@ class TaxonomyPatch(Service):
                         # Validate required etc
                         field.validate(value)
                     except ValueError as e:
-                        raise BadRequest(
-                            [{"message": str(e), "field": name, "error": e}]
-                        )
+                        raise BadRequest([
+                            {"message": str(e), "field": name, "error": e}
+                        ])
                     except ValidationError as e:
-                        raise BadRequest(
-                            [{"message": e.doc(), "field": name, "error": e}]
-                        )
+                        raise BadRequest([
+                            {"message": e.doc(), "field": name, "error": e}
+                        ])
                     else:
                         setattr(set_fields, field_name, value)
 

@@ -48,11 +48,9 @@ class TestIndexer(unittest.TestCase):
 
     def tearDown(self):
         portal = self.layer["portal"]
-        portal.manage_delObjects(
-            [
-                "doc1",
-            ]
-        )
+        portal.manage_delObjects([
+            "doc1",
+        ])
         self.schemaeditor.removeField("taxonomy_test")
         notify(ObjectRemovedEvent(self.taxonomy_test, self.document_schema))
         notify(FieldRemovedEvent(self.fti, self.taxonomy_test))

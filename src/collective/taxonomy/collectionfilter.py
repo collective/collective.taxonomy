@@ -35,7 +35,7 @@ class TaxonomyLabel:
         if taxonomy is None:
             return token
         lang = api.portal.get_current_language()
-        lang = lang in taxonomy.inverted_data and lang or taxonomy.default_language
+        lang = (lang in taxonomy.inverted_data and lang) or taxonomy.default_language
         return taxonomy.translate(token, target_language=lang)
 
 

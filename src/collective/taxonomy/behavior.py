@@ -31,6 +31,7 @@ from zope.interface import implementer
 import importlib
 import logging
 
+
 try:
     importlib.metadata.version("plone.app.multilingual")
 except importlib.metadata.PackageNotFoundError:
@@ -106,9 +107,7 @@ class TaxonomyBehavior(Persistent):
             catalog.delIndex(self.field_name)
         except CatalogError:
             logging.info(
-                "Could not delete index {} .. something is not right.".format(
-                    self.field_name
-                )
+                f"Could not delete index {self.field_name} .. something is not right."
             )
 
     def activateSearchable(self):
@@ -133,9 +132,7 @@ class TaxonomyBehavior(Persistent):
                 ],
             ),
         )
-        add(
-            "vocabulary", Record(field.TextLine(), safe_text(self.vocabulary_name))
-        )  # noqa: E501
+        add("vocabulary", Record(field.TextLine(), safe_text(self.vocabulary_name)))
         add("fetch_vocabulary", Record(field.Bool(), True))
         add("sortable", Record(field.Bool(), False))
         add("description", Record(field.Text(), safe_text("")))
@@ -156,9 +153,7 @@ class TaxonomyBehavior(Persistent):
             catalog.addIndex(self.field_name, idx_object)
         except CatalogError:
             logging.info(
-                "Index {} already exists, we hope it is proper configured".format(
-                    self.field_name
-                )  # noqa: E501
+                f"Index {self.field_name} already exists, we hope it is proper configured"  # noqa: E501
             )
 
     def addMetadata(self):
@@ -166,7 +161,7 @@ class TaxonomyBehavior(Persistent):
         try:
             catalog.addColumn(self.field_name)
         except CatalogError:
-            logging.info(f"Column {self.field_name} already exists")  # noqa: E501
+            logging.info(f"Column {self.field_name} already exists")
 
     def removeMetadata(self):
         catalog = api.portal.get_tool(name="portal_catalog")
@@ -288,7 +283,7 @@ class TaxonomyBehavior(Persistent):
                 title=_(safe_text(self.field_title)),
                 description=_(safe_text(self.field_description)),
                 required=self.is_required,
-                min_length=self.is_required and 1 or 0,
+                min_length=(self.is_required and 1) or 0,
                 value_type=schema.Choice(
                     vocabulary=self.vocabulary_name, required=self.is_required
                 ),

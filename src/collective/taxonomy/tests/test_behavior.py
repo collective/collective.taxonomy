@@ -40,7 +40,7 @@ class TestBehaviorRegistration(unittest.TestCase):
         registry = queryUtility(IRegistry)
         self.assertIsNotNone(registry)
         prefix = "plone.app.querystring.field.taxonomy_test"
-        records = registry.forInterface(IQueryField, prefix=prefix)  # noqa
+        records = registry.forInterface(IQueryField, prefix=prefix)
         self.assertIsNotNone(records)
 
     def test_unregister_behavior(self):
@@ -70,6 +70,4 @@ class TestBehaviorRegistration(unittest.TestCase):
         registry = queryUtility(IRegistry)
         self.assertIsNotNone(registry)
         prefix = "plone.app.querystring.field.taxonomy_test"
-        self.assertRaises(
-            KeyError, registry.forInterface, IQueryField, prefix=prefix
-        )  # noqa
+        self.assertRaises(KeyError, registry.forInterface, IQueryField, prefix=prefix)

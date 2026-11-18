@@ -71,12 +71,10 @@ class TaxonomyPost(Service):
                 continue
             value = data.get(name, None)
             if value is None and field.required:
-                errors.append(
-                    {
-                        "field": field.__name__,
-                        "message": (f"{field.title} is a required field.",),
-                    }
-                )
+                errors.append({
+                    "field": field.__name__,
+                    "message": (f"{field.title} is a required field.",),
+                })
                 continue
             if value is not None:
                 deserializer = queryMultiAdapter(

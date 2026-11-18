@@ -22,6 +22,7 @@ from zope.lifecycleevent import modified
 
 import logging
 
+
 try:
     from plone.protect.auto import safeWrite
 except ImportError:
@@ -227,9 +228,9 @@ class Taxonomy(SimpleItem):
         if index_name not in catalog.indexes():
             return
 
-        brains = catalog.unrestrictedSearchResults(
-            **{index_name: {"query": sorted(changed), "operator": "or"}}
-        )
+        brains = catalog.unrestrictedSearchResults(**{
+            index_name: {"query": sorted(changed), "operator": "or"}
+        })
         for brain in brains:
             brain._unrestrictedGetObject().reindexObject(idxs=[index_name])
         logger.info(

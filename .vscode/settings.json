@@ -1,0 +1,15 @@
+{
+  "ruff.organizeImports": true,
+  "python-envs.workspaceSearchPaths": [
+    "./.venv"
+  ],
+  "python.terminal.activateEnvironment": true,
+  "python.testing.pytestArgs": [
+    "./tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  }
+}

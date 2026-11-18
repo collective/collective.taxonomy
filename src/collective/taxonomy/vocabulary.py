@@ -31,12 +31,10 @@ class TaxonomyVocabulary:
     def __call__(self, adapter):
         sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
-        return SimpleVocabulary(
-            [
-                SimpleTerm(value=utility.name, title=utility.title)
-                for utility_name, utility in utilities
-            ]
-        )
+        return SimpleVocabulary([
+            SimpleTerm(value=utility.name, title=utility.title)
+            for utility_name, utility in utilities
+        ])
 
 
 @implementer(IVocabularyTokenized)
@@ -123,7 +121,7 @@ class Vocabulary:
                 return path.replace(LEGACY_PATH_SEPARATOR, PATH_SEPARATOR)
 
         else:
-            fix = lambda path: path  # noqa: E731
+            fix = lambda path: path
 
         if self.order is None:
             for path, identifier in self.data.items():
@@ -144,9 +142,7 @@ class Vocabulary:
     def makeTree(self):
         """Return term tree."""
 
-        path_sep = (
-            LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR
-        )  # noqa: E501
+        path_sep = LEGACY_PATH_SEPARATOR if self.version == 1 else PATH_SEPARATOR
         tree = OrderedDict()
 
         def add(path, value):

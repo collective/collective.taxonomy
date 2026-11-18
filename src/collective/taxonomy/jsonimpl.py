@@ -23,9 +23,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         utility_name = request.get("taxonomy", "")
         taxonomy = queryUtility(ITaxonomy, name=utility_name)
         if not taxonomy:
-            raise ValueError(
-                "Taxonomy `%s` could not be found." % utility_name
-            )  # noqa: E501
+            raise ValueError("Taxonomy `%s` could not be found." % utility_name)
 
         self.taxonomy = taxonomy
 
@@ -90,9 +88,7 @@ class EditTaxonomyData(TreeExport, BrowserView):
         if node_env == "development" and api.env.debug_mode():
             return "http://localhost:3000/static/edittaxonomydata.js"
         else:
-            return "{}/++resource++taxonomy/js/edittaxonomydata.js".format(
-                api.portal.get().absolute_url()
-            )
+            return f"{api.portal.get().absolute_url()}/++resource++taxonomy/js/edittaxonomydata.js"
 
 
 class ImportJson(BrowserView):
@@ -118,23 +114,19 @@ class ImportJson(BrowserView):
                 # just the items that were submitted by the user.
                 taxonomy.update(language, data_for_taxonomy, True)
 
-            return json.dumps(
-                {
-                    "status": "info",
-                    "message": translate(
-                        _("Your taxonomy has been saved with success."), context=request
-                    ),
-                }
-            )
-
-        return json.dumps(
-            {
-                "status": "error",
+            return json.dumps({
+                "status": "info",
                 "message": translate(
-                    _("There seems to have been an error."), context=request
+                    _("Your taxonomy has been saved with success."), context=request
                 ),
-            }
-        )
+            })
+
+        return json.dumps({
+            "status": "error",
+            "message": translate(
+                _("There seems to have been an error."), context=request
+            ),
+        })
 
     def generate_data_for_taxonomy(self, parsed_data, language, path=PATH_SEPARATOR):
         result = []
@@ -142,12 +134,10 @@ class ImportJson(BrowserView):
             new_key = item["key"]
             title = item["translations"].get(language, "")
             new_path = f"{path}{title}"
-            result.append(
-                (
-                    new_path,
-                    new_key,
-                )
-            )
+            result.append((
+                new_path,
+                new_key,
+            ))
             subnodes = item.get("subnodes", [])
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"

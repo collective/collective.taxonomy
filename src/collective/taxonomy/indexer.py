@@ -13,6 +13,7 @@ from zope.interface import implementer
 
 import logging
 
+
 logger = logging.getLogger("collective.taxonomy")
 
 
@@ -51,13 +52,11 @@ class TaxonomyIndexerWrapper:
         for identifier in stored_element:
             path = utility.inverted_data[lang].get(identifier)
             if path is not None:
-                found.append(
-                    (
-                        identifier,
-                        lang,
-                        path,
-                    )
-                )
+                found.append((
+                    identifier,
+                    lang,
+                    path,
+                ))
 
         result = []
 

@@ -64,9 +64,7 @@ def importTaxonomy(context):
 
                 for name in ["is_single_select", "is_required"]:
                     try:
-                        result[name] = (
-                            config.get("taxonomy", name) == "true" and True
-                        )  # noqa: E501
+                        result[name] = config.get("taxonomy", name) == "true" and True
                     except configparser.NoOptionError:
                         pass
 

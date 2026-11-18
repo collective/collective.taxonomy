@@ -3,6 +3,7 @@ from collective.taxonomy import PATH_SEPARATOR
 from lxml import etree
 from plone.supermodel.utils import indent
 
+
 LANG_SEPARATOR = "|"
 
 
@@ -102,7 +103,7 @@ class TreeExport:
                 langstringnode.text = langstring
                 langstringnode.attrib["language"] = (
                     language or self.taxonomy.default_language or ""
-                )  # noqa: E501
+                )
                 captionnode.append(langstringnode)
 
             termnode.append(identifiernode)

@@ -4,6 +4,7 @@ from plone import api
 from plone.behavior.interfaces import IBehavior
 from Products.CMFCore.Expression import Expression
 
+
 log = getLogger("collective.taxonomy:upgrades")
 
 

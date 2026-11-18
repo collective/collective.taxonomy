@@ -44,9 +44,9 @@ class TestControlPanel(unittest.TestCase):
         self.assertIn('id="TaxonomySettings"', self.browser.contents)
         self.browser.getControl("Add").click()
         self.browser.getControl(name="form.widgets.taxonomy").value = "foobar"
-        self.browser.getControl(name="form.widgets.field_title").value = (
-            "Foo Bar Vocabulary"
-        )
+        self.browser.getControl(
+            name="form.widgets.field_title"
+        ).value = "Foo Bar Vocabulary"
         self.browser.getControl(name="form.widgets.default_language:list").value = [
             "en"
         ]
@@ -63,9 +63,9 @@ class TestControlPanel(unittest.TestCase):
         self.browser.getForm(id="TaxonomySettings").submit(
             name="form.buttons.edit-taxonomy"
         )
-        self.browser.getControl(name="form.widgets.field_title").value = (
-            "Edited Test Vocabulary"
-        )
+        self.browser.getControl(
+            name="form.widgets.field_title"
+        ).value = "Edited Test Vocabulary"
         self.browser.getForm(id="form").submit("Save")
         self.assertIn(
             '<span class="label">Edited Test Vocabulary</span>', self.browser.contents

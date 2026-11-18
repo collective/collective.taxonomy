@@ -16,6 +16,7 @@ from zope.component import queryUtility
 import transaction
 import unittest
 
+
 NAME = "collective.taxonomy.space"
 BEHAVIOR = "collective.taxonomy.generated.space"
 CRITERION = "plone.app.querystring.field.{}.title"
@@ -61,7 +62,7 @@ class TestTaxonomyMaintenance(unittest.TestCase):
         self.other = api.content.create(
             self.portal, type="Document", id="other", title="Other"
         )
-        setattr(self.doc, "taxonomy_space", ["mission"])
+        self.doc.taxonomy_space = ["mission"]
         self.doc.reindexObject()
         transaction.commit()
 
@@ -135,29 +136,25 @@ class TestTaxonomyMaintenance(unittest.TestCase):
         self.assertEqual(self.find("tax_space", "mars"), ["doc"])
 
     def test_deleting_a_term_reindexes_content(self):
-        self.save_tree(
-            [
-                {"key": "mars", "title": "Mars", "children": []},
-                {"key": "venus", "title": "Venus", "children": []},
-            ]
-        )
+        self.save_tree([
+            {"key": "mars", "title": "Mars", "children": []},
+            {"key": "venus", "title": "Venus", "children": []},
+        ])
 
         self.assertEqual(self.find("taxonomy_space", "mission"), [])
         self.assertEqual(self.find("taxonomy_space", "mars"), [])
 
     def test_moving_a_term_reindexes_content(self):
-        self.save_tree(
-            [
-                {"key": "mars", "title": "Mars", "children": []},
-                {
-                    "key": "venus",
-                    "title": "Venus",
-                    "children": [
-                        {"key": "mission", "title": "Mission", "children": []},
-                    ],
-                },
-            ]
-        )
+        self.save_tree([
+            {"key": "mars", "title": "Mars", "children": []},
+            {
+                "key": "venus",
+                "title": "Venus",
+                "children": [
+                    {"key": "mission", "title": "Mission", "children": []},
+                ],
+            },
+        ])
 
         self.assertEqual(self.find("taxonomy_space", "mission"), ["doc"])
         self.assertEqual(self.find("taxonomy_space", "venus"), ["doc"])

@@ -22,14 +22,15 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: |
-          setup.*
-          tox.ini
           pyproject.toml
+          mx.ini
         python-version: "3.12"
     - name: Build the test environment (provides robot-server)
+      env:
+        CI: "1"
       run: |
-        uvx --with tox-uv tox -e py312-plone62 --notest
-        ls -l .tox/py312-plone62/bin/robot-server
+        make install
+        ls -l .venv/bin/robot-server
     - uses: pnpm/action-setup@v6
       with:
         package_json_file: resources/package.json
@@ -44,7 +45,7 @@ jobs:
         ZSERVER_PORT: "55001"
       run: |
         # no --no-reload: plone.app.robotframework >= 3 dropped the reload option
-        .tox/py312-plone62/bin/robot-server collective.taxonomy.testing.E2E_TESTING > robot-server.log 2>&1 &
+        .venv/bin/robot-server collective.taxonomy.testing.E2E_TESTING > robot-server.log 2>&1 &
     - name: Wait for the fixture server
       # fails fast with the server log instead of a silent wait-on timeout
       run: |
