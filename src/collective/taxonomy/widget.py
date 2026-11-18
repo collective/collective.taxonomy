@@ -8,6 +8,7 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
+
 try:
     # Plone 6.1
     from plone.app.z3cform.widgets.orderedselect import OrderedSelectWidget
@@ -26,7 +27,7 @@ def _items_cachekey(fun, self):
         # XXX: this happens with newly created taxonomies
         # from profiles/xxx/taxonomies ... why are they not an utility?
         # do not cache this.
-        raise ram.DontCache()
+        raise ram.DontCache() from None
 
 
 @zope.interface.implementer(ITaxonomySelectWidget, interfaces.IOrderedSelectWidget)

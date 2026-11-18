@@ -4,6 +4,7 @@ from plone import api
 from plone.behavior.interfaces import IBehavior
 from Products.CMFCore.Expression import Expression
 
+
 log = getLogger("collective.taxonomy:upgrades")
 
 
@@ -32,7 +33,7 @@ def fix_metadata(tool):
     tool = tool.aq_parent
     sm = tool.getSiteManager()
     utilities = sm.getUtilitiesFor(ITaxonomy)
-    for utility_name, utility in utilities:
+    for _utility_name, utility in utilities:
         utility._fixup()
         for lang, data in utility.data.items():
             version = data.pop("#VERSION", None)

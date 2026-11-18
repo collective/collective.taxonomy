@@ -22,6 +22,7 @@ from zope.lifecycleevent import modified
 
 import logging
 
+
 try:
     from plone.protect.auto import safeWrite
 except ImportError:
@@ -36,11 +37,8 @@ logger = logging.getLogger("collective.taxonomy")
 def pop_value(d, compare_value, default=None):
     for key, value in d.items():
         if compare_value == value:
-            break
-    else:
-        return default
-
-    return d.pop(key)
+            return d.pop(key)
+    return default
 
 
 @implementer(ITaxonomy)
@@ -126,10 +124,7 @@ class Taxonomy(SimpleItem):
 
         for path, identifier in vocabulary.iterEntries():
             parent_path = path.rsplit(PATH_SEPARATOR, 1)[0]
-            if parent_path:
-                parent = vocabulary.getTermByValue(parent_path)
-            else:
-                parent = None
+            parent = vocabulary.getTermByValue(parent_path) if parent_path else None
             yield path, identifier, parent
 
     def registerBehavior(self, **kwargs):
@@ -150,7 +145,7 @@ class Taxonomy(SimpleItem):
     def cleanupFTI(self):
         """Cleanup the FTIs"""
         generated_name = self.getGeneratedName()
-        for name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
+        for _name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
             if generated_name in fti.behaviors:
                 fti.behaviors = [
                     behavior for behavior in fti.behaviors if behavior != generated_name
@@ -178,7 +173,7 @@ class Taxonomy(SimpleItem):
 
         delattr(generated, short_name)
 
-        for name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
+        for _name, fti in self.sm.getUtilitiesFor(IDexterityFTI):
             if behavior_name in fti.behaviors:
                 modified(fti, DexterityFTIModificationDescription("behaviors", ""))
 
@@ -227,9 +222,9 @@ class Taxonomy(SimpleItem):
         if index_name not in catalog.indexes():
             return
 
-        brains = catalog.unrestrictedSearchResults(
-            **{index_name: {"query": sorted(changed), "operator": "or"}}
-        )
+        brains = catalog.unrestrictedSearchResults(**{
+            index_name: {"query": sorted(changed), "operator": "or"}
+        })
         for brain in brains:
             brain._unrestrictedGetObject().reindexObject(idxs=[index_name])
         logger.info(
@@ -279,7 +274,7 @@ class Taxonomy(SimpleItem):
         self.count[language] = count
         order[count] = key
 
-    def update(self, language, items, clear=False):
+    def update(self, language, items, clear=False):  # noqa: C901
         self._fixup()
 
         tree = self.data.setdefault(language, OOBTree())
@@ -315,8 +310,8 @@ class Taxonomy(SimpleItem):
 
             version = self.version[language] = 2
             logger.info(
-                "Taxonomy '%s' upgraded to version %d for language '%s'."
-                % (self.name, version, language)
+                f"Taxonomy '{self.name}' upgraded to version {version} "
+                f"for language '{language}'."
             )
 
         # Make sure we update the modification time.

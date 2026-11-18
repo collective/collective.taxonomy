@@ -24,7 +24,7 @@ class Wrapper:
     @synchronized(lock)
     def __setattr__(self, name, value):
         raise NotImplementedError(
-            "Taxonomy: __setattr__ for generated should" "not be called!"
+            "Taxonomy: __setattr__ for generated should not be called!"
         )
 
     @synchronized(lock)

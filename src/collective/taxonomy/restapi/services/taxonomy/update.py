@@ -24,7 +24,7 @@ class TaxonomyPatch(Service):
     taxonomy_id = None
     request = None
 
-    def publishTraverse(self, request, name):  # noqa
+    def publishTraverse(self, request, name):
         """Traverse"""
         self.request = request
         if name:
@@ -40,12 +40,10 @@ class TaxonomyPatch(Service):
             if language in translations:
                 title = translations[language]
             new_path = f"{path}{title}"
-            result.append(
-                (
-                    new_path,
-                    new_key,
-                )
-            )
+            result.append((
+                new_path,
+                new_key,
+            ))
             subnodes = item.get("children", [])
             if subnodes:
                 new_path = f"{new_path}{PATH_SEPARATOR}"
@@ -54,7 +52,7 @@ class TaxonomyPatch(Service):
                 )
         return result
 
-    def reply(self):
+    def reply(self):  # noqa: C901
         """Reply"""
         if not self.taxonomy_id:
             raise Exception("No taxonomy name provided")
@@ -78,7 +76,7 @@ class TaxonomyPatch(Service):
                 if language not in taxonomy.data:
                     taxonomy.data[language] = OOBTree()
 
-            for language in taxonomy.data.keys():
+            for language in taxonomy.data:
                 data_for_taxonomy = self.generate_data_for_taxonomy(tree, language)
 
                 taxonomy.update(language, data_for_taxonomy, True)
@@ -105,13 +103,13 @@ class TaxonomyPatch(Service):
                         # Validate required etc
                         field.validate(value)
                     except ValueError as e:
-                        raise BadRequest(
-                            [{"message": str(e), "field": name, "error": e}]
-                        )
+                        raise BadRequest([
+                            {"message": str(e), "field": name, "error": e}
+                        ]) from e
                     except ValidationError as e:
-                        raise BadRequest(
-                            [{"message": e.doc(), "field": name, "error": e}]
-                        )
+                        raise BadRequest([
+                            {"message": e.doc(), "field": name, "error": e}
+                        ]) from e
                     else:
                         setattr(set_fields, field_name, value)
 

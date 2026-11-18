@@ -1,0 +1,74 @@
+name: "Main CI"
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+
+  config:
+    name: "Config: Compute values used in workflow"
+    uses: ./.github/workflows/config.yml
+
+  lint:
+    name: "Backend: Lint"
+    needs:
+      - config
+    uses: plone/meta/.github/workflows/backend-lint.yml@2.x
+    with:
+      python-version: ${{ needs.config.outputs.python-version }}
+      plone-version: ${{ needs.config.outputs.plone-version }}
+
+  test:
+    name: "Backend: Test"
+    needs:
+      - config
+    uses: plone/meta/.github/workflows/backend-pytest.yml@2.x
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.14", "3.13", "3.12", "3.11", "3.10"]
+        plone-version: ["6.2-latest"]
+    with:
+      python-version: ${{ matrix.python-version }}
+      plone-version: ${{ matrix.plone-version }}
+
+  coverage:
+    name: "Backend: Test Coverage"
+    uses: plone/meta/.github/workflows/backend-pytest-coverage.yml@2.x
+    needs:
+      - config
+    with:
+      python-version: ${{ needs.config.outputs.python-version }}
+      plone-version: ${{ needs.config.outputs.plone-version }}
+
+  acceptance:
+    name: "Acceptance tests"
+    uses: ./.github/workflows/acceptance.yml
+    needs:
+      - config
+    with:
+      python-version: ${{ needs.config.outputs.python-version }}
+
+  report:
+    name: "Final report"
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs:
+      - config
+      - lint
+      - test
+      - coverage
+      - acceptance
+    steps:
+      - name: Report
+        shell: bash
+        run: |
+          echo '# Workflow Report' >> $GITHUB_STEP_SUMMARY
+          echo '| Job ID | Conclusion |' >> $GITHUB_STEP_SUMMARY
+          echo '| --- | --- |' >> $GITHUB_STEP_SUMMARY
+          echo '| Config | ${{ needs.config.result }} |' >> $GITHUB_STEP_SUMMARY
+          echo '| Lint | ${{ needs.lint.result }} |' >> $GITHUB_STEP_SUMMARY
+          echo '| Test | ${{ needs.test.result }} |' >> $GITHUB_STEP_SUMMARY
+          echo '| Coverage | ${{ needs.coverage.result }} |' >> $GITHUB_STEP_SUMMARY
+          echo '| Acceptance | ${{ needs.acceptance.result }} |' >> $GITHUB_STEP_SUMMARY

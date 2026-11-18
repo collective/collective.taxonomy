@@ -35,7 +35,7 @@ class TaxonomyLabel:
         if taxonomy is None:
             return token
         lang = api.portal.get_current_language()
-        lang = lang in taxonomy.inverted_data and lang or taxonomy.default_language
+        lang = (lang in taxonomy.inverted_data and lang) or taxonomy.default_language
         return taxonomy.translate(token, target_language=lang)
 
 
@@ -44,7 +44,7 @@ class TaxonomyLabel:
 def groupby_modifier(groupby):
     sm = getSite().getSiteManager()
     utilities = sm.getUtilitiesFor(ITaxonomy)
-    for uname, util in utilities:
+    for _uname, util in utilities:
         behavior = sm.queryUtility(IBehavior, name=util.getGeneratedName())
         taxonomy_field_prefix = behavior.field_prefix
         taxonomy_shortname = util.getShortName()

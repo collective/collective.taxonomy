@@ -1,0 +1,93 @@
+name: "Acceptance tests"
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: "3.13"
+      node-version:
+        required: false
+        type: string
+        default: "24"
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    name: "Playwright (resources/acceptance)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv + caching
+        uses: astral-sh/setup-uv@v10.3.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            pyproject.toml
+            mx.ini
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install the backend (provides robot-server)
+        env:
+          CI: "1"
+        run: |
+          make install
+          ls -l .venv/bin/robot-server
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: resources/package.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+          cache-dependency-path: resources/pnpm-lock.yaml
+
+      - name: Install the frontend and the Playwright browser
+        working-directory: resources
+        run: |
+          pnpm install --frozen-lockfile
+          touch stamp-pnpm
+          make install-acceptance
+
+      - name: Start the acceptance backend (background)
+        run: |
+          make acceptance-backend-start > robot-server.log 2>&1 &
+          echo $! > robot-server.pid
+
+      - name: Wait for the acceptance backend
+        # Fails fast with the server log instead of a silent timeout. The check
+        # follows make's PID: robot-server does not exist yet while make starts.
+        run: |
+          for i in $(seq 1 100); do
+            if curl -sf -o /dev/null http://127.0.0.1:55001/plone; then echo "up after $((i*3))s"; exit 0; fi
+            if ! kill -0 "$(cat robot-server.pid)" 2> /dev/null; then echo "robot-server exited"; cat robot-server.log; exit 1; fi
+            sleep 3
+          done
+          echo "robot-server not reachable after 300s"; cat robot-server.log; exit 1
+
+      - name: Run the acceptance tests
+        env:
+          CI: "1"
+        run: make ci-acceptance-test
+
+      - name: robot-server log
+        if: ${{ !cancelled() }}
+        run: tail -n 80 robot-server.log || true
+
+      - uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: |
+            resources/playwright-report
+            resources/acceptance/results
+            robot-server.log
+          retention-days: 7

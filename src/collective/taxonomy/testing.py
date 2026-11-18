@@ -4,8 +4,7 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.testing import z2
-from plone.testing import zope
+from plone.testing.zope import WSGI_SERVER_FIXTURE
 
 import collective.taxonomy
 
@@ -35,27 +34,17 @@ INTEGRATION_TESTING = IntegrationTesting(
 )
 
 FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(COLLECTIVE_TAXONOMY_FIXTURE, zope.WSGI_SERVER_FIXTURE),
+    bases=(COLLECTIVE_TAXONOMY_FIXTURE, WSGI_SERVER_FIXTURE),
     name="TaxonomyFixture:Functional",
 )
 
-ROBOT_TESTING = FunctionalTesting(
-    bases=(
-        COLLECTIVE_TAXONOMY_FIXTURE,
-        REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE,
-    ),
-    name="CollectiveTaxonomy:Acceptance",
-)
 
+class CollectiveTaxonomyAcceptanceLayer(PloneSandboxLayer):
+    """Fixture for the Playwright acceptance tests in resources/acceptance.
 
-class CollectiveTaxonomyE2ELayer(PloneSandboxLayer):
-    """Fixture for the Cypress end-to-end test in resources/.
-
-    Same as the robot fixture, plus the default workflow: the e2e scenario
-    publishes the content it creates, and plone.app.testing switches all
-    workflows off. Run it with
-    ``bin/robot-server collective.taxonomy.testing.E2E_TESTING``.
+    The example taxonomy, plus the default workflow: the acceptance tests
+    publish the content they create, and plone.app.testing switches all
+    workflows off. Run it with ``make acceptance-backend-start``.
     """
 
     defaultBases = (COLLECTIVE_TAXONOMY_FIXTURE,)
@@ -64,13 +53,17 @@ class CollectiveTaxonomyE2ELayer(PloneSandboxLayer):
         portal.portal_workflow.setDefaultChain("simple_publication_workflow")
 
 
-COLLECTIVE_TAXONOMY_E2E_FIXTURE = CollectiveTaxonomyE2ELayer()
+ACCEPTANCE_FIXTURE = CollectiveTaxonomyAcceptanceLayer()
 
-E2E_TESTING = FunctionalTesting(
+ACCEPTANCE_TESTING = FunctionalTesting(
     bases=(
-        COLLECTIVE_TAXONOMY_E2E_FIXTURE,
+        ACCEPTANCE_FIXTURE,
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE,
+        WSGI_SERVER_FIXTURE,
     ),
-    name="CollectiveTaxonomy:E2E",
+    name="CollectiveTaxonomy:Acceptance",
 )
+
+# Kept for test code written against 4.1.1 and earlier.
+ROBOT_TESTING = ACCEPTANCE_TESTING
+E2E_TESTING = ACCEPTANCE_TESTING

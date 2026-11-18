@@ -40,7 +40,7 @@ class TaxonomySerializer:
                         "title": k.replace(PATH_SEPARATOR, ""),
                         "token": langdata[k],
                     }
-                    for k in langdata.keys()
+                    for k in langdata
                 ]
                 order = util.order[lang]
                 results["order"][lang] = list(order)

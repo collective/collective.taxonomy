@@ -1,0 +1,75 @@
+name: 'Compute Config variables'
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: "3.13"
+      plone-version:
+        required: false
+        type: string
+        default: "6.2.3"
+    outputs:
+      backend:
+        description: "Flag reporting if we should run the backend jobs"
+        value: ${{ jobs.config.outputs.backend }}
+      docs:
+        description: "Flag reporting if we should run the docs jobs"
+        value: ${{ jobs.config.outputs.docs }}
+      base-tag:
+        description: "Base tag to be used when creating container images"
+        value: ${{ jobs.config.outputs.base-tag }}
+      python-version:
+        description: "Python version to be used"
+        value: ${{ inputs.python-version }}
+      plone-version:
+        description: "Plone version to be used"
+        value: ${{ inputs.plone-version }}
+      path-root:
+        description: "Path to the root of the repository"
+        value: ${{ jobs.config.outputs.path-root }}
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      docs: ${{ steps.filter.outputs.docs }}
+      base-tag: ${{ steps.vars.outputs.BASE_TAG }}
+      plone-version: ${{ steps.vars.outputs.plone-version }}
+      path-root: ${{ steps.vars.outputs.path-root }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Compute several vars needed for the CI
+        id: vars
+        run: |
+          echo "base-tag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "plone-version=${{ inputs.plone-version }}" >> $GITHUB_OUTPUT
+          echo "path-root=." >> $GITHUB_OUTPUT
+
+      - uses: dorny/paths-filter@v4.0.3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - '**'
+              - '.github/workflows/config.yml'
+              - '.github/workflows/main.yml'
+            docs:
+              - '.readthedocs.yaml'
+              - 'docs/**'
+              - '.github/workflows/docs.yaml'
+
+      - name: Test vars
+        run: |
+          echo "base-tag: ${{ steps.vars.outputs.base-tag }}"
+          echo 'plone-version: ${{ steps.vars.outputs.plone-version }}'
+          echo 'event-name: ${{ github.event_name }}'
+          echo "ref-name: ${{ github.ref_name }}"
+          echo 'Paths - backend: ${{ steps.filter.outputs.backend }}'
+          echo 'Paths - docs: ${{ steps.filter.outputs.docs }}'
