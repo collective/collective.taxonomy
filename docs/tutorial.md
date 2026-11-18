@@ -1,6 +1,8 @@
+# Getting started with collective.taxonomy
+
 ## Creating a Portfolio
 
-Let's think we have a company website, and need to show a Portfolio.
+Let's say we have a company website, and need to show a Portfolio.
 At this Portfolio we wish to show a list of pages created by this company grouped by two levels of categories, field of the website in portfolio and country of location.
 Let's take for example a company that makes websites for Museums, and others.
 At the Portfolio page we wish to be able to filter by Field and location.
@@ -22,7 +24,7 @@ And hit the Add button:
 Now that we have our first Taxonomy created, let's add some data in it with the option "Edit taxonomy data":
 ![Edit taxonomy data 001](./img/edit-taxonomy-data-001.png "edit-taxonomy-data-001")
 
-The editor allow you to edit a tree structure, what allow us to create a complex categorization, for our simple use case we will use just 2 levels, but you can use as much as needed:
+The editor allows you to edit a tree structure, which allows us to create a complex categorization, for our simple use case we will use just 2 levels, but you can use as much as needed:
 ![Edit taxonomy data 002](./img/edit-taxonomy-data-002.png "edit-taxonomy-data-002")
 ![Edit taxonomy data 003](./img/edit-taxonomy-data-003.png "edit-taxonomy-data-003")
 
@@ -32,7 +34,7 @@ This is the final result of our categories, hit "Submit" when you have the same.
 ![Edit taxonomy data 004](./img/edit-taxonomy-data-004.png "edit-taxonomy-data-004")
 
 ### Enable behavior
-After this configuration we have a new field ready to be added to our content type, but we still need associate both.
+After this configuration we have a new field ready to be added to our content type, but we still need to associate both.
 To do this, let's go to the [Dexterity Content Types](http://localhost:8080/Plone/@@dexterity-types) configuration:
 ![Enable behavior 001](./img/enable-behavior-001.png "enable-behavior-001")
 
@@ -60,19 +62,19 @@ With name Portfolio:
 Don't forget to Publish:
 ![Create portfolio data 003](./img/create-portfolio-data-003.png "create-portfolio-data-003")
 
-Than [inside this folder](http://localhost:8080/Plone/portfolio) let's add some "News items":
+Then [inside this folder](http://localhost:8080/Plone/portfolio) let's add some "News items":
 ![Create portfolio data 004](./img/create-portfolio-data-004.png "create-portfolio-data-004")
 
 And our taxonomy is in the "Categorization" tab:
 ![Create portfolio data 005](./img/create-portfolio-data-005.png "create-portfolio-data-005")
 
-To add a Category, select the item and click on the "↓" button (note that you can add more than one category):
+To add a Category, select the item and click on the arrow button, "→" in Plone 6 ("↓" in the older screenshot below). You can add more than one category:
 ![Create portfolio data 006](./img/create-portfolio-data-006.png "create-portfolio-data-006")
 
 Add as many items as needed.
 
 ### Add a view to show the Portfolio
-Now you can create a new view for Folder to show the Portfolio with the filters, following the [Plone documentation](https://docs.plone.org/external/plone.app.dexterity/docs/custom-views.html), we suggest to have this in your new view:
+Now you can create a new view for Folder to show the Portfolio with the filters, following the [Plone documentation](https://6.docs.plone.org/classic-ui/views.html), we suggest to have this in your new view:
 
 At your `browser.py` file, create the browser view:
 ```python
@@ -126,7 +128,7 @@ Add the `portfolio.pt` template:
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      metal:use-macro="here/main_template/macros/master"
+      metal:use-macro="context/main_template/macros/master"
       i18n:domain="your-profile">
   <metal:styles fill-slot="style_slot">
     <style>
@@ -204,7 +206,7 @@ And wire everything in the `configure.zcml` file:
 </configure>
 ```
 
-Well, it is a little beyond this tutorial, but instead of override the default view, let's [add the new view method at ZMI](http://localhost:8080/Plone/portal_types/Folder/manage_workspace):
+Well, it is a little beyond this tutorial, but instead of overriding the default view, let's [add the new view method at ZMI](http://localhost:8080/Plone/portal_types/Folder/manage_workspace):
 ![Add portfolio view 001](./img/add-portfolio-view-001.png "add-portfolio-view-001")
 
 Click in the button "Save Changes":
