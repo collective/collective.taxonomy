@@ -104,10 +104,14 @@ build-backend = "hatchling.build"
 strict-naming = true
 
 [tool.hatch.build.targets.sdist]
-exclude = [
-  "/.github",
-  "/.vscode",
-  "/resources",
+# An explicit list: hatch reads the repository .gitignore but not a global
+# one, so anything else in the checkout would end up in the sdist.
+include = [
+  "/*.md",
+  "/LICENSE.GPL",
+  "/docs",
+  "/src",
+  "/tests",
 ]
 
 [tool.hatch.build.targets.wheel]
