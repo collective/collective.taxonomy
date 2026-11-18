@@ -101,6 +101,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 strict-naming = true
+# The .mo files are gitignored (compiled at release time), and hatch
+# skips gitignored files unless they are listed here.
+artifacts = ["src/collective/taxonomy/locales/**/*.mo"]
 
 [tool.hatch.build.targets.sdist]
 # An explicit list: hatch reads the repository .gitignore but not a global

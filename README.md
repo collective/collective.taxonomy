@@ -12,7 +12,7 @@
 [![PyPI - Plone Versions](https://img.shields.io/pypi/frameworkversions/plone/collective.taxonomy)](https://pypi.org/project/collective.taxonomy/)
 
 [![CI](https://github.com/collective/collective.taxonomy/actions/workflows/main.yml/badge.svg)](https://github.com/collective/collective.taxonomy/actions/workflows/main.yml)
-![Code Style](https://img.shields.io/badge/Code%20Style-Black-000000)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/collective/collective.taxonomy)](https://github.com/collective/collective.taxonomy)
 [![GitHub Repo stars](https://img.shields.io/github/stars/collective/collective.taxonomy?style=social)](https://github.com/collective/collective.taxonomy)

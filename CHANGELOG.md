@@ -78,6 +78,7 @@
 - Fix missing plone.app.contentmenu zcml dependency for plone_displayviews menu [laulaz]
 - Update JS dependencies. [petschki]
 - config with `plone/meta`. [petschki]
+- Replace configparser.readfp with read_file for Python 3.12 compatibility [fredvd] (#155)
 
 ## 3.1 (2023-05-26)
 
@@ -121,11 +122,13 @@
 
 - Wrap strings in list while indexing to correctly index single-select taxonomies. [adrianschulz] (#108)
 - Plone 6 / pip install ready [avoinea] (#114)
+- Remove Cypress videos from the PyPI package [avoinea] (#116)
 
 ## 2.1.0 (2021-05-27)
 
 - Fix GenericSetup export in python2 [gotcha]
 - Integrate taxonomies into collective.collectionfilter [MrTango]
+- Make the control panel field not required [pbauer] (#105)
 
 ## 2.0.1 (2020-07-04)
 

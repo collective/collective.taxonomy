@@ -43,3 +43,5 @@ var/
 /venv/
 constraints*.txt
 requirements*.txt
+# Compiled by zest.pocompile at release time
+*.mo

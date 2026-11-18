@@ -63,3 +63,7 @@ ACCEPTANCE_TESTING = FunctionalTesting(
     ),
     name="CollectiveTaxonomy:Acceptance",
 )
+
+# Kept for test code written against 4.1.1 and earlier.
+ROBOT_TESTING = ACCEPTANCE_TESTING
+E2E_TESTING = ACCEPTANCE_TESTING
